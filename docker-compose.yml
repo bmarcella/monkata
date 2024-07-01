@@ -3,24 +3,32 @@ services:
   keycloak:
     image: jboss/keycloak
     ports:
-      - '8080:8080'
+      - '8080:7878'
     environment:
       JAVA_OPTS: '-Dkeycloak.profile.feature.account_api=enabled'
+  eureka:
+    build: ./api/eureka
+    ports:
+      - 8070:8070
+    networks:
+      - private
+      - public
   gateway:
     build: ./api/gateway
     ports:
-      - 8080:3000
+      - 3000:3000
     env_file:
       - ./api/gateway/.env
     depends_on:
-      - gateway
+      - eureka
+      - keycloak
     networks:
       - public
       - private
   memploi:
     build: ./api/memploi
     ports:
-      - 8081:3001
+      - 3003:3003
     env_file:
       - ./api/memploi/.env
     depends_on:
@@ -31,9 +39,29 @@ services:
   users:
     build: ./api/users
     ports:
-      - 8082:3002
+      - 3002:3002
     env_file:
       - ./api/users/.env
+    depends_on:
+      - gateway
+    networks:
+      - private
+  admin:
+    build: ./api/admin
+    ports:
+      - 3001:3001
+    env_file:
+      - ./api/admin/.env
+    depends_on:
+      - gateway
+    networks:
+      - private
+  qnote:
+    build: ./api/qnote
+    ports:
+      - 3004:3004
+    env_file:
+      - ./api/qnote/.env
     depends_on:
       - gateway
     networks:

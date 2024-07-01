@@ -8,6 +8,9 @@ COPY ./dist/api /app/api
 # Copiez le package.json dans le répertoire /emploi
 COPY package.json /app/api/emploi
 
+# Copiez le package.json dans le répertoire /emploi
+COPY .env /app/api/emploi
+
 # Installez les dépendances dans le répertoire /emploi
 WORKDIR /app/api/emploi
 

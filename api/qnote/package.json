@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "npx tsc && docker build -t pledika/memploi . && docker-compose up",
+    "build": "npx tsc",
+    "docker": "docker build -t pledika/mkt-qnote . ",
     "start": "node src/index.js",
     "dev": "nodemon ./src/index.ts"
   },

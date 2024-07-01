@@ -6,7 +6,7 @@
   "scripts": {
     "vb": "npx tsc",
     "build": "npx tsc",
-    "ci": " docker build -t pledika/mkt@admin . ",
+    "docker": "docker build -t pledika/mkt-admin . ",
     "start": "node src/index.js",
     "dev": "nodemon ./src/index.ts"
   },

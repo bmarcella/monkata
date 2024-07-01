@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "s-build": "npx tsc",
-    "build": "npx tsc && docker build -t pledika/memploi . && docker-compose up",
+    "build": "npx tsc",
+    "docker": "docker build -t pledika/mkt-users .",
     "start": "node src/index.js",
     "dev": "nodemon ./src/index.ts"
   },
