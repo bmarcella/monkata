@@ -103,5 +103,5 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,                            /* Skip type checking all .d.ts files. */
   },
-  "include": ["src/**/*", "../mvc/BaseController.ts", "../mvc/BaseService.ts"]
+  "include": ["src/**/*", "../../common/**/*"]
 }

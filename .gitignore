@@ -2,7 +2,7 @@
 .vscode/
 /api/*/node_modules
 /api/*/dist
-/api/template
+/api/template_
 /api/tuto
 /ui/*/node_modules
 /ui/*/.angular
