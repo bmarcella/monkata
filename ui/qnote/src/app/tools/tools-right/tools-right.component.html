@@ -1,0 +1,450 @@
+<div class="row">
+    <div class="col-md-12" style="padding-bottom: 5%;">
+        <ul class="nav nav-tabs" id="myIconTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="cours-icon-tab" data-toggle="tab" href="#coursIcon" role="tab" aria-controls="coursIcon" aria-selected="false"><i class="nav-icon i-Book mr-1"></i></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " id="eleve-icon-tab" data-toggle="tab" href="#eleveIcon" role="tab" aria-controls="eleveIcon" aria-selected="true"><i class="nav-icon i-Add-User mr-1"></i></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" id="contac-icon-tab" data-toggle="tab" href="#contacIcon" role="tab" aria-controls="contacIcon" aria-selected="false"><i class="nav-icon i-Newspaper  mr-1"></i></a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myIconTabContent">
+            <div class="tab-pane fade show active" id="coursIcon" role="tabpanel" aria-labelledby="cours-icon-tab">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h6 class="m-2">Nombre cours: {{period.cours.length}}</h6>
+                    </div>
+                    <div class="row">
+                        <h6 class="m-2">Ajouter cours</h6>
+                        <div class="col-md-12">
+                            <app-alert [alert]="alert" pos="200"></app-alert>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="customRange2" class="form-label">Code</label>
+                                <input type="text" class="form-control" [(ngModel)]="cours.code">
+                            </div>
+                            <div class="form-group">
+                                <label for="customRange2" class="form-label">Nom</label>
+                                <input type="text" class="form-control" [(ngModel)]="cours.name">
+                            </div>
+                        </div>
+                    </div>
+
+                    <h6 class="">Note</h6>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="switch switch-primary mr-3">
+                                <span>Calculable</span>
+                                <input type="checkbox"  [(ngModel)]="cours.is_calc">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="switch switch-primary mr-3">
+                                <span>Nombre</span>
+                                <input type="checkbox"  [(ngModel)]="cours.is_number">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="cours.is_calc">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="customRange2" class="form-label">Total</label>
+                                <input type="number" class="form-control" [(ngModel)]="cours.note_total">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="customRange2" class="form-label">Admis</label>
+                                <input type="number" class="form-control" [(ngModel)]="cours.note_pass">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="customRange2" class="form-label">Reprise</label>
+                                <input type="number" class="form-control" [(ngModel)]="cours.note_rep">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="customRange2" class="form-label">Excellence</label>
+                                <input type="number" class="form-control" [(ngModel)]="cours.note_exc">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button class="btn btn-primary right" (click)="addCoursNow()" *ngIf="period.max_cours !== period.cours.length">Ajouter</button>
+                        </div>
+                    </div>
+                    <div style="height: 200px;">
+                        <div class="row">
+                            <h6 class="m-2 text-center">Ajouter cours via excel</h6>
+
+                            <div class="col-md-12">
+                                <app-alert [alert]="alert" pos="301"></app-alert>
+                            </div>
+
+                            <div class="col-md-9">
+                                <div class="form-group">
+                                    <input type="file" name="files[]" multiple id="jsonFile" accept=".xlsx" (change)="onFileChangeCours($event)" class="custom-file-input" />
+                                    <label for="customRange2" class="custom-file-label">Fichier excel</label>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-primary right" (click)="addCoursByXSLX()" *ngIf="period.max_cours !== period.cours.length">
+                              +
+                            </button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <app-loading [load]="load" [pos]="2"></app-loading>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="tab-pane fade " id="eleveIcon" role="tabpanel" aria-labelledby="eleve-icon-tab">
+
+                <div class="row" style="padding-bottom: 5%; margin-bottom: 5%;">
+                    <div class="row">
+                        <h6 class="m-2">Nombre etudiants: {{period?.users?.length}}</h6>
+                    </div>
+
+                    <div class="row">
+                        <h6 class="m-2">Ajouter etudiant\élève</h6>
+                        <div class="col-md-12">
+                            <app-alert [alert]="alert" pos="100"></app-alert>
+                        </div>
+                        <div class=" col-md-12">
+                            <div class="form-group">
+                                <label for="acad">Nom complet</label>
+                                <input type="text" [(ngModel)]="user.name" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="customRange2" class="form-label">Code</label>
+                                <input type="text" [(ngModel)]="user.code" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="customRange2" class="form-label">Section</label>
+                                <input type="text" [(ngModel)]="user.section" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-6"></div>
+                        <div class="col-md-6">
+                            <label class="switch switch-primary">
+                                <span>Homme</span>
+                                <input type="checkbox"  [(ngModel)]="user.sexe">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="col-md-12">
+                            <button (click)="addUserNow()" class="btn btn-primary right" *ngIf="period.max_users !== period.users.length">Ajouter</button>
+                        </div>
+                    </div>
+
+                    <div style="height: 200px;">
+                        <div class="row">
+                            <h6 class="m-2 text-center">Ajouter etudiant via excell</h6>
+
+                            <div class="col-md-12">
+                                <app-alert [alert]="alert" pos="300"></app-alert>
+                            </div>
+
+                            <div class="col-md-9">
+                                <div class="form-group">
+                                    <input type="file" name="files[]" multiple id="jsonFile" accept=".xlsx" (change)="onFileChangeUser($event)" class="custom-file-input" />
+                                    <label for="acad" class="custom-file-label">Fichier excell</label>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-primary right" (click)="addUserByXSLX()" *ngIf="period.max_users !== period.users.length">
+                              +
+                            </button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <app-loading [load]="load" [pos]="1"></app-loading>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="tab-pane fade" id="contacIcon" role="tabpanel" aria-labelledby="contac-icon-tab">
+
+                <div class="row">
+
+                    <ul class="nav nav-tabs" id="myIconTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="cours-icon-tab" data-toggle="tab" href="#coursIcon2" role="tab" aria-controls="coursIcon" aria-selected="false"><i class="nav-icon i-Book mr-1"></i></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " id="eleve-icon-tab" data-toggle="tab" href="#eleveIcon2" role="tab" aria-controls="eleveIcon" aria-selected="true"><i class="nav-icon i-Add-User mr-1"></i></a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content" id="myIconTabContent">
+
+                        <div class="tab-pane fade " id="eleveIcon2" role="tabpanel" aria-labelledby="eleve-icon-tab">
+
+                            <div class="row" *ngIf="ut">
+                                <div class="col-md-12">
+                                    <button (click)="ut=!ut" class="btn btn-danger left btn-sm m-1">
+                                                       <i class="nav-icon i-Close"></i>
+                                                 </button>
+                                </div>
+                                <div class="col-md-12">
+                                    <app-alert [alert]="alert" pos="302"></app-alert>
+                                </div>
+                                <h6 class="m-2">Modifier etudiant : {{euser.code}}</h6>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="customRange2" class="form-label">Nom complet</label>
+                                        <input type="text" class="form-control" [(ngModel)]="euser.name">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="customRange2" class="form-label">Section</label>
+                                        <input type="text" class="form-control" [(ngModel)]="euser.section">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="switch switch-primary">
+                                        <span>Homme</span>
+                                        <input type="checkbox"  [(ngModel)]="euser.sexe">
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <button class="btn btn-primary push-right pull-right" (click)="editUserNow(euser)">Sauvegarder</button>
+                                </div>
+
+                            </div>
+                            <div class="row" *ngIf="!ut">
+
+                                <div class="form-group  col-md-12" *ngIf="period.users.length>0">
+                                    <button class="btn btn-danger" (click)="cleanUser()"> Effacer tous les etudiants</button>
+                                </div>
+                                <div class="col-md-12">
+                                    <app-alert [alert]="alert" pos="104"></app-alert>
+                                </div>
+                                <!-- Filter etudiants-->
+                                <div class="form-group col-md-12">
+                                    <div class="mt-3">
+                                        <div class="slider-example ">
+                                            <label for="titre"> Rechercher</label>
+                                            <div class="mb-3 slider-default" id="pips-positions-stepped">
+                                                <input type="text" [(ngModel)]="rstudent" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <table *ngIf="period.users.length>0" class="display my-table  table-bordered mt-2" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Code</th>
+                                            <th>Etudiant</th>
+                                            <th>Sec.</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let o of period.users; let i = index">
+                                            <td>{{ o.code}} </td>
+                                            <td class="note-td">
+                                                <a pageScroll href="#USER-{{o.code}}" class="{{ (o.sexe)? 'text-success' : 'text-primary'}} "> {{ o.name }} </a>
+                                            </td>
+                                            <td class="note-td">{{ o.section }}</td>
+                                            <td>
+                                                <button (click)=" editUser(o, i)" class="btn btn-primary btn-sm m-1">
+                                                       <i class="nav-icon i-Pen-2"></i>
+                                                 </button>
+                                                <button (click)="delUser(o,i)" class="btn btn-danger btn-sm m-1">
+                                                       <i class="nav-icon i-Close"></i>
+                                                 </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="col-md-12 text-center" *ngIf="period.users.length==0">
+                                    <h6 class="m-2 text-danger">Aucun etudiant disponible</h6>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="tab-pane fade show active" id="coursIcon2" role="tabpanel" aria-labelledby="cours-icon-tab">
+                            <div class="row" *ngIf="ct">
+                                <div class="form-group  col-md-12">
+                                    <button (click)="ct=!ct" class="btn btn-danger left btn-sm m-1">
+                                                       <i class="nav-icon i-Close"></i>
+                                                 </button>
+                                </div>
+                                <div class="col-md-12">
+                                    <app-alert [alert]="alert" pos="202"></app-alert>
+                                </div>
+                                <div class="row">
+                                    <h6 class="m-2">Modifier cours</h6>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="customRange2" class="form-label">Nom</label>
+                                            <input type="text" class="form-control" [(ngModel)]="ecours.name">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-2 mt-2">
+                                    <div class="col-md-12">
+                                        <h6 class="m-2">Note</h6>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <label class="switch switch-primary mr-3">
+                                            <span>Calculable</span>
+                                            <input type="checkbox"  [(ngModel)]="ecours.is_calc">
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <label class="switch switch-primary mr-3">
+                                            <span>Nombre</span>
+                                            <input type="checkbox"  [(ngModel)]="ecours.is_number">
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+
+                                </div>
+
+                                <div class="row" *ngIf="cours.is_calc">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="customRange2" class="form-label">Total</label>
+                                            <input type="number" class="form-control" [(ngModel)]="ecours.note_total">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="customRange2" class="form-label">Admis</label>
+                                            <input type="number" class="form-control" [(ngModel)]="ecours.note_pass">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="customRange2" class="form-label">Reprise</label>
+                                            <input type="number" class="form-control" [(ngModel)]="ecours.note_rep">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="customRange2" class="form-label">Excellence</label>
+                                            <input type="number" class="form-control" [(ngModel)]="ecours.note_exc">
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12 p-3">
+                                            <button class="btn btn-primary push-right pull-right" (click)="editCoursNow(ecours)">Sauvegarder</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="!ct">
+                                <div class="col-md-12">
+                                    <app-alert [alert]="alert" pos="204"></app-alert>
+                                </div>
+
+                                <div class="row col-md-12" *ngIf="period.cours.length>0">
+                                    <button class="btn btn-danger" (click)="cleanCours()"> Effacer tous les cours</button>
+                                </div>
+
+                                <!-- Filter cours-->
+
+                                <div class="form-group col-md-12">
+                                    <div class="mt-3">
+                                        <div class="slider-example ">
+                                            <label for="titre"> Rechercher</label>
+                                            <div class="mb-3 slider-default" id="pips-positions-stepped">
+                                                <input type="text" (keyup)="onCoursKey($event)" [(ngModel)]="rcours" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <table *ngIf="period.cours.length>0" class="display my-table  table-bordered mt-2" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Code</th>
+                                            <th>Cours</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let o of period.cours ; let i = index">
+                                            <td>{{ o.code}} </td>
+                                            <td class="note-td">{{ o.name }}</td>
+                                            <td>
+                                                <button (click)="editCours(o, i)" class="btn btn-primary btn-sm m-1">
+                                                       <i class="nav-icon i-Pen-2"></i>
+                                                 </button>
+                                                <button (click)="delCours(o,i)" class="btn btn-danger btn-sm m-1">
+                                                       <i class="nav-icon i-Close"></i>
+                                                 </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="col-md-12 text-center" *ngIf="period.cours.length==0">
+                                    <h6 class="m-2 text-danger">Aucun cours disponible</h6>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+
+            </div>
+
+
+
+
+        </div>
+    </div>
+</div>

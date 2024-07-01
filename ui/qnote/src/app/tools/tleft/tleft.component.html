@@ -1,0 +1,475 @@
+<ul class="nav nav-tabs" id="myIconTab" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="profile-icon-tab" data-toggle="tab" href="#profileIcon" role="tab" aria-controls="profileIcon" aria-selected="false"><i class="nav-icon i-Settings-Window mr-1"></i></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="contact-icon-tab" data-toggle="tab" href="#contactIcon" role="tab" aria-controls="contactIcon" aria-selected="false"><i class="nav-icon i-Building mr-1"></i></a>
+    </li>
+</ul>
+
+<div class="tab-content" id="myIconTabContent">
+
+    <div class="tab-pane fade show active" id="profileIcon" role="tabpanel" aria-labelledby="profile-icon-tab">
+        <div class="row" *ngIf="period">
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="switch switch-primary mr-1">
+                    <span>Utiliser slide</span>
+                    <input type="checkbox"  [(ngModel)]="isSlide">
+                    <span class="slider"></span>
+                </label>
+                </div>
+
+                <div class="col-md-12">
+                    <label class="switch switch-primary mr-1">
+                    <span>Outils</span>
+                    <input type="checkbox"  [(ngModel)]="period.tools">
+                    <span class="slider"></span>
+                </label>
+                </div>
+
+                <div class="col-md-12">
+                    <label class="switch switch-primary mr-1">
+                    <span>Afficher id cours</span>
+                    <input type="checkbox"  [(ngModel)]="period.showId">
+                    <span class="slider"></span>
+                </label>
+                </div>
+
+                <div class="col-md-12">
+                    <label class="switch switch-primary mr-1">
+                    <span>Afficher titulaire</span>
+                    <input type="checkbox"  [(ngModel)]="period.tut">
+                    <span class="slider"></span>
+                </label>
+                </div>
+                <div class="col-md-12">
+                    <label class="switch switch-primary mr-1">
+                    <span>Activer portrait</span>
+                    <input type="checkbox"  [(ngModel)]="period.orient" (change)="changePotrait($event)">
+                    <span class="slider"></span>
+                </label>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <hr/>
+                    <h6 class="text-center">Dimension page</h6>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="acad">Largeur Page</label>
+                        <input class="form-control" type="number" [(ngModel)]="period.etab.width">
+                    </div>
+                </div>
+                <div class=" col-md-6">
+                    <div class="form-group">
+                        <label for="acad">Hauteur Page </label>
+                        <input class="form-control" (ngModelChange)="changeHeight($event)" type="text" [(ngModel)]="period.etab.height">
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <button class="btn btn-primary col-md-12 " (click)="changeHeight($event)"> Rafraichir </button>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <hr/>
+                    <h6 class="text-center">Dimension Bulletin</h6>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="acad">Largeur </label>
+                        <input class="form-control" type="number" [(ngModel)]="period.widthb">
+                    </div>
+                </div>
+                <div class=" col-md-6">
+                    <div class="form-group">
+                        <label for="acad">Hauteur  </label>
+                        <input class="form-control" (ngModelChange)="changeHeight($event)" type="text" [(ngModel)]="period.heightb">
+                    </div>
+                </div>
+                <div class=" col-md-6">
+                    <div class="form-group">
+                        <label for="acad">Marge left </label>
+                        <input class="form-control" type="text" [(ngModel)]="period.marginb">
+                    </div>
+                </div>
+                <div class=" col-md-6">
+                    <div class="form-group">
+                        <label for="acad">Marge bottom </label>
+                        <input class="form-control" type="text" [(ngModel)]="period.bmarginb">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" *ngIf="period">
+                <div class="col-md-12">
+                    <hr/>
+                    <h6 class="text-center">Controle logo</h6>
+                </div>
+
+                <div class="form-group col-md-12">
+                    <div class="slider-example ">
+                        <label for="titre"><b> Marge haut: {{period?.logoMarginTop}}%</b></label>
+                        <div class="mb-3 slider-default" id="pips-positions-stepped">
+                            <input [type]="(isSlide)?'range':'number'" min="-100" max="100" [(ngModel)]="period.logoMarginTop" class="form-control">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-12">
+                    <div class="slider-example">
+                        <label for="titre"><b>Largeur logo : {{period?.widthImg}}px</b></label>
+                        <div class="mb-3 slider-default" id="pips-positions-stepped">
+                            <input [type]="(isSlide)?'range':'number'" min="0" [(ngModel)]="period.widthImg" class="form-control">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-12">
+                    <div class="slider-example ">
+                        <label for="acad"><b> Hauteur logo : {{period?.heightImg}}px</b></label>
+                        <div class="mb-3 slider-default" id="pips-positions-stepped">
+                            <input [type]="(isSlide)?'range':'number'" min="0" [(ngModel)]="period.heightImg" class="form-control">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="acad"><b>Position logo</b></label>
+                        <select class="form-control" [(ngModel)]="period.posImg">
+                        <option value="center" [selected]="period.posImg=='center'">Centre</option>
+                        <option value="right" [selected]="period.posImg=='right'" >Droite</option>
+                        <option value="left" [selected]="period.posImg=='left'">Gauche</option>
+                    </select>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row" *ngIf="period">
+                <div class="col-md-12 mt-1">
+                    <hr/>
+                    <h6 class="text-center">Controle entête</h6>
+                </div>
+
+                <div class="form-group col-md-12">
+                    <div class="mt-3">
+                        <div class="slider-example ">
+                            <label for="titre"> <b>Hauteur entête :</b> {{period?.headHeight}}%</label>
+                            <div class="mb-3 slider-default" id="pips-positions-stepped">
+                                <input [type]="(isSlide)?'range':'number' " min="0" [(ngModel)]="period.headHeight" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-12 ">
+                    <div class="mt-3">
+                        <div class="slider-example ">
+                            <label for="titre"><b>  Largeur titre: {{period?.titreWidth}}%</b></label>
+                            <div class="mb-3 slider-default" id="pips-positions-stepped">
+                                <input [type]="(isSlide)?'range':'number'" min="0" [(ngModel)]="period.titreWidth" class="form-control" max="100">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-12">
+                    <div class=" mt-3">
+                        <div class="slider-example">
+                            <label for="titre"><b>Text-size titre : {{period?.titreFontSize }} px</b></label>
+                            <div class="mb-3 slider-default" id="pips-positions-stepped">
+                                <input [type]="(isSlide)?'range':'number'" min="12" [(ngModel)]="period.titreFontSize" class="form-control" max="40">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-12">
+                    <div class="mt-3">
+                        <div class="slider-example">
+                            <label for="titre"><b>Largeur details: {{period?.detailWidth}}%</b></label>
+                            <div class="mb-3 slider-default" id="pips-positions-stepped">
+                                <input [type]="(isSlide)?'range':'number'" min="0" [(ngModel)]="period.detailWidth" class="form-control" max="100">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-12">
+                    <div class="mt-3">
+                        <div class="slider-example">
+                            <label for="titre"><b>Margin top :{{period?.detailsTextMt}}%</b></label>
+                            <div class="mb-3 slider-default" id="pips-positions-stepped">
+                                <input [type]="(isSlide)?'range':'number'" min="-100" [(ngModel)]="period.detailsTextMt" class="form-control" max="100">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-12">
+                    <div class="mt-3">
+                        <div class="slider-example">
+                            <label for="titre"><b> Text-size details: {{period?.detailFontSize }} px</b></label>
+                            <div class="mb-3 slider-default" id="pips-positions-stepped">
+                                <input [type]="(isSlide)?'range':'number'" min="12" [(ngModel)]="period.detailFontSize" class="form-control" max="40">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 mt-3">
+                    <hr/>
+                    <h6 class="text-cenetr">Controle bulletin info</h6>
+                </div>
+
+                <div class="col-md-12 ">
+                    <div class="form-group">
+                        <div class="slider-example">
+                            <label for="titre"><b>Hauteur info: {{period?.infoHeight}}%</b></label>
+                            <div class="mb-3 slider-default" id="pips-positions-stepped">
+                                <input [type]="(isSlide)?'range':'number'" min="0" [(ngModel)]="period.infoHeight" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mt-4">
+                        <div class="slider-example">
+                            <label for="titre"><b>titre info text size: {{period?.titreInfoSizetext}} px</b></label>
+                            <div class="mb-3 slider-default" id="pips-positions-stepped">
+                                <input [type]="(isSlide)?'range':'number'" min="0" [(ngModel)]="period.titreInfoSizetext" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" *ngIf="period">
+                <div class="col-md-12 mt-3">
+                    <hr/>
+                    <h6 class="text-center">Controle resultat</h6>
+                </div>
+
+                <div class="form-group col-md-12">
+                    <div class="mt-3">
+                        <div class="slider-example">
+                            <label for="titre"><b>Hauteur resultat: {{period?.resultHeight}}%</b></label>
+                            <div class="mb-3 slider-default" id="pips-positions-stepped">
+                                <input [type]="(isSlide)?'range':'number'" min="0" [(ngModel)]="period.resultHeight" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-12">
+                    <div class="mt-3">
+                        <div class="slider-example">
+                            <label for="titre"><b>Table resultat en tete size: {{period?.headTableTextsize}}px</b></label>
+                            <div class="mb-3 slider-default" id="pips-positions-stepped">
+                                <input [type]="(isSlide)?'range':'number'" min="0" [(ngModel)]="period.headTableTextsize" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-12">
+                    <div class="mt-3">
+                        <div class="slider-example">
+                            <label for="titre"><b>Largeur resultat: {{period?.tableWidth}}%</b></label>
+                            <div class="mb-3 slider-default" id="pips-positions-stepped">
+                                <input [type]="(isSlide)?'range':'number'" min="0" [(ngModel)]="period.tableWidth" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-12">
+                    <div class="mt-3">
+                        <div class="slider-example">
+                            <label for="titre"><b>Largeur objet: {{period?.objWidth}}%</b></label>
+                            <div class="mb-3 slider-default" id="pips-positions-stepped">
+                                <input [type]="(isSlide)?'range':'number'" min="0" [(ngModel)]="period.objWidth" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-12">
+                    <div class="mt-3">
+                        <div class="slider-example">
+                            <label for="titre"><b>Marge Haut objet: {{period?.margint}}%</b></label>
+                            <div class="mb-3 slider-default" id="pips-positions-stepped">
+                                <input [type]="(isSlide)?'range':'number'" min="0" [(ngModel)]="period.margint" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-12">
+                    <div class="mt-3">
+                        <div class="slider-example">
+                            <label for="titre"><b>Hauteur mention: {{period?.mentionHeight}}%</b></label>
+                            <div class="mb-3 slider-default" id="pips-positions-stepped">
+                                <input [type]="(isSlide)?'range':'number'" min="0" [(ngModel)]="period.mentionHeight" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-12">
+                    <div class="mt-3">
+                        <div class="slider-example">
+                            <label for="titre"><b>Hauteur signature: {{period?.signaHeight}}%</b></label>
+                            <div class="mb-3 slider-default" id="pips-positions-stepped">
+                                <input [type]="(isSlide)?'range':'number'" min="0" [(ngModel)]="period.signaHeight" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-12">
+                    <div class="mt-3">
+                        <div class="slider-example">
+                            <label for="titre"><b>Decalé signature: {{period?.smargin}}%</b></label>
+                            <div class="mb-3 slider-default" id="pips-positions-stepped">
+                                <input [type]="(isSlide)?'range':'number'" min="-100" [(ngModel)]="period.smargin" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-12">
+                    <div class=" mt-3">
+                        <div class="slider-example">
+                            <label for="titre"><b>Decalé mention: {{period?.mentionMarginTop}}%</b></label>
+                            <div class="mb-3 slider-default" id="pips-positions-stepped">
+                                <input [type]="(isSlide)?'range':'number'" min="0" [(ngModel)]="period.mentionMarginTop" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-12 mt-1">
+                    <div class="form-group">
+                        <label for="acad"><b>Position texte</b></label>
+                        <select class="form-control" [(ngModel)]="period.textPos">
+                        <option value="" [selected]="period.textPos==''">Centre</option>
+                        <option value="right" [selected]="period.textPos=='right'" >Droite</option>
+                        <option value="left" [selected]="period.textPos=='left'">Gauche</option>
+                    </select>
+                    </div>
+                </div>
+
+                <div class="col-md-12 mt-1">
+                    <div class="form-group">
+                        <label for="acad"><b>Texte alignement</b></label>
+                        <select class="form-control" [(ngModel)]="period.textAlign">
+                        <option value="" [selected]="period.textAlign=='center'">Centre</option>
+                        <option value="right" [selected]="period.textAlign=='right'" >Droite</option>
+                        <option value="left" [selected]="period.textAlign=='left'">Gauche</option>
+                        <option value="justify" [selected]="period.textAlign=='justify'">Justifier</option>
+                    </select>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="tab-pane fade" id="contactIcon" role="tabpanel" aria-labelledby="contact-icon-tab">
+        <div class="row">
+            <h6>Configuration bulletin</h6>
+            <div class="row" *ngIf="period">
+                <div class=" col-md-12">
+                    <div class="form-group">
+                        <label for="acad">Espace nom</label>
+                        <input class="form-control" type="text" [(ngModel)]="period.fullname">
+                    </div>
+                </div>
+
+                <div class=" col-md-12">
+                    <div class="form-group">
+                        <label for="acad">Espace classe</label>
+                        <input class="form-control" type="text" [(ngModel)]="period.tclasse">
+                    </div>
+                </div>
+
+                <div class=" col-md-12">
+                    <div class="form-group">
+                        <label for="acad">Espace matières</label>
+                        <input class="form-control" type="text" [(ngModel)]="period.tmat">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row" *ngIf="period">
+                <div class=" col-md-12">
+                    <div class="form-group">
+                        <label for="acad">Coéfficient</label>
+                        <input class="form-control" type="text" [(ngModel)]="period.tcoef">
+                    </div>
+                </div>
+
+                <div class=" col-md-12">
+                    <div class="form-group">
+                        <label for="acad">Note</label>
+                        <input class="form-control" type="text" [(ngModel)]="period.tnote">
+                    </div>
+                </div>
+
+                <div class=" col-md-12">
+                    <div class="form-group">
+                        <label for="acad">Objets</label>
+                        <input class="form-control" type="text" [(ngModel)]="period.tobj">
+                    </div>
+                </div>
+
+                <div class=" col-md-12">
+                    <div class="form-group">
+                        <label for="acad">Valeur</label>
+                        <input class="form-control" type="text" [(ngModel)]="period.tval">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row" *ngIf="period">
+                <div class=" col-md-12">
+                    <div class="form-group">
+                        <label for="acad">Bulletin</label>
+                        <input class="form-control" type="text" [(ngModel)]="period.tbull">
+                    </div>
+                </div>
+
+                <div class=" col-md-12">
+                    <div class="form-group">
+                        <label for="acad">Signature A</label>
+                        <input class="form-control" type="text" [(ngModel)]="period.signa_di">
+                    </div>
+                </div>
+
+                <div class=" col-md-12">
+                    <div class="form-group">
+                        <label for="acad">Signature B</label>
+                        <input class="form-control" type="text" [(ngModel)]="period.signa_pa">
+                    </div>
+                </div>
+
+                <div class=" col-md-12">
+                    <div class="form-group">
+                        <label for="acad">Signature C</label>
+                        <input class="form-control" type="text" [(ngModel)]="period.signa_ti">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

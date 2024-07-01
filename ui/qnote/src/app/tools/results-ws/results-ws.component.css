@@ -1,0 +1,184 @@
+::-webkit-scrollbar {
+    width: 13px;
+    height: 13px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(13deg, #f9d4ff 14%, #c7ceff 64%);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(13deg, #c7ceff 14%, #f9d4ff 64%);
+}
+
+::-webkit-scrollbar-track {
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: inset 7px 10px 12px #f0f0f0;
+}
+
+.note-maker {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    margin-top: 1%;
+}
+
+.tnote-maker {
+    position: relative;
+    width: 100%;
+    /* table-layout: fixed; */
+}
+
+.tnote-maker .vertical-header {
+    font-size: 13.5px;
+    text-align: center;
+    white-space: nowrap;
+    transform: rotate(90deg);
+    padding: auto;
+    height: 100px;
+}
+
+
+/* .tnote-maker .vertical-header p {
+    margin: 0 -100%;
+    display: inline-block;
+}
+
+.tnote-maker .vertical-header p:before {
+    content: '';
+    width: 0;
+    padding-top: 110%;
+    display: inline-block;
+    vertical-align: middle;
+}
+*/
+
+.signature {
+    border-top: 1px black solid;
+}
+
+.block {
+    padding: 0.5%;
+    margin: auto;
+    border: 1px solid black;
+}
+
+.parent {
+    position: relative;
+    right: 0%;
+    width: 30%;
+    float: right;
+    text-align: center;
+}
+
+.block-class {
+    position: relative;
+}
+
+.annee {
+    position: relative;
+    margin-right: 0%;
+    width: 100%;
+}
+
+.annee {
+    text-align: right;
+}
+
+.palmares {
+    text-align: center;
+    font-size: 17px;
+}
+
+table tr th {
+    border: 1px solid black;
+}
+
+table tr td {
+    border: 1px solid black;
+}
+
+.entete {}
+
+.logo {}
+
+.entete .right {
+    float: right;
+}
+
+.entete .nom_etab {
+    font-size: 20px;
+    font-weight: bold;
+    display: block;
+    padding: 0.1%;
+}
+
+.entete .details_etab {
+    display: block;
+    margin-top: -3%;
+    padding: 0.1%;
+    font-size: 15px;
+}
+
+.identity {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    margin-top: 1%;
+}
+
+.page-left {
+    position: fixed;
+    top: 18.7%;
+    bottom: 0%;
+    width: 39%;
+    background-color: white;
+    border: 0.5px solid #e6e1e6;
+    margin: 0.5%;
+    padding: 1%;
+    display: inline-block;
+    height: 600px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    left: 0.5%;
+    padding-bottom: 5%;
+}
+
+.page-right {
+    position: relative;
+    float: right;
+    width: 59%;
+    border: 1px solid #b6b6b6;
+    min-height: 600px;
+    padding: 1%;
+}
+
+.tnote-maker-2 {
+    position: relative;
+    width: 98%;
+    margin: 1%;
+}
+
+.part-1 {
+    position: relative;
+    float: left;
+    width: 35%;
+    display: inline-block;
+    border-right: 1px solid #b6b6b6;
+}
+
+.part-2 {
+    margin-left: 1%;
+    padding-bottom: 2%;
+    position: relative;
+    float: left;
+    width: 50%;
+    display: inline-block;
+}
+
+hr {
+    margin-bottom: -0.5%;
+    margin-top: -0.5%;
+}

@@ -1,0 +1,49 @@
+<div class="window" [style.background-image]="setBG()">
+    <div class="head">
+        <div class="col-md-4 left">
+            <div class="col-md-12 left">
+                <img src="assets/qnote.png" alt="" class="logo">
+                <h6 class="text-left pt-1 pl-1" *ngIf="CUSER"> <b class="text-primary">
+                    <a target="_blank" *ngIf="CUSER.role == 2">  {{CUSER.fullName}} </a>
+                    </b> ({{CUSER.sold}} G)<br/>
+                    <a target="_blank" *ngIf="CUSER.role > 2" href="{{website}}BO/App/loginByToken/{{ CUSER.token_user}}">
+                        <p class="text-success"> {{CUSER.email}}</p>
+                    </a>
+                </h6>
+            </div>
+        </div>
+        <div class="col-md-8 right">
+            <button class="btn btn-secondary right" styleSheetFile="assets/print/style.css" printSectionId="print-section-gen" ngxPrint>
+                imprimer
+            </button>
+            <button class="btn btn-primary  right" (click)="saveBulletin()">
+                    <i class="nav-icon i-Data-Save mr-1"></i>
+            </button>
+
+            <button class="btn btn-danger  right" routerLink="/app/tools">
+                    <i class="nav-icon i-Close mr-1"></i>
+            </button>
+            <button (click)="reset()" [disabled]="loading[0]" class="btn btn-warning  right" title="Rafraichir">
+                    <i class="nav-icon i-Refresh mr-1"></i>
+            </button>
+        </div>
+    </div>
+
+
+
+    <div class="body">
+        <div class="left-tools">
+            <app-tleft [period]="period"></app-tleft>
+        </div>
+
+        <div *ngIf="period" class="work-space" id="print-section-gen">
+            <app-tpage-gen [period]="period" [tools]="tools"> </app-tpage-gen>
+        </div>
+
+        <div class="right-tools">
+            <app-tright *ngIf="period" [period]="period" [tools]="tools"></app-tright>
+        </div>
+
+        <!-- end body -->
+    </div>
+</div>

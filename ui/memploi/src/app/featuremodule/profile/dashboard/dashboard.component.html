@@ -1,0 +1,79 @@
+<div class="dashboard-details">
+  <div class="row dashboard-info">
+    <div class="col-lg-3 col-md-3">
+      <div class="card dash-cards p-2">
+        <div class="card-body text-center">
+          <div class="dash-top-content">
+            <div class="dashcard-img">
+              <img
+                src="assets/img/icons/verified.svg"
+                class="img-fluid"
+                alt=""
+              />
+            </div>
+          </div>
+          <div class="dash-widget-info">
+            <h6>Profile Complet</h6>
+            <h3 class="counter">{{ getNote() }}%</h3>
+          </div>
+        </div>
+
+        <div class="col-md-12" *ngFor="let item of note.filler | keyvalue">
+          <div
+            *ngIf="!item.value"
+            class="alert alert-danger col-md-12 mb-1 mt-1"
+            style="font-size: 12px"
+          >
+            {{ miss(item.key) }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-9 col-md-9">
+      <div class="card dash-cards w-100">
+        <div class="card-header">
+          <h4>Candidatures</h4>
+        </div>
+        <div class="card-body">
+          <ul class="review-list">
+            <li class="review-box" *ngFor="let data of cands">
+              <div class="review-details">
+                <h6>
+                  <a routerLink="/details-job/{{ data.id_job }}">{{
+                    data.titre_job
+                  }}</a>
+                </h6>
+                <div class="rating">
+                  <div>
+                    <i class="fa-sharp fa-solid fa-calendar-days"></i>
+                    {{ data.created_at.split("T")[0] }}
+                  </div>
+                  <div>
+                    {{ data.categorie }} &nbsp; | &nbsp;
+                    {{ data.type_contrat + " " }}
+                    <span *ngIf="data.cv">
+                      &nbsp; | &nbsp; CV
+                      <i class="fa fa-check text-success"></i>
+                    </span>
+                    <span *ngIf="data.lm">
+                      &nbsp; | &nbsp; Lettre de motivation
+                      <i class="fa fa-check text-success"></i>
+                    </span>
+                    <span *ngIf="data.diplome">
+                      &nbsp; | &nbsp; Diplome
+                      <i class="fa fa-check text-success"></i>
+                    </span>
+                    <span *ngIf="data.certificat">
+                      &nbsp; | &nbsp; Certificat
+                      <i class="fa fa-check text-success"></i>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

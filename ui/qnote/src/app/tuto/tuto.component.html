@@ -1,0 +1,53 @@
+<div class="tuto-item" *ngIf="show=='1'">
+    <div class="page-t " *ngIf="page==0">
+        <h3>Bienvenue sur notre plateforme Qnote</h3>
+        <hr>
+        <p>
+            Q-Note vous permet Créer des bulletins scolaires à distance automatisée et sécurisée pour des meilleurs résultats scolaires.
+        </p>
+        <p>
+            La raison d’être de Qnote ! En Haïti il y a plus de 16,000 établissements scolaires et 98% ont besoin de Q-Note. En choisissant Qnote, nous vous aiderons à faciliter le processus de création de vos bulletins scolaires et sécuriser les données de votre
+            établissement. Nous ferons en sorte que vous recevez les formations nécessaires afin de mieux utiliser Q-Note. Nous savons que la plupart des établissements scolaires n'ont pas les moyens pour payer une application complète pour gérer leur
+            établissement. D’après les rapports de notre enquête menée auprès des établissement scolaires cette année, nous avons pu constater que 98% des écoles en Haïti produisent toujours les bulletins scolaires à la main et n'ont aucun système informatique
+            pour la gestion de leurs établissements. Selon les dires des responsables des écoles, les applications des gestions sont trop exorbitantes, il préfère utiliser les moyens du bord, ils déclarent que le plus dur à faire c'est la création des
+            bulletins. La création des bulletins à la main ne vous aide pas à faire des économies, mais augmente vos couts de fonctionnement exponentiellement.</p>
+        <p>
+            Produire des bulletins à la main relève d’un cout extrêmement élevé pour ces établissements. Ils doivent payer à la personne responsable de créer ces bulletins. Ils utilisent Microsoft Word ou Excel pour créer ces bulletins, ce qui engendrent des erreurs
+            énormes. Imagine donc que votre titulaire a créé 500 bulletins aves des erreurs et réalise ces erreurs après l’impression de ces bulletins. Cela veut dire que vous allez payer double pour pouvoir réimprimer ces bulletins. Vous pouvez éviter
+            ces genres de problèmes et économiser beaucoup plus en utilisant Qnote pour créer vos bulletins scolaires. Qnote est spécialisé dans la création de bulletins scolaires.
+        </p>
+    </div>
+    <div class="page-t " *ngIf="page==1">
+        <h3>Fonctionalités de Q-note</h3>
+        <hr>
+        <ol>
+            <li>Modifier vos bulletins en temps réel.</li>
+            <li>Création, suppression, et modification de périodes : 1er Contrôle, 2eme Contrôle...</li>
+            <li>Modifier vos bulletins en temps réel.</li>
+            <li>Calcule automatique des moyennes.</li>
+            <li> Insertion des signatures des Directeurs(trices) d'institution, titulaire, parents...</li>
+            <li>Création automatique de décisions finales : Réussite, Échec, Excellence, A refaire...</li>
+            <li>Insertion des cours & élèves via Excel & Insertion des notes.</li>
+            <li>Calcule automatique des moyennes, Ajouter, modifier, augmenter le coefficient de chaque classe.</li>
+            <li>Ajouter et modifier numéro de téléphones, courriel, adresse, logo, etc...</li>
+            <li>Mise en forme des bulletins scolaires & Impression des bulletins scolaires.</li>
+            <li>Création des bulletins de fin d'années pour calculer les moyennes générales.</li>
+            <li>Génération des promotions, classes, cours et Analyse de données.</li>
+            <li>Suivis de la progression académique des élèves.</li>
+            <li>Gestion de présences et absences des élèves.</li>
+            <li>Création d’archives digitale. Création de rapports de fin d’année pour être renvoyer au MENFP.</li>
+        </ol>
+    </div>
+    <div class="page-t " *ngIf="page==2">
+        <h3>Introduction a Q-note</h3>
+        <hr>
+        <iframe style="width: 98%; margin:1%;" height="380" src="https://www.youtube.com/embed/OEJfCvD8jYc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+    </div>
+    <div class="t-footer ">
+        <button class="btn btn-danger " *ngIf="page!=lpage" (click)="save() ">Ignorer</button>
+        <button class="btn btn-success " *ngIf="page!=lpage" (click)="goTo(false) ">Suivant</button>
+        <button class="btn btn-warning " *ngIf="page!=fpage" (click)="goBack()">Précedent</button>
+        <button class="btn btn-success" *ngIf="page==lpage" (click)="save()">Terminer</button>
+    </div>
+</div>

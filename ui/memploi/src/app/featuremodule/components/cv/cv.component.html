@@ -1,0 +1,109 @@
+<div
+  class="row"
+  id="letterContent {
+"
+>
+  <div class="row">
+    <h3 class="text-center">{{ ccand.firstName }} {{ ccand.lastName }}</h3>
+    <h6 class="text-center">{{ ccand.title_prof }}</h6>
+    <span class="text-center col-md-12"
+      >{{ ccand.city }}, {{ ccand.country }} | {{ ccand.telephone_a }} /
+      {{ ccand.telephone_b }} |
+      {{ ccand.email_contact }}
+    </span>
+  </div>
+  <div class="row mt-2">
+    <h5 class="text-left">Profil</h5>
+    <p class="text-justify">{{ ccand.profile }}</p>
+  </div>
+  <div class="row mt-4">
+    <h5 class="text-left col-md-12">Experiences de travail</h5>
+    <hr />
+    <div
+      class="col-md-12 mt-2 ml-4"
+      style="margin-left: 1%"
+      *ngFor="let item of ccand.worksExp"
+    >
+      <h6 class="text-left">{{ item.poste }}</h6>
+      <span class="text-left ml-2"
+        >{{ item.etablissement }} - {{ item.type_contrat }} -
+        {{ item.horaire_de_travail }}
+      </span>
+      <br />
+      <i class="text-left">{{ item.date_debut }} - {{ item.date_debut }} </i>
+      <br />
+      <span class="text-left">{{ item.city }}, {{ item.country }} </span>
+
+      <p class="text-justify mb-2">
+        {{ item.description }}
+      </p>
+      <hr />
+    </div>
+  </div>
+  <div class="row mt-4">
+    <h5 class="text-left">Educations et Certifications</h5>
+    <hr />
+    <div
+      class="col-md-12 mt-2 ml-4"
+      style="margin-left: 1%"
+      *ngFor="let item of ccand.etudes"
+    >
+      <h6 class="text-left">{{ item.institution }}</h6>
+      <span class="text-left col-md-12"
+        >{{ item.type_etudes }} - {{ item.domaine }}
+      </span>
+      <br />
+      <i class="text-left col-md-12"
+        >{{ item.date_debut }} - {{ item.date_debut }}
+      </i>
+      <br />
+      <span class="text-left col-md-12"
+        >{{ item.city }}, {{ item.country }}
+      </span>
+
+      <p class="text-justify mb-2 col-md-12">
+        {{ item.description }}
+      </p>
+      <hr />
+    </div>
+  </div>
+  <div class="row mt-4">
+    <h5 class="text-left">Competences</h5>
+    <hr />
+    <div class="col-md-4 mb-4" *ngFor="let item of ccand.skills">
+      <h6 class="text-left">{{ item.name }}</h6>
+      <i class="text-left col-md-12">{{ item.years }} </i>
+    </div>
+    <hr />
+  </div>
+  <div class="row mt-4">
+    <h5 class="text-left">Langues</h5>
+    <hr />
+    <div class="col-md-6 mb-4" *ngFor="let item of ccand.languageSkills">
+      <h6 class="text-left">{{ item.name }}</h6>
+      <i class="text-left col-md-12">{{ item.proficiency }} </i>
+    </div>
+    <hr />
+  </div>
+
+  <div class="row mt-4">
+    <h5 class="text-left col-md-12">Réferences</h5>
+    <hr />
+    <div class="col-md-6 mt-2 ml-4" *ngFor="let item of ccand.references">
+      <h6 class="text-left">{{ item.nom_complet }}</h6>
+      <span class="text-left ml-2"
+        >{{ item.institution }} - {{ item.titre }}
+      </span>
+      <br />
+      <span class="text-left"
+        >{{ item.email }} - {{ item.phone_a }} -
+        {{ item.phone_a }}
+      </span>
+
+      <hr />
+    </div>
+  </div>
+</div>
+<div class="text-right">
+  <A class="btn btn-primary">Téléchargez CV</A>
+</div>

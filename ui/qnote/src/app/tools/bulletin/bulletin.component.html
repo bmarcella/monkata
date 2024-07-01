@@ -1,0 +1,241 @@
+<div class="col-md-12" *ngIf="page==0">
+    <div class="left-tools-2">
+        <div class="col-md-12" *ngIf="!cbg">
+            <div class="col-md-12">
+                <h5>Ajouter Bulletin Général</h5>
+            </div>
+            <div class="col-md-12">
+                <app-alert [alert]="alert" pos="1"></app-alert>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>Label</label>
+                    <input type="text" class="form-control" [(ngModel)]="bg.name_bgen">
+                </div>
+            </div>
+            <div class="col-md-12" *ngIf="acad">
+                <div class="form-group">
+                    <label for="acad">Année</label>
+                    <select class="form-control" [(ngModel)]="bg.year_bgen">
+                            <option [value]="item.annee_acad" *ngFor="let item of acad">{{item.annee_acad}}</option>
+               </select>
+                </div>
+            </div>
+            <div class=" col-md-12" *ngIf="niv">
+                <div class="form-group">
+                    <label for="classe">Classe</label>
+                    <select class="form-control" [(ngModel)]="bg.niv_bgen">
+                        <option [value]="item.name" *ngFor="let item of niv" >{{item.name}}</option>
+                     </select>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="acad">Domaine</label>
+                    <input type="text" [(ngModel)]="bg.dom_bgen" class="form-control" id="">
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <button class="btn btn-primary pull-right push-right" (click)="add()">Ajouter</button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-md-12" *ngIf="cbg">
+            <div class="col-md-12">
+                <h5>Modifier Bulletin Général</h5>
+                <button (click)="closeEdit()" class="btn btn-danger pull-right push-right">
+                    <i class=" nav-icon i-Close "></i>
+           </button>
+            </div>
+            <div class="col-md-12">
+                <app-alert [alert]="alert" pos="1"></app-alert>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>Label</label>
+                    <input type="text" class="form-control" [(ngModel)]="cbg.name_bgen">
+                </div>
+            </div>
+            <div class="col-md-12" *ngIf="acad">
+                <div class="form-group">
+                    <label for="acad">Année</label>
+                    <select class="form-control" [(ngModel)]="cbg.year_bgen">
+                            <option [value]="item.annee_acad" *ngFor="let item of acad">{{item.annee_acad}}</option>
+               </select>
+                </div>
+            </div>
+            <div class=" col-md-12" *ngIf="niv">
+                <div class="form-group">
+                    <label for="classe">Classe</label>
+                    <select class="form-control" [(ngModel)]="cbg.niv_bgen">
+                        <option [value]="item.name" *ngFor="let item of niv" >{{item.name}}</option>
+                     </select>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="acad">Domaine</label>
+                    <input type="text" [(ngModel)]="cbg.dom_bgen" class="form-control" id="">
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <button class="btn btn-primary pull-right push-right" (click)="edit()">Modifier</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="work-space">
+        <div class="col-md-12">
+            <h3 class="text-center">Bulletin Général</h3>
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Label</th>
+                        <th scope="col">Année</th>
+                        <th scope="col">Classe</th>
+                        <th scope="col">Domaine</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of bgs; let i = index">
+                        <td>{{item?.name_bgen}}</td>
+                        <td>{{item?.year_bgen}}</td>
+                        <td>{{item?.niv_bgen}}</td>
+                        <td>{{item?.dom_bgen}}</td>
+                        <td>
+                            <button title="Ajouter bulletin" class="btn btn-primary m-2" (click)="open(item)">
+                                <i class="nav-icon i-Add"></i>
+                          </button>
+                            <button title="Ouvrir bulletin" routerLink="/app/bulletinGen/{{item.token_bgen }}" class="btn btn-success m-2">
+                               <i class="nav-icon i-Eye"></i>
+                             </button>
+                            <button title="modifier ce bulletin" class="btn btn-warning m-2" (click)="update(item, i)">
+                                <i class=" nav-icon i-Edit "></i>
+                           </button>
+                            <button title="Supprimer ce bulletin" class="btn btn-danger m-2" (click)="del(item?.token_bgen,i)">
+                                <i class=" nav-icon i-Close "></i>
+                        </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="page==1" class="col-md-12">
+    <div class="work-space-1">
+        <div class="col-md-12">
+            <h3 class="text-center">Bulletins disponibles </h3>
+
+            <div class="col-md-12">
+                <app-alert [alert]="alert" pos="1"></app-alert>
+            </div>
+            <div class="col-md-12">
+
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">Année</th>
+                            <th scope="col">Classe</th>
+                            <th scope="col">Période</th>
+                            <th scope="col">Domaine</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of bgos; let i = index" class="">
+                            <td>{{item?.annee}}</td>
+                            <td>{{item?.classe}}</td>
+                            <td>{{item?.periode}}</td>
+                            <td>
+                                {{item?.domaine_b}}
+                            </td>
+                            <td>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Index</label>
+                                        <input type="number" min="1" class="form-control" [(ngModel)]="index[i]">
+                                    </div>
+                                </div>
+                                <button (click)="addBulletinToBG(item, index[i], i)" title="ajouter ce bulletin" class="btn btn-success m-2 right">
+                                <i class="nav-icon i-Add"></i>
+                                </button>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="work-space-2">
+        <div class="col-md-12">
+            <h3 class="text-center">Bulletin Général</h3>
+            <div class="col-md-12">
+                <b> Label </b> : <span>{{ cbgo.bg.name_bgen }}</span>
+            </div>
+            <div class="col-md-12">
+                <b> Année</b> : <span>{{ cbgo.bg.year_bgen }}</span>
+            </div>
+            <div class="col-md-12">
+                <b> Niveau </b> : <span> {{ cbgo.bg.niv_bgen }} </span>
+            </div>
+            <div class="col-md-12">
+                <b> Domaine </b> :<span>  {{ (cbgo.bg.dom_bgen)? cbgo.bg.dom_bgen : 'Non mentionné' }} </span>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <hr>
+            <div class="col-md-12">
+                <app-alert [alert]="alert" pos="2"></app-alert>
+            </div>
+            <div class="col-md-12">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">Période</th>
+                            <th scope="col">index</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of cbgo.bd; let i = index" class="">
+                            <td>{{item?.periode}}</td>
+                            <td>
+                                {{item?.pos_b}}
+                            </td>
+                            <td>
+
+                                <button (click)="removeBulletinToBG(item,i)" title="retirer ce bulletin" class="btn btn-danger m-2">
+                              <i class=" nav-icon i-Close "></i>
+                            </button>
+
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-md-12">
+                <button style="margin-bottom:2%;" routerLink="/app/bulletinGen/{{cbgo.bg.token_bgen }}" class="btn btn-success left" title="Ouvrir bulletin">
+               <i class="nav-icon i-Eye"></i>
+
+              </button>
+                <button style="margin-bottom:2%; float: right;" (click)="closePage()" class="btn btn-danger right" title="Voir la liste des bulletins generaux">
+<i class="nav-icon i-Close"></i>
+</button>
+            </div>
+        </div>
+    </div>
+</div>

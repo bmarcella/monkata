@@ -1,0 +1,121 @@
+<div class="dashboard-content">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3 theiaStickySidebar">
+        <div class="stickybar">
+          <div class="listings-sidebar">
+            <div class="card">
+              <h4>
+                <img src="assets/img/details-icon.svg" alt="details-icon" />
+                Categorie
+              </h4>
+
+              <div>
+                <div class="form-group">
+                  <label for="type">Parent</label>
+                  <select
+                    id="type"
+                    class="form-control"
+                    name="type"
+                    [(ngModel)]="categorie.parent"
+                  >
+                    <option value="">Aucun</option>
+                    <option *ngFor="let c of categories" [value]="c.id">
+                      {{ c.name }}
+                    </option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="Price" class="col-form-label">Type</label>
+
+                  <mat-select
+                    [(ngModel)]="categorie.type_ent"
+                    [ngModelOptions]="{ standalone: true }"
+                    class="form-control"
+                    name="type_ent"
+                    placeholder="Services"
+                  >
+                    <mat-option
+                      *ngFor="let price of type_ent"
+                      [value]="price.value"
+                    >
+                      {{ price.viewValue }}
+                    </mat-option>
+                  </mat-select>
+                </div>
+
+                <div class="form-group">
+                  <label for="name">Nom</label>
+                  <input
+                    type="text"
+                    id="name"
+                    class="form-control"
+                    name="name"
+                    [(ngModel)]="categorie.name"
+                    required
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="icon">Icône</label>
+                  <input
+                    type="text"
+                    id="icon"
+                    class="form-control"
+                    name="icon"
+                    [(ngModel)]="categorie.icon"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="description">Description</label>
+                  <textarea
+                    id="description"
+                    class="form-control"
+                    name="description"
+                    [(ngModel)]="categorie.description"
+                    required
+                  ></textarea>
+                </div>
+
+                <div class="form-group">
+                  <label for="type">Type de Catégorie</label>
+                  <select
+                    id="type"
+                    class="form-control"
+                    name="type"
+                    [(ngModel)]="categorie.type"
+                  >
+                    <option value="">Choisir...</option>
+                    <option *ngFor="let type of types" [value]="type">
+                      {{ type }}
+                    </option>
+                  </select>
+                </div>
+
+                <button class="btn btn-primary" (click)="onSubmit(categorie)">
+                  Ajouter
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-9">
+        <div class="card">
+          <h4>
+            <img src="assets/img/details-icon.svg" alt="details-icon" />
+            Categorie
+          </h4>
+          <app-categorie-view
+            *ngFor="let categorie of categories; let i = index"
+            [categorie]="categorie"
+            [index]="i"
+            (delete)="delete($event)"
+          ></app-categorie-view>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

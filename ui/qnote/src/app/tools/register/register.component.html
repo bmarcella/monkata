@@ -1,0 +1,75 @@
+<div class="window" [style.background-image]="setBG()">
+    <div class="auth-layout-wrap">
+        <div class="auth-content">
+            <div class="card o-hidden">
+
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <h3 class="mt-3  text-center">QNote</h3>
+                        <h5 class="mt-1 mb-3  text-center">Bienvenue sur notre plateforme de conception de bulletin rapide scolaire </h5>
+                    </div>
+                    <!-- Sign'up -->
+                    <div class="col-md-12" style="margin-left: auto; margin-right:auto; border-left: 1px solid#faf4ff;">
+                        <div class="p-2">
+                            <div class="separator-breadcrumb border-top"></div>
+                            <h1 class="mb-1 text-16 text-center">Enregistrez-vous</h1>
+                            <h3 class="mb-3 text-12 text-center">Vous etes nouveau sur Qnote</h3>
+                            <div class="col-md-12">
+                                <app-alert [alert]="alert" pos="10"></app-alert>
+                            </div>
+                            <form [formGroup]="regForm" (ngSubmit)="onSubmitReg()">
+                                <div class="form-group">
+                                    <label for="username">Nom & prénom</label>
+                                    <input formControlName="fullname" [ngClass]="{ 'is-invalid': submitted && r.fullname.errors }" class="form-control form-control-rounded" type="text">
+                                    <div *ngIf="submitted && r.fullname.errors" class="invalid-feedback">
+                                        <div *ngIf="r.fullname.errors.required">Vous devez ajouter votre nom & prénom</div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="username">Nom de votre etablissement scolaire</label>
+                                    <input formControlName="etab_name" [ngClass]="{ 'is-invalid': submitted && r.etab_name.errors }" class="form-control form-control-rounded" type="text">
+                                    <div *ngIf="submitted && r.etab_name.errors" class="invalid-feedback">
+                                        <div *ngIf="r.etab_name.errors.required">Vous devez ajouter votre Nom de votre etablissement scolaire</div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone">Téléphone</label>
+                                    <input formControlName="phone" [ngClass]="{ 'is-invalid': submitted && r.phone.errors }" class="form-control form-control-rounded" type="phone">
+                                    <div *ngIf="submitted && r.phone.errors" class="invalid-feedback">
+                                        <div *ngIf="r.phone.errors.required">Vous devez ajouter votre numero de telephone</div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="username">Email</label>
+                                    <input formControlName="username" [ngClass]="{ 'is-invalid': submitted && r.username.errors }" class="form-control form-control-rounded" type="email">
+                                    <div *ngIf="submitted && r.username.errors" class="invalid-feedback">
+                                        <div *ngIf="r.username.errors.required">Vous devez ajouter un email</div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="username">Mot de passe</label>
+                                    <input formControlName="password" [ngClass]="{ 'is-invalid': submitted && r.password.errors }" class="form-control form-control-rounded" type="password">
+                                    <div *ngIf="submitted && r.password.errors" class="invalid-feedback">
+                                        <div *ngIf="r.password.errors.required">Vous devez ajouter un mot de passe</div>
+                                    </div>
+                                </div>
+
+                                <button [disabled]="loading[1]" class="btn btn-primary btn-block btn-rounded mt-2">
+                                          <span *ngIf="loading[1]" class="spinner-border spinner-border-sm mr-1"></span>
+                                             S'enregistrer
+                                     </button>
+                            </form>
+                        </div>
+                        <div class="col-md-12 text-center mb-4">
+                            <a routerLink="/app/tools">J'ai déjà un compte</a>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

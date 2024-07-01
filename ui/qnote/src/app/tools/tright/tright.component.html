@@ -1,0 +1,46 @@
+<div class="col-md-12">
+    <div class="form-group" *ngFor="let item of period.periods">
+        <label> {{item.name}} libelé</label>
+        <input [(ngModel)]="item.code" class="form-control">
+    </div>
+
+    <div class="form-group">
+        <label> Period libelé</label>
+        <input [(ngModel)]="period.name" class="form-control">
+    </div>
+
+    <div class="form-group">
+        <label> Moyenne Général libelé</label>
+        <input [(ngModel)]="period.tmg" class="form-control">
+    </div>
+
+
+</div>
+
+<div class="col-md-12">
+
+    <div class="form-group" *ngIf="period.is_reprise">
+        <label for="acad">Message reprise</label>
+        <input type="text" id="" class="form-control" [(ngModel)]="period.msg_rep">
+    </div>
+
+
+    <div class="form-group">
+        <label for="acad">Message excellence</label>
+        <input type="text" id="" class="form-control" [(ngModel)]="period.msg_exc">
+    </div>
+
+
+
+    <div class="form-group">
+        <label for="acad">Message admission</label>
+        <input type="text" id="" class="form-control" [(ngModel)]="period.msg_reu">
+    </div>
+
+
+    <div class="form-group">
+        <label for="acad">Message échec</label>
+        <input type="text" id="" class="form-control" [(ngModel)]="period.msg_echec">
+    </div>
+
+</div>

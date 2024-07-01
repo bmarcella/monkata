@@ -1,0 +1,17 @@
+# Ignore node_modules directories
+.vscode/
+/api/*/node_modules
+/api/*/dist
+/api/template
+/api/tuto
+/ui/*/node_modules
+/ui/*/.angular
+/ui/*/dist
+/ui/template
+/ui/memploi/.angular/cache/
+/ui/auth/.angular/cache/
+/ui/qnote/.angular/cache/
+/ui/admin/.angular/cache/
+# Ignore operating system files
+.DS_Store
+aws.txt

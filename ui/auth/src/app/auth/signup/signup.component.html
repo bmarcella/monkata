@@ -1,0 +1,110 @@
+<!-- Breadscrumb Section -->
+<div class="breadcrumb-bar">
+  <div class="container">
+    <div class="row align-items-center text-center">
+      <div class="col-md-12 col-12">
+        <h2 class="breadcrumb-title">Créer un compte Monkata</h2>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /Breadscrumb Section -->
+
+<!-- Login Section -->
+<div class="login-content">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-lg-5 mx-auto">
+        <div class="login-wrap register-form">
+          <div class="login-header">
+            <h3>Créer un compte</h3>
+            <p>
+              Commencez avec
+              <span
+                >Monkata <i class="fa fa-link text-primary"></i>
+                {{ name | titlecase }}</span
+              >
+            </p>
+          </div>
+
+          <!-- Login Form -->
+          <div>
+            <div class="input-block group-img mb-1">
+              <div class="group-img">
+                <i class="feather-user"></i>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Fisrtname"
+                  [(ngModel)]="creds.firstname"
+                />
+              </div>
+            </div>
+            <div class="input-block group-img mb-1">
+              <div class="group-img">
+                <i class="feather-user"></i>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Lastname"
+                  [(ngModel)]="creds.lastname"
+                />
+              </div>
+            </div>
+            <div class="input-block group-img mb-1">
+              <div class="group-img">
+                <i class="feather-mail"></i>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Email Address"
+                  [(ngModel)]="creds.email"
+                />
+              </div>
+            </div>
+            <div class="input-block mb-1">
+              <div class="pass-group group-img">
+                <i class="feather-lock"></i>
+                <input
+                  [type]="toggleData ? 'text' : 'password'"
+                  class="form-control pass-input"
+                  placeholder="Password"
+                  [(ngModel)]="creds.password"
+                />
+                <span
+                  [ngClass]="
+                    toggleData === true
+                      ? 'toggle-password feather-eye'
+                      : 'toggle-password feather-eye-off'
+                  "
+                  (click)="togglePassword()"
+                  (keyup)="togglePassword()"
+                  tabindex="0"
+                ></span>
+              </div>
+            </div>
+
+            <br />
+            <button
+              (click)="register(creds, $event)"
+              class="btn btn-primary w-100 login-btn"
+              [disabled]="sign"
+            >
+              Créer compte
+            </button>
+            <div class="register-link text-center">
+              <p>
+                Vous avez deja un compte Monkata?
+                <a class="forgot-link" [routerLink]="routes.login"
+                  >Se connecter</a
+                >
+              </p>
+            </div>
+          </div>
+          <!-- /Login Form -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /Login Section -->

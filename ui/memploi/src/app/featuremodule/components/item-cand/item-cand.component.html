@@ -1,0 +1,39 @@
+<div class="popular-box" [ngClass]="[cand.id == ccand?.id ? 'box-active' : '']">
+  <div class="popular-top">
+    <span class="topic">{{ cand.etat_demande }}</span>
+    <span class="topic">
+      <i class="fa fa-calendar"></i> {{ cand.date_created.split("T")[0] }}</span
+    >
+  </div>
+  <div class="popular-inner">
+    <div class="popular-content" style="margin-top: -3%">
+      <h4 style="margin-top: -3%">
+        <a>
+          {{ cand.id_postulant }}-{{ cand.firstname }} {{ cand.lastname }}
+        </a>
+      </h4>
+    </div>
+  </div>
+  <div class="popular-footer" style="margin-top: -3%">
+    <div class="time">
+      <div class="input-block" style="width: 100%">
+        <label for="" style="width: 100%">Changer l'etat</label>
+        <mat-select
+          [(ngModel)]="cand.etat_demande"
+          (selectionChange)="selectState($event)"
+          class="form-control"
+          name="currenry"
+          placeholder="Etat de la demande"
+        >
+          <mat-option value="false"> Tout </mat-option>
+          <mat-option
+            *ngFor="let j of etatDemandeOptions; let i = index"
+            [value]="j"
+          >
+            {{ j }}
+          </mat-option>
+        </mat-select>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+<div class="categorie" *ngIf="categorie">
+  <hr />
+  <h6>
+    {{ categorie?.name }}
+    <span class="blog-category">
+      <a> {{ categorie?.type_categorie }}</a></span
+    >
+
+    <span class="blog-category" *ngIf="categorie?.type_ent">
+      <a> {{ categorie?.type_ent }}</a></span
+    >
+  </h6>
+  <div>{{ categorie?.description }}</div>
+  <div>
+    <button class="btn btn-danger" (click)="del(categorie.id)">effacer</button>
+  </div>
+  <hr *ngIf="categorie.children && categorie.children.length > 0" />
+  <ul
+    *ngIf="categorie.children && categorie.children.length > 0"
+    style="width: 98%; float: right"
+  >
+    <li><b>Sous categories</b></li>
+    <li *ngFor="let child of categorie.children">
+      <!-- Récursion: le composant s'appelle lui-même pour chaque sous-catégorie -->
+      <app-categorie-view [categorie]="child"></app-categorie-view>
+    </li>
+  </ul>
+</div>

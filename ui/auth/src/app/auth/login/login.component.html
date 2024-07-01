@@ -1,0 +1,92 @@
+<!-- Breadscrumb Section -->
+<div class="breadcrumb-bar">
+  <div class="container">
+    <div class="row align-items-center text-center">
+      <div class="col-md-12 col-12">
+        <h2 class="breadcrumb-title">Ouvrir username session Monkata</h2>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /Breadscrumb Section -->
+
+<!-- Login Section -->
+<div class="login-content">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-lg-5 mx-auto">
+        <div class="login-wrap">
+          <div class="login-header">
+            <h4 *ngIf="name">
+              Monkata <i class="fa fa-link text-primary"></i>
+              {{ name | titlecase }}
+            </h4>
+            <h3 *ngIf="!name">Monkata</h3>
+            <p>Entrez vos informations</p>
+          </div>
+
+          <!-- Login Form -->
+          <div class="input-block group-img mb-1">
+            <div class="group-img">
+              <i class="feather-mail"></i>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Email Address"
+                [(ngModel)]="creds.username"
+              />
+            </div>
+          </div>
+
+          <div class="input-block mb-1">
+            <div class="pass-group group-img">
+              <i class="feather-lock"></i>
+              <input
+                [type]="toggleData ? 'text' : 'password'"
+                class="form-control pass-input"
+                placeholder="Password"
+                [(ngModel)]="creds.password"
+              />
+              <span
+                [ngClass]="
+                  toggleData === true
+                    ? 'toggle-password feather-eye'
+                    : 'toggle-password feather-eye-off'
+                "
+                (click)="togglePassword()"
+                (keyup)="togglePassword()"
+                tabindex="0"
+              ></span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 col-sm-6"></div>
+            <div class="col-md-6 col-sm-6">
+              <div class="text-md-end">
+                <a class="forgot-link" [routerLink]="routes.forgotpassword"
+                  >Mot de passe oublié?</a
+                >
+              </div>
+            </div>
+          </div>
+          <button
+            (click)="login(creds)"
+            class="btn btn-primary w-100 login-btn"
+            type="submit"
+          >
+            se connecter
+          </button>
+          <div class="register-link text-center">
+            <p>
+              J'ai pas de compte?
+              <a class="forgot-link" [routerLink]="routes.signup"
+                >Créer un compte</a
+              >
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /Login Section -->

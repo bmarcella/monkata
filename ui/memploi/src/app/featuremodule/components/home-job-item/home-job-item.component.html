@@ -1,0 +1,35 @@
+<div
+  class="popular-box"
+  [ngClass]="[job.job.id == cjob?.id ? 'box-active' : '']"
+>
+  <div class="popular-top">
+    <span class="topic">{{ job.job.categorie }}</span>
+  </div>
+  <div class="popular-inner">
+    <div class="popular-content">
+      <h4>
+        <a *ngIf="showApply" routerLink="/details-job/{{ job.job.id }}">
+          {{ job.job.titre_job }}</a
+        >
+        <a *ngIf="!showApply"> {{ job.job.titre_job }}</a>
+      </h4>
+      <div class="popular-location">
+        <p>{{ job?.ent?.name }}</p>
+        <p class="light-color" *ngIf="job.job.ville">|</p>
+        <p *ngIf="job.job.ville">
+          <i class="fas fa-light fa-location-dot"></i> {{ job.job.ville }}
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="popular-footer">
+    <div class="time">
+      <p><i class="feather-briefcase"></i> {{ job.job.type_contrat }}</p>
+    </div>
+    <div class="popular-btn" *ngIf="showApply && job.ent">
+      <a routerLink="/job/apply/{{ job.job.id }}" class="btn-view">
+        Postuler
+      </a>
+    </div>
+  </div>
+</div>

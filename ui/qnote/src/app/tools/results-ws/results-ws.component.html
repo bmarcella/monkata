@@ -1,0 +1,305 @@
+<div *ngIf="!period.noteMat" class="">
+    <div style="height:auto;  position: relative;
+    padding: 1%;
+    text-align: center;
+    border-bottom: 0.5px solid #e6e1e6;
+    margin-bottom: 1%;">
+        <img style="margin-top:1%; position: relative;
+    z-index: 100;
+    float: left;" [height]="period.heightImg" [width]="period.widthImg" [src]="period.imageSrc || 'assets/logo/default.png'" alt="your image" />
+        <div class="col-md-12">
+            <div>
+                <p class="nom_etab" style="width:100%; text-align:center; font-size:25px">{{period.etab?.etab_name}}</p>
+            </div>
+            <div style="text-align:center; margin-top:2%;">
+                <p class="details_etab " attr.style="width: 100%;  text-align:center; font-size:17px">
+                    <span *ngIf="period.etab?.phone" style="font-size:17px;"> {{period.etab?.phone}} </span> |
+                    <span *ngIf="period.etab?.email" style="font-size:17px;"> {{period.etab?.email}} </span>
+                    <span *ngIf="period.etab?.adresse" class="nom_adresse" style="font-size:17px;">{{period.etab?.adresse}}</span>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="identity">
+        <p class="line-text palmares"> <b class="reponse">Palmares </b> </p>
+        <div class="row block">
+            <div class="col-md-6  block-class">
+                <p class="line-text-a"> <b class="reponse">Classe  :</b><span class="reponse">{{period.classe}}</span> </p>
+                <p class="line-text-left mt-2"> <b class="reponse">Periode  :</b><span class="reponse">{{period.name}}</span> </p>
+            </div>
+            <div class="col-md-6 annee">
+                <p class="line-text-b text-right"> <b class="reponse">Année Academique: </b><span class="reponse"></span> {{period.annee}} </p>
+            </div>
+        </div>
+    </div>
+    <div class="note-maker">
+        <table *ngIf="period?.bulletins[0]?.results" BORDER=0 CELLSPACING=0 class="my-table tnote-maker table-bordered" style="border-spacing: 0; border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th class="mthead"></th>
+                    <th class="mthead"> </th>
+                    <th title="{{c.cours.name}}" (click)="changePlace(ic)" [style.background-color]="tcolor[ic]" *ngFor="let c of period?.bulletins[0]?.results; let ic= index" class="vertical-header">
+                        <p title="{{c.cours.name}}"> {{getMinName(c.cours.name)}}</p>
+                    </th>
+                    <th class="mthead">Total</th>
+                    <th class="mthead">Moy</th>
+                </tr>
+                <tr>
+                    <th>Code</th>
+                    <th>Nom & Prénom </th>
+                    <th *ngFor="let c of period?.bulletins[0]?.results; let ic= index">
+                        <span *ngIf="c.cours.is_calc" class=""> {{c.cours.note_total}}</span>
+                    </th>
+                    <th>
+                        <input *ngIf="!period.note_show" [(ngModel)]="period.coef" [disabled]="true" class="form-control">
+                        <p *ngIf="period.note_show" class="">{{period.coef}}</p>
+                    </th>
+                    <th>
+                        <input *ngIf="!period.note_show" [(ngModel)]="period.etab.moy_total" [disabled]="true" class="form-control">
+                        <p *ngIf="period.note_show" class="">{{period.etab.moy_total}}</p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let o of period?.bulletins; let i= index" class="">
+                    <td>{{ o.user.code}}</td>
+                    <td>{{ o.user.name }}</td>
+                    <td *ngFor="let c of o?.results; let ic= index" class="">
+                        <label class="text-warning" *ngIf="cname[c.code]" class="form-control">{{c.cours.name}}</label>
+
+                        <input title=" {{ c.cours.name }} | * " type="number" (focus)="onfocus(c.code, true)" (blur)="onfocus(c.code, false)" [max]="c.cours.total_note" *ngIf="c.cours.is_calc && period.note_show == false" min="0" [(ngModel)]="c.note" class="form-control" />
+                        <input title=" {{ c.cours.name }} | # " type="text" (focus)="onfocus(c.code, true)" (blur)="onfocus(c.code, false)" *ngIf="!c.cours.is_calc && period.note_show == false" [(ngModel)]="c.note" class="form-control" />
+                        <span *ngIf="c.cours.is_calc && period.note_show" class="">{{ c.note }}</span>
+                    </td>
+                    <td> {{ getTotalNote(o) }} </td>
+                    <td>
+                        {{(( getTotalNote(o)/o.total_note) * period?.etab?.moy_total).toFixed(2)}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-12 mt-4 mb-4" style="margin-top:6%; margin-bottom:10%;">
+        <div class="mention mt-4">
+            <div class="mt-2 mr-4">
+                <b>Date:</b>
+            </div>
+            <div *ngIf="period.tut" class="mt-4 signature parent mr-4">
+                {{ period?.signa_ti }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="period.noteMat" class="">
+    <div class="page-left">
+
+        <div class="part-1">
+            <div class="col-md-2 p-2">
+                <label class="switch switch-primary">
+                      <span>Statistique</span>
+                      <input type="checkbox"  [(ngModel)]="period.stat" (change)="callGenMoyStud()">
+                      <span class="slider"></span>
+                    </label>
+            </div>
+            <div class="col-md-2 p-2  " *ngIf="!period.stat">
+                <label class="switch switch-primary">
+                      <span>Palmares general</span>
+                      <input type="checkbox"  [(ngModel)]="period.palm_gen">
+                      <span class="slider"></span>
+                    </label>
+            </div>
+            <div *ngIf="period.palm_gen" class="col-md-12 p-2  ">
+                <label>Fragment Annuel</label>
+                <input [(ngModel)]="period.frags" class="form-control" type="text">
+            </div>
+            <div class="col-md-2 p-2">
+                <button *ngIf="(period.noteMat && period.palm_gen) || period.stat" class="btn btn-secondary ml-2 mr-2 right" styleSheetFile="assets/print/pstyle.css" printSectionId="print-section-palmares-2" ngxPrint>Imprimmer</button>
+            </div>
+        </div>
+        <div class="part-2">
+            <h4>Page Margin</h4>
+            <hr>
+            <div class="row p-1 ">
+                <div class="col-md-6"> <label>Marge General</label></div>
+                <div class="col-md-6"><input [(ngModel)]="marge" (change)="updateMarge()" class="form-control" type="number"></div>
+            </div>
+            <div *ngFor="let item of  getResultsCalc()" class="row p-1 ">
+                <div class="col-md-6"> <label>{{item.name}}</label></div>
+                <div class="col-md-6"><input [(ngModel)]="item.map" class="form-control" type="number"></div>
+            </div>
+        </div>
+
+
+    </div>
+    <div *ngIf="!period.stat" class="page-right" id="print-section-palmares-2">
+        <div attr.style="margin-bottom:{{item.map}}px;" *ngFor="let item of  getResultsCalc()" class="page-result">
+            <div style="height:auto;  position: relative;
+    padding: 1%;
+    text-align: center;
+    border-bottom: 0.5px solid #e6e1e6;
+    margin-bottom: 1%;">
+                <img style="margin-top:1%; position: relative;
+    z-index: 100;
+    float: left;" [height]="period.heightImg" [width]="period.widthImg" [src]="period.imageSrc || 'assets/logo/default.png'" alt="your image" />
+                <div class="col-md-12">
+                    <div>
+                        <p class="nom_etab" style="width:100%; text-align:center; font-size:20px; font-weight: bold;">{{period.etab?.etab_name}}</p>
+                    </div>
+                    <div style="text-align:center; margin-top:0.5%;">
+                        <p class="details_etab " attr.style="width: 100%;  text-align:center; font-size:17px">
+                            <span *ngIf="period.etab?.phone" style="font-size:15px;"> {{period.etab?.phone}} </span> |
+                            <span *ngIf="period.etab?.email" style="font-size:15px;"> {{period.etab?.email}} </span>
+                            <span *ngIf="period.etab?.adresse" class="nom_adresse" style="font-size:15px;">{{period.etab?.adresse}}</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="identity">
+                <p class="line-text palmares"> <b class="reponse">Palmares {{item.name}} </b> </p>
+                <div class="row block">
+                    <div class="col-md-6  block-class">
+                        <p class="line-text-a"> <b class="reponse">Classe  :</b><span class="reponse">{{period.classe}}</span> </p>
+                        <p class="line-text-left mt-2"> <b class="reponse">Periode  :</b><span class="reponse">{{period.name}}</span> </p>
+                    </div>
+                    <div class="col-md-6 annee">
+                        <p class="line-text-b text-right"> <b class="reponse">Année Academique: </b><span class="reponse"></span> {{period.annee}} </p>
+                    </div>
+                </div>
+            </div>
+            <div class="note-maker-2">
+                <table *ngIf="!period.palm_gen" BORDER=0 CELLSPACING=0 class="my-table tnote-maker table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Nom & Prénom </th>
+                            <th class="">Note</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let o of period?.users; let i= index" class="">
+                            <td>{{ o.code}}</td>
+                            <td>{{ o.name }}</td>
+                            <td class="">
+                                <input title=" {{ item.name }} | * " type="number" value="{{getNote(o.code, item.code)}}" (blur)="setNote(o.code,item,$event)" [max]="item.total_note" *ngIf="item.is_calc && period.note_show == false" min="0" class="form-control" />
+                                <input title=" {{ item.name }} | # " type="text" value="{{getNote(o.code, item.code)}}" (blur)="setNote(o.code,item,$event)" *ngIf="!item.is_calc && period.note_show == false" class="form-control" />
+                                <span *ngIf="item.is_calc && period.note_show" class="">{{ getNote(o.code, item.code) }}</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table *ngIf="period.palm_gen" BORDER=0 CELLSPACING=0 class="my-table tnote-maker table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Nom & Prénom </th>
+                            <th *ngFor="let f of getFrags()" class="">{{f}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let o of period?.users; let i= index" class="">
+                            <td>{{ o.code}}</td>
+                            <td>{{ o.name }}</td>
+                            <td *ngFor="let f of getFrags()" class="">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-12 mt-4 mb-4" style="margin-top:6%; margin-bottom:10%;">
+                <div class="mention mt-4">
+                    <div class="mt-2 mr-4">
+                        <b>Date:</b>
+                    </div>
+                    <div *ngIf="period.tut" class="mt-4 signature parent mr-4">
+                        {{ period?.signa_ti }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="period.stat" class="page-right" id="print-section-palmares-2">
+        <div class="col-md-12 m-4">
+            <h3 class="text-center">Statistique générale</h3>
+        </div>
+
+        <table BORDER=0 CELLSPACING=0 class="my-table tnote-maker table-bordered">
+            <thead>
+                <tr>
+                    <th>Réussit</th>
+                    <th>Echèc</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ viewStat.pass}}</td>
+                    <td>{{ viewStat.fail }}</td>
+                    <td>{{ viewStat.pass + viewStat.fail }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <hr/>
+        <div class="col-md-12 m-4">
+            <h3 class="text-center">Statistique par sexe </h3>
+        </div>
+        <table BORDER=0 CELLSPACING=0 class="my-table tnote-maker table-bordered">
+            <thead>
+                <tr>
+                    <th>Réussit Fille</th>
+                    <th>Echèc Fille</th>
+                    <th>Total Fille</th>
+                    <th>Réussit Garçon</th>
+                    <th>Echèc Garçon</th>
+                    <th>Total Garçon</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ viewStatSex.passf}}</td>
+                    <td>{{ viewStatSex.failf }}</td>
+                    <td>{{ viewStatSex.passf + viewStatSex.failf }}</td>
+                    <td>{{ viewStatSex.passg}}</td>
+                    <td>{{ viewStatSex.failg }}</td>
+                    <td>{{ viewStatSex.passg + viewStatSex.failg }}</td>
+                    <td>{{ viewStatSex.passg + viewStatSex.failg + viewStatSex.passf + viewStatSex.failf }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <hr/>
+        <div class="col-md-12 m-4">
+            <h3 class="text-center">Statistique par matiere </h3>
+        </div>
+        <table BORDER=0 CELLSPACING=0 class="my-table table-bordered" style="width:100%;">
+            <thead>
+                <tr>
+                    <th>Cours</th>
+                    <th>Réussit F.</th>
+                    <th>Echèc F.</th>
+                    <th>Total F.</th>
+                    <th>Réussit G.</th>
+                    <th>Echèc G.</th>
+                    <th>Total G.</th>
+                    <th>Total Reus.</th>
+                    <th>Total Echèc.</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor=" let item of getCours()" class="">
+                    <td>{{ item.cours.name }}</td>
+                    <td>{{ item.passf}}</td>
+                    <td>{{ item.failf }}</td>
+                    <td>{{ item.passf + item.failf }}</td>
+                    <td>{{ item.passg}}</td>
+                    <td>{{ item.failg }}</td>
+                    <td>{{ item.passg + item.failg }}</td>
+                    <td>{{ item.passg + item.passf }}</td>
+                    <td>{{ item.failg + item.failf }}</td>
+                    <td>{{ item.passg + item.failg + item.passf + item.failf }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

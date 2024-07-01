@@ -1,0 +1,238 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+.page {
+    position: relative;
+    width: 98%;
+    margin-left: 1%;
+    display: inline-block;
+    margin-top: 1%;
+    font-family: 'Roboto', sans-serif;
+    box-shadow: 3px 1px 30px -173px rgba(0, 0, 0, 0.25);
+    -webkit-box-shadow: 3px 1px 30px -173px rgba(0, 0, 0, 0.25);
+    -moz-box-shadow: 3px 1px 30px -173px rgba(0, 0, 0, 0.25);
+}
+
+.bulletin {
+    position: relative;
+    float: left;
+    display: inline-block;
+    border: 1px solid #b6b6b6;
+}
+
+.border {
+    border: 1px solid #b4a5b4;
+}
+
+
+/* DEFAULT TEMPLATE  */
+
+.default {}
+
+.default .entete {
+    padding: 1%;
+    text-align: center;
+    border-bottom: 0.5px solid #e6e1e6;
+    margin-bottom: 1%;
+}
+
+.default .logo {
+    position: relative;
+    display: block;
+    z-index: 100;
+}
+
+.default .entete .left {
+    float: left;
+}
+
+.default .entete .center {
+    right: auto;
+    left: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.default .entete .right {
+    float: right;
+}
+
+.default .entete .nom_etab {
+    font-size: 20px;
+    font-weight: bold;
+    display: block;
+    padding: 0.1%;
+}
+
+.default .entete .details_etab {
+    display: block;
+    margin-top: -3%;
+    padding: 0.1%;
+    font-size: 15px;
+}
+
+.default .info {
+    position: relative;
+    width: 99%;
+    margin-left: 0.5%;
+    margin-right: 0.5%;
+    display: inline-block
+}
+
+.default .info .periode_name {
+    position: relative;
+    width: 96%;
+    margin-left: 2%;
+    margin-right: 2%;
+    text-align: center;
+    font-weight: bold;
+    line-height: 100%;
+    display: inline-block;
+    margin-bottom: 1%;
+}
+
+.default .info .period_info {
+    position: relative;
+    width: 96%;
+    margin-left: 2%;
+    margin-right: 2%;
+    display: inline-block;
+}
+
+.default .info .period_info .block-a {
+    width: 68%;
+    float: left;
+    margin-right: 0.5%;
+    margin-left: 0.5%;
+    display: inline-block;
+}
+
+.default .info .period_info .block-b {
+    width: 29%;
+    float: right;
+    margin-left: 0.5%;
+    margin-right: 0.5%;
+    display: inline-block;
+}
+
+.default .info .period_info .block-a .name-student {
+    width: 99%;
+    float: left;
+    text-align: left;
+    margin-bottom: 0.5%;
+    border: 1px solid #e6e1e6;
+    padding: 0.1%;
+    clip-path: polygon(100% 0, 60% 100%, 0 100%, 0 0);
+}
+
+.default .info .period_info .block-a .class-period {
+    width: 99%;
+    float: left;
+    text-align: left;
+    padding: 0.1%;
+    border: 1px solid #e6e1e6;
+    clip-path: polygon(100% 0, 60% 100%, 0 100%, 0 0);
+}
+
+.default .info .period_info .block-b .code-student {
+    text-align: center;
+    margin-bottom: 0.5%;
+    border-radius: 67px 0px 80px 66px;
+    -moz-border-radius: 67px 0px 80px 66px;
+    -webkit-border-radius: 67px 0px 80px 66px;
+    background-color: #e6e1e6;
+    padding: 0.5%;
+    font-weight: bold;
+    float: right;
+    width: 99%;
+}
+
+.default .info .period_info .block-b .year-period {
+    text-align: center;
+    border-radius: 67px 0px 80px 66px;
+    -moz-border-radius: 67px 0px 80px 66px;
+    -webkit-border-radius: 67px 0px 80px 66px;
+    background-color: #e6e1e6;
+    padding: 0.5%;
+    font-weight: bold;
+    float: right;
+    width: 99%;
+}
+
+.default .note table tbody tr .note-td {
+    text-align: right;
+}
+
+.default .note table tbody tr {
+    padding: 0.01%;
+    margin: none;
+}
+
+.default .periode_name h5 {
+    text-align: center;
+}
+
+.default .note {
+    width: 96%;
+    margin-left: 2%;
+    margin-right: 2%;
+    display: inline-block;
+}
+
+.default .note table {
+    border: 1px solid black;
+}
+
+.default .note table tr td {
+    border: 1px solid black;
+}
+
+.default .note table tr th {
+    border: 1px solid black;
+    text-align: left;
+}
+
+.colored {
+    background-color: #e6e1e6;
+}
+
+.default .signature {
+    border-top: 1px black solid;
+}
+
+.default .prof {
+    width: 30%;
+    float: left;
+    text-align: center;
+}
+
+.default .parent {
+    position: relative;
+    right: 0%;
+    width: 30%;
+    float: right;
+    text-align: center;
+}
+
+.default .direct {
+    display: inline-block;
+    margin-left: 35%;
+    width: 30%;
+    margin-top: 4%;
+    text-align: center;
+}
+
+.default .mention {
+    width: 96%;
+    margin-left: 2%;
+    margin-right: 2%;
+    text-align: left;
+    display: inline-block;
+    font-size: 12px;
+    margin-top: 0.5%;
+}
+
+.default .resText {
+    display: inline-block;
+}
+
+
+/* END  DEFAULT TEMPLATE  */

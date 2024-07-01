@@ -1,0 +1,140 @@
+<div class="page">
+    <div id="USER-{{bulletin.user.code}}" *ngFor="let bulletin of period.bulletins; let iu = index" class="bulletin default" attr.style="height:{{height}}px; width:{{period.widthb}}%; margin-left: {{period.marginb}}%; margin-bottom: {{period.bmarginb}}%;  ">
+        <div class="entete {{(period.tools)? 'border': '' }}" attr.style="height:{{period.headHeight}}%;">
+            <img attr.style="margin-top:{{period.logoMarginTop}}%;" attr.class="logo {{period.posImg}}" [height]="period.heightImg" [width]="period.widthImg" [src]="period.imageSrc || 'assets/logo/default.png'" alt="your image" />
+            <div class="col-md-12">
+                <div attr.style="text-align:{{period.textAlign}}">
+                    <p class="nom_etab {{(period.tools)? 'border': '' }}" attr.style="width:{{period.titreWidth}}%; float:{{period.textPos}}; text-align:{{period.textAlign}}; font-size:{{period.titreFontSize}}px">{{period.etab?.etab_name}}</p>
+                </div>
+                <div attr.style=" text-align:{{period.textAlign}}; margin-top:{{period.detailsTextMt}}%;">
+                    <p class="details_etab {{(period.tools)? 'border': '' }}" attr.style="width:{{period.detailWidth}}%; float:{{period.textPos}}; text-align:{{period.textAlign}} font-size:{{period.detailFontSize}}px">
+                        <span *ngIf="period.etab?.phone" attr.style="font-size:{{period.detailFontSize}}px"> {{period.etab?.phone}} </span> |
+                        <span *ngIf="period.etab?.email" attr.style="font-size:{{period.detailFontSize}}px"> {{period.etab?.email}} </span>
+                        <span *ngIf="period.etab?.adresse" class="nom_adresse" attr.style="font-size:{{period.detailFontSize}}px">{{period.etab?.adresse}}</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="info {{(period.tools)? 'border': '' }}" attr.style="height:{{period.infoHeight}}%;">
+            <div class="periode_name {{(period.tools)? 'border': '' }}" attr.style="font-size:{{period.titreInfoSizetext}}px">
+                {{ period?.tbull }} {{period.name}}
+            </div>
+            <div class="period_info {{(period.tools)? 'border': '' }}">
+                <div class="block-a {{(period.tools)? 'border': '' }}">
+                    <div class="name-student {{(period.tools)? 'border': '' }}">
+                        <b>{{ period?.fullname }}</b> {{bulletin?.user.name}}
+                    </div>
+                    <div class="class-period {{(period.tools)? 'border': '' }}">
+                        <b>{{ period?.tclasse }}</b> {{period?.classe}} {{period?.etab?.domaine}} {{bulletin?.user.section}}
+                    </div>
+                </div>
+                <div class="block-b {{(period.tools)? 'border': '' }}">
+                    <div class=" code-student {{(period.tools)? 'border': '' }}">
+                        {{bulletin?.user.code}}
+                    </div>
+                    <div class="year-period {{(period.tools)? 'border': '' }}">
+                        {{period?.annee}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="note {{(period.tools)? 'border': '' }}" attr.style="height:{{period.resultHeight}}%;">
+            <table class="display my-table table-bordered " BORDER=0 CELLSPACING=0 attr.style="margin-right:1%; float:left; width:{{period.tableWidth}}%; border-spacing: 0; border-collapse: collapse;">
+                <thead>
+                    <tr style="height: 10px;" attr.style="font-size:{{period.headTableTextsize}}px">
+                        <th *ngIf="period.showId">#</th>
+                        <th>{{period?.tmat}}</th>
+                        <th>{{ period?.tcoef }}</th>
+                        <th>{{ period?.tnote }}</th>
+                        <th *ngIf="period.tools">Calculable</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let o of getResultsCalc(bulletin); let i = index" style="height: 10px; padding:none; max-height: 10px;">
+                        <td *ngIf="period.showId">{{ o?.cours?.code}} </td>
+                        <td>
+                            {{ o?.cours?.name}}
+                        </td>
+                        <td class="note-td">
+                            {{ o?.cours?.note_total }}
+                        </td>
+                        <td class="note-td" *ngIf="o.is_calc">
+                            {{ parseInt(o?.note) }}
+                        </td>
+                        <td class="note-td" *ngIf="!o.is_calc">-</td>
+                        <td class="note-td" *ngIf="period.tools">
+                            <input type="checkbox" [(ngModel)]="o.is_calc">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="display my-table table-bordered colored" BORDER=0 CELLSPACING=0 attr.style="width:{{period.objWidth}}%; border-spacing: 0; border-collapse: collapse;">
+
+                <tbody>
+                    <tr style="height: 10px; max-height: 10px;">
+                        <td><b>Total</b></td>
+                        <td class="note-td" *ngIf="!period.tools">{{ bulletin.total_note }}</td>
+                        <td class="note-td" *ngIf="period.tools">
+                            <input type="number" [(ngModel)]="bulletin.total_note" style="width:50%;" class="form-control">
+                        </td>
+                        <td class="note-td">{{ getTotalNote(bulletin) }}</td>
+                    </tr>
+                    <tr style="max-height: 10px;">
+                        <td>Moyenne de l'élève</td>
+                        <td class="note-td">{{period?.etab?.moy_total}}</td>
+                        <td class="note-td"> <b>{{((total_note/bulletin.total_note) * period?.etab?.moy_total).toFixed(2)}} </b></td>
+                    </tr>
+                    <tr style="height: 10px; max-height: 10px;">
+                        <td>Moyenne de la classe</td>
+                        <td class="note-td">{{period?.etab?.moy_total}}</td>
+                        <td class="note-td"> <b>{{ getMoyClasse().toFixed(2)}} </b></td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="display my-table table-bordered colored" BORDER=0 CELLSPACING=0 attr.style="width:{{ period.objWidth }}%; margin-top:{{period.margint}}%; border-spacing: 0; border-collapse: collapse;" *ngIf="getResultsNonCalc(bulletin).length>0">
+                <thead>
+                    <tr style="height: 10px; max-height: 10px;" attr.style="font-size:{{period.headTableTextsize}}px">
+                        <th>{{ period?.tobj}}</th>
+                        <th>{{ period?.tval }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let o of getResultsNonCalc(bulletin); let i = index" style="max-height: 10px;">
+                        <td>{{ o.cours.name}} </td>
+                        <td class="note-td" *ngIf="!o.cours.is_number">{{ o.note }}</td>
+                        <td class="note-td" *ngIf="o.cours.is_number">{{ parseInt(o.note) }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class=" resText {{(period.tools)? 'border': '' }} " attr.style="margin-top:{{period.mentionMarginTop}}%; height:{{period.mentionHeight}}%; width:{{ period.objWidth }}%; ">
+                <b>Mention:</b>
+                <p *ngIf=" getMoy(total_note,bulletin.total_note ,period?.etab?.moy_total) < period.etab.moy_exc && getMoy(total_note,bulletin.total_note ,period?.etab?.moy_total)>=period.etab.moy_pass ">{{period.msg_reu}}</p>
+                <p *ngIf=" getMoy(total_note,bulletin.total_note ,period?.etab?.moy_total) >= period.etab.moy_exc">{{period.msg_exc}}</p>
+                <p *ngIf=" period.is_reprise &&  getMoy(total_note,bulletin.total_note ,period?.etab?.moy_total) < period.etab.moy_pass && getMoy(total_note,bulletin.total_note ,period?.etab?.moy_total)  >=period.etab.moy_rep ">{{period.msg_rep}}</p>
+                <p *ngIf=" period.is_reprise &&  getMoy(total_note,bulletin.total_note ,period?.etab?.moy_total) < period.etab.moy_rep ">{{period.msg_echec}}</p>
+                <p *ngIf=" !period.is_reprise &&  getMoy(total_note,bulletin.total_note ,period?.etab?.moy_total) < period.etab.moy_pass ">{{period.msg_echec}}</p>
+            </div>
+        </div>
+        <div class="col-md-12 {{(period.tools)? 'border': '' }}" attr.style="margin-top:{{period.smargin}}%;  height:{{period.signaHeight}}%;">
+            <div class="mention" *ngIf="period.tut">
+                <div class="ml-1 mt-2 signature prof">
+                    {{ period.signa_ti }}
+                </div>
+                <div class="mt-2 signature parent mr-4">
+                    {{ period.signa_pa }}
+                </div>
+            </div>
+            <div class="mention" *ngIf="!period.tut">
+                <div class="ml-1 mt-2 signature prof">
+                    {{ period.signa_di }}
+                </div>
+                <div class="mt-2 signature parent mr-4">
+                    {{ period.signa_pa }}
+                </div>
+            </div>
+            <div class="mt-4 signature direct" *ngIf="period.tut">
+                {{ period.signa_di }}
+            </div>
+        </div>
+    </div>
+</div>

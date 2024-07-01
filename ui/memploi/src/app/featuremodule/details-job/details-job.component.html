@@ -1,0 +1,110 @@
+<!--Details Description  Section-->
+<section class="details-description" style="margin-top: 85px">
+  <div class="container">
+    <div class="about-details">
+      <div class="about-headings">
+        <div class="author-img" *ngIf="logo">
+          <img [src]="logo" alt="authorimg" />
+        </div>
+        <div class="authordetails">
+          <h5>{{ job?.titre_job }}</h5>
+          <p>{{ ent?.name }}</p>
+          <p>
+            <span *ngIf="job?.ville">{{ job?.ville }},</span>
+            <span *ngIf="job?.etat">{{ job?.etat }},</span>
+            <span *ngIf="job?.country">{{ job?.country }}</span>
+          </p>
+        </div>
+      </div>
+      <div class="rate-details">
+        <h2 *ngIf="job?.salaire">
+          {{ currency(job?.salaire) }} {{ job?.currency }}
+        </h2>
+        <p>{{ job?.periode_salaire }}</p>
+      </div>
+    </div>
+    <div class="descriptionlinks">
+      <div class="row">
+        <div class="col-lg-9">
+          <ul>
+            <li *ngIf="ent?.website">
+              <a [href]="ent?.website" target="_blank"
+                ><img src="assets/img/website.svg" alt="website" />Website</a
+              >
+            </li>
+
+            <li>
+              <a href="javascript:void(0);"
+                ><i class="feather-flag"></i> report</a
+              >
+            </li>
+          </ul>
+        </div>
+        <div class="col-lg-3">
+          <div class="callnow" *ngIf="ent">
+            <a (click)="post($event)" style="color: black"> POSTULER</a>
+          </div>
+          <div class="callnow" *ngIf="!ent">
+            <span class="text-danger"> Poste non disponible</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--/Details Description  Section-->
+
+<!--Details Main  Section-->
+<div class="details-main-wrapper">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-9">
+        <div class="card">
+          <div class="card-header">
+            <span class="bar-icon">
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+            <h4>Description</h4>
+          </div>
+          <div class="card-body" [innerHTML]="job?.description"></div>
+        </div>
+      </div>
+      <div class="col-lg-3 theiaStickySidebar">
+        <div class="stickybar">
+          <div class="rightsidebar">
+            <div class="card">
+              <h4>
+                <img src="assets/img/details-icon.svg" alt="details-icon" />
+                Details
+              </h4>
+              <ul>
+                <li>
+                  Contrat <span>{{ job?.type_contrat }}</span>
+                </li>
+                <li>
+                  Horaire <span>{{ job?.horaire_de_travail }}</span>
+                </li>
+                <li>
+                  Environment <span> {{ job?.env_de_travail }}</span>
+                </li>
+                <li *ngIf="!job?.job_permanent">
+                  Date Echeance
+                  <span>{{ job?.date_echeance.split("T")[0] }}</span>
+                </li>
+                <li *ngIf="job?.email_to_apply">
+                  Email : <span>{{ job?.email_to_apply }}</span>
+                </li>
+                <li *ngIf="job?.phone_to_apply">
+                  Telephone<span>{{ job?.phone_to_apply }}</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /Details Main Section -->

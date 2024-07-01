@@ -1,0 +1,162 @@
+<section class="banner-section banner-eight">
+  <div class="container">
+    <div class="home-banner">
+      <div class="row align-items-center">
+        <div class="col-lg-7">
+          <div
+            class="section-search section-search-eight aos"
+            data-aos="fade-up"
+          >
+            <h1><span>Jwenn Travay</span> Ayiti <br /></h1>
+            <div class="search-box"></div>
+          </div>
+        </div>
+        <div class="col-lg-5"></div>
+        <div class="banner-main-img">
+          <div class="banner-imgs">
+            <img
+              src="assets/img/logo_2.png"
+              class="img-fluid"
+              alt="bannerimage"
+              width="131"
+            />
+          </div>
+          <div class="banner-imgs-2">
+            <img
+              src="assets/img/banner/circle-11.png"
+              class="img-fluid"
+              alt="bannerimage"
+            />
+          </div>
+          <div class="main-banner-left">
+            <img
+              src="assets/img/banner-left-bottom.png"
+              class="img-fluid"
+              alt="bannerimage"
+            />
+          </div>
+          <div class="main-banner-left-shadow">
+            <img
+              src="assets/img/banner-left-bottom-shadow.png"
+              class="img-fluid"
+              alt="bannerimage"
+            />
+          </div>
+          <div class="main-banner-right">
+            <img
+              src="assets/img/banner-right-bottom.png"
+              class="img-fluid"
+              alt="bannerimage"
+            />
+          </div>
+          <div class="main-banner-right-shadow">
+            <img
+              src="assets/img/banner-right-bottom-shadow.png"
+              class="img-fluid"
+              alt="bannerimage"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="banner-main-bg">
+    <div class="bannerleftop">
+      <img src="assets/img/banner-top-bg.png" class="img-fluid" alt="arrow" />
+    </div>
+    <div class="bannerleftbottom">
+      <img
+        src="assets/img/banner-center-bg.png"
+        class="img-fluid"
+        alt="arrow"
+      />
+    </div>
+    <div class="bannermiddle">
+      <img src="assets/img/banner-middle.png" class="img-fluid" alt="arrow" />
+    </div>
+  </div>
+</section>
+<!-- /Banner Section -->
+
+<!-- Popular Section -->
+<section class="popular-section popular-eight">
+  <div class="container">
+    <div class="section-heading">
+      <h2 class="text-center"><span>Pos</span>tes Récents</h2>
+      <p></p>
+    </div>
+    <div class="popular-details">
+      <div class="row">
+        <app-home-job-item
+          class="col-lg-4 col-md-6 col-sm-6 aos"
+          data-aos="fade-up"
+          *ngFor="let job of jobs"
+          [job]="job"
+          [showApply]="true"
+        >
+        </app-home-job-item>
+      </div>
+      <div
+        class="align-items-center justify-content-center d-flex aos"
+        data-aos="fade-up"
+      >
+        <a routerLink="/jobs" class="category-btn">Voir plus de poste</a>
+      </div>
+    </div>
+
+    <div class="pop-bg-one">
+      <img src="assets/img/popular-bg-1.png" alt="no-img" />
+    </div>
+    <div class="pop-bg-two">
+      <img src="assets/img/popular-bg-2.png" alt="no-img" />
+    </div>
+  </div>
+</section>
+<!-- /Popular Section -->
+
+<!-- /Ads Section -->
+<section
+  class="advertisement advertisement-eight"
+  style="margin-top: 5%; margin-bottom: 5%"
+>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 col-md-12 col-sm-6 aos" data-aos="fade-up">
+        <div class="adv-box adv-bg-one">
+          <div class="adv-content">
+            <h4>Entreprise</h4>
+            <p>
+              Trouvez la perle rare pour votre équipe sans effort et propulsez
+              votre entreprise vers l'avant. Publiez des offres d'emploi,
+              parcourez une base de candidats qualifiés et gérez efficacement
+              les candidatures, le tout au même endroit.
+            </p>
+            <div class="adver-btn">
+              <a href="javascript:void(0);" class="btn-primary"
+                >Ajouter Poste</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-12 col-sm-6 aos" data-aos="fade-up">
+        <div class="adv-box adv-bg-two">
+          <div class="adv-content">
+            <h4>Candidats</h4>
+            <p>
+              Débloquez Votre Potentiel Professionnel. Créez votre profil
+              remarquable, explorez des recommandations d'emploi sur mesure et
+              connectez-vous avec les meilleurs employeurs.
+            </p>
+            <div class="adver-btn">
+              <a href="javascript:void(0);" class="btn-primary btn-dark"
+                >Créer CV</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- /Ads Section -->

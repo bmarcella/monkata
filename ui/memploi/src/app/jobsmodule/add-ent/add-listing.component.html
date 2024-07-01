@@ -1,0 +1,174 @@
+<!-- Profile Content -->
+<div class="dashboard-content" style="margin-top: 85px">
+  <div class="container">
+    <div class=""></div>
+    <div class="profile-content">
+      <div class="messages-form">
+        <!-- Section Informations de Base de l'Entreprise -->
+        <div class="card">
+          <div class="card-header">
+            <h4>Informations de Base de l'Entreprise</h4>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-6 col-md-6">
+                <div class="input-block formlast-input">
+                  <label for="name" class="col-form-label"
+                    >Nom de l'Entreprise <span>*</span></label
+                  >
+                  <input
+                    type="text"
+                    id="name"
+                    class="form-control"
+                    placeholder="Nom de l'Entreprise"
+                    [(ngModel)]="entreprise.name"
+                  />
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <div class="input-block formlast-input formlast-input-inner">
+                  <label for="Price" class="col-form-label">Categorie</label>
+                  <mat-select
+                    [(ngModel)]="entreprise.categorie"
+                    [ngModelOptions]="{ standalone: true }"
+                    class="form-control"
+                    name="type_ent"
+                    placeholder="Categorie"
+                  >
+                    <mat-option *ngFor="let cat of cats" [value]="cat.name">
+                      {{ cat.name }}
+                    </mat-option>
+                  </mat-select>
+                </div>
+              </div>
+            </div>
+
+            <div class="input-block mt-2 mb-2">
+              <label for="description" class="col-form-label"
+                >Description <span>*</span></label
+              >
+              <textarea
+                [(ngModel)]="entreprise.description"
+                id="description"
+                rows="6"
+                class="form-control"
+                placeholder="Description de l'Entreprise"
+              ></textarea>
+            </div>
+
+            <div class="card-body">
+              <div class="row mb-4 mt-4">
+                <div class="input-block col-lg-4 col-md-4">
+                  <label for="telephone_a" class="col-form-label"
+                    >Téléphone Principal</label
+                  >
+                  <input
+                    type="tel"
+                    [(ngModel)]="entreprise.telephone_a"
+                    id="telephone_a"
+                    class="form-control"
+                    placeholder="Numéro de Téléphone Principal"
+                  />
+                </div>
+                <div class="input-block col-lg-4 col-md-4">
+                  <label for="telephone_b" class="col-form-label"
+                    >Téléphone Alternatif</label
+                  >
+                  <input
+                    [(ngModel)]="entreprise.telephone_b"
+                    type="tel"
+                    id="telephone_b"
+                    class="form-control"
+                    placeholder="Numéro de Téléphone Secondaire"
+                  />
+                </div>
+                <div class="input-block col-lg-4 col-md-4">
+                  <label for="email_contact" class="col-form-label"
+                    >Email de Contact</label
+                  >
+                  <input
+                    [(ngModel)]="entreprise.email_contact"
+                    type="email"
+                    id="email_contact"
+                    class="form-control"
+                    placeholder="Email de Contact"
+                  />
+                </div>
+              </div>
+
+              <div class="row mt-2 mb-2">
+                <div class="col-lg-4 col-md-4">
+                  <div class="input-block formlast-input formlast-input-inner">
+                    <label for="Price" class="col-form-label">Pays</label>
+                    <mat-select
+                      [(ngModel)]="entreprise.adresse.country"
+                      [ngModelOptions]="{ standalone: true }"
+                      class="form-control"
+                      name="type_ent"
+                      placeholder="Pays"
+                    >
+                      <mat-option *ngFor="let o of country" [value]="o.value">
+                        {{ o.viewValue }} ({{ o.code }})
+                      </mat-option>
+                    </mat-select>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-md-4">
+                  <div class="input-block formlast-input formlast-input-inner">
+                    <label for="Price" class="col-form-label"
+                      >Etat/Departement</label
+                    >
+                    <mat-select
+                      [(ngModel)]="entreprise.adresse.state"
+                      [ngModelOptions]="{ standalone: true }"
+                      class="form-control"
+                      name="type_ent"
+                      placeholder="Etat/Departement"
+                    >
+                      <mat-option *ngFor="let cat of depts" [value]="cat">
+                        {{ cat }}
+                      </mat-option>
+                    </mat-select>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-md-4">
+                  <div class="input-block formlast-input formlast-input-inner">
+                    <label for="Price" class="col-form-label"
+                      >Ville/Commune</label
+                    >
+
+                    <input
+                      [(ngModel)]="entreprise.adresse.city"
+                      type="text"
+                      id="email_contact"
+                      class="form-control"
+                      placeholder="Ville/commune"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="input-block">
+                <label for="adresse" class="col-form-label">Rue</label>
+                <input
+                  [(ngModel)]="entreprise.adresse.street"
+                  type="text"
+                  id="adresse"
+                  class="form-control"
+                  placeholder="Adresse de l'Entreprise"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Bouton de Soumission du Formulaire -->
+          <div class="input-block">
+            <button class="btn btn-primary" (click)="addEnt($event)">
+              Soumettre
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /Profile Content -->
+</div>

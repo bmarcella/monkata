@@ -1,0 +1,33 @@
+<!-- Terms and Conditions -->
+<div class="terms-content" style="margin-top: 84px">
+  <div class="container">
+    <h2 class="text-center mb-4">
+      {{ terms.titre }}
+    </h2>
+    <div class="row">
+      <div class="terms-info">
+        <div class="page-title">
+          <h5>{{ terms.bienvenue }}</h5>
+        </div>
+        <p>
+          {{ terms.description }}
+        </p>
+        <div *ngFor="let item of terms.sections; let i = index" class="mt-4">
+          <div class="page-title">
+            <h5>{{ i + 1 }}. {{ item.titre }}</h5>
+          </div>
+          <div *ngIf="item?.sous_sections">
+            <p *ngFor="let sitem of item?.sous_sections; let j = index">
+              <b>{{ i + 1 }}. {{ j + 1 }}. {{ sitem?.sous_titre }} :</b>
+              {{ sitem?.contenu }}
+            </p>
+          </div>
+          <p *ngIf="!item?.sous_sections">
+            {{ item.contenu }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /Terms and Conditions -->

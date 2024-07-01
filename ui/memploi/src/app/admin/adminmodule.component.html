@@ -1,0 +1,52 @@
+<div class="main-wrapper">
+  <app-header-admin></app-header-admin>
+  <!-- Breadscrumb Section -->
+  <div class="breadcrumb-bar">
+    <div class="container">
+      <div class="row align-items-center text-center">
+        <div class="col-md-12 col-12">
+          <h2 class="breadcrumb-title">Dashboard</h2>
+          <nav aria-label="breadcrumb" class="page-breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a routerLink="/home">Home</a>
+              </li>
+              <li class="breadcrumb-item active" aria-current="page">
+                Dashboard
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Breadscrumb Section -->
+  <router-outlet>
+    <div
+      (click)="scrollToTop()"
+      (keydown.enter)="scrollToTop()"
+      (keydown.space)="scrollToTop()"
+      (keyup.enter)="scrollToTop()"
+      (keyup.space)="scrollToTop()"
+      tabindex="0"
+      class="progress-wrap"
+      [class.active-progress]="strokeValue < progress"
+    >
+      <svg
+        class="progress-circle svg-content"
+        width="100%"
+        height="100%"
+        viewBox="-1 -1 102 102"
+      >
+        <path
+          d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98"
+          style="transition: stroke-dashoffset 10ms linear 0s"
+          attr.stroke-dasharray="{{ progress + 'px' + ',' + progress + 'px' }}"
+          attr.stroke-dashoffset="{{ strokeValue + 'px' }}"
+        ></path>
+      </svg>
+    </div>
+  </router-outlet>
+</div>
+
+<title>MEmploi | Admin</title>

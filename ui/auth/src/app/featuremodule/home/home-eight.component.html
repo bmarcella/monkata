@@ -1,0 +1,84 @@
+<!-- Banner Section -->
+<section class="banner-section">
+  <div class="banner-circle">
+    <img src="assets/img/bannerbg.png" class="img-fluid" alt="bannercircle" />
+  </div>
+  <div class="container">
+    <div class="home-banner">
+      <div class="row align-items-center">
+        <div class="col-lg-7">
+          <div
+            class="section-search aos"
+            data-aos="fade-up"
+            data-aos-duration="1200"
+          >
+            <p class="explore-text">
+              <span>Explore top-rated attractions</span>
+            </p>
+            <img
+              src="assets/img/arrow-banner.png"
+              class="arrow-img"
+              alt="arrow"
+            />
+            <h1>
+              Wellcom on<br />
+              <span>Monkata</span>
+            </h1>
+            <p>
+              Nous sommes une platforme en ligne qui propose plusieurs SAAS
+              (Software As A Service)
+            </p>
+          </div>
+        </div>
+        <div class="col-lg-5">
+          <div class="banner-imgs">
+            <!-- <img src="assets/img/Right-img.png" class="img-fluid" alt="bannerimage" /> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <img
+    src="assets/img/bannerellipse.png"
+    class="img-fluid banner-elipse"
+    alt="arrow"
+  />
+  <img
+    src="assets/img/banner-arrow.png"
+    class="img-fluid bannerleftarrow"
+    alt="arrow"
+  />
+</section>
+<!-- /Banner Section -->
+
+<!-- Category Section -->
+<section class="category-section category-eight">
+  <div class="container">
+    <div class="section-heading heading-eight">
+      <div class="row align-items-center">
+        <div
+          class="col-md-12 aos aos-init aos-animate text-center"
+          data-aos="fade-up"
+        >
+          <h2>Nos SAAS (Software As A Service)</h2>
+          <p>
+            Voici notre gamme de logiciels en tant que service (SAAS)
+            accessibles en ligne.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="category-details">
+      <div class="row">
+        <div class="col-lg-2 col-md-3 col-sm-6" *ngFor="let list of categories">
+          <a target="_blank" [href]="list.frontend_dev" class="category-links">
+            <h5>{{ list.titre }}</h5>
+            <span>{{ list.description }}</span>
+            <img [src]="list.img" alt="icons" />
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- /Category Section -->

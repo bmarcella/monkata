@@ -1,0 +1,116 @@
+<div id="map" class="map-listing">
+  <iframe
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6509170.989457427!2d-123.80081967108484!3d37.192957227641294!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fb9fe5f285e3d%3A0x8b5109a227086f55!2sCalifornia%2C%20USA!5e0!3m2!1sen!2sin!4v1669181581381!5m2!1sen!2sin"
+    style="border:0;" style="height:500px;" width="100%" allowfullscreen="" loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade" class="contact-map"></iframe>
+</div>
+<div class="showfilter" [class.filter-open]="showFilter">
+  <button (click)="showFilter = !showFilter" class="btn filterbtn">
+    <span class="showfilter-btn"><img src="assets/img/details-icon.svg" alt="details-icon" /> Show
+      Filters</span>
+    <span class="hidefilter-btn"><i class="feather-eye-off"></i> Hide Filters</span>
+  </button>
+  <div class="listings-sidebar">
+    <div class="card">
+      <h4>
+        <img src="assets/img/details-icon.svg" alt="details-icon" />
+        Filter
+      </h4>
+      <form>
+        <div class="filter-content looking-input input-block">
+          <input type="text" class="form-control" placeholder="What are you looking for?" />
+        </div>
+        <div class="filter-content input-block">
+          <select class="form-control select category-select">
+            <option value="">Choose Category</option>
+            <option>Computer</option>
+            <option>Electronics</option>
+            <option>Car wash</option>
+          </select>
+        </div>
+        <div class="filter-content looking-input input-block">
+          <div class="group-img">
+            <input type="text" class="form-control" placeholder="Where to look?" />
+            <i class="feather-map-pin"></i>
+          </div>
+        </div>
+        <div class="filter-content input-block region">
+          <select class="form-control select region-select">
+            <option value="">Region</option>
+            <option>Canada</option>
+            <option>USA</option>
+            <option>india</option>
+          </select>
+        </div>
+        <div class="filter-content input-block amenities">
+          <h4>Amenities</h4>
+          <ul>
+            <li>
+              <label class="custom_check">
+                <input type="checkbox" name="wireless-internet" />
+                <span class="checkmark"></span> Wireless Internet
+              </label>
+            </li>
+            <li>
+              <label class="custom_check">
+                <input type="checkbox" name="accept-credit-card" />
+                <span class="checkmark"></span> Accepts Credit Cards
+              </label>
+            </li>
+            <li>
+              <label class="custom_check">
+                <input type="checkbox" name="Coupouns" />
+                <span class="checkmark"></span> Coupouns
+              </label>
+            </li>
+            <li>
+              <label class="custom_check">
+                <input type="checkbox" name="parking-street" />
+                <span class="checkmark"></span> Parking Street
+              </label>
+            </li>
+            <li>
+              <label class="custom_check">
+                <input type="checkbox" name="bike-parking" />
+                <span class="checkmark"></span> Bike Parking
+              </label>
+            </li>
+            <li>
+              <label class="custom_check">
+                <input type="checkbox" name="Smoking-Allowed" />
+                <span class="checkmark"></span> Smoking Allowed
+              </label>
+            </li>
+          </ul>
+        </div>
+        <div class="filter-content input-block amenities radius">
+          <div class="slider-info">
+            <h4>Radius</h4>
+            <div class="demo"><span>50</span> Radius</div>
+          </div>
+          <div class="clearfix"></div>
+          <div class="filter-range">
+            <mat-slider min="0" max="100" discrete>
+              <input value="50" matSliderThumb>
+            </mat-slider>
+          </div>
+        </div>
+        <div class="filter-content amenities mb-0">
+          <h4>Price Range</h4>
+          <div class="input-block mb-0">
+            <input type="text" class="form-control" placeholder="Min" />
+            <input type="text" class="form-control me-0" placeholder="Max" />
+          </div>
+          <div class="search-btn">
+            <button class="btn btn-primary" type="submit">
+              <i class="fa fa-search" aria-hidden="true"></i> Search
+            </button>
+            <button class="btn btn-reset mb-0" type="submit">
+              <i class="fas fa-light fa-arrow-rotate-right"></i> Reset Filters
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

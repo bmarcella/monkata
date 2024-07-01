@@ -1,0 +1,215 @@
+<!--Details Description  Section-->
+<section class="details-description" style="margin-top: 85px">
+  <div class="container">
+    <div class="about-details">
+      <div class="about-headings">
+        <div class="author-img" *ngIf="logo">
+          <img [src]="logo" alt="authorimg" />
+        </div>
+        <div class="authordetails">
+          <h5>{{ job?.titre_job }}</h5>
+          <p>{{ ent?.name }}</p>
+          <p>
+            <span *ngIf="job?.ville">{{ job?.ville }},</span>
+            <span *ngIf="job?.etat">{{ job?.etat }},</span>
+            <span *ngIf="job?.country">{{ job?.country }}</span>
+          </p>
+        </div>
+      </div>
+      <div class="rate-details">
+        <h2 *ngIf="job?.salaire">
+          {{ currency(job?.salaire) }} {{ job?.currency }}
+        </h2>
+        <p>{{ job?.periode_salaire }}</p>
+      </div>
+    </div>
+    <div class="descriptionlinks">
+      <div class="row">
+        <div class="col-lg-9"></div>
+        <div class="col-lg-3">
+          <div class="callnow">
+            <a routerLink="/details-job/{{ job?.id }}"> Voir Poste </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--/Details Description  Section-->
+
+<!--Details Main  Section-->
+<div class="details-main-wrapper">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="card" *ngIf="!cand">
+          <div class="card-header">
+            <span class="bar-icon">
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+            <h4>Postuler</h4>
+          </div>
+          <div *ngIf="job?.app_Reception == memploi">
+            <div class="col-md-12" *ngIf="job?.is_cv_require">
+              <div class="card-header-2 mb-4">
+                <h5>Curriculum Vitae</h5>
+              </div>
+              <div class="card-body">
+                <div class="input-block featuresform-list mb-0">
+                  <ul>
+                    <li *ngFor="let option of cvs">
+                      <label class="custom_check">
+                        <input
+                          type="radio"
+                          [(ngModel)]="doc.id_cv"
+                          name="cv_docs"
+                          [value]="option.id"
+                        />
+                        <span class="checkmark"></span>
+                        {{ option.name }} - {{ option.type_doc }} ({{
+                          option.id
+                        }})
+                      </label>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+              </div>
+            </div>
+            <hr />
+            <div class="col-md-12" *ngIf="job?.is_lm_require">
+              <div class="card-header-2 mb-4">
+                <h5>Lettre de motivation</h5>
+              </div>
+              <div class="card-body">
+                <div class="input-block featuresform-list mb-0">
+                  <ul>
+                    <li *ngFor="let option of lms">
+                      <label class="custom_check">
+                        <input
+                          type="radio"
+                          [(ngModel)]="doc.id_lm"
+                          name="lm_docs"
+                          [value]="option.id"
+                        />
+                        <span class="checkmark"></span>
+                        {{ option.name }} - {{ option.type_doc }} ({{
+                          option.id
+                        }})
+                      </label>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+              </div>
+            </div>
+            <hr />
+            <div class="col-md-12" *ngIf="job?.is_diplome_require">
+              <div class="card-header-2 mb-4">
+                <h5>Diplome</h5>
+              </div>
+              <div class="card-body">
+                <div class="input-block featuresform-list mb-0">
+                  <ul>
+                    <li *ngFor="let option of dips">
+                      <label class="custom_check">
+                        <input
+                          type="radio"
+                          [(ngModel)]="doc.id_dip"
+                          name="dip_docs"
+                          [value]="option.id"
+                        />
+                        <span class="checkmark"></span>
+                        {{ option.name }} - {{ option.type_doc }} ({{
+                          option.id
+                        }})
+                      </label>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+              </div>
+            </div>
+            <hr />
+            <div class="col-md-12 mb-4" *ngIf="job?.is_certificat_require">
+              <div class="card-header-2 mb-4">
+                <h5>Certificat</h5>
+              </div>
+              <div class="card-body">
+                <div class="input-block featuresform-list mb-0">
+                  <ul>
+                    <li *ngFor="let option of certs">
+                      <label class="custom_check">
+                        <input
+                          type="radio"
+                          [(ngModel)]="doc.id_ct"
+                          name="certs_docs"
+                          [value]="option.id"
+                        />
+                        <span class="checkmark"></span>
+                        {{ option.name }} - {{ option.type_doc }} ({{
+                          option.id
+                        }})
+                      </label>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+              </div>
+            </div>
+            <button class="btn btn-primary" (click)="apply($event)">
+              Soumettre candidature
+            </button>
+          </div>
+          <div class="card-body" *ngIf="job?.app_Reception == email">
+            Email pour appliquer : {{ job?.email_to_apply }}
+          </div>
+          <div class="card-body" *ngIf="job?.app_Reception == whatsapp">
+            Numero Whatsapp pour appliquer : {{ job?.phone_to_apply }}
+          </div>
+          <div class="card-body" *ngIf="job?.app_Reception == lien">
+            <a
+              class="btn btn-primary"
+              href="job?.lien_to_apply"
+              target="_blank"
+            >
+              Soumettre candidature
+            </a>
+          </div>
+        </div>
+        <div class="card" *ngIf="cand">
+          <div class="card-header">
+            <span class="bar-icon">
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+            <h4>Candidature</h4>
+          </div>
+          <div class="card-body">
+            <div class="alert alert-warning">
+              Application envoyé le
+              {{ cand.created_at.split("T")[0] }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card">
+          <div class="card-header">
+            <span class="bar-icon">
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+            <h4>Description</h4>
+          </div>
+          <div class="card-body" [innerHTML]="job?.description"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /Details Main Section -->

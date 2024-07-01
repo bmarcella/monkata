@@ -1,0 +1,19 @@
+<div class="popular-box" [ngClass]="[job.id == cjob?.id ? 'box-active' : '']">
+  <div class="popular-top">
+    <span class="topic">{{ job.categorie }}</span>
+  </div>
+  <div class="popular-inner">
+    <div class="popular-img">
+      <img
+        src="assets/img/icons/job-logomark-1.png"
+        class="img-fluid"
+        alt="arrow"
+      />
+    </div>
+    <div class="popular-content">
+      <h4>
+        <a> {{ job.name }}</a>
+      </h4>
+    </div>
+  </div>
+</div>

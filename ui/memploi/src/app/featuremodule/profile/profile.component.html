@@ -1,0 +1,26 @@
+<!-- Profile Content -->
+<div class="dashboard-content" style="margin-top: 85px">
+  <div class="container">
+    <div class="">
+      <ul class="dashborad-menus">
+        <li [ngClass]="[path === 'home' ? 'active' : '']">
+          <a (click)="switcher('home')">
+            <i class="feather-grid"></i> <span>Dashboard</span>
+          </a>
+        </li>
+        <li [ngClass]="[path === 'edit-profile' ? 'active' : '']">
+          <a (click)="switcher('edit-profile')">
+            <i class="fa-solid fa-user"></i> <span>Profil</span>
+          </a>
+        </li>
+        <li [ngClass]="[path === 'cv' ? 'active' : '']">
+          <a (click)="switcher('cv')">
+            <i class="fa-solid fa-file-text"></i> <span>Curriculum Vitae</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <router-outlet> </router-outlet>
+  </div>
+</div>
+<!-- /Profile Content -->
