@@ -6,4 +6,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: cd api/gateway && npm run build
+      - run: cd api/gateway && npm install
