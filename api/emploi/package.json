@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "npx tsc",
-    "docker": "docker build -t pledika/mkt-emploi . ",
+    "docker": "docker build -t pledika/mkt-emploi:lastest . && docker push pledika/mkt-emploi:lastest",
     "start": "node src/index.js",
     "dev": "nodemon ./src/index.ts"
   },

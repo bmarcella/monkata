@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "npx tsc",
-    "docker": "docker build -t pledika/mkt-qnote . ",
+    "docker": "docker build -t pledika/mkt-qnote:lastest . && docker push pledika/mkt-qnote:lastest",
     "start": "node src/index.js",
     "dev": "nodemon ./src/index.ts"
   },
