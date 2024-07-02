@@ -6,4 +6,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: cd ./api/admin && npm install && npm i nodemailer && npm run build
+      - run: cd ./api/admin && npm install && npm i --save-dev @types/nodemailer  && npm run build
