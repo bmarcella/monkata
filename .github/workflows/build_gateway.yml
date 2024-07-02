@@ -1,4 +1,4 @@
-name: TBuild Gateway
+name: Build Gateway
 on: pull_request
 
 jobs:

@@ -6,4 +6,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: cd ./api/emploi && npm install --force && npm run build
+      - run: cd ./api/emploi && npm install && npm run build
