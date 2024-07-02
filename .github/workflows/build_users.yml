@@ -1,4 +1,4 @@
-name: Build_Gateway
+name: Build_Users
 on: pull_request
 
 jobs:
@@ -6,4 +6,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: cd ./api/gw && npm  install && npm run build
+      - run: cd ./api/users && npm  install && npm run build
