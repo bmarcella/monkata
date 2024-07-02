@@ -1,6 +1,8 @@
 name: Build_Admin
-on: pull_request
-
+on:
+  pull_request:
+    paths:
+      - 'api/admin/**'
 jobs:
   builds:
     runs-on: ubuntu-latest

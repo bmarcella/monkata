@@ -1,5 +1,8 @@
 name: Build_Eureka
-on: pull_request
+on:
+  pull_request:
+    paths:
+      - 'api/eureka/**'
 
 jobs:
   builds:
