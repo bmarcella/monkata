@@ -6,4 +6,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: cd ./api/eureka && mvn install && mvn build
+      - run: cd ./api/eureka && mvn clean && mvn install && mvn build
