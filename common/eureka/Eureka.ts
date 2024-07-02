@@ -1,5 +1,5 @@
+import { servicesApp } from '../index/Frontend';
 import { Service } from '../index/services';
-import { servicesApp } from "../index/Frontend";
 
 const EurekaTools = <Eureka>(E: new (...args: any[]) => Eureka, p?: any): any => {
 
@@ -32,7 +32,7 @@ const EurekaTools = <Eureka>(E: new (...args: any[]) => Eureka, p?: any): any =>
 
 const EurekaConfig = (p: any) => {
   return {
-    host: p.EUREKA_HOST + "",
+    host: (p.DEV==0) ? p.EUREKA_HOST + "" : p.EUREKA_HOST_PROD ,
     port: Number(p.EUREKA_PORT),
     servicePath: p.EUREKA_PATH + "",
   }
@@ -42,8 +42,8 @@ const SERVICE_CONFIG = (p: any): any => {
   return {
     instance: {
       app: p.SERVICE_NAME + "",
-      hostName: 'localhost',
-      ipAddr: '127.0.0.1',
+      hostName: (p.DEV==0) ? p.HOST + "" : p.HOST_PROD,
+      ipAddr: (p.DEV==0) ? p.IP + "" : p.IP_PROD,
       port: {
         '$': Number(p.PORT), // Le port sur lequel votre service s'exécute
         '@enabled': true,
@@ -121,4 +121,4 @@ const Run = <Eureka>(p: any, ET: any, app: any) => {
   });
 }
 
-export { EurekaTools, SERVICE_CONFIG, Service, Run, setProxies };
+export { EurekaTools, Run, Service, SERVICE_CONFIG, setProxies };
