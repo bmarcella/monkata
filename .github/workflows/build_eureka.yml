@@ -1,0 +1,9 @@
+name: Tests
+on: pull_request
+
+jobs:
+  builds:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: cd ./api/eureka && mvn install && mvn build
