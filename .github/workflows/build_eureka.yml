@@ -1,4 +1,4 @@
-name: Tests
+name: Build Eureka
 on: pull_request
 
 jobs:
