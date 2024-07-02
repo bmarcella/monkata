@@ -1,4 +1,4 @@
-name: Build  Users
+name: Build_Users
 on: pull_request
 
 jobs:

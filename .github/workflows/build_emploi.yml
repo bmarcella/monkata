@@ -1,4 +1,4 @@
-name: Build Emploi
+name: Build_Emploi
 on: pull_request
 
 jobs:
@@ -6,4 +6,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: cd ./api/emploi && npm install && npm run build
+      - run: cd ./api/emploi && npm install && npm i nodemailer && npm run build
