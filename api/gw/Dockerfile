@@ -6,13 +6,13 @@ COPY ./dist/common /app/common
 COPY ./dist/api /app/api
 
 # Copiez le package.json dans le répertoire /emploi
-COPY package.json /app/api/gateway
+COPY package.json /app/api/gw
 
 # Copiez le package.json dans le répertoire /emploi
-COPY .env /app/api/gateway
+COPY .env /app/api/gw
 
 # Installez les dépendances dans le répertoire /emploi
-WORKDIR /app/api/gateway
+WORKDIR /app/api/gw
 
 RUN npm install --force
 
