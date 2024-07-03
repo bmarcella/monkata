@@ -1,7 +1,7 @@
 name: Deploy-Manifest
 
 on:
-  push:
+  pull_request:
     branches:
       - main
     paths:
@@ -11,12 +11,11 @@ jobs:
     runs-on: ubuntu-latest
     environment: Monkata
     env:
-      OC_TOKEN: ${{ secrets.OC_TOKEN }}
       CLUSTER: 0a6946a5-edc3-414b-afff-1f19885c54ec
     steps:
       - name: Digital Ocean
         uses: digitalocean/action-doctl@v2
         with:
-          token: $OC_TOKEN
+          token: ${{ secrets.OC_TOKEN }}
           run: doctl kubernetes cluster kubeconfig save $CLUSTER
           -run: kubectl apply -f cicd/k8s
