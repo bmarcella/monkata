@@ -1,0 +1,22 @@
+name: Deploy-Manifest
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'cicd/k8s/**'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: Monkata
+    env:
+      OC_TOKEN: ${{ secrets.OC_TOKEN }}
+      EUREKA_IMAGE_NAME: ${{ vars.EUREKA_IMAGE }}
+    steps:
+      - name: Digital Ocean
+        uses: digitalocean/action-doctl@v3
+        with:
+          token: $OC_TOKEN
+          run: doctl kubernetes cluster kubeconfig save 0a6946a5-edc3-414b-afff-1f19885c54ec
+          -run: kubectl apply -f cicd/k8s

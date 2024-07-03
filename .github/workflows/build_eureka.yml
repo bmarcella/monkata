@@ -6,11 +6,6 @@ on:
       - main
     paths:
       - 'api/eureka/**'
-  pull_request:
-    branches:
-      - main
-    paths:
-      - 'api/eureka/**'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -18,7 +13,8 @@ jobs:
     env:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-
+      OC_TOKEN: ${{ secrets.OC_TOKEN }}
+      EUREKA_IMAGE_NAME: ${{ vars.EUREKA_IMAGE }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -52,7 +48,14 @@ jobs:
 
       - name: Build the docker image for #Eureka
         working-directory: api/eureka # Change this to your pom.xml directory
-        run: docker build -t pledika/mkt-eureka:latest .
+        run: docker build -t $EUREKA_IMAGE_NAME .
 
       - name: Push Docker image
-        run: docker push pledika/mkt-eureka:latest
+        run: docker push $EUREKA_IMAGE_NAME
+
+      - name: Digital Ocean
+        uses: digitalocean/action-doctl@v3
+        with:
+          token: $OC_TOKEN
+          run: doctl kubernetes cluster kubeconfig save 0a6946a5-edc3-414b-afff-1f19885c54ec
+          -run: kubectl rollout restart deployment eureka-deploy
