@@ -1,16 +1,16 @@
-name: Build Spring Boot Euruka App
+name: Build Spring Boot Eureka App
 
 on:
   push:
     branches:
       - main
     paths:
-      - 'api/emploi/**'
+      - 'api/eureka/**'
   pull_request:
     branches:
       - main
     paths:
-      - 'api/emploi/**'
+      - 'api/eureka/**'
 jobs:
   build:
     runs-on: ubuntu-latest
