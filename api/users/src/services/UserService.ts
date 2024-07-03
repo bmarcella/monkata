@@ -59,7 +59,6 @@ const services = {
   verifyPassword: async (submittedPassword: string, storedHash: string) => {
     try {
       // Compare the submitted password with the stored hash
-      console.log(storedHash);
       const isMatch = await bcrypt.compare(submittedPassword, storedHash);
 
       if (isMatch) {
