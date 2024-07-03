@@ -1,11 +1,13 @@
-name: Build Spring Boot App Eureka
+name: Build Spring Boot App
 
 on:
   push:
     branches:
       - main
-    paths:
-      - 'api/eureka/**'
+  pull_request:
+    branches:
+      - main
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -29,10 +31,11 @@ jobs:
             ${{ runner.os }}-maven-
 
       - name: Build with Maven
+        working-directory: api/eureka # Change this to your pom.xml directory
         run: mvn clean package
 
       - name: Archive the build artifacts
         uses: actions/upload-artifact@v3
         with:
           name: java-app
-          path: target/*.jar
+          path: api/eureka/target/*.jar # Change this to your target directory
