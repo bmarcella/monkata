@@ -1,4 +1,4 @@
-name: Build Gateway
+name: Gateway Build
 on:
   push:
     branches:
