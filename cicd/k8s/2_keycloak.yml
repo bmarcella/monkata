@@ -33,7 +33,7 @@ spec:
          valueFrom: 
            configMapKeyRef:
              name: monkata-configmap
-             key:  KEYCLOAK_ADMIN_PASSWORD        
+             key:  KEYCLOAK_ADMIN_PASSWORD
 ---       
 apiVersion: v1
 kind: Service 
