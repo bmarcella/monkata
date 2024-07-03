@@ -22,7 +22,7 @@ spec:
         
        env:
        - name: JAVA_OPTS
-         value: "-Dkeycloak.profile.feature.account_api=enabled"
+         value: -Dkeycloak.profile.feature.account_api=enabled
        - name: KEYCLOAK_ADMIN
          valueFrom: 
            configMapKeyRef:
@@ -45,5 +45,5 @@ spec:
   type: LoadBalancer
   ports:
     - protocol: TCP
-      port: 8080
+      port: 7878
       targetPort: 8080
