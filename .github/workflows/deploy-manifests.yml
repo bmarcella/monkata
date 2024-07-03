@@ -6,16 +6,24 @@ on:
       - main
     paths:
       - 'cicd/k8s/**'
+
 jobs:
   build:
     runs-on: ubuntu-latest
     environment: Monkata
     env:
       CLUSTER: 0a6946a5-edc3-414b-afff-1f19885c54ec
+
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
       - name: Digital Ocean
         uses: digitalocean/action-doctl@v2
         with:
           token: ${{ secrets.OC_TOKEN }}
-          run: doctl kubernetes cluster kubeconfig save $CLUSTER
-          -run: kubectl apply -f cicd/k8s
+
+      - name: Configure kubectl
+        run: |
+          doctl kubernetes cluster kubeconfig save $CLUSTER
+          kubectl apply -f cicd/k8s
