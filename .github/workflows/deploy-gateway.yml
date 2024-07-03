@@ -1,0 +1,14 @@
+name: deploy-gateway
+on:
+  push:
+     branches:
+        - master
+     paths: 
+        - 'api/gw/**'
+
+jobs:
+  build:
+     runs-on: unbuntu-laster
+     steps:
+        - uses: actions/chekout@v2
+        - run: cd api/gw && docker build -t pledika/mkt-gateway .
