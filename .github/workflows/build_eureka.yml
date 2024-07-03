@@ -11,6 +11,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: Monkata
+    env:
+      DOCKER_USERNAME: ${{ secrets.MONKATA.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.MONKATA.DOCKER_PASSWORD }}
 
     steps:
       - name: Checkout code
@@ -39,3 +43,13 @@ jobs:
         with:
           name: java-app
           path: api/eureka/target/*.jar # Change this to your target directory
+
+      - name: Log in to Docker Hub # Docker Login
+        run: echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+
+      - name: Build the docker image for #Eureka
+        working-directory: api/eureka # Change this to your pom.xml directory
+        run: docker build -t pledika/mkt-eureka:latest .
+
+      - name: Push Docker image
+        run: docker push pledika/mkt-eureka:latest
