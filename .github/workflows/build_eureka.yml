@@ -13,8 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     environment: Monkata
     env:
-      DOCKER_USERNAME: ${{ secrets.MONKATA.DOCKER_USERNAME }}
-      DOCKER_PASSWORD: ${{ secrets.MONKATA.DOCKER_PASSWORD }}
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
     steps:
       - name: Checkout code
