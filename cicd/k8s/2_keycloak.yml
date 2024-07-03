@@ -22,7 +22,7 @@ spec:
         
        env:
        - name: JAVA_OPTS
-         value: "-Dkeycloak.profile.feature.account_api=enabled"
+         value: -Dkeycloak.profile.feature.account_api=enabled
        - name: KEYCLOAK_ADMIN
          valueFrom: 
            configMapKeyRef:
@@ -33,7 +33,7 @@ spec:
          valueFrom: 
            configMapKeyRef:
              name: monkata-configmap
-             key:  KEYCLOAK_ADMIN_PASSWORD        
+             key:  KEYCLOAK_ADMIN_PASSWORD
 ---       
 apiVersion: v1
 kind: Service 
@@ -46,4 +46,4 @@ spec:
   ports:
     - protocol: TCP
       port: 7878
-      targetPort: 8080             
+      targetPort: 8080

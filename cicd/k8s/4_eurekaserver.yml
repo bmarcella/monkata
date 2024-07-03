@@ -16,15 +16,9 @@ spec:
    spec:
      containers:
      - name: eurekaserver
-       image: pledika/mkt-eureka@latest
+       image: pledika/mkt-eureka
        ports:
         - containerPort: 8070
-       env:
-       - name: SPRING_PROFILES_ACTIVE
-         valueFrom: 
-           configMapKeyRef:
-             name: monkata-configmap
-             key: SPRING_PROFILES_ACTIVE
 ---       
 apiVersion: v1
 kind: Service
