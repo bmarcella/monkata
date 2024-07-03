@@ -3,7 +3,7 @@ name: Deploy-Manifest
 on:
   pull_request:
     branches:
-      - main
+      - dev
     paths:
       - 'cicd/k8s/**'
 
@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: Monkata
     env:
-      CLUSTER: 0a6946a5-edc3-414b-afff-1f19885c54ec
+      CLUSTER: ${{ vars.CLUSTER }}
 
     steps:
       - name: Checkout code
