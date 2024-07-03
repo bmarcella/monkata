@@ -16,8 +16,8 @@ data :
   GATEWAY_URL  :  http://localhost:3000
   # KEYCLOAK 
   KEYCLOAK_REALM : Monkata
-  KEYCLOAK_AUTH_SERVER_URL : http://keycloak-service:7878
-  KEYCLOAK_SERVER_URL : http://keycloak-service:7878
+  KEYCLOAK_AUTH_SERVER_URL : http://keycloak-service:8080
+  KEYCLOAK_SERVER_URL : http://keycloak-service:8080
   KEYCLOAK_SSL_REQUIRED : external
   KEYCLOAK_RESOURCE : users-client
   KEYCLOAK_RESOURCE_LOGIN : jobs-app-fe
