@@ -34,7 +34,7 @@ jobs:
         run: docker push $GATEWAY_IMAGE_NAME
 
       - name: Digital Ocean
-        uses: digitalocean/action-doctl@v3
+        uses: digitalocean/action-doctl@v2
         with:
           token: ${{ secrets.OC_TOKEN }}
           run: |
