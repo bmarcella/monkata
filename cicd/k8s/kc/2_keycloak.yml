@@ -23,8 +23,8 @@ spec:
         env:
         - name: KC_DB
           value: "postgres"
-        # - name: KC_DB_URL
-        #  value: "jdbc:postgresql://${{ vars.DB_HOST }}:${{ vars.DB_PORT }}/${{ vars.KC_DB_NAME }}"  # Using DB_HOST, DB_PORT, and KC_DB_NAME variables for PostgreSQL URL
+        - name: KC_DB_URL
+          value: "jdbc:postgresql://${{ vars.DB_HOST }}:${{ vars.DB_PORT }}/${{ vars.KC_DB_NAME }}"  # Using DB_HOST, DB_PORT, and KC_DB_NAME variables for PostgreSQL URL
         - name: KC_DB_URL_HOST
           value: "${{ vars.DB_HOST }}"  
         - name: KC_DB_URL_PORT
