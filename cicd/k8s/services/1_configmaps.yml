@@ -3,7 +3,12 @@ kind: ConfigMap
 metadata: 
   name: monkata-configmap
 data : 
- 
+  # DB CONFIG INFO
+  DB_HOST  :  "${{ vars.DB_HOST }}" 
+  DB_PORT  :  "${{ vars.DB_PORT }}" 
+  DB_USER  :  "${{ secrets.DB_USERNAME }}" 
+  DB_PASSWORD  : "${{ secrets.DB_PASSWORD }}" 
+  #-----END-----#
   KEYCLOAK_ADMIN: admin
   KEYCLOAK_ADMIN_PASSWORD: lolo91
   KEYCLOAK_JWT_URI: http://keycloak-service/realms/master/protocol/openid-connect/certs
