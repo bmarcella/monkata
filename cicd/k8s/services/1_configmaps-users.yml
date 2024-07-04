@@ -8,4 +8,4 @@ data :
   SERVICE_NAME : users
   HOST  :  users-service
   IP  :  127.0.0.1
-  DB_DATABASE_NAME  :  "${{ vars.USERS_DB_NAME}}" 
+  DB_DATABASE_NAME  : ${{ vars.USERS_DB_NAME }}
