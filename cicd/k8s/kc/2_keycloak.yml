@@ -28,7 +28,7 @@ spec:
         - name: KC_DB_URL_HOST
           value: "${{ vars.DB_HOST }}"  
         - name: KC_DB_URL_PORT
-          value: "${{ vars.DB_PORT }}"  # Setting DB_PORT variable
+          value: "${{ vars.DB_PORT }}"  
         - name: KC_DB_URL_DATABASE
           value: "${{ vars.KC_DB_NAME }}"  # Setting KC_DB_NAME variable
         - name: KC_DB_USERNAME
