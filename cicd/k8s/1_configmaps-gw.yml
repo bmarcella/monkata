@@ -4,7 +4,6 @@ metadata:
   name: monkata-configmap-gw
 data :
   NODE_ENV  :  development
-  DEBUG  :  knex:query
   PORT  :  "3000"
   SERVICE_NAME : gateway
   HOST  :  http://gateway-service
