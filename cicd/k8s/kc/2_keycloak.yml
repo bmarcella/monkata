@@ -16,7 +16,7 @@ spec:
    spec:
      containers:
      - name: keycloak
-       image: quay.io/keycloak/keycloak:22.0.1
+       image: quay.io/keycloak/keycloak:23.0.5
        args: ["start", "--cache-stack=kubernetes"]
        ports:
         - containerPort: 8080
@@ -38,6 +38,8 @@ spec:
        - name: JAVA_OPTS
          value: -Dkeycloak.profile.feature.account_api=enabled
        - name: KEYCLOAK_ADMIN
+       - name: KC_HOSTNAME_STRICT
+         value: "false"
          valueFrom: 
            configMapKeyRef:
              name: monkata-configmap
