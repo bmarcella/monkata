@@ -24,19 +24,38 @@ spec:
         - name: KC_DB
           value: "postgres"
         - name: KC_DB_URL
-          value: "jdbc:postgresql://${{ vars.DB_HOST }}:${{ vars.DB_PORT }}/${{ vars.KC_DB_NAME }}"  # Using DB_HOST, DB_PORT, and KC_DB_NAME variables for PostgreSQL URL
+          valueFrom: 
+            configMapKeyRef:
+              name: monkata-configmap
+              key: KC_DB_URL
         - name: KC_DB_URL_HOST
-          value: "${{ vars.DB_HOST }}"  
+          valueFrom: 
+            configMapKeyRef:
+              name: monkata-configmap
+              key: DB_HOST
         - name: KC_DB_URL_PORT
-          value: "${{ vars.DB_PORT }}" 
+          valueFrom: 
+            configMapKeyRef:
+              name: monkata-configmap
+              key: DB_PORT
         - name: POSTGRES_DB
-          value: "${{ vars.KC_DB_NAME }}"
+          valueFrom: 
+            configMapKeyRef:
+              name: monkata-configmap
+              key: DB_KC_NAME
         - name: KC_DB_URL_DATABASE
-          value: "${{ vars.KC_DB_NAME }}"  # Setting KC_DB_NAME variable
+          valueFrom: 
+            configMapKeyRef:
+              name: monkata-configmap
+              key: DB_KC_NAME
         - name: KC_DB_USERNAME
-          value: "${{ secrets.DB_USERNAME }}"
+          configMapKeyRef:
+              name: monkata-configmap
+              key: DB_USER
         - name: KC_DB_PASSWORD
-          value: "${{ secrets.DB_PASSWORD }}"  # Using GitHub secret for PostgreSQL password
+          configMapKeyRef:
+              name: monkata-configmap
+              key: DB_PASSWORD
         - name: JAVA_OPTS
           value: -Dkeycloak.profile.feature.account_api=enabled
         - name: KC_HOSTNAME_STRICT

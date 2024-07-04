@@ -27,6 +27,7 @@ jobs:
           DB_USER: ${{ secrets.DB_USERNAME }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           DB_USERS_NAME: ${{ vars.USERS_DB_NAME }}
+          DB_KC_NAME: ${{ vars.KC_DB_NAME }}
           KEYCLOAK_ADMIN: admin
           KEYCLOAK_ADMIN_PASSWORD: lolo91
           KEYCLOAK_JWT_URI: http://keycloak-service/realms/master/protocol/openid-connect/certs
@@ -53,12 +54,13 @@ jobs:
           metadata:
             name: monkata-configmap
           data:
-            DB_USERS_NAME: "${DB_USERS_NAME}"
             DB_HOST: "${DB_HOST}"
             DB_PORT: "${DB_PORT}"
             DB_USER: "${DB_USER}"
             DB_PASSWORD: "${DB_PASSWORD}"
             DB_USERS_NAME: "${DB_USERS_NAME}"
+            KC_DB_URL: "jdbc:postgresql://${DB_HOST}:${DB_PORT}/${KC_DB_NAME}"
+            DB_KC_NAME: "${DB_KC_NAME}"
             KEYCLOAK_ADMIN: "${KEYCLOAK_ADMIN}"
             KEYCLOAK_ADMIN_PASSWORD: "${KEYCLOAK_ADMIN_PASSWORD}"
             KEYCLOAK_JWT_URI: "${KEYCLOAK_JWT_URI}"
