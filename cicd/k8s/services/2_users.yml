@@ -48,11 +48,12 @@ spec:
            configMapKeyRef:
              name: monkata-configmap-users
              key: IP
-       - name: DB_DATABASE_NAME
+       - name: DB_NAME
          valueFrom: 
            configMapKeyRef:
-             name: monkata-configmap-users
-             key: DB_DATABASE_NAME
+             name: monkata-configmap
+             key: DB_USERS_NAME
+
 ---       
 apiVersion: v1
 kind: Service

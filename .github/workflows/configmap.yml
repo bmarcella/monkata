@@ -1,0 +1,80 @@
+name: Deploy to Kubernetes
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up K8s
+        uses: azure/setup-kubectl@v1
+        with:
+          version: 'latest'
+
+      - name: Create Kubernetes configmap
+        env:
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_PORT: ${{ secrets.DB_PORT }}
+          DB_USER: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_USERS_NAME: ${{ vars.USERS_DB_NAME }}
+          KEYCLOAK_ADMIN: admin
+          KEYCLOAK_ADMIN_PASSWORD: lolo91
+          KEYCLOAK_JWT_URI: http://keycloak-service/realms/master/protocol/openid-connect/certs
+          EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-service/eureka/
+          EUREKA_HOST: eureka-service
+          EUREKA_PORT: '8070'
+          EUREKA_PATH: /eureka/apps/
+          SESSION_SECRET: ad0554000d85103f1a7be322a6d95e895ff5c14d4cbd870247e41248824e2a66
+          GATEWAY_URL: http://gateway-service
+          KEYCLOAK_REALM: Monkata
+          KEYCLOAK_AUTH_SERVER_URL: http://keycloak-service
+          KEYCLOAK_SERVER_URL: http://keycloak-service
+          KEYCLOAK_SSL_REQUIRED: external
+          KEYCLOAK_RESOURCE: users-client
+          KEYCLOAK_RESOURCE_LOGIN: jobs-app-fe
+          KEYCLOAK_SECRET: uIORJLhptgXBgDn6ZicY17LMd0TrID0n
+          KEYCLOAK_CONFIDENTIAL_PORT: '0'
+          KEYCLOAK_PUBLIC_KEY: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2U7DKTEKuS0zDDdjuC5hpFmN+e4yLijzvErTVxYKC4n0Iy+JqTb5UmF+i8REAODQZbUErP7Gsb/xmTcAr73GyvYO/HB3wB4599rBashS2Ruov+YJARqLlbUTrTe+sHyi/tiJMGHnHgAIQuW7R26tMuwRuYkPt7g6Do+Y9bU5Ra5qBqzWLmlH7WWKupswxYvl1zxZBA+ytRDUUfco0WKjc8N/X7CtDAbUyhVZysNZ+40gfaLkznX3UWHB4ztYlidz/bdR+NyO0bejt305/eL7DE26SgDoyEJnYcIhZaxp+A9zgHwVSTe+q7vQe8wMrXe/krwM+tjQBb8GZZDagPC2UQIDAQAB
+
+        run: |
+          cat <<EOF > monkata-configmap.yaml
+          apiVersion: v1
+          kind: ConfigMap
+          metadata:
+            name: monkata-configmap
+          data:
+            DB_HOST: ${DB_HOST}
+            DB_PORT: ${DB_PORT}
+            DB_USER: ${DB_USER}
+            DB_PASSWORD: ${DB_PASSWORD}
+            DB_USERS_NAME: ${DB_USERS_NAME}
+            KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
+            KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+            KEYCLOAK_JWT_URI: ${KEYCLOAK_JWT_URI}
+            EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE}
+            EUREKA_HOST: ${EUREKA_HOST}
+            EUREKA_PORT: ${EUREKA_PORT}
+            EUREKA_PATH: ${EUREKA_PATH}
+            SESSION_SECRET: ${SESSION_SECRET}
+            GATEWAY_URL: ${GATEWAY_URL}
+            KEYCLOAK_REALM: ${KEYCLOAK_REALM}
+            KEYCLOAK_AUTH_SERVER_URL: ${KEYCLOAK_AUTH_SERVER_URL}
+            KEYCLOAK_SERVER_URL: ${KEYCLOAK_SERVER_URL}
+            KEYCLOAK_SSL_REQUIRED: ${KEYCLOAK_SSL_REQUIRED}
+            KEYCLOAK_RESOURCE: ${KEYCLOAK_RESOURCE}
+            KEYCLOAK_RESOURCE_LOGIN: ${KEYCLOAK_RESOURCE_LOGIN}
+            KEYCLOAK_SECRET: ${KEYCLOAK_SECRET}
+            KEYCLOAK_CONFIDENTIAL_PORT: ${KEYCLOAK_CONFIDENTIAL_PORT}
+            KEYCLOAK_PUBLIC_KEY: ${KEYCLOAK_PUBLIC_KEY}
+          EOF
+
+      - name: Apply Kubernetes configmap
+        run: kubectl apply -f monkata-configmap.yaml

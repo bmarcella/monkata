@@ -8,7 +8,7 @@ export const AppDataSource = <DataSource, Entity> (DT: new (...args: any[]) => a
       port: Number(p.DB_PORT),
       username: p.DB_USER+'',
       password: p.DB_PASSWORD+'',
-      database: p.DB_DATABASE_NAME+'',
+      database: p.DB_NAME+'',
       synchronize: true,
       logging: true,
       entities,
