@@ -23,7 +23,7 @@ spec:
         env:
         - name: KC_DB
           value: "postgres"
-          
+
         - name: KC_DB_URL
           valueFrom: 
             configMapKeyRef:
@@ -55,14 +55,17 @@ spec:
               key: DB_KC_NAME
 
         - name: KC_DB_USERNAME
-          configMapKeyRef:
+          valueFrom:
+            configMapKeyRef:
               name: monkata-configmap
               key: DB_USER
-          
+              
         - name: KC_DB_PASSWORD
-          configMapKeyRef:
+          valueFrom:
+            configMapKeyRef:
               name: monkata-configmap
               key: DB_PASSWORD
+
         - name: JAVA_OPTS
           value: -Dkeycloak.profile.feature.account_api=enabled
         - name: KC_HOSTNAME_STRICT
