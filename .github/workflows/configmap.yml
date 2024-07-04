@@ -8,7 +8,9 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
+    environment: Monkata
+    env:
+      CLUSTER: ${{ vars.CLUSTER }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -20,7 +22,6 @@ jobs:
 
       - name: Create Kubernetes configmap
         env:
-          CLUSTER: ${{ vars.CLUSTER }}
           DB_HOST: ${{ secrets.DB_HOST }}
           DB_PORT: ${{ secrets.DB_PORT }}
           DB_USER: ${{ secrets.DB_USERNAME }}
