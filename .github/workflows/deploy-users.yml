@@ -13,7 +13,7 @@ jobs:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       OC_TOKEN: ${{ secrets.OC_TOKEN }}
-      IMAGE_NAME: ${{ vars.USERS_IMAGE }}
+      USERS_IMAGE_NAME: ${{ vars.USERS_IMAGE }}
       CLUSTER: ${{ vars.CLUSTER }}
     steps:
       - name: Checkout code
@@ -26,12 +26,15 @@ jobs:
       - name: Log in to Docker Hub # Docker Login
         run: echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
 
+      - name: show image name
+        run: echo $USERS_IMAGE_NAME
+
       - name: Build the docker image for #Eureka
         working-directory: api/users # Change this to your pom.xml directory
-        run: docker build -t $IMAGE_NAME .
+        run: docker build -t $USERS_IMAGE_NAME .
 
       - name: Push Docker image
-        run: docker push $IMAGE_NAME
+        run: docker push $USERS_IMAGE_NAME
 
       - name: Digital Ocean
         uses: digitalocean/action-doctl@v2

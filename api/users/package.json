@@ -1,6 +1,6 @@
 {
-  "name": "memploi",
-  "version": "1.0.2",
+  "name": "users",
+  "version": "1.0.3",
   "description": "",
   "main": "index.js",
   "scripts": {
