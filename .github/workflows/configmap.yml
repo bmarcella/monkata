@@ -54,7 +54,7 @@ jobs:
             name: monkata-configmap
           data:
             DB_HOST: ${DB_HOST}
-            DB_PORT: ${DB_PORT}
+            DB_PORT: "${DB_PORT}"
             DB_USER: ${DB_USER}
             DB_PASSWORD: ${DB_PASSWORD}
             DB_USERS_NAME: ${DB_USERS_NAME}
@@ -74,7 +74,7 @@ jobs:
             KEYCLOAK_RESOURCE: ${KEYCLOAK_RESOURCE}
             KEYCLOAK_RESOURCE_LOGIN: ${KEYCLOAK_RESOURCE_LOGIN}
             KEYCLOAK_SECRET: ${KEYCLOAK_SECRET}
-            KEYCLOAK_CONFIDENTIAL_PORT: ${KEYCLOAK_CONFIDENTIAL_PORT}
+            KEYCLOAK_CONFIDENTIAL_PORT: "${KEYCLOAK_CONFIDENTIAL_PORT}"
             KEYCLOAK_PUBLIC_KEY: ${KEYCLOAK_PUBLIC_KEY}
           EOF
       - name: Digital Ocean
