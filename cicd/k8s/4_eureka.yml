@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: eurekaserver-deployment
+  name: eureka-deployment
   labels:
-    app: eurekaserver
+    app: eureka
 spec:
   replicas: 1 
   selector:
     matchLabels:
-      app: eurekaserver
+      app: eureka
   template:
    metadata:
      labels:
-       app: eurekaserver
+       app: eureka
    spec:
      containers:
-     - name: eurekaserver
+     - name: eureka
        image: pledika/mkt-eureka
        ports:
         - containerPort: 8070
@@ -23,10 +23,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: eurekaserver-service
+  name: eureka-service
 spec:
   selector:
-    app: eurekaserver
+    app: eureka
   type: LoadBalancer
   ports:
     - protocol: TCP

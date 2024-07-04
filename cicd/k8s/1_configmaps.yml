@@ -8,8 +8,8 @@ data :
   KEYCLOAK_ADMIN_PASSWORD: lolo91
   KEYCLOAK_JWT_URI: http://keycloak-service:8083/realms/master/protocol/openid-connect/certs
   # EUREKA
-  EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver-service:8070/eureka/ 
-  EUREKA_HOST : http://eurekaserver-service
+  EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-service:8070/eureka/ 
+  EUREKA_HOST : http://eureka-service
   EUREKA_PORT  :  '8070'
   EUREKA_PATH  :  /eureka/apps/
 
