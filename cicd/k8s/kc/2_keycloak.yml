@@ -23,35 +23,42 @@ spec:
         env:
         - name: KC_DB
           value: "postgres"
+          
         - name: KC_DB_URL
           valueFrom: 
             configMapKeyRef:
               name: monkata-configmap
               key: KC_DB_URL
+
         - name: KC_DB_URL_HOST
           valueFrom: 
             configMapKeyRef:
               name: monkata-configmap
               key: DB_HOST
+
         - name: KC_DB_URL_PORT
           valueFrom: 
             configMapKeyRef:
               name: monkata-configmap
               key: DB_PORT
+
         - name: POSTGRES_DB
           valueFrom: 
             configMapKeyRef:
               name: monkata-configmap
               key: DB_KC_NAME
+
         - name: KC_DB_URL_DATABASE
           valueFrom: 
             configMapKeyRef:
               name: monkata-configmap
               key: DB_KC_NAME
+
         - name: KC_DB_USERNAME
           configMapKeyRef:
               name: monkata-configmap
               key: DB_USER
+          
         - name: KC_DB_PASSWORD
           configMapKeyRef:
               name: monkata-configmap
