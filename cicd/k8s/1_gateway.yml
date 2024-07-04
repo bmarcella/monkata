@@ -19,27 +19,10 @@ spec:
        image: pledika/mkt-gateway
        ports:
         - containerPort: 3000
+       envFrom:
+        - configMapRef:
+            name: monkata-configmap
        env:
-       - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
-         valueFrom: 
-           configMapKeyRef:
-             name: monkata-configmap
-             key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
-       - name: EUREKA_HOST
-         valueFrom: 
-           configMapKeyRef:
-             name: monkata-configmap
-             key: EUREKA_HOST
-       - name: EUREKA_PORT
-         valueFrom: 
-           configMapKeyRef:
-             name: monkata-configmap
-             key: EUREKA_PORT
-       - name: EUREKA_PATH
-         valueFrom: 
-           configMapKeyRef:
-             name: monkata-configmap
-             key: EUREKA_PATH
        - name: NODE_ENV
          valueFrom: 
            configMapKeyRef:
