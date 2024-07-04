@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata: 
+  name: monkata-configmap-gw
+data :
+  NODE_ENV  :  development
+  DEBUG  :  knex:query
+  PORT  :  "3000"
+  SERVICE_NAME : gateway
+  HOST  :  http://gateway-service
+  #SERVER INFO
+  DEV : "1"
+
+  HOST_PROD  : http://gateway-service:3000
+  IP  :  127.0.0.1
+  IP_PROD  :  127.0.0.1

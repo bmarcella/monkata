@@ -3,17 +3,21 @@ kind: ConfigMap
 metadata: 
   name: monkata-configmap
 data : 
-  EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver-service:8070/eureka/ 
+ 
   KEYCLOAK_ADMIN: admin
   KEYCLOAK_ADMIN_PASSWORD: lolo91
   KEYCLOAK_JWT_URI: http://keycloak-service:8083/realms/master/protocol/openid-connect/certs
+  # EUREKA
+  EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver-service:8070/eureka/ 
   EUREKA_HOST : http://eurekaserver-service
-  EUREKA_PORT  :  "8070"
+  EUREKA_PORT  :  '8070'
   EUREKA_PATH  :  /eureka/apps/
+
+  # SESSION
   SESSION_SECRET  :  ad0554000d85103f1a7be322a6d95e895ff5c14d4cbd870247e41248824e2a66
   
   #GATEWAY @
-  GATEWAY_URL  :  http://localhost:3000
+  GATEWAY_URL  :  http://gateway-service:3000
   # KEYCLOAK 
   KEYCLOAK_REALM : Monkata
   KEYCLOAK_AUTH_SERVER_URL : http://keycloak-service:7878
