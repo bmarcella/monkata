@@ -32,18 +32,18 @@ const EurekaTools = <Eureka>(E: new (...args: any[]) => Eureka, p?: any): any =>
 
 const EurekaConfig = (p: any) => {
   return {
-    host: (p.DEV==0) ? p.EUREKA_HOST + "" : p.EUREKA_HOST_PROD ,
+    host: p.EUREKA_HOST+"" ,
     port: Number(p.EUREKA_PORT),
     servicePath: p.EUREKA_PATH + "",
   }
 }
 const SERVICE_CONFIG = (p: any): any => {
   const EC = EurekaConfig(p);
-  return {
+  const config = {
     instance: {
       app: p.SERVICE_NAME + "",
-      hostName: (p.DEV==0) ? p.HOST + "" : p.HOST_PROD,
-      ipAddr: (p.DEV==0) ? p.IP + "" : p.IP_PROD,
+      hostName: p.HOST + "",
+      ipAddr: "dynamic",
       port: {
         '$': Number(p.PORT), // Le port sur lequel votre service s'exécute
         '@enabled': true,
@@ -55,7 +55,9 @@ const SERVICE_CONFIG = (p: any): any => {
       },
     },
     eureka: EC,
-  }
+  };
+  console.log(p, config);
+  return  config;
 }
 
 
@@ -122,3 +124,4 @@ const Run = <Eureka>(p: any, ET: any, app: any) => {
 }
 
 export { EurekaTools, Run, Service, SERVICE_CONFIG, setProxies };
+

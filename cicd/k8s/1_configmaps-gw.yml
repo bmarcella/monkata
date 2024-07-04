@@ -6,10 +6,5 @@ data :
   NODE_ENV  :  development
   PORT  :  "3000"
   SERVICE_NAME : gateway
-  HOST  :  http://gateway-service
-  #SERVER INFO
-  DEV : "1"
-
-  HOST_PROD  : http://gateway-service:3000
+  HOST  :  gateway-service
   IP  :  127.0.0.1
-  IP_PROD  :  127.0.0.1

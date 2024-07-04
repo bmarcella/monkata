@@ -11,7 +11,6 @@ import {
 import { services } from '../../../common/index/services';
 
 dotenv.config();
-console.log(process.env);
 const ET = EurekaTools<Eureka>(Eureka, process.env);
 setProxies<Express, Eureka>(process.env, ET, express, cors, ET.EurekaClient, services, createProxyMiddleware);
 

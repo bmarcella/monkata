@@ -38,21 +38,16 @@ spec:
            configMapKeyRef:
              name: monkata-configmap-gw
              key: SERVICE_NAME
-       - name: DEV
+       - name: HOST
          valueFrom: 
            configMapKeyRef:
              name: monkata-configmap-gw
-             key: DEV
-       - name: HOST_PROD
+             key: HOST
+       - name: IP
          valueFrom: 
            configMapKeyRef:
              name: monkata-configmap-gw
-             key: HOST_PROD
-       - name: IP_PROD
-         valueFrom: 
-           configMapKeyRef:
-             name: monkata-configmap-gw
-             key: IP_PROD
+             key: IP
            
 ---       
 apiVersion: v1
