@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up K8s
         uses: azure/setup-kubectl@v1
@@ -34,10 +34,10 @@ jobs:
           EUREKA_PORT: '8070'
           EUREKA_PATH: /eureka/apps/
           SESSION_SECRET: ad0554000d85103f1a7be322a6d95e895ff5c14d4cbd870247e41248824e2a66
-          GATEWAY_URL: http://gateway-service
+          GATEWAY_URL: gateway-service
           KEYCLOAK_REALM: Monkata
-          KEYCLOAK_AUTH_SERVER_URL: http://keycloak-service
-          KEYCLOAK_SERVER_URL: http://keycloak-service
+          KEYCLOAK_AUTH_SERVER_URL: keycloak-service
+          KEYCLOAK_SERVER_URL: keycloak-service
           KEYCLOAK_SSL_REQUIRED: external
           KEYCLOAK_RESOURCE: users-client
           KEYCLOAK_RESOURCE_LOGIN: jobs-app-fe
