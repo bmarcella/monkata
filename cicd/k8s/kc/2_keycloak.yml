@@ -23,12 +23,14 @@ spec:
         env:
         - name: KC_DB
           value: "postgres"
-        - name: KC_DB_URL
-          value: "jdbc:postgresql://${{ vars.DB_HOST }}:${{ vars.DB_PORT }}/${{ vars.KC_DB_NAME }}"  # Using DB_HOST, DB_PORT, and KC_DB_NAME variables for PostgreSQL URL
+        # - name: KC_DB_URL
+        #  value: "jdbc:postgresql://${{ vars.DB_HOST }}:${{ vars.DB_PORT }}/${{ vars.KC_DB_NAME }}"  # Using DB_HOST, DB_PORT, and KC_DB_NAME variables for PostgreSQL URL
         - name: KC_DB_URL_HOST
           value: "${{ vars.DB_HOST }}"  
         - name: KC_DB_URL_PORT
-          value: "${{ vars.DB_PORT }}"  
+          value: "${{ vars.DB_PORT }}" 
+        - name: POSTGRES_DB
+          value: "${{ vars.KC_DB_NAME }}"
         - name: KC_DB_URL_DATABASE
           value: "${{ vars.KC_DB_NAME }}"  # Setting KC_DB_NAME variable
         - name: KC_DB_USERNAME
@@ -39,6 +41,14 @@ spec:
           value: -Dkeycloak.profile.feature.account_api=enabled
         - name: KC_HOSTNAME_STRICT
           value: "false"
+        - name: KC_HEALTH_ENABLED
+          value: "true"
+        - name: KC_METRICS_ENABLED
+          value: "true"
+        - name: KC_HOSTNAME_STRICT_HTTPS
+          value: "false"  
+        - name: KC_LOG_LEVEL
+          value: INFO  
         - name: KEYCLOAK_ADMIN
           valueFrom: 
             configMapKeyRef:
