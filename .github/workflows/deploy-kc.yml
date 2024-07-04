@@ -26,4 +26,5 @@ jobs:
       - name: Configure kubectl
         run: |
           doctl kubernetes cluster kubeconfig save $CLUSTER
-          kubectl apply -f cicd/k8s/kc
+          kubectl create -f https://raw.githubusercontent.com/keycloak/keycloak-quickstarts/latest/kubernetes-examples/keycloak.yaml
+      #kubectl apply -f cicd/k8s/kc
