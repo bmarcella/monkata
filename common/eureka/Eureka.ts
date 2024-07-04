@@ -56,7 +56,6 @@ const SERVICE_CONFIG = (p: any): any => {
     },
     eureka: EC,
   };
-  console.log(p, config);
   return  config;
 }
 

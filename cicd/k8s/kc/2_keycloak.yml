@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak-deployment
+  labels:
+    app: keycloak
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      app: keycloak
+  template:
+   metadata:
+     labels:
+       app: keycloak
+   spec:
+     containers:
+     - name: keycloak
+       image: quay.io/keycloak/keycloak:22.0.1
+       args: ["start", "--cache-stack=kubernetes", "--spi-login-protocol-openid-connect-legacy-logout-redirect-uri=true"]
+       ports:
+        - containerPort: 8080
+       env:
+       - name: KC_DB
+         value: "postgres"
+       - name: KC_DB_URL
+         value: "jdbc:postgresql://${{ vars.DB_HOST }}:${{ vars.DB_PORT }}/${{ vars.KC_DB_NAME }}"  # Using DB_HOST, DB_PORT, and KC_DB_NAME variables for PostgreSQL URL
+       - name: KC_DB_URL_HOST
+         value: "${{ vars.DB_HOST }}"  # Setting DB_HOST variable
+       - name: KC_DB_URL_PORT
+         value: "${{ vars.DB_PORT }}"  # Setting DB_PORT variable
+       - name: KC_DB_URL_DATABASE
+         value: "${{ vars.KC_DB_NAME }}"  # Setting KC_DB_NAME variable
+       - name: KC_DB_USERNAME
+         value: "${{ secrets.DB_USERNAME }}"
+       - name: KC_DB_PASSWORD
+         value: "${{ secrets.DB_PASSWORD }}"  # Using GitHub secret for PostgreSQL password
+       - name: JAVA_OPTS
+         value: -Dkeycloak.profile.feature.account_api=enabled
+       - name: KEYCLOAK_ADMIN
+         valueFrom: 
+           configMapKeyRef:
+             name: monkata-configmap
+             key: KEYCLOAK_ADMIN 
+       - name: KEYCLOAK_ADMIN_PASSWORD
+         valueFrom: 
+           configMapKeyRef:
+             name: monkata-configmap
+             key: KEYCLOAK_ADMIN_PASSWORD
+---       
+apiVersion: v1
+kind: Service 
+metadata: 
+  name: keycloak-service
+spec:
+  selector:
+    app: keycloak
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 7878
+      targetPort: 8080
