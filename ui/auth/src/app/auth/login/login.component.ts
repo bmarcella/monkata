@@ -50,6 +50,7 @@ export class LoginComponent {
         window.location.href = URL;
       }
     }).catch((e) => {
+      console.log(e);
       if(e.status == 401)
       this.aUI.show({ active : true, message:"Email ou mot se passe invalide" , type: "danger", pos: 'top-right' });
       else

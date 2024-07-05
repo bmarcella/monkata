@@ -22,6 +22,7 @@ export class SignupComponent {
   sign  = false;
   constructor(public router: Router, private kc: KeycloakService,  private aUI:  AlertService,private recaptchaV3Service: ReCaptchaV3Service) {
     this.ct = this.kc.getCToken();
+    if (this.ct && this.ct.cross_token.appName)
     this.name = this.ct.cross_token.appName;
    }
   path() {

@@ -39,7 +39,7 @@ jobs:
           GATEWAY_URL: gateway-service
           KEYCLOAK_REALM: Monkata
           KEYCLOAK_AUTH_SERVER_URL: keycloak-service
-          KEYCLOAK_SERVER_URL: keycloak-service
+          KEYCLOAK_SERVER_URL: http://keycloak-service
           KEYCLOAK_SSL_REQUIRED: external
           KEYCLOAK_RESOURCE: users-client
           KEYCLOAK_RESOURCE_LOGIN: jobs-app-fe
