@@ -6,5 +6,5 @@ taskkill /F /pid {id}
 kubectl exec -it gateway-deployment-69cffc68cf-k4tds  -c gateway -- printenv
 
 kubectl create secret generic {key_name} --from-literal=JWT-KEY={any_value}
-ubectl scale deployment <deployment-name> --replicas=0
+kubectl scale deployment <deployment-name> --replicas=0
 kubectl create -f https://raw.githubusercontent.com/keycloak/keycloak-quickstarts/latest/kubernetes/keycloak.yaml
