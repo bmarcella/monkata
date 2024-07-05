@@ -20,7 +20,7 @@ export default class UserController extends BaseController {
   }
 
   public home(req: Request, res: Response) {
-    return UserService.home(req, res);
+     return UserService.home(req, res);
   }
 
   public profil(req: Request, res: Response) {

@@ -70,7 +70,8 @@ AppDataSource<DataSource, Array<any>>(DataSource, process.env, entities).then((D
   // body-parser
   app.use(bodyParser.json({ limit: '50mb', type: 'application/json' }));
   app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
-  app.use('/users', routes);
+  const BP = (process.env.BASE_PATH) ? process.env.BASE_PATH + '' : '/';
+  app.use(BP, routes);
   Run(process.env, ET, app);
 
 })

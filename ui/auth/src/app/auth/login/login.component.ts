@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
+
 import { routes } from 'src/app/core/helpers/routes/routes';
-import { KeycloakService } from './../../service/keycloak.service';
-import { getRURL } from 'src/environments/environment.prod';
 import { AlertService } from 'src/app/service/alert.service';
+import { getRURL } from 'src/environments/environment.prod';
+
+import { KeycloakService } from '../../service/keycloak.service';
+
 type Login = { username: string, password: string, token?: string }
 @Component({
   selector: 'app-login',
@@ -21,8 +24,8 @@ export class LoginComponent {
   ct: any;
   constructor(public router: Router, private kc: KeycloakService, private aUI:  AlertService,) {
     this.ct = this.kc.getCToken();
+    if (this.ct && this.ct.cross_token.appName)
     this.name = this.ct.cross_token.appName;
-
   }
 
   path() {

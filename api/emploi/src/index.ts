@@ -80,7 +80,8 @@ const app: Express = express();
   // body-parser
   app.use(bodyParser.json({ limit: '50mb', type: 'application/json' }));
   app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
-  app.use('/jobs', routes);
+  const BP = (process.env.BASE_PATH) ? process.env.BASE_PATH + '' : '/';
+  app.use(BP, routes);
  
   Run(process.env, ET, app);
 

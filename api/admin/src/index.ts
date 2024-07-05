@@ -6,10 +6,10 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { Eureka } from 'eureka-js-client';
 import express, {
-    Express,
-    NextFunction,
-    Request,
-    Response,
+  Express,
+  NextFunction,
+  Request,
+  Response,
 } from 'express';
 import session from 'express-session';
 import nodemailer from 'nodemailer';
@@ -17,8 +17,8 @@ import { DataSource } from 'typeorm';
 
 import { AppDataSource } from '../../../common/db/data-source';
 import {
-    EurekaTools,
-    Run,
+  EurekaTools,
+  Run,
 } from '../../../common/eureka/Eureka';
 import { JwtPayload } from '../../../common/keycloak/AuthMiddleware';
 import { Mail } from '../../../common/mail/index';
@@ -62,7 +62,8 @@ AppDataSource<DataSource, Array<any>>(DataSource, process.env, entities).then((D
   })
   app.use(bodyParser.json({ limit: '50mb', type: 'application/json' }));
   app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
-  app.use('/admin', routes);
+  const BP = (process.env.BASE_PATH) ? process.env.BASE_PATH + '' : '/';
+  app.use(BP, routes);
   Run(process.env, ET, app);
 
 })
