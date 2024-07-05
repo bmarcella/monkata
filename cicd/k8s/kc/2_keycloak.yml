@@ -53,13 +53,14 @@ spec:
             configMapKeyRef:
               name: monkata-configmap
               key: DB_KC_NAME
-
+             
+        # GOOD
         - name: KC_DB_USERNAME
           valueFrom:
             configMapKeyRef:
               name: monkata-configmap
               key: DB_USER
-              
+
         - name: KC_DB_PASSWORD
           valueFrom:
             configMapKeyRef:

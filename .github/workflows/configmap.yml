@@ -59,7 +59,7 @@ jobs:
             DB_USER: "${DB_USER}"
             DB_PASSWORD: "${DB_PASSWORD}"
             DB_USERS_NAME: "${DB_USERS_NAME}"
-            KC_DB_URL: "jdbc:postgresql://${DB_HOST}:${DB_PORT}/${KC_DB_NAME}"
+            KC_DB_URL: "jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_KC_NAME}"
             DB_KC_NAME: "${DB_KC_NAME}"
             KEYCLOAK_ADMIN: "${KEYCLOAK_ADMIN}"
             KEYCLOAK_ADMIN_PASSWORD: "${KEYCLOAK_ADMIN_PASSWORD}"
