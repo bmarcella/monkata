@@ -1,4 +1,4 @@
-name: AUTH UI BUILD
+name: AUTH_UI_BUILD
 on:
   push:
     branches:
@@ -13,5 +13,5 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Build  EMPLOI
-        working-directory: ui/auth/**
+        working-directory: ui/auth
         run: npm install && npm run build
