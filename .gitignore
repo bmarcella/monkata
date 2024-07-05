@@ -6,7 +6,7 @@
 /api/tuto
 /ui/*/node_modules
 /ui/*/.angular
-/ui/*/dist
+#/ui/*/dist
 /ui/template
 /ui/gw
 /ui/memploi/.angular/cache/

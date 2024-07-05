@@ -1,0 +1,20 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Copy file to Auth
+        run: cp api/.htaccess api/auth/dist/listee-angular
+
+      - name: Copy file to Memploi
+        run: cp api/.htaccess api/memploi/dist/listee-angular
