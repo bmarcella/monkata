@@ -15,3 +15,8 @@ jobs:
       - name: Build  EMPLOI
         working-directory: ui/memploi
         run: npm install && npm run build
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: build-artifacts
+          path: dist/ # Replace with your build output directory
