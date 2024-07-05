@@ -17,7 +17,7 @@ spec:
       containers:
       - name: keycloak
         image: quay.io/keycloak/keycloak:23.0.1
-        args: ["start", "--cache-stack=kubernetes"]
+        args: ["start"]
         ports:
           - containerPort: 8080
        # GOOD   
@@ -70,8 +70,8 @@ spec:
 
         - name: JAVA_OPTS
           value: -Dkeycloak.profile.feature.account_api=enabled
-        - name: KC_HOSTNAME_STRICT
-          value: "false"
+      #-name: KC_HOSTNAME_STRICT
+          #value: "false"
         - name: KC_HEALTH_ENABLED
           value: "true"
         - name: KC_METRICS_ENABLED
