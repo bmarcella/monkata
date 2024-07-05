@@ -244,7 +244,7 @@ const services = {
   }
   ,
   setCToken: async (token: any, req: Request, kcToken: KCToken, id: string ) => {
-    if (token){
+    if (token) {
       const rep = req.DB.getRepository(CrossToken);
       const ck: CrossToken = await rep.findOne({
         where: { token }
@@ -257,7 +257,6 @@ const services = {
         return app;
       }
     }
-
     return false;
   },
 
@@ -271,8 +270,10 @@ const services = {
     try {
      kcToken = await services.autoLogin(username, password) as KCToken;
     } catch (error: any) {
+      console.log("AUTO_LOGIN",error);
       return res.status(error.response.status).send(error);
     }
+
     try {
       const PL: JwtPayload = getPayload(jwt, kcToken.access_token, KEYCLOAK_PUBLIC_KEY + "");
       const email = PL.email;
@@ -292,7 +293,7 @@ const services = {
       });
 
     } catch (error) {
-
+      console.log("PUBLIC_KEY",error);
       return res.status(500).send({
        message: error
       });
