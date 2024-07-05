@@ -70,14 +70,33 @@ spec:
 
         - name: JAVA_OPTS
           value: -Dkeycloak.profile.feature.account_api=enabled
-      #-name: KC_HOSTNAME_STRICT
-          #value: "false"
+          #START
+        - name: KC_HOSTNAME_STRICT
+          value: "false"
+        - name: KC_HOSTNAME_STRICT_HTTPS
+          value: "false" 
+        - name: KEYCLOAK_ENABLE_HTTPS
+          value: "false"
+        - name: KEYCLOAK_PRODUCTION
+          value: "true"
+        - name: KC_HTTP_ENABLED
+          value: "true" 
+        - name: KEYCLOAK_PROXY
+          value: edge
+        - name: PORT
+          value: "8080"
+          # END  
+
         - name: KC_HEALTH_ENABLED
           value: "true"
+       
         - name: KC_METRICS_ENABLED
           value: "true"
+
         - name: KC_LOG_LEVEL
           value: INFO  
+
+
         - name: KEYCLOAK_ADMIN
           valueFrom: 
             configMapKeyRef:
@@ -99,5 +118,5 @@ spec:
   type: LoadBalancer
   ports:
     - protocol: TCP
-      port: 7878
+      port: 8080
       targetPort: 8080
