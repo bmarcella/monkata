@@ -16,9 +16,14 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '20' # Specify your Node.js version
-      - name: Build  EMPLOI
+      - name: Install  Deps
         working-directory: ui/memploi
-        run: npm install --force && npm run build
+        run: npm install --force
+
+      - name: Build AUTH
+        working-directory: ui/memploi
+        run: npm run build --force
+
       - name: Upload build artifacts
         uses: actions/upload-artifact@v2
         with:
