@@ -43,9 +43,9 @@ jobs:
           KEYCLOAK_SSL_REQUIRED: external
           KEYCLOAK_RESOURCE: users-client
           KEYCLOAK_RESOURCE_LOGIN: jobs-app-fe
-          KEYCLOAK_SECRET: uIORJLhptgXBgDn6ZicY17LMd0TrID0n
+          KEYCLOAK_SECRET: ${{ secrets.KEYCLOAK_SECRET }}
           KEYCLOAK_CONFIDENTIAL_PORT: '0'
-          KEYCLOAK_PUBLIC_KEY: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2U7DKTEKuS0zDDdjuC5hpFmN+e4yLijzvErTVxYKC4n0Iy+JqTb5UmF+i8REAODQZbUErP7Gsb/xmTcAr73GyvYO/HB3wB4599rBashS2Ruov+YJARqLlbUTrTe+sHyi/tiJMGHnHgAIQuW7R26tMuwRuYkPt7g6Do+Y9bU5Ra5qBqzWLmlH7WWKupswxYvl1zxZBA+ytRDUUfco0WKjc8N/X7CtDAbUyhVZysNZ+40gfaLkznX3UWHB4ztYlidz/bdR+NyO0bejt305/eL7DE26SgDoyEJnYcIhZaxp+A9zgHwVSTe+q7vQe8wMrXe/krwM+tjQBb8GZZDagPC2UQIDAQAB
+          KEYCLOAK_PUBLIC_KEY: ${{ secrets.KEYCLOAK_PUBLIC_KEY }}
 
         run: |
           cat <<EOF > monkata-configmap.yaml
