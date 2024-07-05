@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: emploi-deployment
+  labels:
+    app: emploi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app:  emploi
+  template:
+   metadata:
+     labels:
+       app:  emploi
+   spec:
+     containers:
+     - name:  emploi
+       image: pledika/mkt-emploi
+       ports:
+        - containerPort: 3003
+       envFrom:
+        - configMapRef:
+            name: monkata-configmap
+       env:
+       - name: NODE_ENV
+         valueFrom: 
+           configMapKeyRef:
+             name: monkata-configmap-emploi
+             key: NODE_ENV
+       - name: PORT
+         valueFrom: 
+           configMapKeyRef:
+             name: monkata-configmap-emploi
+             key: PORT
+       - name: SERVICE_NAME
+         valueFrom: 
+           configMapKeyRef:
+             name: monkata-configmap-emploi
+             key: SERVICE_NAME
+       - name: HOST
+         valueFrom: 
+           configMapKeyRef:
+             name: monkata-configmap-emploi
+             key: HOST
+       - name: IP
+         valueFrom: 
+           configMapKeyRef:
+             name: monkata-configmap-emploi
+             key: IP
+       - name: DB_NAME
+         valueFrom: 
+           configMapKeyRef:
+             name: monkata-configmap
+             key: DB_EMPLOI_NAME
+---       
+apiVersion: v1
+kind: Service
+metadata:
+  name:  emploi-service
+spec:
+  selector:
+    app:  emploi
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 3003
+      targetPort: 3003

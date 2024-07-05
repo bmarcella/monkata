@@ -1,0 +1,17 @@
+name: EMPLOI UI BUILD
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - 'ui/memploi/**'
+jobs:
+  builds:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build  EMPLOI
+        working-directory: ui/memploi/**
+        run: npm install && npm run build

@@ -1,4 +1,4 @@
-name: Deploy to Kubernetes
+name: ConfigMap
 
 on:
   push:
@@ -28,6 +28,7 @@ jobs:
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           DB_USERS_NAME: ${{ vars.USERS_DB_NAME }}
           DB_KC_NAME: ${{ vars.KC_DB_NAME }}
+          DB_EMPLOI_NAME: ${{ vars.EMPLOI_DB_NAME }}
           KEYCLOAK_ADMIN: admin
           KEYCLOAK_ADMIN_PASSWORD: lolo91
           EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-service/eureka/
@@ -59,6 +60,7 @@ jobs:
             DB_USER: "${DB_USER}"
             DB_PASSWORD: "${DB_PASSWORD}"
             DB_USERS_NAME: "${DB_USERS_NAME}"
+            DB_EMPLOI_NAME: "${DB_EMPLOI_NAME}"
             KC_DB_URL: "jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_KC_NAME}"
             DB_KC_NAME: "${DB_KC_NAME}"
             KEYCLOAK_ADMIN: "${KEYCLOAK_ADMIN}"

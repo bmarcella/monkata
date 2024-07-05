@@ -1,0 +1,17 @@
+name: AUTH UI BUILD
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - 'ui/auth/**'
+jobs:
+  builds:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build  EMPLOI
+        working-directory: ui/auth/**
+        run: npm install && npm run build

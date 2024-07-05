@@ -1,0 +1,42 @@
+name: EMPLOI_Build
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - 'api/emploi/**'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: Monkata
+    env:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      OC_TOKEN: ${{ secrets.OC_TOKEN }}
+      IMAGE_NAME: ${{ vars.EMPLOI_IMAGE }}
+      CLUSTER: ${{ vars.CLUSTER }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build emploi
+        working-directory: api/emploi # Change this to your pom.xml directory
+        run: npm install && npm i --save-dev @types/nodemailer && npm run build
+
+      - name: Log in to Docker Hub # Docker Login
+        run: echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+
+      - name: Build the docker image for #Eureka
+        working-directory: api/emploi # Change this to your pom.xml directory
+        run: docker build -t $IMAGE_NAME .
+
+      - name: Push Docker image
+        run: docker push $IMAGE_NAME
+
+      - name: Digital Ocean
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.OC_TOKEN }}
+          run: |
+            doctl kubernetes cluster kubeconfig save 0a6946a5-edc3-414b-afff-1f19885c54ec
+            kubectl rollout restart deployment emploi-deployment
