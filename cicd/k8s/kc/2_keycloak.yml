@@ -16,10 +16,11 @@ spec:
    spec:
       containers:
       - name: keycloak
-        image: quay.io/keycloak/keycloak:22.0.1
+        image: quay.io/keycloak/keycloak:23.0.1
         args: ["start", "--cache-stack=kubernetes"]
         ports:
           - containerPort: 8080
+       # GOOD   
         env:
         - name: KC_DB
           value: "postgres"
