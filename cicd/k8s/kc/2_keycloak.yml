@@ -76,8 +76,6 @@ spec:
           value: "true"
         - name: KC_METRICS_ENABLED
           value: "true"
-        - name: KC_HOSTNAME_STRICT_HTTPS
-          value: "false"  
         - name: KC_LOG_LEVEL
           value: INFO  
         - name: KEYCLOAK_ADMIN
