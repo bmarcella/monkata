@@ -30,7 +30,6 @@ jobs:
           DB_KC_NAME: ${{ vars.KC_DB_NAME }}
           KEYCLOAK_ADMIN: admin
           KEYCLOAK_ADMIN_PASSWORD: lolo91
-          KEYCLOAK_JWT_URI: http://keycloak-service/realms/master/protocol/openid-connect/certs
           EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-service/eureka/
           EUREKA_HOST: eureka-service
           EUREKA_PORT: '8070'
@@ -38,8 +37,9 @@ jobs:
           SESSION_SECRET: ad0554000d85103f1a7be322a6d95e895ff5c14d4cbd870247e41248824e2a66
           GATEWAY_URL: gateway-service
           KEYCLOAK_REALM: Monkata
-          KEYCLOAK_AUTH_SERVER_URL: keycloak-service
-          KEYCLOAK_SERVER_URL: http://keycloak-service
+          KEYCLOAK_JWT_URI: ${{ vars.KC_URL }}/realms/master/protocol/openid-connect/certs
+          KEYCLOAK_AUTH_SERVER_URL: ${{ vars.KC_URL }}
+          KEYCLOAK_SERVER_URL: ${{ vars.KC_URL }}
           KEYCLOAK_SSL_REQUIRED: external
           KEYCLOAK_RESOURCE: users-client
           KEYCLOAK_RESOURCE_LOGIN: jobs-app-fe
