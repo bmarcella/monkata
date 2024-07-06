@@ -3,8 +3,8 @@ on:
   push:
     branches:
       - dev
-    #paths:
-    #- 'ui/auth/**'
+     paths:
+     - 'ui/auth/**'
 jobs:
   builds:
     runs-on: ubuntu-latest
