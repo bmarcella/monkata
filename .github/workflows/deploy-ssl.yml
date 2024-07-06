@@ -26,8 +26,6 @@ jobs:
       - name: Configure kubectl
         run: |
           doctl kubernetes cluster kubeconfig save $CLUSTER
-
+        #kubectl create namespace cert-manager
       - name: Apply ymal files
-        run: |
-          kubectl create namespace cert-manager
-          kubectl apply -f cicd/k8s/ssl
+        run: kubectl apply -f cicd/k8s/ssl
