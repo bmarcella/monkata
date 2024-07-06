@@ -15,6 +15,7 @@ import session from 'express-session';
 import nodemailer from 'nodemailer';
 import { DataSource } from 'typeorm';
 
+import { corsOptions } from '../../../common/cors/index';
 import { AppDataSource } from '../../common/db/data-source';
 import {
   EurekaTools,
@@ -43,7 +44,7 @@ dotenv.config();
 const entities = [Test];
 AppDataSource<DataSource, Array<any>>(DataSource, process.env, entities).then((DB: DataSource) => {
   const app: Express = express();
-  app.use(cors());
+  app.use(cors(corsOptions));
 
   app.use(session({
     secret: (process.env.SESSION_SECRET + "")?.trim(),

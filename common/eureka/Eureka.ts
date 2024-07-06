@@ -1,3 +1,4 @@
+import { corsOptions } from '../cors/index';
 import { servicesApp } from '../index/Frontend';
 import { Service } from '../index/services';
 
@@ -87,7 +88,7 @@ const setProxies = <E, Eureka>(p: any, ET: any, express: any, cors: any, eurekaC
 
     });
     const port = p.PORT;
-    app.use(cors());
+    app.use(cors(corsOptions));
     app.get('/applications', (req: any, res: any) => {
       res.status(200).send(servicesApp);
     });

@@ -4,7 +4,7 @@ metadata:
   name: monkata-configmap-gw
 data :
   NODE_ENV  :  development
-  PORT  :  "3000"
+  PORT  :  "8080"
   SERVICE_NAME : gateway
   HOST  :  gateway-service
   IP  :  127.0.0.1
