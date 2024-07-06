@@ -18,7 +18,7 @@ const prod = true;
 const url = {
   live : 'http://69.159.138.245:3000' ,
   dev:  "http://localhost:3000",
-  prod: "http://209.38.48.97:8080"
+  prod: "http://209.38.48.97:3000"
 }
 const local = (prod) ? "prod" : (live) ? "live" : "dev";
 export const environment = {
