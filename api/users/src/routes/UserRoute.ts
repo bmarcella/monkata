@@ -12,7 +12,7 @@ const ctrl = _ctrl.init();
 const serv = services;
 userRoute.get('/', ctrl.home);
 userRoute.post('/login', ctrl.login);
-userRoute.post('/loginTest', serv.loginTest);
+userRoute.get('/loginTest', serv.loginTest);
 userRoute.post('/login/:token', ctrl.login);
 userRoute.post('/register', ReCaptcha(axios), ctrl.register);
 userRoute.post('/register/:token', ReCaptcha(axios), ctrl.register);
