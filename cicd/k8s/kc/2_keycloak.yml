@@ -75,8 +75,9 @@ spec:
           value: "false"
         - name: KC_HOSTNAME_STRICT_HTTPS
           value: "false" 
+          
         - name: KEYCLOAK_ENABLE_HTTPS
-          value: "false"
+          value: "true"
         - name: KEYCLOAK_PRODUCTION
           value: "true"
         - name: KC_HTTP_ENABLED
@@ -85,6 +86,8 @@ spec:
           value: edge
         - name: PORT
           value: "8080"
+        #- name: KC_HOSTNAME
+        #value: "keycloak.memploi.com"
           # END  
 
         - name: KC_HEALTH_ENABLED
@@ -108,15 +111,27 @@ spec:
               name: monkata-configmap
               key: KEYCLOAK_ADMIN_PASSWORD
 ---       
-apiVersion: v1
-kind: Service 
-metadata: 
+apiVersion: v1      
+kind: Service
+
+metadata:
   name: keycloak-service
+  annotations:
+    kubernetes.digitalocean.com/load-balancer-id: "16cccbd2-76ee-4ba4-82e6-7311539d7f4b "
+    service.beta.kubernetes.io/do-loadbalancer-http-idle-timeout-seconds: "65"
+    service.beta.kubernetes.io/do-loadbalancer-protocol: "http"
+    service.beta.kubernetes.io/do-loadbalancer-tls-ports: "443"
+    service.beta.kubernetes.io/do-loadbalancer-certificate-id: "94594d48-f7cf-4338-bf34-4033cac563a8"
 spec:
+  type: LoadBalancer
   selector:
     app: keycloak
-  type: LoadBalancer
   ports:
-    - protocol: TCP
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 8080
+    - name: https
+      protocol: TCP
       port: 443
       targetPort: 8080

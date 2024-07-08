@@ -42,6 +42,47 @@ const services = {
       port: process.env.PORT
     });
   },
+  loginTest: async (req: Request, res: Response) => {
+
+    const token = req.params.token;
+    const username = "bmarcella91@gmail.com"
+    const password = "lolo91";
+    const { KEYCLOAK_PUBLIC_KEY } = process.env;
+    let kcToken;
+    try {
+     kcToken = await services.autoLogin(username, password) as KCToken;
+    } catch (error: any) {
+      console.log("AUTO_LOGIN",error);
+      return res.status(error.response.status).send(error);
+    }
+
+    try {
+      const PL: JwtPayload = getPayload(jwt, kcToken.access_token, KEYCLOAK_PUBLIC_KEY + "");
+      const email = PL.email;
+      const userRepository = req.DB.getTreeRepository(User);
+      let profil: User = await userRepository.findOne({
+        where: { email }
+      });
+
+      if (!profil) profil = await services.autoRegister(PL, password, req);
+
+      const ct = await services.setCToken(token, req, kcToken, profil.keycloakId || "");
+
+      return res.send({
+        kcToken,
+        profil,
+        cross_token: ct
+      });
+
+    } catch (error) {
+      console.log("PUBLIC_KEY", error);
+      return res.status(500).send({
+       message: error
+      });
+
+    }
+   
+  },
   profil: (req: Request, res: Response) => {
     return res.send("Profil user");
   },
@@ -293,7 +334,7 @@ const services = {
       });
 
     } catch (error) {
-      console.log("PUBLIC_KEY",error);
+      console.log("PUBLIC_KEY", error);
       return res.status(500).send({
        message: error
       });
