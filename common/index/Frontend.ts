@@ -4,8 +4,9 @@ export type ServiceObjApp = { [key: string]: ServiceApp };
 export const servicesApp: ServiceObjApp = {
   auth: {
     name: "auth-monkata",
-    path: "/jobs",
+    path: "/users",
     frontend_dev: "http://localhost:4203",
+    frontend_prod: "https://auth.monkata.com",
     show: false,
     login: "/auth/login-cross-token"
   },
@@ -13,6 +14,7 @@ export const servicesApp: ServiceObjApp = {
     name: "monkata",
     path: "/ecomerce",
     frontend_dev: 'http://localhost:4200',
+    frontend_prod: "https://monkata.com",
     show: false,
   },
   qnote: {
@@ -21,6 +23,7 @@ export const servicesApp: ServiceObjApp = {
     description: "Génerateur de bulletin scolaire",
     path: "/qnote",
     frontend_dev: "http://localhost:4205",
+    frontend_prod: "https://qnote.pledika.com",
     login: "/auth/login-cross-token",
     show: true,
     img: 'assets/img/icons/category-5.svg',
@@ -31,6 +34,7 @@ export const servicesApp: ServiceObjApp = {
     description: "Monkata Admin",
     path: "/admin",
     frontend_dev: "http://localhost:4206",
+    frontend_prod: "https://admin.monkata.com",
     login: "/auth/login-cross-token",
     show: true,
     img: 'assets/img/icons/category-5.svg',
@@ -41,6 +45,7 @@ export const servicesApp: ServiceObjApp = {
     description: "Trouver un emploi qui vous convient!",
     path: "/jobs",
     frontend_dev: "http://localhost:4201",
+    frontend_prod: "https://memploi.com",
     login: "/auth/login-cross-token",
     show: true,
     img: 'assets/img/icons/category-5.svg',
@@ -51,6 +56,7 @@ export const servicesApp: ServiceObjApp = {
     description: "Pour les etablissements scolaires",
     path: "/jobs",
     frontend_dev: "http://localhost:4201",
+    frontend_prod: "https://www.pledika.com",
     show: true,
     img: 'assets/img/icons/category-6.svg',
   },

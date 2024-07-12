@@ -88,7 +88,13 @@ const setProxies = <E, Eureka>(p: any, ET: any, express: any, cors: any, eurekaC
 
     });
     const port = p.PORT;
+    const dev = Number(p.DEV);
+    
+    if(dev==1)
     app.use(cors(corsOptions));
+    else
+    app.use(cors());
+
     app.get('/applications', (req: any, res: any) => {
       res.status(200).send(servicesApp);
     });

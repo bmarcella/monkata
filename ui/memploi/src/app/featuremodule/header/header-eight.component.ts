@@ -35,7 +35,6 @@ export class HeaderComponent implements OnInit {
     private crud: CrudService,
   ) {
     this.user = this.auth.profil();
-    console.log(this.user);
     if(this.user) {
       this.login = true;
       this.avatar = this.auth.getAvatar(this.user.id);

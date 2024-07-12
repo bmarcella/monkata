@@ -8,17 +8,21 @@ import {
   Response,
 } from 'express';
 import * as jwt from 'jsonwebtoken';
+import { v4 as uuidv4 } from 'uuid';
 
 import { servicesApp } from '../../../../common/index/Frontend';
 import {
+  GenToken,
   getPayload,
   JwtPayload,
+  VerifyRefreshToken,
 } from '../../../../common/keycloak/AuthMiddleware';
 import MailService from '../../../../common/mail/MailService';
 import { random } from '../../../emploi/src/utils/Helper';
 import { Avatar } from '../entity/Avatar';
 import { CrossToken } from '../entity/CrossToken';
 import { DefaultAvatar } from '../entity/Default';
+import { KcUser } from '../entity/KC_User';
 import { Logo } from '../entity/Logo';
 import { User } from '../entity/User';
 
@@ -33,7 +37,6 @@ export class KCToken {
   token_type: string
 }
 
-const { KEYCLOAK_RESOURCE, KEYCLOAK_SERVER_URL, KEYCLOAK_REALM } = process.env;
 
 const services = {
   home: async (req: Request, res: Response) => {
@@ -42,54 +45,23 @@ const services = {
       port: process.env.PORT
     });
   },
-  loginTest: async (req: Request, res: Response) => {
-
-    const token = req.params.token;
-    const username = "bmarcella91@gmail.com"
-    const password = "lolo91";
-    const { KEYCLOAK_PUBLIC_KEY } = process.env;
-    let kcToken;
-    try {
-     kcToken = await services.autoLogin(username, password) as KCToken;
-    } catch (error: any) {
-      console.log("AUTO_LOGIN",error);
-      return res.status(error.response.status).send(error);
-    }
-
-    try {
-      const PL: JwtPayload = getPayload(jwt, kcToken.access_token, KEYCLOAK_PUBLIC_KEY + "");
-      const email = PL.email;
-      const userRepository = req.DB.getTreeRepository(User);
-      let profil: User = await userRepository.findOne({
-        where: { email }
-      });
-
-      if (!profil) profil = await services.autoRegister(PL, password, req);
-
-      const ct = await services.setCToken(token, req, kcToken, profil.keycloakId || "");
-
-      return res.send({
-        kcToken,
-        profil,
-        cross_token: ct
-      });
-
-    } catch (error) {
-      console.log("PUBLIC_KEY", error);
-      return res.status(500).send({
-       message: error
-      });
-
-    }
-   
-  },
   profil: (req: Request, res: Response) => {
     return res.send("Profil user");
   },
-  hashPassword: async (password: string): Promise<string> => {
+  hashPassword: async (password: string): Promise<{ hash: string, salt: string }> => {
     const saltRounds: number = 10; // Adjust the cost factor according to your security requirements and server capabilities
     try {
       const salt: string = await bcrypt.genSalt(saltRounds);
+      const hash: string = await bcrypt.hash(password, salt);
+      return { hash, salt };
+    } catch (error) {
+      console.error('Error hashing password:', error);
+      throw error;
+    }
+  },
+  recoverHashPassword: async (salt: any, password: string): Promise<string> => {
+    const saltRounds: number = 10;
+    try {
       const hash: string = await bcrypt.hash(password, salt);
       return hash;
     } catch (error) {
@@ -97,43 +69,27 @@ const services = {
       throw error;
     }
   },
-  verifyPassword: async (submittedPassword: string, storedHash: string) => {
-    try {
-      // Compare the submitted password with the stored hash
-      const isMatch = await bcrypt.compare(submittedPassword, storedHash);
+  
 
-      if (isMatch) {
-        console.log('Passwords match!');
-      } else {
-        console.log('Passwords do not match.');
-      }
-      return isMatch; // true if passwords match, false otherwise
-    } catch (error) {
-      console.error('Error verifying password:', error);
-      throw error;
-    }
-  },
   register: async (req: Request, res: Response) => {
     const userRepository = req.DB.getRepository(User);
     const email = req.body.email;
     const user = await userRepository.findOne({
       where: { email }
     });
-    if (user) return res.status(409).send({ message : "Email Existe deja !" });
+    if (user) return res.status(409).send({ message: "Email Existe deja !" });
     const u = new User();
     u.email = req.body.email;
     u.firstName = req.body.firstname;
     u.lastName = req.body.lastname;
-    u.password = req.body.password;
-    const { KEYCLOAK_PUBLIC_KEY, KEYCLOAK_SECRET, KEYCLOAK_RESOURCE, KEYCLOAK_SERVER_URL, KEYCLOAK_REALM } = process.env;
     try {
-      const token = await services.getAdminToken(KEYCLOAK_SERVER_URL + "", KEYCLOAK_REALM + "", KEYCLOAK_RESOURCE + "", KEYCLOAK_SECRET + "");
-      const state = await services.createUser(KEYCLOAK_SERVER_URL + "", KEYCLOAK_REALM + "", token, services.getKCUser(u));
+      const state = await services.createUser(u, req);
       if (state) {
-        const kcToken = await services.autoLogin(u.email + "", req.body.password);
-        const PL = getPayload(jwt, kcToken.access_token, KEYCLOAK_PUBLIC_KEY + "");
-        u.password = await services.hashPassword(req.body.password);
-        u.keycloakId = PL.sub;
+        const nkcToken = await services.autoLogin(u.email + "", req.body.password, req);
+        if (!nkcToken) return res.status(404).send({ message: "Email n'existe pas!" });
+        const kcToken = nkcToken as KCToken;
+        const user = state as KcUser;
+        u.keycloakId = user.sub;
         const profil = await userRepository.save(u);
         return res.send({
           kcToken,
@@ -147,84 +103,62 @@ const services = {
       throw error;
     }
   },
-  getKCUser: (u: User) => {
-    return {
-      username: u.email + "_" + Date.now(),
-      enabled: true,
-      email: u.email,
-      firstName: u.firstName,
-      lastName: u.lastName,
-      credentials: [
-        {
-          type: 'password',
-          value: u.password,
-          temporary: false // Set to true if the password should be changed on the first login
-        }
-      ],
-      // Additional user attributes can be added here if needed
-    };
-  },
-  createUser: async (keycloakUrl: string, realm: string, adminToken: string, userData: any) => {
-    // const usersEndpoint = `${keycloakUrl}/admin/realms/users`;
-    const usersEndpoint = `${keycloakUrl}/admin/realms/${realm}/users`;
-    try {
-      const response = await axios.post(usersEndpoint, userData, {
-        headers: {
-          'Authorization': `Bearer ${adminToken}`,
-          'Content-Type': 'application/json'
-        }
-      });
-      // If the user is created successfully, Keycloak returns a 201 status code.
-      if (response.status === 201) {
-        return true
-      } else {
-        return false;
-      }
-    } catch (error: any) {
-      console.error('Error creating user:', error.response.data);
-      throw error;
-    }
-  },
-  autoLogin: async (username: string, password: string): Promise<KCToken> => {
-    const { KEYCLOAK_SECRET, KEYCLOAK_RESOURCE, KEYCLOAK_SERVER_URL, KEYCLOAK_REALM } = process.env;
-    const clientId = KEYCLOAK_RESOURCE + "";
-    const tokenEndpoint = `${KEYCLOAK_SERVER_URL}/realms/${KEYCLOAK_REALM}/protocol/openid-connect/token`;
-    const data = new URLSearchParams({
-      client_id: clientId,
-      username: username,
-      password: password,
-      grant_type: 'password',
-      client_secret: KEYCLOAK_SECRET + ""
+  createUser: async (ud: any, req: Request): Promise<boolean | KcUser> => {
+    const userRepository = req.DB.getRepository(KcUser);
+    const user = await userRepository.findOne({
+      where: { email: ud.email }
     });
-
+    if (user) return false;
+    const ph = await services.hashPassword(req.body.password);
+    let u = new KcUser();
+    u.email = ud.email;
+    u.given_name = ud.firstName;
+    u.family_name = ud.lastName;
+    u.password = ph.hash;
+    u.salt = ph.salt;
+    u.sub = uuidv4();
+    u = await userRepository.save(u);
+    return u;
+  },
+  autoLogin: async (username: string, password: string, req: Request) => {
     try {
-      const response = await axios.post(tokenEndpoint, data.toString(), {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'Accept': 'application/json'
-        },
+      const userRepository = req.DB.getRepository(KcUser);
+      const user: KcUser = await userRepository.findOne({
+        where: { email: username }
       });
-      return response.data as KCToken;
+      if (!user) throw { message: "Email non trouvé" };
+      const hp = await services.recoverHashPassword(user.salt, password);
+      if (hp == user.password) {
+        user.password = "";
+        user.salt = "";
+        const token = services.getKCToken(user);
+        return token as KCToken;
+      }
     } catch (error: any) {
       console.error('Auth Error but account have been created', error);
       throw error;
     }
   },
-  test: async (req: Request, res: Response) => {
-    const userRepository = req.DB.getRepository(User);
-    const keycloakId = req.params.data;
-    const user = await userRepository.findOne({
-      where: { keycloakId }
-    });
-    const { KEYCLOAK_SECRET, KEYCLOAK_RESOURCE, KEYCLOAK_SERVER_URL, KEYCLOAK_REALM } = process.env;
-    try {
-      const token = await services.getAdminToken(KEYCLOAK_SERVER_URL + "", KEYCLOAK_REALM + "", KEYCLOAK_RESOURCE + "", KEYCLOAK_SECRET + "");
-      const data = await services.getUserInfo(KEYCLOAK_SERVER_URL + "", KEYCLOAK_REALM + "", token, keycloakId);
-      return res.status(200).send({data, user});
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
+  getKCToken(user: KcUser ) : KCToken {
+    const  PUBLIC_KEY  = process.env.PUBLIC_KEY;
+    const payload = {
+      sub: user.sub,
+      given_name: user.given_name,
+      family_name: user.family_name,
+      email: user.email,
+    };
+    const at = GenToken(jwt, payload, PUBLIC_KEY + "", "24h");
+    const rt = GenToken(jwt, payload, PUBLIC_KEY + "", "18h");
+    return  {
+      access_token: at,
+      expires_in: 86000,
+      "not-before-policy": 0,
+      refresh_expires_in: 64800,
+      refresh_token: rt,
+      scope: "profile email",
+      session_state: uuidv4(),
+      token_type: "Bearer",
+    };
   },
   getUserInfo: async (keycloakUrl: any, realm: string, accessToken: string, userId: string) => {
     const userInfoEndpoint = `${keycloakUrl}/admin/realms/${realm}/users/${userId}`;
@@ -237,25 +171,6 @@ const services = {
       return response.data;
     } catch (error) {
       console.error('Error retrieving user info:', error);
-      throw error;
-    }
-  },
-  getAdminToken: async (keycloakUrl: string, realm: string, clientId: string, clientSecret: string) => {
-    const tokenEndpoint = `${keycloakUrl}/realms/${realm}/protocol/openid-connect/token`;
-    const data = new URLSearchParams({
-      client_id: clientId,
-      client_secret: clientSecret,
-      grant_type: 'client_credentials'
-    });
-    try {
-      const response = await axios.post(tokenEndpoint, data, {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        }
-      });
-      return response.data.access_token;
-    } catch (error) {
-      console.error('Error obtaining admin token:', error);
       throw error;
     }
   },
@@ -284,13 +199,13 @@ const services = {
     }
   }
   ,
-  setCToken: async (token: any, req: Request, kcToken: KCToken, id: string ) => {
+  setCToken: async (token: any, req: Request, kcToken: KCToken, id: string) => {
     if (token) {
       const rep = req.DB.getRepository(CrossToken);
       const ck: CrossToken = await rep.findOne({
         where: { token }
       });
-      if (ck){
+      if (ck) {
         ck.kCToken = JSON.stringify(kcToken);
         ck.userId = id;
         await rep.save(ck);
@@ -302,21 +217,22 @@ const services = {
   },
 
   login: async (req: Request, res: Response) => {
- 
+
     const token = req.params.token;
     const username = req.body.username;
     const password = req.body.password;
-    const { KEYCLOAK_PUBLIC_KEY } = process.env;
+    const { PUBLIC_KEY } = process.env;
     let kcToken;
     try {
-     kcToken = await services.autoLogin(username, password) as KCToken;
+      kcToken = await services.autoLogin(username, password, req) as KCToken;
     } catch (error: any) {
-      console.log("AUTO_LOGIN",error);
-      return res.status(error.response.status).send(error);
+      console.log("AUTO_LOGIN", error);
+      return res.status(500).send(error);
     }
+    if (!kcToken?.access_token)  return res.status(401).send({ message:'Token DiD Not Generate '});
 
     try {
-      const PL: JwtPayload = getPayload(jwt, kcToken.access_token, KEYCLOAK_PUBLIC_KEY + "");
+      const PL: JwtPayload = getPayload(jwt, kcToken.access_token, PUBLIC_KEY + "");
       const email = PL.email;
       const userRepository = req.DB.getTreeRepository(User);
       let profil: User = await userRepository.findOne({
@@ -333,12 +249,11 @@ const services = {
         cross_token: ct
       });
 
-    } catch (error) {
+     } catch (error) {
       console.log("PUBLIC_KEY", error);
       return res.status(500).send({
-       message: error
+        message: error
       });
-
     }
   },
   autoRegister: async (PL: JwtPayload, password: string, req: Request) => {
@@ -348,7 +263,6 @@ const services = {
       u.email = PL.email;
       u.firstName = PL.given_name;
       u.lastName = PL.family_name;
-      u.password = await services.hashPassword(password);
       u.keycloakId = PL.sub;
       return await userRepository.save(u);
     } catch (error) {
@@ -358,23 +272,23 @@ const services = {
   },
   refreshtoken: async (req: Request, res: Response) => {
     const refreshToken = req.params.token;
-    const { KEYCLOAK_SECRET, KEYCLOAK_RESOURCE, KEYCLOAK_SERVER_URL, KEYCLOAK_REALM } = process.env;
-    const clientId = KEYCLOAK_RESOURCE + "";
-    const tokenEndpoint = `${KEYCLOAK_SERVER_URL}/realms/${KEYCLOAK_REALM}/protocol/openid-connect/token`;
-    const data = new URLSearchParams({
-      client_id: clientId,
-      grant_type: 'refresh_token',
-      client_secret: KEYCLOAK_SECRET + "",
-      refresh_token: refreshToken
-    });
+    const { PUBLIC_KEY } = process.env;
     try {
-      const response = await axios.post(tokenEndpoint, data.toString(), {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'Accept': 'application/json'
-        },
-      });
-      return res.status(200).send(response.data as KCToken);
+      const payload  = VerifyRefreshToken(jwt, refreshToken, PUBLIC_KEY+"");
+      if(!payload.error) {
+        const userRepository = req.DB.getRepository(KcUser);
+        const user = await userRepository.findOne({
+          where: { sub: payload.data?.sub }
+        });
+        user.password = "";
+        user.salt = "";
+        const token = services.getKCToken(user);
+        return res.status(200).send(token as KCToken);
+      } else {
+        return res.status(403).send({
+          message: payload.message
+        });
+      }
     } catch (error) {
       return res.status(403).send({
         message: "Refresh token expired"
@@ -457,12 +371,13 @@ const services = {
       res.status(500).send(error);
     }
   }
-,
-editPassword: async (req: Request, res: Response) => {
-    const userRepository = req.DB.getRepository(User);
+  ,
+  editPassword: async (req: Request, res: Response) => {
+    const userRepository = req.DB.getRepository(KcUser);
+
     const keycloakId = req.payload?.sub;
-    const user: User = await userRepository.findOne({
-      where: { keycloakId }
+    const user: KcUser = await userRepository.findOne({
+      where: { sub:  keycloakId }
     });
 
     if (!user) return res.status(200).send({
@@ -470,35 +385,26 @@ editPassword: async (req: Request, res: Response) => {
       message: "Utilisateur non trouvé",
       code: 404,
       type: "danger",
-      data : {}
+      data: {}
     });
 
-   const isOk = await services.verifyPassword (req.body.oldPassword, user.password+"");
-  
-   if (!isOk) return res.status(200).send({
-    error: true,
-    message: "Ancien mot de passe non identique.",
-    code: 404,
-    type: "danger",
-    data : {}
-  });
-
-   const data=  {
-      "type": "password",
-      "temporary": false,
-      "value": req.body.newPassword
-    };
-    const { KEYCLOAK_PUBLIC_KEY, KEYCLOAK_SECRET, KEYCLOAK_RESOURCE, KEYCLOAK_SERVER_URL, KEYCLOAK_REALM } = process.env;
     try {
-      const token = await services.getAdminToken(KEYCLOAK_SERVER_URL + "", KEYCLOAK_REALM + "", KEYCLOAK_RESOURCE + "", KEYCLOAK_SECRET + "");
-      const state = await services.changeUserPass(KEYCLOAK_SERVER_URL + "", KEYCLOAK_REALM + "", token, data, keycloakId+"");
+      const isOk = await services.verifyPassword(req.body.oldPassword, user );
+      if (!isOk) return res.status(200).send({
+        error: true,
+        message: "Ancien mot de passe non identique.",
+        code: 404,
+        type: "danger",
+        data: {}
+      });
+      const state = await services.changeUserPass( req.body.newPassword, keycloakId + "", req);
       if (state) {
         return res.send({
           error: false,
           message: "Mot de passe modifié avec succes.",
           type: "success",
           code: 404,
-          data : state
+          data: state
         });
       } else {
         return res.send({
@@ -506,9 +412,9 @@ editPassword: async (req: Request, res: Response) => {
           message: "Mot de passe non modifié",
           code: 404,
           type: "danger",
-          data : state
+          data: state
         });
-        
+
       }
     } catch (error) {
       return res.status(200).send({
@@ -516,143 +422,146 @@ editPassword: async (req: Request, res: Response) => {
         message: "Erreur serveur",
         code: 500,
         type: "danger",
-        data : error
+        data: error
       });
     }
   },
-changeUserPass: async (keycloakUrl: string, realm: string, adminToken: string, userData: any, user_id: string) => {
-
-    const usersEndpoint = `${keycloakUrl}/admin/realms/${realm}/users/${user_id}/reset-password`;
-   try {
-      const response = await axios.put(usersEndpoint, userData, {
-        headers: {
-          'Authorization': `Bearer ${adminToken}`,
-          'Content-Type': 'application/json'
-        }
-      });
-      console.log(response);
-      // If the user is created successfully, Keycloak returns a 201 status code.
-      if (response.status === 201 || response.status === 204 ) {
-        return true
-      } else {
-        return false;
+  verifyPassword: async (password: string, user: any) => {
+    try {
+      const hp = await services.recoverHashPassword(user.salt, password);
+      if (hp == user.password) {
+        return true;
       }
+     return false;
+    } catch (error) {
+      console.error('Error verifying password:', error);
+      throw error;
+    }
+  },
+  changeUserPass: async (password: any, id: string, req: Request) => {
+    try {
+      const userRepository = req.DB.getRepository(KcUser);
+      const u = await userRepository.findOne({
+        where: { sub: id }
+      });
+      const hp = await services.hashPassword(password);
+      u.password = hp.hash;
+      u.salt = hp.salt;
+      await userRepository.save(u);
+      return true
     } catch (error: any) {
       console.error('Error creating user:', error.response.data);
       throw error;
     }
-},
+  },
 
-resetPassword : async (req: Request, res: Response) => {
-  try {
-  const userRepository = req.DB.getRepository(User);
-  const email = req.body?.email;
-  let userToUpdate : User = await userRepository.findOne({
-    where: { email }
-  });
-  const code = random(123123, 999999).toString();
-  userToUpdate.reset_code = code;
- 
-  userToUpdate = await userRepository.save(userToUpdate);
-
-  console.log("USER : ",userToUpdate);
-  MailService.reset_password(req, { code, email : email, firstName: userToUpdate.firstName });
-  return res.status(200).send({
-    firstName : userToUpdate.firstName,
-    lastName : userToUpdate.lastName
-  });
-  } catch (error) {
-    console.log(error);
-    res.status(500).send(error);
-  }
-},
-
-resetNowPassword : async (req: Request, res: Response) => {
-  try {
-  const userRepository = req.DB.getRepository(User);
-  const { email, code, password, password_2 } = req.body.data;
-  console.log(req.body);
-  if (password != password_2) {
-    return res.status(200).send({
-    error: true,
-    message : "Mot de passe identique!"
-  });
-}
-
-  const user : User = await userRepository.findOne({
-    where: { email }
-  });
-
-  const getDay = (date1: Date, date2: Date)=>{
-    if (date1 == undefined) return 0;
-    const Difference_In_Time =
-    date2.getTime() - date1.getTime();
-    const date = Math.round (Difference_In_Time / (1000 * 3600 * 24));
-    console.log("Day : ",date);
-    return date;
-  }
-
-  if ( user.attempt>=5 && getDay(user.date_block, new Date()) < 1) {
-    const code = random(123123, 999999).toString();
-    user.reset_code = code;
-    user.date_block = new Date();
-    console.log("CODE : ",code);
-    await userRepository.save(user);
-    user.reset_code = "";
-    return res.status(200).send({
-    error: true,
-    user,
-    message : "Vous avez atteint le nombre de d'essaie pour la journée"
-   });
-  }
-
-
-  
-  if ( user.reset_code != code  ) {
-    user.attempt +=  1;
-    console.log("CODE : ",user.reset_code, "<=>",code);
-   // await userRepository.save(user);
-    return res.status(200).send({
-    error: true,
-    message : "Code validation non valide"
-  });
-  }
-
-  const data=  {
-    "type": "password",
-    "temporary": false,
-    "value": password
-  };
-  const { KEYCLOAK_PUBLIC_KEY, KEYCLOAK_SECRET, KEYCLOAK_RESOURCE, KEYCLOAK_SERVER_URL, KEYCLOAK_REALM } = process.env;
-    const token = await services.getAdminToken(KEYCLOAK_SERVER_URL + "", KEYCLOAK_REALM + "", KEYCLOAK_RESOURCE + "", KEYCLOAK_SECRET + "");
-    const state = await services.changeUserPass(KEYCLOAK_SERVER_URL + "", KEYCLOAK_REALM + "", token, data, user.keycloakId+"");
-
-    if (state) {
-      MailService.reset_password(req, { code, email : email, firstName: user.firstName });
-      user.reset_code = "";
-      return res.send({
-        error: false,
-        message: "Mot de passe modifié avec succes.",
-        type: "success",
-        code: 404,
-        data : state,
-        user
+  resetPassword: async (req: Request, res: Response) => {
+    try {
+      const userRepository = req.DB.getRepository(User);
+      const email = req.body?.email;
+      let userToUpdate: User = await userRepository.findOne({
+        where: { email }
       });
-    } else {
-      return res.send({
-        error: true,
-        message: "Mot de passe non modifié",
-        code: 404,
-        type: "danger",
-        data : state
+      const code = random(123123, 999999).toString();
+      userToUpdate.reset_code = code;
+      userToUpdate = await userRepository.save(userToUpdate);
+      console.log("USER : ", userToUpdate);
+      try {
+         MailService.reset_password(req, { code, email: email, firstName: userToUpdate.firstName });
+      } catch (error) {
+        console.log(error);
+      }
+
+      return res.status(200).send({
+        firstName: userToUpdate.firstName,
+        lastName: userToUpdate.lastName
       });
-      
+
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send(error);
     }
-  } catch (error) {
-    console.log(error);
-    res.status(500).send(error);
-  }
-},
-  
+  },
+
+  resetNowPassword: async (req: Request, res: Response) => {
+    try {
+      const userRepository = req.DB.getRepository(User);
+      const { email, code, password, password_2 } = req.body.data;
+      console.log(req.body);
+      if (password != password_2) {
+        return res.status(200).send({
+          error: true,
+          message: "Mot de passe identique!"
+        });
+      }
+
+      const user: User = await userRepository.findOne({
+        where: { email }
+      });
+
+      const getDay = (date1: Date, date2: Date) => {
+        if (date1 == undefined) return 0;
+        const Difference_In_Time =
+          date2.getTime() - date1.getTime();
+        const date = Math.round(Difference_In_Time / (1000 * 3600 * 24));
+        console.log("Day : ", date);
+        return date;
+      }
+
+      if (user.attempt >= 5 && getDay(user.date_block, new Date()) < 1) {
+        const code = random(123123, 999999).toString();
+        user.reset_code = code;
+        user.date_block = new Date();
+        console.log("CODE : ", code);
+        await userRepository.save(user);
+        user.reset_code = "";
+        return res.status(200).send({
+          error: true,
+          user,
+          message: "Vous avez atteint le nombre de d'essaie pour la journée"
+        });
+      }
+
+      if (user.reset_code != code) {
+        user.attempt += 1;
+        console.log("CODE : ", user.reset_code, "<=>", code);
+        // await userRepository.save(user);
+        return res.status(200).send({
+          error: true,
+          message: "Code validation non valide"
+        });
+      }
+      const state = await services.changeUserPass( password, user.keycloakId + "", req);
+      if (state) {
+        try {
+          MailService.reset_password(req, { code, email: email, firstName: user.firstName });
+        } catch (error) {
+          console.log(error);
+        }
+        user.reset_code = "";
+        return res.send({
+          error: false,
+          message: "Mot de passe modifié avec succes.",
+          type: "success",
+          code: 404,
+          data: state,
+          user
+        });
+      } else {
+        return res.send({
+          error: true,
+          message: "Mot de passe non modifié",
+          code: 404,
+          type: "danger",
+          data: state
+        });
+
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).send(error);
+    }
+  },
+
 };
 export default services;

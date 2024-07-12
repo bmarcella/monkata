@@ -1,4 +1,4 @@
-import { Mail } from ".";
+import { Mail } from './';
 
 export enum Subject {
   NEW_USER = "Bienvenue",
@@ -42,19 +42,20 @@ export class Sender {
 
   exec() : Promise<any> {
     return new Promise((r,e)=>{
-      this.mail.get().sendMail(this.mailOptions,(error: any, info: any) => {
-        if (error) {
-           console.error(error);
-           return e(error);
-        }
-        console.log('Message sent: %s', info.messageId, this.mailOptions);
-        // console.log('Preview URL: %s', this.mail.get().getTestMessageUrl(info));
-        return r(info);
-       
+      try {
+        this.mail.get().sendMail(this.mailOptions,(error: any, info: any) => {
+          if (error) {
+             console.error(error);
+             return e(error);
+          }
+          console.log('Message sent: %s', info.messageId, this.mailOptions);
+          // console.log('Preview URL: %s', this.mail.get().getTestMessageUrl(info));
+          return r(info);
+      });
+      } catch (error) {
+        e(error);
+      }
     });
-
-    })
- 
   }
 
 

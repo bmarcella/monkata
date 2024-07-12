@@ -72,15 +72,17 @@ export class User_Cv {
 
   @Column({ nullable: true })
   linkedin?: string;
-
+  // UNIQUE
   @Column({ nullable: true, unique: true })
   nin?: string;
 
   @Column({ nullable: true, unique: true })
   nif?: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, unique: true  })
   passport?: string;
+
+    // UNIQUE
 
   @Column({ nullable: true })
   street!: string;

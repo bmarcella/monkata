@@ -17,7 +17,7 @@ export const services: Service[] = [
     name: "admin",
     path: "/admin",
     frontend_dev: "https://localhost:4206",
-    frontend_prod: 'https:admin.monkata.com'
+    frontend_prod: 'https://admin.monkata.com'
   },
   {
     name: "qnote",

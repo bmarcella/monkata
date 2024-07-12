@@ -38,10 +38,7 @@ export default class UserController extends BaseController {
   public register(req: Request, res: Response) {
     return UserService.register(req, res);
   }
-
-  public test(req: Request, res: Response) {
-    return UserService.test(req, res);
-  }
+  
   public refreshtoken(req: Request, res: Response) {
     return UserService.refreshtoken(req, res);
   }

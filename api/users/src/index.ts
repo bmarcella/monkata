@@ -28,6 +28,7 @@ import { Avatar } from './entity/Avatar';
 import { Categorie } from './entity/Categorie';
 import { CrossToken } from './entity/CrossToken';
 import { Entreprise } from './entity/Entreprise';
+import { KcUser } from './entity/KC_User';
 import { Logo } from './entity/Logo';
 import { ServiceEnt } from './entity/ServiceEnt';
 import { User } from './entity/User';
@@ -47,7 +48,7 @@ declare global {
 }
 dotenv.config();
 
-const entities = [User,Adresse, Entreprise, Categorie, ServiceEnt, Application, Avatar, CrossToken, Logo];
+const entities = [User,Adresse, Entreprise, Categorie, ServiceEnt, Application, Avatar, CrossToken, Logo, KcUser];
 
 AppDataSource<DataSource, Array<any>>(DataSource, process.env, entities).then((DB: DataSource) => {
 
@@ -70,7 +71,8 @@ AppDataSource<DataSource, Array<any>>(DataSource, process.env, entities).then((D
   // body-parser
   app.use(bodyParser.json({ limit: '50mb', type: 'application/json' }));
   app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
-  const BP = (process.env.BASE_PATH) ? process.env.BASE_PATH + '' : '/';
+  const BP = (process.env.BASE_PATH) ? process.env.BASE_PATH + "" : '/';
+  console.log(BP);
   app.use(BP, routes);
   Run(process.env, ET, app);
 

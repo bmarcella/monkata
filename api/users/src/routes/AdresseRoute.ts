@@ -6,5 +6,5 @@ import services from '../services/EntService';
 
 export const adrRoute = express.Router();
 const serv = services;
-adrRoute.get('/getAll', protect(jwt, process.env.KEYCLOAK_PUBLIC_KEY + ""), serv.getAll);
-adrRoute.post('/add', protect(jwt, process.env.KEYCLOAK_PUBLIC_KEY + ""), serv.add);
+adrRoute.get('/getAll', protect(jwt, process.env.PUBLIC_KEY + ""), serv.getAll);
+adrRoute.post('/add', protect(jwt, process.env.PUBLIC_KEY + ""), serv.add);

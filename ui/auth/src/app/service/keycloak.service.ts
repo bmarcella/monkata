@@ -107,6 +107,7 @@ export class KeycloakService {
 
   logout(): Promise<any> {
     const tk = this.store.get("_refresh_token");
+    if (tk) {
     return new Promise((r, e) => {
       const URL = getURL(this.serv, this.ss + "/logout/" + tk);
 
@@ -121,6 +122,9 @@ export class KeycloakService {
         }
       });
     });
+   } else {
+    return new Promise((r, e) => {  this.forceLogout(); r(undefined); });
+   }
   }
   forceLogout() {
     this.store.remove("_token");

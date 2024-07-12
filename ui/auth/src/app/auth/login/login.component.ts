@@ -52,7 +52,7 @@ export class LoginComponent {
     }).catch((e) => {
       console.log(e);
       if(e.status == 401)
-      this.aUI.show({ active : true, message:"Email ou mot se passe invalide" , type: "danger", pos: 'top-right' });
+      this.aUI.show({ active : true, message:"Email ou Mot de passe non valide " , type: "danger", pos: 'top-right' });
       else
       this.aUI.show({ active : true, message:"Erreur serveur" , type: "danger", pos: 'top-right' });
     });

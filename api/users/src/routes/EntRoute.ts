@@ -8,12 +8,12 @@ import services from '../services/EntService';
 
 export const entRoute = express.Router();
 const serv = services;
-entRoute.get('/getAll', protect(jwt, process.env.KEYCLOAK_PUBLIC_KEY + ""), serv.getAll);
-entRoute.post('/add', [protect(jwt, process.env.KEYCLOAK_PUBLIC_KEY + ""),  ReCaptcha(axios) ], serv.add);
-entRoute.get('/getAllWithAdress', protect(jwt, process.env.KEYCLOAK_PUBLIC_KEY + ""), serv.getAllWithAdress);
+entRoute.get('/getAll', protect(jwt, process.env.PUBLIC_KEY + ""), serv.getAll);
+entRoute.post('/add', [protect(jwt, process.env.PUBLIC_KEY + ""),  ReCaptcha(axios) ], serv.add);
+entRoute.get('/getAllWithAdress', protect(jwt, process.env.PUBLIC_KEY + ""), serv.getAllWithAdress);
 entRoute.get('/getById/:id',serv.getById);
 entRoute.post('/getListById',serv.getListById);
-entRoute.get('/getAllWithAdressPage', protect(jwt, process.env.KEYCLOAK_PUBLIC_KEY + ""), serv.getAllWithAdressPage);
+entRoute.get('/getAllWithAdressPage', protect(jwt, process.env.PUBLIC_KEY + ""), serv.getAllWithAdressPage);
 
 // ENTREPRISE
 entRoute.delete('/del/:id',serv.delete);
@@ -23,7 +23,7 @@ entRoute.post('/addAdresse/:id',serv.addAdresse);
 entRoute.post('/editAdresse/:id',serv.editAdresse);
 
 // ENT
-entRoute.post('/edit/:id', protect(jwt, process.env.KEYCLOAK_PUBLIC_KEY + ""), serv.edit);
+entRoute.post('/edit/:id', protect(jwt, process.env.PUBLIC_KEY + ""), serv.edit);
 
 // ENT
 entRoute.get('/count/:id', serv.count);

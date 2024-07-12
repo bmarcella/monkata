@@ -46,7 +46,7 @@ jobs:
           KEYCLOAK_RESOURCE_LOGIN: jobs-app-fe
           KEYCLOAK_SECRET: ${{ secrets.KEYCLOAK_SECRET }}
           KEYCLOAK_CONFIDENTIAL_PORT: '0'
-          KEYCLOAK_PUBLIC_KEY: ${{ secrets.KEYCLOAK_PUBLIC_KEY }}
+          PUBLIC_KEY: ${{ secrets.PUBLIC_KEY }}
 
         run: |
           cat <<EOF > monkata-configmap.yaml
@@ -80,7 +80,7 @@ jobs:
             KEYCLOAK_RESOURCE_LOGIN: "${KEYCLOAK_RESOURCE_LOGIN}"
             KEYCLOAK_SECRET: "${KEYCLOAK_SECRET}"
             KEYCLOAK_CONFIDENTIAL_PORT: "${KEYCLOAK_CONFIDENTIAL_PORT}"
-            KEYCLOAK_PUBLIC_KEY: "${KEYCLOAK_PUBLIC_KEY}"
+            PUBLIC_KEY: "${PUBLIC_KEY}"
           EOF
       - name: Digital Ocean
         uses: digitalocean/action-doctl@v2

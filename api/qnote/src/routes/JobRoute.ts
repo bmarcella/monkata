@@ -6,8 +6,8 @@ import services from '../services/JobService';
 
 export const jobRoute = express.Router();
 const ctrl = services
-jobRoute.post('/add',  protect(jwt,process.env.KEYCLOAK_PUBLIC_KEY+""),  ctrl.add);
-jobRoute.post('/edit/:id',  protect(jwt,process.env.KEYCLOAK_PUBLIC_KEY+""),  ctrl.edit);
+jobRoute.post('/add',  protect(jwt,process.env.PUBLIC_KEY+""),  ctrl.add);
+jobRoute.post('/edit/:id',  protect(jwt,process.env.PUBLIC_KEY+""),  ctrl.edit);
 jobRoute.get('/getJobById/:id',  ctrl.getJobById);
 jobRoute.get('/getAll',  ctrl.getAll);
 jobRoute.get('/getEntById/:id',  ctrl.getEntById);
@@ -16,7 +16,7 @@ jobRoute.get('/getJobs',  ctrl.getJobs);
 jobRoute.post('/getJobsFilter/:page',  ctrl.getJobsFilter);
 jobRoute.post('/getJobsFilterSearch', ctrl.getJobsFilterSearch);
 jobRoute.get('/getJobByIdEnt/:id/:page',  ctrl.getJobByIdEnt);
-jobRoute.get('/getMyJob/:id', protect(jwt,process.env.KEYCLOAK_PUBLIC_KEY+""), ctrl.getMyJob);
+jobRoute.get('/getMyJob/:id', protect(jwt,process.env.PUBLIC_KEY+""), ctrl.getMyJob);
 jobRoute.get('/getJobByIdEntNoPage/:id',  ctrl.getJobByIdEntNoPage);
 
 
@@ -25,11 +25,11 @@ jobRoute.get('/getPostByIdJob/:id/:state/:page',  ctrl.getPostByIdJob);
 jobRoute.post('/changeState',  ctrl.changeState);
 
 
-jobRoute.get('/countEntAndJob', protect(jwt,process.env.KEYCLOAK_PUBLIC_KEY+""),  ctrl.countEntAndJob);
+jobRoute.get('/countEntAndJob', protect(jwt,process.env.PUBLIC_KEY+""),  ctrl.countEntAndJob);
 //countEntAndJob
 
 
-jobRoute.get('/count', protect(jwt,process.env.KEYCLOAK_PUBLIC_KEY+""),  ctrl.count);
+jobRoute.get('/count', protect(jwt,process.env.PUBLIC_KEY+""),  ctrl.count);
 //countEntAndJob
 
 jobRoute.get('/mail',  ctrl.mail);

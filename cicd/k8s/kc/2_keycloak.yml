@@ -74,8 +74,8 @@ spec:
         - name: KC_HOSTNAME_STRICT
           value: "false"
         - name: KC_HOSTNAME_STRICT_HTTPS
-          value: "false" 
-          
+          value: "false"
+
         - name: KEYCLOAK_ENABLE_HTTPS
           value: "true"
         - name: KEYCLOAK_PRODUCTION
@@ -85,9 +85,11 @@ spec:
         - name: KEYCLOAK_PROXY
           value: edge
         - name: PORT
-          value: "8080"
-        #- name: KC_HOSTNAME
-        #value: "keycloak.memploi.com"
+          value: "443"
+        - name : PROXY_ADDRESS_FORWARDING
+          value : "true "
+        - name: KC_HOSTNAME
+          value: "keycloak.memploi.com"
           # END  
 
         - name: KC_HEALTH_ENABLED
@@ -127,10 +129,6 @@ spec:
   selector:
     app: keycloak
   ports:
-    - name: http
-      protocol: TCP
-      port: 80
-      targetPort: 8080
     - name: https
       protocol: TCP
       port: 443
