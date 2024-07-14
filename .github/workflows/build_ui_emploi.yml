@@ -28,21 +28,20 @@ jobs:
         working-directory: ui/memploi
         run: npm install --force
 
-      - name: Build AUTH
-        working-directory: ui/auth
+      - name: Build MEMPLOI
+        working-directory: ui/memploi
         run: npm run build --force
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v2
         with:
           name: build-artifacts
-          path: dist/
+          path: ui/memploi/dist/
 
       - name: Log in to Docker Hub # Docker Login
         run: echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
 
       - name: Build the docker image for #Eureka
-        #working-directory: ./ # Change this to your pom.xml directory
         run: docker build -t $UIEMPLOI_IMAGE_NAME -f ./ui/memploi/Dockerfile .
 
       - name: Push Docker image

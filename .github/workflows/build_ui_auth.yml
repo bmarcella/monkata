@@ -21,6 +21,9 @@ jobs:
         working-directory: ui/auth
         run: npm install --force
 
+      - name: Install Angular CLI
+        run: npm install -g @angular/cli
+
       - name: Build AUTH
         working-directory: ui/auth
         run: npm run build --force
