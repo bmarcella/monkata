@@ -1,37 +1,37 @@
-# Stage 1: Build the Angular application
+# Stage 1: Build the application
 FROM node:16-alpine AS build
-
-# Set the working directory
-WORKDIR /app/ui/memploi
-
-# Copy package.json and package-lock.json
-COPY package*.json ./
-
-# Install dependencies
-RUN npm install --force
-# Copy the rest of the application code
-COPY . .
 
 WORKDIR /app
 
-COPY ../../common ./
+# Copy package.json and package-lock.json to the container
+COPY package*.json ./
 
-WORKDIR /app/ui/memploi
-# Build the Angular application
-RUN npm run build --prod
+# Install dependencies
+RUN npm install
 
-# Stage 2: Serve the application with Nginx
+# Copy the rest of the application code to the container
+COPY . .
+
+# Copy common files from parent directory
+COPY ../../common ./common
+
+# Build the application (modify as per your build process)
+RUN npm run build
+
+# Stage 2: Serve the application with Nginx or any other server
 FROM nginx:alpine
 
-# Copy the built application from the previous stage
-COPY --from=build /app/ui/memploi/dist/listee-angular /usr/share/nginx/html
+# Copy the built application from the previous stage to Nginx html directory
+COPY --from=build /app/dist /usr/share/nginx/html
 
-RUN dir
-# Copy custom Nginx configuration if needed
-#COPY ./nginx.conf /etc/nginx/nginx.conf
+# Copy common files into the Nginx html directory if needed
+COPY --from=build /app/common /usr/share/nginx/html/common
 
-# Expose port 80
+# (Optional) Copy custom Nginx configuration file if needed
+# COPY nginx.conf /etc/nginx/nginx.conf
+
+# Expose port 80 for the Nginx server
 EXPOSE 80
 
-# Start Nginx
+# Start Nginx in the foreground
 CMD ["nginx", "-g", "daemon off;"]
