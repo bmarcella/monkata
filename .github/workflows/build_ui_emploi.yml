@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - dev
-    paths:
-      - 'ui/memploi/**'
+    #paths:
+    #- 'ui/memploi/**'
 
 jobs:
   build:
@@ -34,10 +34,6 @@ jobs:
       - name: Build MEMPLOI
         working-directory: ui/memploi
         run: npm run build --force
-
-      - name: Show FILES
-        working-directory: ui/memploi/dist
-        run: ls
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v2
