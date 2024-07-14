@@ -17,7 +17,7 @@ const prod = false;
 const url = {
   live : 'http://69.159.138.245:3000' ,
   dev: "http://localhost:3000",
-  prod: "http://209.38.48.97:3000"
+  prod: "https://gateway.memploi.com"
 }
 const key = (prod) ? "prod" : (live) ? "live" : "dev";
 export const environment = {

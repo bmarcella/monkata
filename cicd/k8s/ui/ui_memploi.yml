@@ -46,7 +46,7 @@ metadata:
     service.beta.kubernetes.io/do-loadbalancer-http-idle-timeout-seconds: "65"
     service.beta.kubernetes.io/do-loadbalancer-protocol: "http"
     service.beta.kubernetes.io/do-loadbalancer-tls-ports: "443"
-    service.beta.kubernetes.io/do-loadbalancer-certificate-id: "eb7004be-bb83-4b3d-8094-9459adad52d8"
+    service.beta.kubernetes.io/do-loadbalancer-certificate-id: "932680d8-03b0-4d65-b849-9bb6f64f2cbf"
 spec:
   type: LoadBalancer
   selector:
