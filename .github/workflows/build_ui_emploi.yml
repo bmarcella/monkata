@@ -1,22 +1,20 @@
-name: MEMPLOI_UI_BUILD
-
+name: AUTH_UI_BUILD
 on:
   push:
     branches:
       - dev
-    #paths:
+    # paths:
     #- 'ui/memploi/**'
-
 jobs:
-  build:
+  builds:
     runs-on: ubuntu-latest
     environment: Monkata
     env:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       OC_TOKEN: ${{ secrets.OC_TOKEN }}
-      IMAGE_NAME: ${{ secrets.UIEMPLOI_IMAGE }} # Updated to use secrets instead of vars
-      CLUSTER: ${{ secrets.CLUSTER }} # Updated to use secrets instead of vars
+      IMAGE_NAME: ${{ vars.UIEMPLOI_IMAGE }}
+      CLUSTER: ${{ vars.CLUSTER }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -24,9 +22,9 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '20' # Use Node.js version compatible with your application
+          node-version: '20' # Specify your Node.js version
 
-      - name: Install Dependencies
+      - name: Install  Deps
         working-directory: ui/memploi
         run: npm install --force
 
@@ -38,7 +36,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: build-artifacts
-          path: ui/memploi/dist
+          path: dist/
 
       - name: Log in to Docker Hub # Docker Login
         run: echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
