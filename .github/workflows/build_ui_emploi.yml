@@ -6,26 +6,37 @@ on:
     paths:
       - 'ui/memploi/**'
 jobs:
-  builds:
+  build:
     runs-on: ubuntu-latest
+    environment: Monkata
+    env:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      OC_TOKEN: ${{ secrets.OC_TOKEN }}
+      UIEMPLOI_IMAGE_NAME: ${{ vars.UIEMPLOI_IMAGE }}
+      CLUSTER: ${{ vars.CLUSTER }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '20' # Specify your Node.js version
-      - name: Install  Deps
-        working-directory: ui/memploi
-        run: npm install --force
+      - name: Build  Gateway
+        working-directory: api/gw # Change this to your pom.xml directory
+        run: npm install && npm run build
 
-      - name: Build AUTH
-        working-directory: ui/memploi
-        run: npm run build --force
+      - name: Log in to Docker Hub # Docker Login
+        run: echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
 
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v2
+      - name: Build the docker image for #Eureka
+        working-directory: api/gw # Change this to your pom.xml directory
+        run: docker build -t $UIEMPLOI_IMAGE_NAME .
+
+      - name: Push Docker image
+        run: docker push $UIEMPLOI_IMAGE_NAME
+
+      - name: Digital Ocean
+        uses: digitalocean/action-doctl@v2
         with:
-          name: build-artifacts
-          path: dist/ # Replace with your build output directory
+          token: ${{ secrets.OC_TOKEN }}
+          run: |
+            doctl kubernetes cluster kubeconfig save 0a6946a5-edc3-414b-afff-1f19885c54ec
+            kubectl rollout restart deployment ui-memploi-deployment

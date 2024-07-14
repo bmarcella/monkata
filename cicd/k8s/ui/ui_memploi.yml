@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ui-memploi-deployment
+  labels:
+    app: ui-memploi
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      app:  ui-memploi
+  template:
+   metadata:
+     labels:
+       app:  ui-memploi
+   spec:
+     containers:
+     - name:  ui-memploi
+       image: pledika/ui-memploi
+       ports:
+        - containerPort: 3002
+       env:
+       - name: NODE_ENV
+         valueFrom: 
+           configMapKeyRef:
+             name: monkata-configmap-ui-memploi
+             key: NODE_ENV
+       - name: PORT
+         valueFrom: 
+           configMapKeyRef:
+             name: monkata-configmap-ui-memploi
+             key: PORT
+       - name: SERVICE_NAME
+         valueFrom: 
+           configMapKeyRef:
+             name: monkata-configmap-ui-memploi
+             key: SERVICE_NAME
+
+---       
+apiVersion: v1
+kind: Service
+metadata:
+  name:  ui-memploi-service
+spec:
+  selector:
+    app:  ui-memploi
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080

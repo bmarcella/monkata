@@ -5,6 +5,7 @@ import {
   Request,
   Response,
 } from 'express';
+import * as jwt from 'jsonwebtoken';
 import { Like } from 'typeorm/find-options/operator/Like';
 
 import {
@@ -13,6 +14,7 @@ import {
 } from '../../../../common/index/Http';
 import { getService } from '../../../../common/index/services';
 import MailService from '../../../../common/mail/MailService';
+import { Contact } from '../entity/Contact';
 import { Jobs } from '../entity/Jobs';
 import { Postulants } from '../entity/Postulants';
 import { User_Cv } from '../entity/User_Cv';
@@ -519,6 +521,64 @@ getJobById : async (req: Request, res: Response) => {
   mail : async (req: any, res: Response) => {
      const data = MailService.test(req);
      return res.status(200).send({ data });
+  },
+
+  report : async (req: any, res: Response) => {
+    try {
+      const id = req.params.id;
+      const keycloakId = req.payload?.sub;
+
+      const contRepository = req.DB.getRepository(Contact);
+      const cont: Contact = await contRepository.findOne({
+        where: { id_job: id, keycloakId  }
+      });
+
+      if (cont) return res.status(409).send({ error: true, message : "Vous avez déjà signalé ce poste." });
+
+      const jobsRepository = req.DB.getRepository(Jobs);
+      const job: Jobs = await jobsRepository.findOne({
+        where: { id: id }
+      });
+
+      if (!job) return res.status(404).send({ error: true, message : "Job non trouvé" });
+
+      const userRepository = req.DB.getRepository(User_Cv);
+      const user: User_Cv = await userRepository.findOne({
+        where: { keycloakId }
+      });
+
+      if (!user) return res.status(404).send({ error: true, message : "Utilisateur non trouvé" });
+
+     
+      const pay = { id, keycloakId,  timestamp: new Date().getTime() };
+      const token = services.generateToken(pay, "REPORT_KEY");
+      let c: Contact = new Contact();
+      c.full_name = user.firstName +" "+ user.lastName;
+      c.email = user.email_contact;
+      c.id_job = id;
+      c.keycloakId = keycloakId;
+      c.token = token;
+      c.subject = "Job Report";
+      c.message = "Quelqu'un a signalé ce poste : " +job.titre_job+". ";
+      c = await contRepository.save(c);
+      return res.send(c);
+    } catch (error) {
+      console.log(error)
+      return res.status(500).send(error);
+    }
+ },
+ generateToken: (data: any , key: any) => {
+    const token = jwt.sign(data, key);
+    return token;
+  },
+  verifyToken: (token: any, key: any) => {
+    try {
+      const decoded = jwt.verify(token, key);
+      return { error: false, decoded};
+    } catch (error: any) {
+      console.error('Token verification failed:', error.message);
+      return { error: true};
+    }
   },
 };
 export default services;

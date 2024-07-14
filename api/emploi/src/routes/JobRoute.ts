@@ -20,10 +20,7 @@ jobRoute.post('/getJobsFilterSearch', ctrl.getJobsFilterSearch);
 jobRoute.get('/getJobByIdEnt/:id/:page',  ctrl.getJobByIdEnt);
 jobRoute.get('/getMyJob/:id', protect(jwt,process.env.PUBLIC_KEY+""), ctrl.getMyJob);
 jobRoute.get('/getJobByIdEntNoPage/:id',  ctrl.getJobByIdEntNoPage);
-
-
 jobRoute.get('/getPostByIdJob/:id/:state/:page',  ctrl.getPostByIdJob);
-
 jobRoute.post('/changeState',  ctrl.changeState);
 
 
@@ -34,3 +31,5 @@ jobRoute.get('/count', protect(jwt,process.env.PUBLIC_KEY+""),  ctrl.count);
 //countEntAndJob
 
 jobRoute.get('/mail',  ctrl.mail);
+
+jobRoute.get('/report/:id',protect(jwt,process.env.PUBLIC_KEY+""),  ctrl.report);

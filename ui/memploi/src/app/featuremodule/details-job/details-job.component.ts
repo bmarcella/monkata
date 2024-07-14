@@ -10,6 +10,7 @@ import {
 
 import { Lightbox } from 'ngx-lightbox';
 import { routes } from 'src/app/core/helpers/routes/routes';
+import { AlertService } from 'src/app/service/alert.service';
 import { getURL } from 'src/environments/environment.prod';
 
 import { CrudService } from '../../service/crud.service';
@@ -30,7 +31,7 @@ export class DetailsJobComponent implements OnInit {
   id: any | undefined;
   logo: any;
   user: any;
-  constructor(private auth: KeycloakService, private _lightbox: Lightbox, public router: Router, public act: ActivatedRoute, private crud: CrudService ) {
+  constructor(private aUI:  AlertService, private auth: KeycloakService, private _lightbox: Lightbox, public router: Router, public act: ActivatedRoute, private crud: CrudService ) {
 
   }
 
@@ -72,7 +73,6 @@ export class DetailsJobComponent implements OnInit {
   currency (num : any ){
     return  formatNumber(Number(num), 'en-US', '1.0-0')
   }
-
   post(e){
     this.user = this.auth.profil();
     if (this.user) {
@@ -81,7 +81,23 @@ export class DetailsJobComponent implements OnInit {
       const url =  "/job/apply/"+this.job.id;
       this.crud.loginWithReturn(url,e);
     }
-
+  }
+  report(e) {
+    this.user = this.auth.profil();
+    if (this.user) {
+      const URL = getURL("memploi","report/"+this.job.id);
+      this.crud.get(URL,e).then((r) => {
+        this.aUI.show({ active : true, message: "Vous avez signalé ce poste avec succès" , type: "success", pos: 'top-right' });
+        //console.log(r);
+      }).catch((e) => {
+        const msg = e.error.message;
+        this.aUI.show({ active : true, message: msg , type: "danger", pos: 'top-right' });
+        console.log(e);
+      });
+    } else {
+      const url =  "/job/apply/"+this.job.id;
+      this.crud.loginWithReturn(url,e);
+    }
   }
 
 }
