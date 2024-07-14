@@ -29,7 +29,7 @@ jobs:
         run: npm install --force
 
       - name: Install Angular CLI
-        run: npm install -g @angular/cli
+        run: npm install -g @angular/cli --force
 
       - name: Build MEMPLOI
         working-directory: ui/memploi
