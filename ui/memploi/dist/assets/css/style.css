@@ -2418,7 +2418,7 @@ a:hover, a:focus {
 }
 .cta-section {
     padding: 100px 0;
-    background-image: url(../img/whitebg.png);
+    background-image: url('../img/Whitebg.png');
     background-repeat: no-repeat;
     background-position: right center;
 }
@@ -2454,7 +2454,7 @@ a:hover, a:focus {
     position: relative;
 }
 .testimonials-section .rightimg {
-    background-image: url(../img/testi-bg.png);
+    background-image: url('../img/testi-bg.png');
     min-height: 600px;
     background-repeat: no-repeat;
     background-size: cover;
