@@ -19,7 +19,7 @@ COPY ./common ./common
 WORKDIR /app/ui/memploi
 
 # Build the application (modify as per your build process)
-RUN npm run build --force
+RUN npm run build
 
 # Stage 2: Serve the application with Nginx or any other server
 FROM nginx:alpine
