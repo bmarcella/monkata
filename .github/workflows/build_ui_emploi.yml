@@ -19,15 +19,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Build  Gateway
-        working-directory: api/gw # Change this to your pom.xml directory
-        run: npm install && npm run build
-
       - name: Log in to Docker Hub # Docker Login
         run: echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
 
       - name: Build the docker image for #Eureka
-        working-directory: api/gw # Change this to your pom.xml directory
+        working-directory: ui/memploi # Change this to your pom.xml directory
         run: docker build -t $UIEMPLOI_IMAGE_NAME .
 
       - name: Push Docker image
@@ -38,5 +34,5 @@ jobs:
         with:
           token: ${{ secrets.OC_TOKEN }}
           run: |
-            doctl kubernetes cluster kubeconfig save 0a6946a5-edc3-414b-afff-1f19885c54ec
+            doctl kubernetes cluster kubeconfig save $CLUSTER
             kubectl rollout restart deployment ui-memploi-deployment
