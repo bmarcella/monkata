@@ -2,7 +2,7 @@
 FROM node:16-alpine AS build
 
 # Set the working directory
-WORKDIR /app
+WORKDIR /app/ui/memploi
 
 # Copy package.json and package-lock.json
 COPY package*.json ./
@@ -12,6 +12,8 @@ RUN npm install --force
 # Copy the rest of the application code
 COPY . .
 
+COPY ../../common ../../
+
 # Build the Angular application
 RUN npm run build --prod
 
@@ -19,7 +21,7 @@ RUN npm run build --prod
 FROM nginx:alpine
 
 # Copy the built application from the previous stage
-COPY --from=build /app/dist/listee-angular /usr/share/nginx/html
+COPY --from=build /app/ui/memploi/dist/listee-angular /usr/share/nginx/html
 
 # Copy custom Nginx configuration if needed
 # COPY nginx.conf /etc/nginx/nginx.conf
