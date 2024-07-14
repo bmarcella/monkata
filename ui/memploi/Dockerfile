@@ -11,8 +11,10 @@ COPY package*.json ./
 RUN npm install --force
 # Copy the rest of the application code
 COPY . .
+
 WORKDIR /app
-COPY ../../common ./
+
+COPY ../../common ./common
 
 WORKDIR /app/ui/memploi
 # Build the Angular application
