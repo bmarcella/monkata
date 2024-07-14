@@ -13,7 +13,7 @@ RUN npm install
 COPY . .
 
 # Copy common files from parent directory
-COPY ../../common ./common
+COPY ./../../common ./common
 
 # Build the application (modify as per your build process)
 RUN npm run build
