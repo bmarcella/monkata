@@ -45,8 +45,7 @@ jobs:
         run: echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
 
       - name: Build the Docker image
-        working-directory: ui/memploi
-        run: docker build -t $IMAGE_NAME .
+        run: docker build -t $IMAGE_NAME -f ./ui/memploi/Dockerfile .
 
       - name: Push Docker image
         run: docker push $IMAGE_NAME
