@@ -17,7 +17,6 @@ jobs:
       OC_TOKEN: ${{ secrets.OC_TOKEN }}
       IMAGE_NAME: ${{ secrets.UIEMPLOI_IMAGE }} # Updated to use secrets instead of vars
       CLUSTER: ${{ secrets.CLUSTER }} # Updated to use secrets instead of vars
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -39,21 +38,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: build-artifacts
-          path: ui/memploi/dist/
-
-      - name: Log in to Docker Hub
-        run: echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-
-      - name: Build the Docker image
-        run: docker build -t $IMAGE_NAME -f ./ui/memploi/Dockerfile .
-
-      - name: Push Docker image
-        run: docker push $IMAGE_NAME
-
-      - name: Digital Ocean
-        uses: digitalocean/action-doctl@v2
-        with:
-          token: ${{ secrets.OC_TOKEN }}
-          run: |
-            doctl kubernetes cluster kubeconfig save $CLUSTER
-            kubectl rollout restart deployment ui-memploi-deployment
+          path: ui/memploi/dist
