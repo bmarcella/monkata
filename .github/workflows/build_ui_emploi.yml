@@ -1,10 +1,12 @@
 name: EMPLOI_UI_BUILD
+
 on:
   push:
     branches:
       - dev
     paths:
       - 'ui/memploi/**'
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -13,8 +15,9 @@ jobs:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       OC_TOKEN: ${{ secrets.OC_TOKEN }}
-      UIEMPLOI_IMAGE_NAME: ${{ vars.UIEMPLOI_IMAGE }}
-      CLUSTER: ${{ vars.CLUSTER }}
+      UIEMPLOI_IMAGE_NAME: ${{ secrets.UIEMPLOI_IMAGE }} # Updated to use secrets instead of vars
+      CLUSTER: ${{ secrets.CLUSTER }} # Updated to use secrets instead of vars
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -22,14 +25,11 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '20' # Specify your Node.js version
+          node-version: '16' # Use Node.js version compatible with your application
 
-      - name: Install  Deps
+      - name: Install Dependencies
         working-directory: ui/memploi
         run: npm install --force
-
-      # - name: Install Angular CLI
-      # run: npm install -g @angular/cli --force
 
       - name: Build MEMPLOI
         working-directory: ui/memploi
@@ -41,13 +41,12 @@ jobs:
           name: build-artifacts
           path: ui/memploi/dist/
 
-      - name: Log in to Docker Hub # Docker Login
+      - name: Log in to Docker Hub
         run: echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
 
-      - name: Build the docker image for #Eureka
+      - name: Build the Docker image
         working-directory: ui/memploi
-        #run: docker build -t $UIEMPLOI_IMAGE_NAME -f ./ui/memploi/Dockerfile .
-        run: docker build -t $UIEMPLOI_IMAGE_NAME  .
+        run: docker build -t $UIEMPLOI_IMAGE_NAME .
 
       - name: Push Docker image
         run: docker push $UIEMPLOI_IMAGE_NAME
@@ -57,5 +56,5 @@ jobs:
         with:
           token: ${{ secrets.OC_TOKEN }}
           run: |
-            doctl kubernetes cluster kubeconfig save 0a6946a5-edc3-414b-afff-1f19885c54ec
+            doctl kubernetes cluster kubeconfig save $CLUSTER
             kubectl rollout restart deployment ui-memploi-deployment
