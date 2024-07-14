@@ -15,7 +15,7 @@ jobs:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       OC_TOKEN: ${{ secrets.OC_TOKEN }}
-      UIEMPLOI_IMAGE_NAME: ${{ secrets.UIEMPLOI_IMAGE }} # Updated to use secrets instead of vars
+      IMAGE_NAME: ${{ secrets.UIEMPLOI_IMAGE }} # Updated to use secrets instead of vars
       CLUSTER: ${{ secrets.CLUSTER }} # Updated to use secrets instead of vars
 
     steps:
@@ -50,10 +50,10 @@ jobs:
 
       - name: Build the Docker image
         working-directory: ui/memploi
-        run: docker build -t $UIEMPLOI_IMAGE_NAME .
+        run: docker build -t $IMAGE_NAME .
 
       - name: Push Docker image
-        run: docker push $UIEMPLOI_IMAGE_NAME
+        run: docker push $IMAGE_NAME
 
       - name: Digital Ocean
         uses: digitalocean/action-doctl@v2
