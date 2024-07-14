@@ -7,7 +7,7 @@ WORKDIR /app/ui/memploi
 COPY ui/memploi/package*.json ./
 
 # Install dependencies
-RUN npm install
+RUN npm install --force
 
 # Copy the rest of the application code to the container
 COPY ui/memploi .
