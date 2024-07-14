@@ -26,8 +26,9 @@ FROM nginx:alpine
 # Copy the built application from the previous stage
 COPY --from=build /app/ui/memploi/dist/listee-angular /usr/share/nginx/html
 
+RUN dir
 # Copy custom Nginx configuration if needed
-COPY ./nginx.conf /etc/nginx/nginx.conf
+#COPY ./nginx.conf /etc/nginx/nginx.conf
 
 # Expose port 80
 EXPOSE 80
