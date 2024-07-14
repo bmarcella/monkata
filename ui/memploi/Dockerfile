@@ -1,37 +1,36 @@
-# Stage 1: Build the application
+# Stage 1: Build the Angular application
 FROM node:16-alpine AS build
 
-WORKDIR /app
+# Set the working directory
+WORKDIR /app/ui/memploi
 
-# Copy package.json and package-lock.json to the container
+# Copy package.json and package-lock.json
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install
-
-# Copy the rest of the application code to the container
+RUN npm install --force
+# Copy the rest of the application code
 COPY . .
 
-# Copy common files from parent directory
-COPY ./../../common ./common
+WORKDIR /app
 
-# Build the application (modify as per your build process)
-RUN npm run build
+COPY ../../common ./
 
-# Stage 2: Serve the application with Nginx or any other server
+WORKDIR /app/ui/memploi
+# Build the Angular application
+RUN npm run build --prod
+
+# Stage 2: Serve the application with Nginx
 FROM nginx:alpine
 
-# Copy the built application from the previous stage to Nginx html directory
-COPY --from=build /app/dist/listee-angular /usr/share/nginx/html
+# Copy the built application from the previous stage
+COPY --from=build /app/ui/memploi/dist/listee-angular /usr/share/nginx/html
 
-# Copy common files into the Nginx html directory if needed
-COPY --from=build /app/common /usr/share/nginx/html/common
+# Copy custom Nginx configuration if needed
+COPY nginx.conf /etc/nginx/nginx.conf
 
-# (Optional) Copy custom Nginx configuration file if needed
-# COPY nginx.conf /etc/nginx/nginx.conf
-
-# Expose port 80 for the Nginx server
+# Expose port 80
 EXPOSE 80
 
-# Start Nginx in the foreground
+# Start Nginx
 CMD ["nginx", "-g", "daemon off;"]

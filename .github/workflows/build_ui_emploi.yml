@@ -23,8 +23,8 @@ jobs:
         run: echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
 
       - name: Build the docker image for #Eureka
-        working-directory: ui/memploi # Change this to your pom.xml directory
-        run: docker build -t $UIEMPLOI_IMAGE_NAME .
+        #working-directory: ./ # Change this to your pom.xml directory
+        run: docker build -t $UIEMPLOI_IMAGE_NAME -f ./ui/memploi/Dockerfile .
 
       - name: Push Docker image
         run: docker push $UIEMPLOI_IMAGE_NAME
