@@ -4,17 +4,17 @@ FROM node:16-alpine AS build
 WORKDIR /app/ui/memploi
 
 # Copy package.json and package-lock.json to the container
-COPY package*.json ./
+COPY ui/memploi/package*.json ./
 
 # Install dependencies
 RUN npm install
 
 # Copy the rest of the application code to the container
-COPY . .
+COPY ui/memploi .
 
 WORKDIR /app
 # Copy common files from parent directory
-COPY ../../common ./common
+COPY ./common ./common
 
 WORKDIR /app/ui/memploi
 
