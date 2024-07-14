@@ -1,7 +1,7 @@
 # Stage 1: Build the application
 FROM node:16-alpine AS build
 
-WORKDIR /app
+WORKDIR /app/ui/memploi
 
 # Copy package.json and package-lock.json to the container
 COPY package*.json ./
@@ -12,8 +12,11 @@ RUN npm install
 # Copy the rest of the application code to the container
 COPY . .
 
+WORKDIR /app
 # Copy common files from parent directory
 COPY ../../common ./common
+
+WORKDIR /app/ui/memploi
 
 # Build the application (modify as per your build process)
 RUN npm run build
@@ -22,12 +25,9 @@ RUN npm run build
 FROM nginx:alpine
 
 # Copy the built application from the previous stage to Nginx html directory
-COPY --from=build /app/dist /usr/share/nginx/html
+COPY --from=build /app/ui/memploi/dist/listee-angular /usr/share/nginx/html
 
-# Copy common files into the Nginx html directory if needed
-COPY --from=build /app/common /usr/share/nginx/html/common
 
-# (Optional) Copy custom Nginx configuration file if needed
 # COPY nginx.conf /etc/nginx/nginx.conf
 
 # Expose port 80 for the Nginx server
