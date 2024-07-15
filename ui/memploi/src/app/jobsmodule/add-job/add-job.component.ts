@@ -132,9 +132,9 @@ export class AddJobComponent implements OnInit {
     },
     {
       name : "description",
-      mlength : 5000,
+      mlength : 10000,
       message: "Description* ne doit pas etre vide.",
-      mlmessage : "La Description* ne doit pas depasser 5000 characteres."
+      mlmessage : "La description* ne doit pas depasser 5000 characteres."
      },
     {
       name : "type_contrat",
