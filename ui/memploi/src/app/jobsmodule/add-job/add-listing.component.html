@@ -56,13 +56,20 @@
                 class="row mb-2"
                 *ngIf="selectedEnt && !selectedEnt.approuved"
               >
-                <h3 class="text-center alert alert-warning">
-                  Votre entreprise n'a pas encore été approuvé. Veuillez
-                  contacter MEmploi via cet Email :
-                  <a href="mailto:memploi@monkata.com"> memploi@monkata.com </a>
-                  <br />
-                  En indiquant le nom de votre entreprise.
-                </h3>
+                <h6 class="text-center alert alert-warning">
+                  Votre entreprise n'a pas encore été approuvée, vous ne pouvez
+                  donc pas ajouter de poste pour le moment. Pour résoudre ce
+                  problème, veuillez contacter MEmploi à l'adresse suivante :
+                  <a href="mailto:memploi@monkata.com">memploi@monkata.com</a>.
+                  Dans votre email, veuillez indiquer : Le nom de votre
+                  entreprise. Le numéro d'identification de votre entreprise
+                  (facultatif). Les coordonnées de la personne à contacter.
+                  Toute information supplémentaire qui pourrait faciliter
+                  l'approbation. Notre équipe examinera votre demande dans les
+                  plus brefs délais et vous informera dès que votre entreprise
+                  sera approuvée. Merci pour votre compréhension et votre
+                  coopération.
+                </h6>
               </div>
 
               <div class="row mb-2" *ngIf="selectedAd && selectedEnt">

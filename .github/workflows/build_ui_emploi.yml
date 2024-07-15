@@ -1,4 +1,4 @@
-name: AUTH_UI_BUILD
+name: MEMPLOI_UI_BUILD
 on:
   push:
     branches:
