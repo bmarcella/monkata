@@ -25,6 +25,7 @@ export class HeaderComponent implements OnInit {
   login = false;
   header: header[] = [];
   user: any;
+  cv: any;
   avatar = '';
   path: any ;
   ent: any;
@@ -35,10 +36,15 @@ export class HeaderComponent implements OnInit {
     private crud: CrudService,
   ) {
     this.user = this.auth.profil();
+    this.cv = this.auth.cv();
     if(this.user) {
       this.login = true;
-      this.avatar = this.auth.getAvatar(this.user.id);
+
+      if(this.cv)
+       this.avatar = this.auth.getAvatar(this.cv.id);
+
       this.getEntreprises();
+
     }
   }
 
