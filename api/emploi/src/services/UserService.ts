@@ -43,6 +43,7 @@ const services = {
     const http = new Http(axios, req.token || '');
     const path = getService("users").path;
     const URL = GATEWAY_URL+path+SERV_EP.getCrossToken+token;
+    console.log("HERE IS THE URL ============> ",URL);
     const resp =   await http.get(URL,false) ;
   
     const userRepository = req.DB.getRepository(User_Cv);
