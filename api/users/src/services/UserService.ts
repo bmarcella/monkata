@@ -8,6 +8,7 @@ import {
   Response,
 } from 'express';
 import * as jwt from 'jsonwebtoken';
+import { v4 as uuidv4 } from 'uuid';
 
 import { servicesApp } from '../../../../common/index/Frontend';
 import {
@@ -91,18 +92,25 @@ const services = {
         u.keycloakId = user.sub;
         const profil = await userRepository.save(u);
         return res.send({
+          error: false,
           kcToken,
           profil
         });
       } else {
-        throw new Error(`User Provider is down, try again later`);
+        return res.status(409).send({
+          error: true,
+          message: "Email existe !"
+        });
       }
     } catch (error) {
-      console.error(error);
-      throw error;
+      return res.status(500).send({
+        error: true,
+        message: "Erreur Serveur"
+      });
     }
   },
   createUser: async (ud: any, req: Request): Promise<boolean | KcUser> => {
+
     const userRepository = req.DB.getRepository(KcUser);
     const user = await userRepository.findOne({
       where: { email: ud.email }
@@ -115,7 +123,7 @@ const services = {
     u.family_name = ud.lastName;
     u.password = ph.hash;
     u.salt = ph.salt;
-    u.sub = (await services.hashPassword(ud.email)).hash;
+    u.sub = uuidv4();
     u = await userRepository.save(u);
     return u;
   },
@@ -155,7 +163,7 @@ const services = {
       refresh_expires_in: 64800,
       refresh_token: rt,
       scope: "profile email",
-      session_state: (await services.hashPassword(new Date().toISOString())).hash,
+      session_state: uuidv4(),
       token_type: "Bearer",
     } as KCToken;
   },
@@ -336,7 +344,6 @@ const services = {
       res.status(500).send(error);
     }
   },
-
   updateAvatar: async (req: Request, res: Response) => {
     const userRepository = req.DB.getRepository(User);
     const keycloakId = req.payload?.sub;

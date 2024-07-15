@@ -67,7 +67,6 @@ AppDataSource<DataSource, Array<any>>(DataSource, process.env, entities).then((D
     req.EurekaClient = ET.EurekaClient
     req.DB = DB;
     req.PUBLI_KEY = process.env.PUBLIC_KEY+"";
-    console.log("PUBLI_KEY : ",req.PUBLI_KEY);
     req.mail = new Mail(nodemailer, "admin", "Mab@0828@2024;");
     next();
   })
