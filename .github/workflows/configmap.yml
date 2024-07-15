@@ -1,5 +1,4 @@
 name: ConfigMap
-
 on:
   push:
     branches:
@@ -19,6 +18,7 @@ jobs:
         uses: azure/setup-kubectl@v1
         with:
           version: 'latest'
+
       - name: Create Kubernetes configmap
         env:
           DB_HOST: ${{ vars.DB_HOST }}
@@ -55,7 +55,7 @@ jobs:
             SESSION_SECRET: "${SESSION_SECRET}"
             GATEWAY_URL: "${GATEWAY_URL}"
             PUBLIC_KEY: "${PUBLIC_KEY}"
-            DEV:"1"
+            DEV: "1"
           EOF
       - name: Digital Ocean
         uses: digitalocean/action-doctl@v2
