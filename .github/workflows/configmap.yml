@@ -19,7 +19,6 @@ jobs:
         uses: azure/setup-kubectl@v1
         with:
           version: 'latest'
-
       - name: Create Kubernetes configmap
         env:
           DB_HOST: ${{ vars.DB_HOST }}
