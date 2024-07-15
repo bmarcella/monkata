@@ -30,7 +30,10 @@
                   </mat-select>
                 </div>
 
-                <div class="input-block col-md-6" *ngIf="selectedEnt">
+                <div
+                  class="input-block col-md-6"
+                  *ngIf="selectedEnt && selectedEnt.approuved"
+                >
                   <label for="Price" class="col-form-label">Burreau</label>
                   <mat-select
                     [(ngModel)]="selectedAd"
@@ -47,6 +50,19 @@
                     </mat-option>
                   </mat-select>
                 </div>
+              </div>
+
+              <div
+                class="row mb-2"
+                *ngIf="selectedEnt && !selectedEnt.approuved"
+              >
+                <h3 class="text-center alert alert-warning">
+                  Votre entreprise n'a pas encore été approuvé. Veuillez
+                  contacter MEmploi via cet Email :
+                  <a href="mailto:memploi@monkata.com"> memploi@monkata.com </a>
+                  <br />
+                  En indiquant le nom de votre entreprise.
+                </h3>
               </div>
 
               <div class="row mb-2" *ngIf="selectedAd && selectedEnt">
