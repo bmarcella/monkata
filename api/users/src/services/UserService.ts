@@ -8,7 +8,6 @@ import {
   Response,
 } from 'express';
 import * as jwt from 'jsonwebtoken';
-import { v4 as uuidv4 } from 'uuid';
 
 import { servicesApp } from '../../../../common/index/Frontend';
 import {
@@ -116,7 +115,7 @@ const services = {
     u.family_name = ud.lastName;
     u.password = ph.hash;
     u.salt = ph.salt;
-    u.sub = (await services.hashPassword (ud.email)).hash;
+    u.sub = (await services.hashPassword(ud.email)).hash;
     console.log("SUB_HASH:",u.sub);
     u = await userRepository.save(u);
     return u;
@@ -133,14 +132,14 @@ const services = {
         user.password = "";
         user.salt = "";
         const token = services.getKCToken(user);
-        return token as KCToken;
+        return token;
       }
     } catch (error: any) {
       console.error('Auth Error but account have been created', error);
       throw error;
     }
   },
-  getKCToken(user: KcUser ) : KCToken {
+  getKCToken: async (user: KcUser )  => {
     const  PUBLIC_KEY  = process.env.PUBLIC_KEY;
     const payload = {
       sub: user.sub,
@@ -157,9 +156,9 @@ const services = {
       refresh_expires_in: 64800,
       refresh_token: rt,
       scope: "profile email",
-      session_state: uuidv4(),
+      session_state: (await services.hashPassword(new Date().toISOString())).hash,
       token_type: "Bearer",
-    };
+    } as KCToken;
   },
   getUserInfo: async (keycloakUrl: any, realm: string, accessToken: string, userId: string) => {
     const userInfoEndpoint = `${keycloakUrl}/admin/realms/${realm}/users/${userId}`;
@@ -284,7 +283,7 @@ const services = {
         user.password = "";
         user.salt = "";
         const token = services.getKCToken(user);
-        return res.status(200).send(token as KCToken);
+        return res.status(200).send(token);
       } else {
         return res.status(403).send({
           message: payload.message
