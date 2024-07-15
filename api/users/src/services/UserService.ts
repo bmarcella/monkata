@@ -116,7 +116,8 @@ const services = {
     u.family_name = ud.lastName;
     u.password = ph.hash;
     u.salt = ph.salt;
-    u.sub = await uuidv4();
+    u.sub = (await services.hashPassword (ud.email)).hash;
+    console.log("SUB_HASH:",u.sub);
     u = await userRepository.save(u);
     return u;
   },
