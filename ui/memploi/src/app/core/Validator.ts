@@ -60,7 +60,6 @@ export const Validator = async (obj : any , val: Val[]) : Promise<ReqVal> => {
 export const checkValidator = async (entreprise: any, val: Val[], e?: any )  => {
   toggleButton(e, true);
   const rep: ReqVal = await Validator(entreprise, val);
-      console.log(rep);
       let message = ""
       if(rep.error) {
          message = "<h6> Vous devez corriger ces erreurs avant de continuer:</h6>";
