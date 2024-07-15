@@ -1,11 +1,16 @@
 /* eslint-disable @angular-eslint/no-empty-lifecycle-method */
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+} from '@angular/core';
 import { Router } from '@angular/router';
+
+import * as AOS from 'aos';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 import { routes } from 'src/app/core/helpers/routes/routes';
 import { CrudService } from 'src/app/service/crud.service';
 import { getURL } from 'src/environments/environment.prod';
-import * as AOS from 'aos';
+
 @Component({
   selector: 'app-home-eight',
   templateUrl: './home-eight.component.html',
@@ -13,7 +18,7 @@ import * as AOS from 'aos';
 
 })
 export class HomeEightComponent implements OnInit {
-  jobs: any =[];
+  jobs: any = [];
 
   filter = {
     query : "",

@@ -233,7 +233,7 @@ const services = {
     try {
       kcToken = await services.autoLogin(username, password, req) as KCToken;
     } catch (error: any) {
-      console.log("AUTO_LOGIN", error);
+       console.log("AUTO_LOGIN", error);
       return res.status(500).send(error);
     }
     if (!kcToken?.access_token)  return res.status(401).send({ message:'Token DiD Not Generate '});

@@ -1,4 +1,3 @@
-import { corsOptions } from '../cors/index';
 import { servicesApp } from '../index/Frontend';
 import { Service } from '../index/services';
 
@@ -88,13 +87,12 @@ const setProxies = <E, Eureka>(p: any, ET: any, express: any, cors: any, eurekaC
 
     });
     const port = p.PORT;
-    const dev = Number(p.DEV);
     
-    if(dev==1)
-    app.use(cors(corsOptions));
-    else
+    // const dev = Number(p.DEV);
+    // if(dev==1)
+    // app.use(cors(corsOptions));
+    // else
     app.use(cors());
-
     app.get('/applications', (req: any, res: any) => {
       res.status(200).send(servicesApp);
     });
@@ -130,3 +128,4 @@ const Run = <Eureka>(p: any, ET: any, app: any) => {
 }
 
 export { EurekaTools, Run, Service, SERVICE_CONFIG, setProxies };
+
