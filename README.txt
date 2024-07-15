@@ -10,7 +10,11 @@ kubectl scale deployment <deployment-name> --replicas=0
 kubectl create -f https://raw.githubusercontent.com/keycloak/keycloak-quickstarts/latest/kubernetes/keycloak.yaml
 
 kubectl scale deployment gateway-deployment --replicas=0
-kubectl scale deployment keycloak-deployment --replicas=0
+kubectl scale deployment users-deployment --replicas=0
+kubectl scale deployment eureka-deployment --replicas=0
+kubectl scale deployment users-deployment --replicas=0
+
+
 kubectl scale deployment ui-memploi-deployment --replicas=0
 doctl compute certificate list
 doctl compute load-balancer list --format "ID,Name,IP"

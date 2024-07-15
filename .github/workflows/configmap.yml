@@ -81,6 +81,7 @@ jobs:
             KEYCLOAK_SECRET: "${KEYCLOAK_SECRET}"
             KEYCLOAK_CONFIDENTIAL_PORT: "${KEYCLOAK_CONFIDENTIAL_PORT}"
             PUBLIC_KEY: "${PUBLIC_KEY}"
+            DEV:"1"
           EOF
       - name: Digital Ocean
         uses: digitalocean/action-doctl@v2
