@@ -11,5 +11,6 @@ kubectl create -f https://raw.githubusercontent.com/keycloak/keycloak-quickstart
 
 kubectl scale deployment gateway-deployment --replicas=0
 kubectl scale deployment keycloak-deployment --replicas=0
+kubectl scale deployment ui-memploi-deployment --replicas=0
 doctl compute certificate list
 doctl compute load-balancer list --format "ID,Name,IP"

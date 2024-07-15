@@ -18,8 +18,8 @@ export class LoginComponent {
   public toggleData = false;
   name: any;
   creds: Login = {
-    username: "bmarcella91@gmail.com",
-    password: "lolo91"
+    username: "",
+    password: ""
   }
   ct: any;
   constructor(public router: Router, private kc: KeycloakService, private aUI:  AlertService,) {

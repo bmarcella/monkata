@@ -33,10 +33,10 @@ export class SignupComponent {
   }
 
   creds: UserReg = {
-    email: "bmarcella91@gmail.com",
-    password: "lolo91",
-    firstname: "Toto",
-    lastname: "Tata",
+    email: "",
+    password: "",
+    firstname: "",
+    lastname: "",
     tokenRC: ""
   }
   reset(){

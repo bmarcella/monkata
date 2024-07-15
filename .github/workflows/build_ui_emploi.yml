@@ -3,8 +3,8 @@ on:
   push:
     branches:
       - dev
-    # paths:
-    #- 'ui/memploi/**'
+    paths:
+      - 'ui/memploi/**'
 jobs:
   builds:
     runs-on: ubuntu-latest
