@@ -17,6 +17,11 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "apexcharts",
+              "file-saver",
+              "aos"
+            ],
             "outputPath": "dist/listee-angular",
             "index": "src/index.html",
             "main": "src/main.ts",

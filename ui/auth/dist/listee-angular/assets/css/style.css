@@ -2418,7 +2418,7 @@ a:hover, a:focus {
 }
 .cta-section {
     padding: 100px 0;
-    background-image: url(../img/whitebg.png);
+    background-image: url(../img/Whitebg.png);
     background-repeat: no-repeat;
     background-position: right center;
 }
@@ -11165,11 +11165,11 @@ textarea.form-control {
         display: block !important;
         transition: all 0.5s;
     }
-    
+
     .hide-sub-menu {
         display: none !important;
         transition: all 0.5s;
-    }  
+    }
 
 
 
@@ -13856,10 +13856,10 @@ textarea.form-control {
 	}
     .mat-custom-select {
         width: 100% !important;
-    }  
+    }
     .home-one-serch-box {
         flex-direction: column;
-    } 
+    }
     .partners-section .owl-theme .owl-dots .owl-dot.active span,
     .partners-section .owl-theme .owl-dots .owl-dot span {
         right: 0px;
@@ -13879,9 +13879,9 @@ textarea.form-control {
     .featured-section .owl-nav .owl-next,
     .featured-section .owl-nav .owl-prev{
         top: -59px;
-        
+
     }
-    
+
 }
 /*-----------------.
 	34. Home 6
@@ -14972,11 +14972,11 @@ textarea.form-control {
     background-color: #fff;
     padding: 0 0 80px 0;
   }
-  
+
   /*-----------------.
       37. Home 9
   -----------------------*/
-  
+
   .header-nine .header-top {
     background-color: #f9fafc;
     border-bottom: none;
@@ -15125,8 +15125,8 @@ textarea.form-control {
     background-color:#c10037 ;
     color: #fff;
   }
-  .car-rental-slider .owl-carousel .owl-nav .owl-next, 
-  .car-rental-slider .owl-carousel .owl-nav .owl-prev, 
+  .car-rental-slider .owl-carousel .owl-nav .owl-next,
+  .car-rental-slider .owl-carousel .owl-nav .owl-prev,
   .car-rental-slider .owl-carousel .owl-dot {
     background: 0 0;
     color: inherit;
@@ -16093,11 +16093,11 @@ textarea.form-control {
   .head-contact:hover i, .head-contact:hover a {
       color: #c10037;
   }
-  
+
   /*-----------------.
       35. Home 7
   -----------------------*/
-  
+
   .header-seven {
     background-color: transparent;
     box-shadow: none;
@@ -16355,7 +16355,7 @@ textarea.form-control {
   .banner-seven .home-banner {
     padding-bottom: 200px;
   }
-  
+
   .heading-img {
     padding-right: 20px;
   }
@@ -17470,11 +17470,11 @@ textarea.form-control {
     color: #fff;
     background: #C10037;
   }
-  
+
   /*-----------------.
       36. Home 8
   -----------------------*/
-  
+
   .header.header-eight {
     background: transparent;
     box-shadow: none;
@@ -18742,11 +18742,11 @@ textarea.form-control {
   .header-eight.fixed .header-navbar-rht li>a.header-login.add-listing:hover {
     color: #c10037;
   }
-  
+
   /*-----------------.
       38. Footer
   -----------------------*/
-  
+
   .footer {
     background-color: #1a1a1a;
     margin-top: 230px;
@@ -19407,7 +19407,7 @@ textarea.form-control {
   /*-----------------
       39. Responsive
   -----------------------*/
-  
+
   @media (min-width: 992.98px) {
     .pricing-eight .col-lg-2.d-flex.col-md-6 {
         width: 19.30%;
@@ -19674,7 +19674,7 @@ textarea.form-control {
       display: none;
     }
   }
-  
+
   @media (max-width: 1499.98px) {
     .holiday-cabin-img-slider .owl-nav .owl-prev i {
       left: 97%;
@@ -19726,7 +19726,7 @@ textarea.form-control {
     }
   }
   @media (min-width: 1399.99px) {
-    
+
     .restaurateurs-content {
         max-width: 100%;
         max-height: 100%;
@@ -19748,8 +19748,8 @@ textarea.form-control {
         max-width: 350px;
     }
   }
-  @media (max-width: 1399.98px) {	
-  
+  @media (max-width: 1399.98px) {
+
     .banner-seven .main-nav > li {
       margin-right: 20px;
     }
@@ -19792,7 +19792,7 @@ textarea.form-control {
     }
     .category-item a {
           font-size: 15px;
-      }	
+      }
     .featured-car-center-list p {
       width: 100%;
       white-space: nowrap;
@@ -19817,10 +19817,10 @@ textarea.form-control {
       }
       .listee-content {
           padding: 50px 0;
-      }		
+      }
       .banner-four .banner-imgs {
           right: 90px;
-      }	
+      }
       .banner-four .banner-imgs img {
           max-width: 650px;
       }
@@ -19828,8 +19828,8 @@ textarea.form-control {
           font-size: 18px;
       }
   }
-  
-  
+
+
   @media (max-width: 1199.98px) {
     .banner-seven .banner-main-img {
       display: none;
@@ -20068,7 +20068,7 @@ textarea.form-control {
       right: -16px;
     }
   }
-  
+
   @media (max-width: 991.98px) {
     .adv-content h4 {
       font-size: 26px;
@@ -20349,7 +20349,7 @@ textarea.form-control {
     }
     .cities-height img {
         height: 220px;
-    } 
+    }
      .cities-spl-box  .cities-overlay {
         height: calc(100% - 20px);
     }
@@ -21696,11 +21696,11 @@ textarea.form-control {
     .testimonial-float-bg{
       display: none;
     }
-  
+
   }
-  
+
   @media (max-width: 767.98px) {
-  
+
     .heading-eight h2 {
       font-size: 22px;
     }
@@ -22339,7 +22339,7 @@ textarea.form-control {
       font-size: 16px;
       margin-bottom: 0;
     }
-    
+
     .section-blk .service-info-card .img-blk {
       background: transparent;
     }
@@ -22428,7 +22428,7 @@ textarea.form-control {
       top:10px,
     }
   }
-  
+
   @media (max-width: 575.98px) {
     .banner-seven .search-box .search-input {
       margin: 0 10px 10px 0;
@@ -22465,7 +22465,7 @@ textarea.form-control {
     .restaurateurs-img {
         max-width: 100%;
     }
-  
+
     .loca-height img {
         height: 293px;
         max-height: 293px;
@@ -23431,7 +23431,7 @@ textarea.form-control {
       min-width: auto;
     }
   }
-  
+
   .shape-1 {
     animation: hero-thumb-animation 2.5s linear infinite alternate;
     -webkit-animation: hero-thumb-animation 2.5s linear infinite alternate;
