@@ -85,21 +85,17 @@
       <h2 class="text-center"><span>Pos</span>tes Récents</h2>
       <p></p>
     </div>
-    <div class="popular-details" *ngIf="jobs.length > 0">
+    <div class="popular-details">
       <div class="row">
         <app-home-job-item
-          class="col-lg-4 col-md-6 col-sm-6 aos"
-          data-aos="fade-up"
+          class="col-lg-4 col-md-6 col-sm-6"
           *ngFor="let job of jobs"
           [job]="job"
           [showApply]="true"
         >
         </app-home-job-item>
       </div>
-      <div
-        class="align-items-center justify-content-center d-flex aos"
-        data-aos="fade-up"
-      >
+      <div class="align-items-center justify-content-center d-flex">
         <a routerLink="/jobs" class="category-btn">Voir plus de poste</a>
       </div>
     </div>
