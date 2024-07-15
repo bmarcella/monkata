@@ -43,6 +43,7 @@ declare global {
       token?: string
       DB: any,
       mail: Mail,
+      PUBLI_KEY: string,
     }
   }
 }
@@ -65,6 +66,8 @@ AppDataSource<DataSource, Array<any>>(DataSource, process.env, entities).then((D
   app.use((req: Request, res: Response, next: NextFunction) => {
     req.EurekaClient = ET.EurekaClient
     req.DB = DB;
+    req.PUBLI_KEY = process.env.PUBLIC_KEY+"";
+    console.log("PUBLI_KEY : ",req.PUBLI_KEY);
     req.mail = new Mail(nodemailer, "admin", "Mab@0828@2024;");
     next();
   })
