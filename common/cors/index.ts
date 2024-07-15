@@ -3,7 +3,6 @@ const allowedOrigins = [
   'https://monkata.com',
   'https://memploi.com',
   'https://pledika.com',
-  "*"
   // Ajoutez d'autres domaines frontend ici
 ];
 
