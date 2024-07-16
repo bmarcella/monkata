@@ -48,7 +48,7 @@ export const servicesApp: ServiceObjApp = {
     frontend_prod: "https://memploi.com",
     login: "/auth/login-cross-token",
     show: true,
-    img: 'assets/img/icons/category-5.svg',
+    img: 'assets/img/logo_2.png',
   },
   pledika: {
     name: "Pledika",
@@ -58,6 +58,6 @@ export const servicesApp: ServiceObjApp = {
     frontend_dev: "http://localhost:4201",
     frontend_prod: "https://www.pledika.com",
     show: false,
-    img: 'assets/img/icons/category-6.svg',
+    img: 'assets/img/logo_2.png',
   },
 };
