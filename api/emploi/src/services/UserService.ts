@@ -43,7 +43,6 @@ const services = {
     const http = new Http(axios, req.token || '');
     const path = getService("users").path;
     const URL = GATEWAY_URL+path+SERV_EP.getCrossToken+token;
-    console.log("HERE IS THE URL ============> ",URL);
     const resp =   await http.get(URL,false) ;
   
     const userRepository = req.DB.getRepository(User_Cv);
@@ -634,7 +633,7 @@ const services = {
       filler.email = true;
     }
 
-    if (user.telephone_a && user.telephone_b ) {
+    if (user.telephone_a || user.telephone_b ) {
       note +=10;
       filler.phone = true;
     }
@@ -665,7 +664,7 @@ const services = {
     }
 
     if (user.skills && user.skills.length>0) {
-        note +=10; 
+        note +=10;
         filler.skills = true;
     }
     res.status(200).send({ note, filler, total: 100 });

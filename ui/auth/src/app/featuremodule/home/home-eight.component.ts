@@ -9,7 +9,10 @@ import * as AOS from 'aos';
 import { CountUp } from 'countup.js';
 import { routes } from 'src/app/core/helpers/routes/routes';
 import { CrudService } from 'src/app/service/crud.service';
-import { gWURL } from 'src/environments/environment.prod';
+import {
+  gWURL,
+  prod,
+} from 'src/environments/environment.prod';
 
 import { ServiceApp } from '../../../../../../common/index/Frontend';
 
@@ -22,6 +25,7 @@ export class HomeEightComponent implements OnInit, AfterViewInit {
   public routes = routes;
   private countUp: CountUp | undefined;
   public categories: ServiceApp[] = [];
+  prod = prod;
 
   constructor(public router: Router, private crud: CrudService) {
   }

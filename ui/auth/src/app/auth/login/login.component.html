@@ -1,18 +1,6 @@
-<!-- Breadscrumb Section -->
-<div class="breadcrumb-bar">
-  <div class="container">
-    <div class="row align-items-center text-center">
-      <div class="col-md-12 col-12">
-        <h2 class="breadcrumb-title">Ouvrir username session Monkata</h2>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- /Breadscrumb Section -->
-
 <!-- Login Section -->
 <div class="login-content">
-  <div class="container">
+  <div class="container" style="margin-top: 8%">
     <div class="row">
       <div class="col-md-6 col-lg-5 mx-auto">
         <div class="login-wrap">
@@ -90,3 +78,25 @@
   </div>
 </div>
 <!-- /Login Section -->
+
+<!-- Category Section -->
+<section class="category-section" style="margin-top: -8%">
+  <div class="container">
+    <div class="category-details">
+      <div class="row" style="justify-content: center">
+        <div class="col-lg-2 col-md-3 col-sm-6" *ngFor="let list of categories">
+          <a
+            target="_blank"
+            [href]="!prod ? list.frontend_dev : list.frontend_prod"
+            class="category-links"
+          >
+            <h5>{{ list.titre }}</h5>
+            <span>{{ list.description }}</span>
+            <img [src]="list.img" alt="icons" />
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- /Category Section -->

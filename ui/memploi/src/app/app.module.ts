@@ -40,7 +40,8 @@ import { AlertComponent } from './shared/components/alert/alert.component';
     RecaptchaV3Module,
     RecaptchaFormsModule,
   ],
-  providers: [KeycloakService,
+  providers: [
+    KeycloakService,
     { provide: HTTP_INTERCEPTORS, useClass: HttpRequestInterceptor, multi: true },
     {
       provide: RECAPTCHA_V3_SITE_KEY,

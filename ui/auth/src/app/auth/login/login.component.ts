@@ -3,8 +3,14 @@ import { Router } from '@angular/router';
 
 import { routes } from 'src/app/core/helpers/routes/routes';
 import { AlertService } from 'src/app/service/alert.service';
-import { getRURL } from 'src/environments/environment.prod';
+import { CrudService } from 'src/app/service/crud.service';
+import {
+  getRURL,
+  gWURL,
+  prod,
+} from 'src/environments/environment.prod';
 
+import { ServiceApp } from '../../../../../../common/index/Frontend';
 import { KeycloakService } from '../../service/keycloak.service';
 
 type Login = { username: string, password: string, token?: string }
@@ -16,16 +22,28 @@ type Login = { username: string, password: string, token?: string }
 export class LoginComponent {
   public routes = routes;
   public toggleData = false;
+  public categories: ServiceApp[] = [];
+  prob = prod;
   name: any;
   creds: Login = {
     username: "",
     password: ""
   }
   ct: any;
-  constructor(public router: Router, private kc: KeycloakService, private aUI:  AlertService,) {
+  constructor(public router: Router, private kc: KeycloakService, private aUI:  AlertService,  private crud: CrudService) {
     this.ct = this.kc.getCToken();
     if (this.ct && this.ct.cross_token.appName)
     this.name = this.ct.cross_token.appName;
+    this.getApp() 
+  }
+
+  public getApp() {
+    this.crud.get(gWURL("applications")).then((r) => {
+      Object.entries(r).forEach(([key, value]) => {
+        if ((value as ServiceApp).show)
+          this.categories.push(value as ServiceApp);
+      });
+    }).catch((e) => console.log(e));
   }
 
   path() {

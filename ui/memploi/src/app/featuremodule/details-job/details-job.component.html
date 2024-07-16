@@ -10,8 +10,8 @@
           <h5>{{ job?.titre_job }}</h5>
           <p>{{ ent?.name }}</p>
           <p>
-            <span *ngIf="job?.ville">{{ job?.ville }},</span>
-            <span *ngIf="job?.etat">{{ job?.etat }},</span>
+            <span *ngIf="job?.ville">{{ job?.ville }}, </span>
+            <span *ngIf="job?.etat">{{ job?.etat }}, </span>
             <span *ngIf="job?.country">{{ job?.country }}</span>
           </p>
         </div>
@@ -20,6 +20,7 @@
         <h2 *ngIf="job?.salaire">
           {{ currency(job?.salaire) }} {{ job?.currency }}
         </h2>
+        <p *ngIf="!job?.salaire" class="text-secondary">Type paiement</p>
         <p>{{ job?.periode_salaire }}</p>
       </div>
     </div>
@@ -34,7 +35,7 @@
             </li>
 
             <li>
-              <a (click)="report($event)"
+              <a (click)="report($event)" class="link"
                 ><i class="feather-flag"></i> Signaler ce poste</a
               >
             </li>

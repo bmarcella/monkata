@@ -128,9 +128,7 @@
               les candidatures, le tout au même endroit.
             </p>
             <div class="adver-btn">
-              <a href="javascript:void(0);" class="btn-primary"
-                >Ajouter Poste</a
-              >
+              <a (click)="addJob($event)" class="btn-primary">Ajouter Poste</a>
             </div>
           </div>
         </div>
@@ -145,7 +143,7 @@
               connectez-vous avec les meilleurs employeurs.
             </p>
             <div class="adver-btn">
-              <a href="javascript:void(0);" class="btn-primary btn-dark"
+              <a (click)="createCV($event)" class="btn-primary btn-dark"
                 >Créer CV</a
               >
             </div>

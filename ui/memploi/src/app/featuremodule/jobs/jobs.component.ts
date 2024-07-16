@@ -1,10 +1,11 @@
 import { formatNumber } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { DeviceDetectorService } from 'ngx-device-detector';
 import { Type_Categorie } from 'src/app/admin/categorie/categorie.component';
 import { CategorieService } from 'src/app/service/categorie.service';
 import { CrudService } from 'src/app/service/crud.service';
-import { Type_contrat, Env_Work, Horaire_de_travail, Periode_salaire, App_Reception } from 'src/app/shared/models/Jobs';
+import { Env_Work, Horaire_de_travail, Periode_salaire, Type_contrat } from 'src/app/shared/models/Jobs';
 import { getURL } from 'src/environments/environment.prod';
 
 @Component({
@@ -17,6 +18,7 @@ export class JobsComponent implements OnInit {
   jobs: any =[];
   job: any ;
   ent : any;
+  deviceInfo;
   paginations;
   cats: any = [];
   filter : any = {
@@ -31,11 +33,13 @@ export class JobsComponent implements OnInit {
   envOptions = Object.values(Env_Work);
   horaireOptions = Object.values(Horaire_de_travail);
   salaireOptions = Object.values(Periode_salaire);
-
-  constructor( public router: Router, private crud: CrudService, private cat: CategorieService) {
+  isMobile;
+  constructor( private el: ElementRef, public router: Router, private crud: CrudService, private cat: CategorieService, private deviceService: DeviceDetectorService) {
 
   }
   ngOnInit(): void {
+    this.deviceInfo = this.deviceService.getDeviceInfo();
+    this.isMobile = this.deviceService.isMobile();
     this.getJobs();
     this.getCats();
   }
@@ -55,12 +59,11 @@ export class JobsComponent implements OnInit {
        return {ent, job};
       } );
 
-      if(this.jobs.length>0){
+      if(this.jobs.length>0 && !this.isMobile ){
         this.job = this.jobs[0].job;
         this.ent = this.jobs[0].ent;
       }
       this.paginations = r.pagination;
-      console.log(r);
     }
 
     }).catch((e) => {
@@ -68,9 +71,24 @@ export class JobsComponent implements OnInit {
       console.log(msg);
     });
   }
+
   show(data: any) {
     this.job = data.job;
     this.ent = data.ent;
+    if (this.isMobile)
+      this.scrollToTop();
+  }
+
+  close () {
+    this.scrollToElement(this.job.id)
+    this.job = undefined;
+    this.ent = undefined;
+  }
+  scrollToElement(id): void {
+    const element = this.el.nativeElement.querySelector('#job-'+id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
   }
 
   changePage(p, e) {

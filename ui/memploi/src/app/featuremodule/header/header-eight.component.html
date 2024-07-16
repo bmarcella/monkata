@@ -3,7 +3,7 @@
   <div class="container">
     <nav class="navbar navbar-expand-lg header-nav">
       <div class="navbar-header">
-        <a (click)="toggleSidebar()" id="mobile_btn" href="javascript:void(0);">
+        <a (click)="toggleSidebar()" id="mobile_btn">
           <span class="bar-icon">
             <span></span>
             <span></span>
@@ -22,21 +22,41 @@
       <div class="main-menu-wrapper">
         <div class="menu-header">
           <a routerLink="/home" class="menu-logo">
-            <img src="assets/img/logo.svg" class="img-fluid" alt="Logo" />
+            <img
+              src="assets/img/logo_2.png"
+              class="img-fluid"
+              alt="Logo"
+              style="height: 20px"
+            />
           </a>
-          <a id="menu_close" class="menu-close" href="javascript:void(0);">
+          <a id="menu_close" class="menu-close">
             <i class="fas fa-times"></i
           ></a>
         </div>
         <ul class="main-nav">
+          <li class="nav-item dropdown logged-item" *ngIf="isMobile && login">
+            <a
+              routerLink="/profile"
+              class="profile-userlink"
+              aria-expanded="false"
+            >
+              <img [src]="avatar" *ngIf="avatar" />
+              <span>{{ user?.firstName }} {{ user?.lastName }}</span>
+            </a>
+          </li>
           <li [ngClass]="[path == '/home' ? 'active' : '']">
             <a routerLink="/home"> Accueil</a>
           </li>
           <li [ngClass]="[path == '/jobs' ? 'active' : '']">
             <a routerLink="/jobs">Jobs</a>
           </li>
+
           <li [ngClass]="[path == '/contact' ? 'active' : '']">
             <a routerLink="/contact"> Contact</a>
+          </li>
+
+          <li *ngIf="isMobile && login">
+            <a class="dropdown-item" (click)="logout()">Déconnexion</a>
           </li>
         </ul>
       </div>
@@ -62,7 +82,7 @@
         </li>
         <li class="nav-item dropdown has-arrow logged-item">
           <a
-            href="javascript:void(0);"
+            routerLink="/profile"
             class="dropdown-toggle profile-userlink"
             data-bs-toggle="dropdown"
             aria-expanded="false"
@@ -81,7 +101,7 @@
             <a class="dropdown-item" routerLink="/jobs/add-ent" *ngIf="ent == 0"
               >Créer Entreprise</a
             >
-            <a class="dropdown-item" (click)="logout()">Logout</a>
+            <a class="dropdown-item" (click)="logout()">Déconnexion</a>
           </div>
         </li>
       </ul>

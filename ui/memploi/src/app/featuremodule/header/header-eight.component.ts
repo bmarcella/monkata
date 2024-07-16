@@ -3,6 +3,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { Router } from '@angular/router';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 import { CrudService } from 'src/app/service/crud.service';
 import { KeycloakService } from 'src/app/service/keycloak.service';
@@ -29,12 +30,17 @@ export class HeaderComponent implements OnInit {
   avatar = '';
   path: any ;
   ent: any;
+  isMobile: any;
+  deviceInfo: any;
   constructor(
     private router: Router,
     private auth: KeycloakService,
     private sidebarService: SidebarService,
     private crud: CrudService,
+    private deviceService: DeviceDetectorService
   ) {
+    this.deviceInfo = this.deviceService.getDeviceInfo();
+    this.isMobile = this.deviceService.isMobile();
     this.user = this.auth.profil();
     this.cv = this.auth.cv();
     if(this.user) {

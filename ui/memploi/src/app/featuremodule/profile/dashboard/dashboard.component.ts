@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Component, OnInit } from '@angular/core';
-
+import {
+  Component,
+  OnInit,
+} from '@angular/core';
 import { Router } from '@angular/router';
+
 import { CrudService } from 'src/app/service/crud.service';
 import { getURL } from 'src/environments/environment.prod';
-
 
 @Component({
   selector: 'app-dashboard',
@@ -44,12 +46,12 @@ export class DashboardComponent implements OnInit {
   }
   filler = {
     email : "Ajouter votre email de contact",
-    etudes : "Ajouter votre au moins une etude",
-    language : "Ajouter votre au moins une langue parler",
-    name : "Ajouter votre nom et prenom",
-    phone : "Ajouter votre au moin un numero de téléphone",
+    etudes : "Ajouter au moins une étude",
+    language : "Ajouter au moins une langue parler",
+    name : "Ajouter votre nom et prénom",
+    phone : "Ajouter au moin un numero de téléphone",
     profLen : "Votre profil droit avoir au moins 200 characteres",
-    skills : "Ajouter au moins une competence",
+    skills : "Ajouter au moins une compétence",
     titreAndProfile : "Vous devez ajouter votre titre et profil",
     works : "Ajouter au moins une experiences de travails",
   };

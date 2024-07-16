@@ -25,7 +25,7 @@ export const servicesApp: ServiceObjApp = {
     frontend_dev: "http://localhost:4205",
     frontend_prod: "https://qnote.pledika.com",
     login: "/auth/login-cross-token",
-    show: true,
+    show: false,
     img: 'assets/img/icons/category-5.svg',
   },
   admin: {
@@ -36,7 +36,7 @@ export const servicesApp: ServiceObjApp = {
     frontend_dev: "http://localhost:4206",
     frontend_prod: "https://admin.monkata.com",
     login: "/auth/login-cross-token",
-    show: true,
+    show: false,
     img: 'assets/img/icons/category-5.svg',
   },
   memploi: {
@@ -57,7 +57,7 @@ export const servicesApp: ServiceObjApp = {
     path: "/jobs",
     frontend_dev: "http://localhost:4201",
     frontend_prod: "https://www.pledika.com",
-    show: true,
+    show: false,
     img: 'assets/img/icons/category-6.svg',
   },
 };

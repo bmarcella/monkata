@@ -27,7 +27,7 @@ const services = {
       const objs: Jobs [] = await jobsRepository.find({
         order: { created_at : "DESC" },
         select: ['id','titre_job', 'categorie', 'ville','type_contrat', 'entreprise_id'], // Specify the fields you want to select
-        take: 6 // Limit the result to 6 rows
+        take: 18 
     });
 
     let  ents: any [] = [];
