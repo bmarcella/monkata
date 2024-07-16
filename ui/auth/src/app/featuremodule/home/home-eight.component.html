@@ -68,10 +68,14 @@
     <div class="category-details">
       <div class="row">
         <div class="col-lg-2 col-md-3 col-sm-6" *ngFor="let list of categories">
-          <a target="_blank"  [href]="!prod ? list.frontend_dev : list.frontend_prod" class="category-links">
+          <a
+            target="_blank"
+            [href]="!prod ? list.frontend_dev : list.frontend_prod"
+            class="category-links"
+          >
             <h5>{{ list.titre }}</h5>
             <span>{{ list.description }}</span>
-            <img [src]="list.img" alt="icons" />
+            <img [src]="list.img" alt="icons" width="64" />
           </a>
         </div>
       </div>

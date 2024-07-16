@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { routes } from 'src/app/core/helpers/routes/routes';
@@ -19,11 +19,11 @@ type Login = { username: string, password: string, token?: string }
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   public routes = routes;
   public toggleData = false;
   public categories: ServiceApp[] = [];
-  prob = prod;
+  prod = prod;
   name: any;
   creds: Login = {
     username: "",
@@ -34,7 +34,10 @@ export class LoginComponent {
     this.ct = this.kc.getCToken();
     if (this.ct && this.ct.cross_token.appName)
     this.name = this.ct.cross_token.appName;
-    this.getApp() 
+
+  }
+  ngOnInit(): void {
+    this.getApp();
   }
 
   public getApp() {
@@ -68,7 +71,6 @@ export class LoginComponent {
         window.location.href = URL;
       }
     }).catch((e) => {
-      console.log(e);
       if(e.status == 401)
       this.aUI.show({ active : true, message:"Email ou Mot de passe non valide " , type: "danger", pos: 'top-right' });
       else

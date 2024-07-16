@@ -9,7 +9,7 @@ import { AlertService } from 'src/app/service/alert.service';
 import { CategorieService } from 'src/app/service/categorie.service';
 import { CrudService } from 'src/app/service/crud.service';
 import { KeycloakService } from 'src/app/service/keycloak.service';
-import { Type_contrat, Env_Work, Horaire_de_travail, Periode_salaire } from 'src/app/shared/models/Jobs';
+import { Env_Work, Horaire_de_travail, Periode_salaire, Type_contrat } from 'src/app/shared/models/Jobs';
 import { getURL } from 'src/environments/environment.prod';
 
 @Component({
@@ -78,6 +78,7 @@ export class EntrepriseComponent implements OnInit {
   horaireOptions = Object.values(Horaire_de_travail);
   salaireOptions = Object.values(Periode_salaire);
   avatar : any;
+
   constructor( private auth: KeycloakService, public router: Router, private crud: CrudService, private cat: CategorieService, private aUI:  AlertService) {
 
   }
@@ -108,7 +109,8 @@ export class EntrepriseComponent implements OnInit {
     });
   }
 
-  switcher(name: any){
+ async switcher(name: any) {
+    if (this.path == name) return;
     this.path = name;
     if(name==2)
     this.getJobs(1)
