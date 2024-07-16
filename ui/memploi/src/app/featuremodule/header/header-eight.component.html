@@ -34,10 +34,8 @@
           ></a>
         </div>
         <ul class="main-nav">
-          <li class="nav-item" *ngIf="isMobile && !login">
-            <a class="nav-link header-login btn-primary" (click)="loginNow()">
-              Compte
-            </a>
+          <li *ngIf="isMobile && !login">
+            <a (click)="loginNow()"> Compte </a>
           </li>
           <li class="nav-item dropdown logged-item" *ngIf="isMobile && login">
             <a
