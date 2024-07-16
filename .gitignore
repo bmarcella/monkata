@@ -14,7 +14,6 @@
 /ui/qnote/.angular/cache/
 /ui/admin/.angular/cache/
 /cicd/hold/
-/admin/
 # Ignore operating system files
 .DS_Store
 aws.txt
