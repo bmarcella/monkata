@@ -33,6 +33,7 @@ export class EntrepriseComponent implements OnInit {
   progress: any;
   cats: any = [];
   eCats: any = [];
+
   filter : any = {
     query: '',
     categorie: '',
@@ -57,6 +58,7 @@ export class EntrepriseComponent implements OnInit {
     ville: "",
     rue: ""
   }
+
   editorConfig: AngularEditorConfig = {
     editable: true,
     spellcheck: true,
@@ -71,7 +73,6 @@ export class EntrepriseComponent implements OnInit {
     defaultParagraphSeparator: '',
     defaultFontName: '',
     defaultFontSize: '',
-    // other config options...
   };
   contratOptions = Object.values(Type_contrat);
   envOptions = Object.values(Env_Work);
@@ -110,10 +111,11 @@ export class EntrepriseComponent implements OnInit {
   }
 
  async switcher(name: any) {
-    if (this.path == name) return;
-    this.path = name;
-    if(name==2)
-    this.getJobs(1)
+  if (this.path == name) return;
+
+  this.path = name;
+  if(name==2)
+    this.getJobs(1);
   }
 
   public getJobs(page: number) {

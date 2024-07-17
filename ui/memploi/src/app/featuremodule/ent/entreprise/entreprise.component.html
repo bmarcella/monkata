@@ -85,6 +85,7 @@
                     <span>Burreaux</span>
                   </a>
                 </li>
+
                 <li [ngClass]="[path === 2 ? 'active' : '']">
                   <a (click)="switcher(2)">
                     <span>Jobs</span>
@@ -281,24 +282,22 @@
 
                   <div class="input-block mb-4">
                     <label class="col-form-label">Objectif</label>
-                    <angular-editor
-                      [config]="editorConfig"
+                    <textarea
                       [(ngModel)]="cEnt.objectif"
-                    ></angular-editor>
+                      style="height: 200px"
+                    ></textarea>
                   </div>
                   <div class="input-block mb-4">
                     <label class="col-form-label">Mission</label>
-                    <angular-editor
-                      [config]="editorConfig"
+                    <textarea
                       [(ngModel)]="cEnt.mission"
-                    ></angular-editor>
+                      style="height: 200px"
+                    ></textarea>
                   </div>
                   <div class="input-block mb-4">
                     <label class="col-form-label">Vision</label>
-                    <angular-editor
-                      [config]="editorConfig"
-                      [(ngModel)]="cEnt.vision"
-                    ></angular-editor>
+                    <textarea [(ngModel)]="cEnt.vision" style="height: 200px">
+                    </textarea>
                   </div>
 
                   <div class="input-block mb-4">
@@ -566,6 +565,7 @@
                 </div>
               </div>
             </div>
+
             <div class="col-md-12" *ngIf="path == 2">
               <div class="container">
                 <div class="row" *ngIf="jobs.length > 0">
