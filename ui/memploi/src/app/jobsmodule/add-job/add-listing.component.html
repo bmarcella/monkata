@@ -261,7 +261,7 @@
           <div class="card-body">
             <div>
               <!-- Job Description -->
-              <div class="input-block">
+              <div class="input-block" *ngIf="editorConfig">
                 <angular-editor
                   [config]="editorConfig"
                   [(ngModel)]="job.description"

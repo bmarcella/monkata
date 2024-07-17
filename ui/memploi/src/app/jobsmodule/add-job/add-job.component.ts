@@ -48,6 +48,7 @@ export class AddJobComponent implements OnInit {
   cats: any = [];
   selectedEnt: any;
   selectedAd: any;
+
   editorConfig: AngularEditorConfig = {
     editable: true,
     spellcheck: true,
@@ -62,7 +63,6 @@ export class AddJobComponent implements OnInit {
     defaultParagraphSeparator: '',
     defaultFontName: '',
     defaultFontSize: '',
-    // other config options...
   };
   refresh = 3;
   constructor( public router: Router, private crud: CrudService, private aUI:  AlertService, private cat: CategorieService) {
