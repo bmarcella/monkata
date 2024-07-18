@@ -1,5 +1,6 @@
 import {
   Component,
+  OnDestroy,
   OnInit,
 } from '@angular/core';
 import {
@@ -16,13 +17,16 @@ import { AlertService } from 'src/app/service/alert.service';
 import { CrudService } from 'src/app/service/crud.service';
 import { getURL } from 'src/environments/environment.prod';
 
+import { Editor } from 'ngx-editor';
+
 @Component({
   selector: 'app-contact',
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.css'],
 })
-export class ContactComponent implements OnInit  {
-
+export class ContactComponent implements OnInit, OnDestroy  {
+  editor: Editor;
+  html = '';
 
   c : any = {
     full_name: "",
@@ -34,7 +38,12 @@ export class ContactComponent implements OnInit  {
 
   }
   ngOnInit(): void {
+   this.editor = new Editor();
    this.reset();
+  }
+
+  ngOnDestroy(): void {
+    this.editor.destroy();
   }
 
   reset (){

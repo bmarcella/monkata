@@ -1,10 +1,12 @@
 import {
   Component,
   OnInit,
+  ViewEncapsulation,
 } from '@angular/core';
 import { Router } from '@angular/router';
 
 // import { AngularEditorConfig } from '@kolkov/angular-editor';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { Type_Categorie } from 'src/app/admin/categorie/categorie.component';
 import { routes } from 'src/app/core/helpers/routes/routes';
 import {
@@ -26,12 +28,13 @@ import {
 } from 'src/app/shared/models/Jobs';
 import { getURL } from 'src/environments/environment.prod';
 
-import { AngularEditorConfig } from '@kolkov/angular-editor';
+
 
 @Component({
   selector: 'app-add-listing',
   templateUrl: './add-listing.component.html',
   styleUrls: ['./add-listing.component.css'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class AddJobComponent implements OnInit {
   public routes = routes;
@@ -49,21 +52,7 @@ export class AddJobComponent implements OnInit {
   selectedEnt: any;
   selectedAd: any;
 
-  editorConfig: AngularEditorConfig = {
-    editable: true,
-    spellcheck: true,
-    minHeight: '400px',  // Set your desired default height here
-    maxHeight: 'auto',
-    width: 'auto',
-    minWidth: '0',
-    translate: 'yes',
-    enableToolbar: true,
-    showToolbar: true,
-    placeholder: 'Ajouter du poste ici...',
-    defaultParagraphSeparator: '',
-    defaultFontName: '',
-    defaultFontSize: '',
-  };
+  editorConfig: AngularEditorConfig;
   refresh = 3;
   constructor( public router: Router, private crud: CrudService, private aUI:  AlertService, private cat: CategorieService) {
     this.job.app_reception = this.rec.memploi;
@@ -75,7 +64,23 @@ export class AddJobComponent implements OnInit {
   ngOnInit(): void {
     this.getEntreprises();
     this.getCats();
+    this.editorConfig =  {
+      editable: true,
+      spellcheck: true,
+      minHeight: '400px',  // Set your desired default height here
+      maxHeight: 'auto',
+      width: 'auto',
+      minWidth: '0',
+      translate: 'yes',
+      enableToolbar: true,
+      showToolbar: true,
+      placeholder: 'Ajouter du poste ici...',
+      defaultParagraphSeparator: '',
+      defaultFontName: '',
+      defaultFontSize: '',
+    };
   }
+
   see = false;
   public async  getEntreprises() {
     await this.crud.refresh();

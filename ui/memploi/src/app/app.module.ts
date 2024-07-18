@@ -17,7 +17,6 @@ import {
 } from 'ng-recaptcha';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { environment } from 'src/environments/environment.prod';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpRequestInterceptor } from './service/http-request.interceptor';
