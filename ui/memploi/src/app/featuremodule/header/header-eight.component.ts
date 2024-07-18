@@ -62,6 +62,7 @@ export class HeaderComponent implements OnInit {
   public toggleSidebar(): void {
     this.sidebarService.openSidebar();
   }
+
   public hideSidebar(): void {
     this.sidebarService.closeSidebar();
   }

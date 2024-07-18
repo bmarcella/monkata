@@ -29,7 +29,7 @@
               style="height: 20px"
             />
           </a>
-          <a id="menu_close" class="menu-close">
+          <a id="menu_close" class="menu-close" (click)="hideSidebar()">
             <i class="fas fa-times"></i
           ></a>
         </div>
@@ -47,6 +47,19 @@
               <span>{{ user?.firstName }} {{ user?.lastName }}</span>
             </a>
           </li>
+
+          <li *ngIf="isMobile && login">
+            <a class="dropdown-item" routerLink="/compagny" *ngIf="ent > 0"
+              >Entreprise</a
+            >
+          </li>
+
+          <li *ngIf="isMobile && login">
+            <a class="dropdown-item" routerLink="/jobs/add-job" *ngIf="ent > 0"
+              >Nouveau Poste</a
+            >
+          </li>
+
           <li [ngClass]="[path == '/home' ? 'active' : '']">
             <a routerLink="/home"> Accueil</a>
           </li>
