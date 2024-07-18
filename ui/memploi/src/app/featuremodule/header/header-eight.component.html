@@ -34,9 +34,6 @@
           ></a>
         </div>
         <ul class="main-nav">
-          <li *ngIf="isMobile && !login">
-            <a (click)="loginNow()"> Compte </a>
-          </li>
           <li class="nav-item dropdown logged-item" *ngIf="isMobile && login">
             <a
               routerLink="/profile"
@@ -46,6 +43,12 @@
               <img [src]="avatar" *ngIf="avatar" />
               <span>{{ user?.firstName }} {{ user?.lastName }}</span>
             </a>
+          </li>
+          <li [ngClass]="[path == '/home' ? 'active' : '']">
+            <a routerLink="/home"> Accueil</a>
+          </li>
+          <li *ngIf="isMobile && !login">
+            <a (click)="loginNow()"> Compte </a>
           </li>
 
           <li *ngIf="isMobile && login">
@@ -60,9 +63,6 @@
             >
           </li>
 
-          <li [ngClass]="[path == '/home' ? 'active' : '']">
-            <a routerLink="/home"> Accueil</a>
-          </li>
           <li [ngClass]="[path == '/jobs' ? 'active' : '']">
             <a routerLink="/jobs">Jobs</a>
           </li>

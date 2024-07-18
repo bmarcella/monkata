@@ -6,15 +6,21 @@
   <div class="row">
     <h3 class="text-center">{{ ccand.firstName }} {{ ccand.lastName }}</h3>
     <h6 class="text-center">{{ ccand.title_prof }}</h6>
-    <span class="text-center col-md-12"
-      >{{ ccand.city }}, {{ ccand.country }} | {{ ccand.telephone_a }} /
+    <span class="text-center col-md-12">
+      <p *ngIf="ccand.city || ccand.country">
+        {{ ccand.city }} <i *ngIf="ccand.city && ccand.country">,</i>
+        {{ ccand.country }}
+      </p>
+      <p *ngIf="ccand.telephone_a || ccand.telephone_b">|</p>
+      {{ ccand.telephone_a }}
+      <i *ngIf="ccand.telephone_a && ccand.telephone_b">/</i>
       {{ ccand.telephone_b }} |
       {{ ccand.email_contact }}
     </span>
   </div>
   <div class="row mt-2">
     <h5 class="text-left">Profil</h5>
-    <p class="text-justify">{{ ccand.profile }}</p>
+    <p class="text-justify ml-2">{{ ccand.profile }}</p>
   </div>
   <div class="row mt-4">
     <h5 class="text-left col-md-12">Experiences de travail</h5>
@@ -27,17 +33,17 @@
       <h6 class="text-left">{{ item.poste }}</h6>
       <span class="text-left ml-2"
         >{{ item.etablissement }} - {{ item.type_contrat }} -
-        {{ item.horaire_de_travail }}
+        {{ item.horaire_de_travail }} - {{ item.city }}, {{ item.country }}
       </span>
       <br />
-      <i class="text-left">{{ item.date_debut }} - {{ item.date_debut }} </i>
+      <i class="text-left"
+        >{{ item.date_debut }} - {{ item.date_fin ? item.date_fin : "Présent" }}
+      </i>
       <br />
-      <span class="text-left">{{ item.city }}, {{ item.country }} </span>
 
       <p class="text-justify mb-2">
         {{ item.description }}
       </p>
-      <hr />
     </div>
   </div>
   <div class="row mt-4">
@@ -50,17 +56,14 @@
     >
       <h6 class="text-left">{{ item.institution }}</h6>
       <span class="text-left col-md-12"
-        >{{ item.type_etudes }} - {{ item.domaine }}
+        >{{ item.type_etudes }} - {{ item.domaine }} - {{ item.city }},
+        {{ item.country }}
       </span>
       <br />
       <i class="text-left col-md-12"
-        >{{ item.date_debut }} - {{ item.date_debut }}
+        >{{ item.date_debut }} - {{ item.date_fin ? item.date_fin : "Présent" }}
       </i>
       <br />
-      <span class="text-left col-md-12"
-        >{{ item.city }}, {{ item.country }}
-      </span>
-
       <p class="text-justify mb-2 col-md-12">
         {{ item.description }}
       </p>
@@ -74,7 +77,6 @@
       <h6 class="text-left">{{ item.name }}</h6>
       <i class="text-left col-md-12">{{ item.years }} </i>
     </div>
-    <hr />
   </div>
   <div class="row mt-4">
     <h5 class="text-left">Langues</h5>
@@ -83,7 +85,6 @@
       <h6 class="text-left">{{ item.name }}</h6>
       <i class="text-left col-md-12">{{ item.proficiency }} </i>
     </div>
-    <hr />
   </div>
 
   <div class="row mt-4">
@@ -92,15 +93,18 @@
     <div class="col-md-6 mt-2 ml-4" *ngFor="let item of ccand.references">
       <h6 class="text-left">{{ item.nom_complet }}</h6>
       <span class="text-left ml-2"
-        >{{ item.institution }} - {{ item.titre }}
+        >{{ item.institution }}
+        <p *ngIf="item.institution && item.titre">-</p>
+        {{ item.titre }}
       </span>
       <br />
       <span class="text-left"
-        >{{ item.email }} - {{ item.phone_a }} -
+        >{{ item.email }}
+        <p *ngIf="item.email && item.phone_a">-</p>
         {{ item.phone_a }}
+        -
+        {{ item.phone_b }}
       </span>
-
-      <hr />
     </div>
   </div>
 </div>
