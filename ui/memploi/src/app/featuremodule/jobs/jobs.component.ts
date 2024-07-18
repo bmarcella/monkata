@@ -101,7 +101,7 @@ export class JobsComponent implements OnInit {
        const ent = r.ents.find(obj => obj.id ==  job.entreprise_id );
        return {ent, job};
       } );
-      if(this.jobs.length>0){
+      if(this.jobs.length>0 && !this.isMobile ) {
         this.job = this.jobs[0].job;
         this.ent = this.jobs[0].ent;
       }
@@ -136,15 +136,15 @@ export class JobsComponent implements OnInit {
        return {ent, job};
       } );
 
-      if(this.jobs.length>0){
+      if(this.jobs.length>0 && !this.isMobile) {
         this.job = this.jobs[0].job;
         this.ent = this.jobs[0].ent;
       }
+
       this.scrollToTop();
       this.paginations = r.pagination;
     }
     this.step = 1;
-    console.log("SEARCH:",r);
     }).catch((e) => {
       const msg = e.error.error.message;
       console.log(msg);
@@ -161,17 +161,17 @@ export class JobsComponent implements OnInit {
        return {ent, job};
       } );
 
-      if(this.jobs.length>0){
+      if(this.jobs.length>0 && !this.isMobile){
         this.job = this.jobs[0].job;
         this.ent = this.jobs[0].ent;
       }
+
       this.scrollToTop();
       this.paginations = r.pagination;
     } else {
       this.jobs = [];
     }
     this.step = 1;
-    console.log("SEARCH:",r);
     }).catch((e) => {
       const msg = e.error.error.message;
       console.log(msg);
