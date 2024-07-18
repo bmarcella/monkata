@@ -1,6 +1,5 @@
 /* eslint-disable @angular-eslint/no-empty-lifecycle-method */
-import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { KeycloakService } from 'src/app/service/keycloak.service';
 import { getRURL } from 'src/environments/environment.prod';
@@ -42,7 +41,7 @@ setTimer(){
   this.$timer = setInterval(()=> {
    this.$delay--;
    if (this.$delay==0) {
-    this.getRefreshToken();
+     this.getRefreshToken();
    }
   }, 1000)
 }
@@ -60,8 +59,8 @@ clearTimer(){
         if(this.isLog) {
           this.step = 1;
           this.$delay = 10;
-          this.setTimer();
           this.name = this.ctoken.cross_token.appName.toString();
+          this.logout();
         } else {
           this.saveCrossToken();
         }

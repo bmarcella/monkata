@@ -110,7 +110,6 @@ export class AddJobComponent implements OnInit {
   }
 
   changeEnt(e){
-    console.log(e);
     this.job.email_to_apply ="";
     this.job.phone_to_apply ="";
     this.selectedAd = undefined;

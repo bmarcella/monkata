@@ -45,12 +45,9 @@ export class HeaderComponent implements OnInit {
     this.cv = this.auth.cv();
     if(this.user) {
       this.login = true;
-
       if(this.cv)
-       this.avatar = this.auth.getAvatar(this.cv.id);
-
-      this.getEntreprises();
-
+         this.avatar = this.auth.getAvatar(this.cv.id);
+         this.getEntreprises();
     }
   }
 

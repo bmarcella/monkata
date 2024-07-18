@@ -17,11 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "allowedCommonJsDependencies": [
-              "apexcharts",
-              "file-saver",
-              "aos"
-            ],
+
             "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -137,3 +133,5 @@
     "analytics": "10ea5ebb-8ff0-45b0-aeda-6a8ab38f5a4f"
   }
 }
+
+
