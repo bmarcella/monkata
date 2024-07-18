@@ -11,16 +11,16 @@
         {{ ccand.city }} <i *ngIf="ccand.city && ccand.country">,</i>
         {{ ccand.country }}
       </p>
-      <p *ngIf="ccand.telephone_a || ccand.telephone_b">|</p>
+      <i *ngIf="ccand.telephone_a || ccand.telephone_b">|</i>
       {{ ccand.telephone_a }}
       <i *ngIf="ccand.telephone_a && ccand.telephone_b">/</i>
-      {{ ccand.telephone_b }} |
+      {{ ccand.telephone_b }} <i>|</i>
       {{ ccand.email_contact }}
     </span>
   </div>
   <div class="row mt-2">
     <h5 class="text-left">Profil</h5>
-    <p class="text-justify ml-2">{{ ccand.profile }}</p>
+    <p class="text-justify ml-4">{{ ccand.profile }}</p>
   </div>
   <div class="row mt-4">
     <h5 class="text-left col-md-12">Experiences de travail</h5>
@@ -100,9 +100,9 @@
       <br />
       <span class="text-left"
         >{{ item.email }}
-        <p *ngIf="item.email && item.phone_a">-</p>
+        <i *ngIf="item.email && item.phone_a">-</i>
         {{ item.phone_a }}
-        -
+        <i>-</i>
         {{ item.phone_b }}
       </span>
     </div>
