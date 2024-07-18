@@ -1,5 +1,6 @@
 import {
   Component,
+  OnDestroy,
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
@@ -7,6 +8,7 @@ import { Router } from '@angular/router';
 
 // import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
+import { Editor, Toolbar } from 'ngx-editor';
 import { Type_Categorie } from 'src/app/admin/categorie/categorie.component';
 import { routes } from 'src/app/core/helpers/routes/routes';
 import {
@@ -36,7 +38,7 @@ import { getURL } from 'src/environments/environment.prod';
   styleUrls: ['./add-listing.component.css'],
   encapsulation: ViewEncapsulation.None,
 })
-export class AddJobComponent implements OnInit {
+export class AddJobComponent implements OnInit, OnDestroy {
   public routes = routes;
 
   job: Jobs = new Jobs();
@@ -51,9 +53,19 @@ export class AddJobComponent implements OnInit {
   cats: any = [];
   selectedEnt: any;
   selectedAd: any;
-
   editorConfig: AngularEditorConfig;
   refresh = 3;
+  editor: Editor;
+  toolbar: Toolbar = [
+    ['bold', 'italic'],
+    ['underline', 'strike'],
+    ['code', 'blockquote'],
+    ['ordered_list', 'bullet_list'],
+    [{ heading: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] }],
+    ['link', 'image'],
+    ['text_color', 'background_color'],
+    ['align_left', 'align_center', 'align_right', 'align_justify'],
+  ];
   constructor( public router: Router, private crud: CrudService, private aUI:  AlertService, private cat: CategorieService) {
     this.job.app_reception = this.rec.memploi;
     this.job.is_certificat_require = false;
@@ -64,21 +76,11 @@ export class AddJobComponent implements OnInit {
   ngOnInit(): void {
     this.getEntreprises();
     this.getCats();
-    this.editorConfig =  {
-      editable: true,
-      spellcheck: true,
-      minHeight: '400px',  // Set your desired default height here
-      maxHeight: 'auto',
-      width: 'auto',
-      minWidth: '0',
-      translate: 'yes',
-      enableToolbar: true,
-      showToolbar: true,
-      placeholder: 'Ajouter du poste ici...',
-      defaultParagraphSeparator: '',
-      defaultFontName: '',
-      defaultFontSize: '',
-    };
+    this.editor = new Editor();
+  }
+
+  ngOnDestroy(): void {
+    this.editor.destroy();
   }
 
   see = false;
