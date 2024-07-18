@@ -7,20 +7,20 @@
     <h3 class="text-center">{{ ccand.firstName }} {{ ccand.lastName }}</h3>
     <h6 class="text-center">{{ ccand.title_prof }}</h6>
     <span class="text-center col-md-12">
-      <p *ngIf="ccand.city || ccand.country">
+      <i *ngIf="ccand.city || ccand.country">
         {{ ccand.city }} <i *ngIf="ccand.city && ccand.country">,</i>
         {{ ccand.country }}
-      </p>
-      <i *ngIf="ccand.telephone_a || ccand.telephone_b">|</i>
+      </i>
+      <i *ngIf="ccand.telephone_a || ccand.telephone_b">-</i>
       {{ ccand.telephone_a }}
       <i *ngIf="ccand.telephone_a && ccand.telephone_b">/</i>
-      {{ ccand.telephone_b }} <i>|</i>
+      {{ ccand.telephone_b }} <i>-</i>
       {{ ccand.email_contact }}
     </span>
   </div>
   <div class="row mt-2">
     <h5 class="text-left">Profil</h5>
-    <p class="text-justify ml-4">{{ ccand.profile }}</p>
+    <p class="text-justify ml-4" style="margin-left: 1%">{{ ccand.profile }}</p>
   </div>
   <div class="row mt-4">
     <h5 class="text-left col-md-12">Experiences de travail</h5>
