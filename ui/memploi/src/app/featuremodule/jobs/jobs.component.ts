@@ -104,6 +104,9 @@ export class JobsComponent implements OnInit {
       if(this.jobs.length>0 && !this.isMobile ) {
         this.job = this.jobs[0].job;
         this.ent = this.jobs[0].ent;
+      } else {
+        this.job = undefined;
+        this.ent = undefined;
       }
       this.scrollToTop();
       this.paginations.currentPage = p;
@@ -139,6 +142,9 @@ export class JobsComponent implements OnInit {
       if(this.jobs.length>0 && !this.isMobile) {
         this.job = this.jobs[0].job;
         this.ent = this.jobs[0].ent;
+      } else {
+        this.job = undefined;
+        this.ent = undefined;
       }
 
       this.scrollToTop();
@@ -164,6 +170,9 @@ export class JobsComponent implements OnInit {
       if(this.jobs.length>0 && !this.isMobile){
         this.job = this.jobs[0].job;
         this.ent = this.jobs[0].ent;
+      } else {
+        this.job = undefined;
+        this.ent = undefined;
       }
 
       this.scrollToTop();
