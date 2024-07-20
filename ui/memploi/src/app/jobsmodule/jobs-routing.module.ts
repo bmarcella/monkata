@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { JobsmoduleComponent } from './jobsmodule.component';
 import { AuthGuard } from '../Guards/auth.guard';
+import { EntGuard } from '../Guards/ent.guard';
+import { JobsmoduleComponent } from './jobsmodule.component';
 
 const routes: Routes = [
   {
@@ -24,7 +25,7 @@ const routes: Routes = [
         path: 'add-ent',
         loadChildren: () =>
           import('./add-ent/add-ent.module').then((m) => m.AddEntModule),
-          canActivateChild: [AuthGuard]
+          canActivateChild: [EntGuard]
       }
     ],
   },

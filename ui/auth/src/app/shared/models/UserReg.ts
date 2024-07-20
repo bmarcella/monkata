@@ -4,4 +4,5 @@ export class UserReg {
   email?: string;
   password?: string;
   tokenRC?: string
+  token?: string
 }

@@ -8,8 +8,8 @@
     <h6 class="text-center">{{ ccand.title_prof }}</h6>
     <span class="text-center col-md-12">
       <i *ngIf="ccand.city || ccand.country">
-        {{ ccand.city }} <i *ngIf="ccand.city && ccand.country">,</i>
-        {{ ccand.country }}
+        {{ ccand.city }}<i *ngIf="ccand.city && ccand.country">,</i
+        >{{ ccand.country }}
       </i>
       <i *ngIf="ccand.telephone_a || ccand.telephone_b">-</i>
       {{ ccand.telephone_a }}
@@ -20,6 +20,7 @@
   </div>
   <div class="row mt-2">
     <h5 class="text-left">Profil</h5>
+    <hr />
     <p class="text-justify ml-4" style="margin-left: 1%">{{ ccand.profile }}</p>
   </div>
   <div class="row mt-4">

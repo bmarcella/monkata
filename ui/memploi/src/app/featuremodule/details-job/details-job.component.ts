@@ -1,11 +1,11 @@
 import { formatNumber } from '@angular/common';
 import {
-    Component,
-    OnInit,
+  Component,
+  OnInit,
 } from '@angular/core';
 import {
-    ActivatedRoute,
-    Router,
+  ActivatedRoute,
+  Router,
 } from '@angular/router';
 
 import { Lightbox } from 'ngx-lightbox';
@@ -82,6 +82,7 @@ export class DetailsJobComponent implements OnInit {
       this.crud.loginWithReturn(url,e);
     }
   }
+
   report(e) {
     this.user = this.auth.profil();
     if (this.user) {

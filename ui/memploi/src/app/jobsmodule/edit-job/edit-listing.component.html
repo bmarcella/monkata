@@ -57,19 +57,6 @@
                     class="form-control"
                   />
                 </div>
-
-                <div class="input-block col-md-2">
-                  <label for="phone" class="col-form-label">Publication</label>
-                  <div class="pass-group group-img">
-                    <input
-                      class="ml-4"
-                      type="checkbox"
-                      id="publish"
-                      [(ngModel)]="job.publish"
-                      name="publish"
-                    />
-                  </div>
-                </div>
               </div>
             </div>
           </div>
@@ -219,10 +206,12 @@
             <div>
               <!-- Job Description -->
               <div class="input-block">
-                <angular-editor
-                  [config]="editorConfig"
-                  [(ngModel)]="job.description"
-                ></angular-editor>
+                <div class="NgxEditor__Wrapper">
+                  <ngx-editor-menu [editor]="editor" [toolbar]="toolbar">
+                  </ngx-editor-menu>
+                  <ngx-editor [editor]="editor" [(ngModel)]="job.description">
+                  </ngx-editor>
+                </div>
               </div>
 
               <div class="row mt-4">
@@ -365,8 +354,19 @@
             </div>
           </div>
         </div>
-        <button class="btn btn-primary" (click)="addJob($event)">
-          Modifier
+        <button
+          class="btn btn-outline-primary ml-4"
+          (click)="addJob($event, true)"
+        >
+          Publier
+        </button>
+
+        <button
+          class="btn btn-outline-secondary ml-4"
+          (click)="addJob($event, false)"
+          style="margin-left: 2%"
+        >
+          Sauvegarder
         </button>
       </div>
     </div>

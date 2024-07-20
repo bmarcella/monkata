@@ -78,18 +78,13 @@
       </div>
       <ul class="nav header-navbar-rht" *ngIf="!login">
         <li class="nav-item">
-          <a class="nav-link header-login add-listing" (click)="loginNow()"
-            ><i class="fa-solid fa-plus"></i> Nouveau Poste</a
-          >
-        </li>
-        <li class="nav-item">
           <a class="nav-link header-login btn-primary" (click)="loginNow()">
             Compte</a
           >
         </li>
       </ul>
       <ul class="nav header-navbar-rht" *ngIf="login">
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="ent > 0">
           <a
             class="nav-link header-login add-listing"
             routerLink="/jobs/add-job"

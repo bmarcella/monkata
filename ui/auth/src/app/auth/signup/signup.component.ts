@@ -6,6 +6,7 @@ import { routes } from 'src/app/core/helpers/routes/routes';
 import { AlertService } from 'src/app/service/alert.service';
 import { UserReg } from 'src/app/shared/models/UserReg';
 
+import { getRURL } from 'src/environments/environment.prod';
 import { KeycloakService } from '../../service/keycloak.service';
 
 @Component({
@@ -37,7 +38,8 @@ export class SignupComponent {
     password: "",
     firstname: "",
     lastname: "",
-    tokenRC: ""
+    tokenRC: "",
+    token: "",
   }
   reset(){
     this.creds  = {
@@ -45,18 +47,32 @@ export class SignupComponent {
       password: "",
       firstname: "",
       lastname: "",
-      tokenRC: ""
+      tokenRC: "",
+      token: "",
     }
   }
   register(creds: UserReg, e:any) {
+
     if (this.sign) return;
     this.sign = true;
+
+    if(!creds.firstname || !creds.lastname || !creds.email || !creds.password) {
+      this.aUI.show({ active : true, message:"Tous les champs sont obligatoire." , type: "danger", pos: 'top-right' });
+      this.sign = false;
+      return;
+    }
+
     this.recaptchaV3Service.execute('importantAction').subscribe((token: string) => {
       creds.tokenRC = token;
-      this.kc.register(creds).then(() => {
+      creds.token = this.ct.cross_token.token;
+      this.kc.register(creds).then((r) => {
         this.reset();
         this.sign = false;
-        this.aUI.show({ active : true, message:"Votre a été crée avec success" , type: "success", pos: 'top-right' });
+        const ct = this.kc.getCToken();
+        const ck = ct.cross_token;
+        const URL = getRURL(ck, r.cross_token);
+        console.log(r, URL);
+        window.location.href = URL;
       }).catch((e) => {
           this.sign = false;
           if(e.status==409)

@@ -26,8 +26,9 @@ const services = {
       const jobsRepository = req.DB.getRepository(Jobs);
       const objs: Jobs [] = await jobsRepository.find({
         order: { created_at : "DESC" },
-        select: ['id','titre_job', 'categorie', 'ville','type_contrat', 'entreprise_id'], // Specify the fields you want to select
-        take: 18 
+        select: ['id','titre_job', 'categorie', 'ville','type_contrat', 'entreprise_id'],
+        where : { publish : true}, // Specify the fields you want to select
+        take: 18
     });
 
     let  ents: any [] = [];

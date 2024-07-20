@@ -73,6 +73,7 @@ const services = {
 
   register: async (req: Request, res: Response) => {
     const userRepository = req.DB.getRepository(User);
+    const token = req.body.token;
     const email = req.body.email;
     const user = await userRepository.findOne({
       where: { email }
@@ -91,11 +92,16 @@ const services = {
         const user = state as KcUser;
         u.keycloakId = user.sub;
         const profil = await userRepository.save(u);
+          
+      const ct = await services.setCToken(token, req, kcToken, profil.keycloakId || "");
+      
         return res.send({
           error: false,
           kcToken,
-          profil
+          profil,
+          cross_token: ct
         });
+
       } else {
         return res.status(409).send({
           error: true,
@@ -236,7 +242,7 @@ const services = {
        console.log("AUTO_LOGIN", error);
       return res.status(500).send(error);
     }
-    if (!kcToken?.access_token)  return res.status(401).send({ message:'Token DiD Not Generate '});
+    if (!kcToken?.access_token)  return res.status(401).send({ message:'Token Did not Generate '});
 
     try {
       const PL: JwtPayload = getPayload(jwt, kcToken.access_token, PUBLIC_KEY + "");
@@ -248,6 +254,7 @@ const services = {
 
       if (!profil) profil = await services.autoRegister(PL, password, req);
 
+      
       const ct = await services.setCToken(token, req, kcToken, profil.keycloakId || "");
 
       return res.send({
