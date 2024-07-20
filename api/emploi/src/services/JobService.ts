@@ -129,7 +129,7 @@ getJobById : async (req: Request, res: Response) => {
       obj.country = cadd.country;
       obj.etat = cadd.etat;
       obj.ville = cadd.ville;
-      obj.publish = false;
+      obj.publish = job.publish;
       obj = await jobsRepository.save(obj);
       res.send(obj);
     } catch (error) {

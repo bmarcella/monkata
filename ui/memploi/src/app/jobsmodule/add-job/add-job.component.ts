@@ -171,7 +171,7 @@ export class AddJobComponent implements OnInit, OnDestroy {
 
 
 
-  public async  addJob(e: any) {
+  public async  addJob(e: any, b: boolean) {
 
     const rep: any = await checkValidator (this.job, this.val, e);
     if (rep.error) {
@@ -180,6 +180,7 @@ export class AddJobComponent implements OnInit, OnDestroy {
        return;
     }
     const URL = getURL("memploi","add");
+    this.job.publish = b;
     this.crud.postRC(URL, { job: this.job, ent: this.selectedEnt, ad: this.selectedAd }, e).then((r) => {
      this.aUI.show({ active : true, message: 'Success' , type: "success", pos: 'top-right' });
      this.router.navigate(['/details-job/'+r.id]);

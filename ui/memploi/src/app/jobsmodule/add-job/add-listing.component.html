@@ -411,12 +411,20 @@
             </div>
           </div>
         </div>
+
         <button
-          class="btn btn-primary"
-          (click)="addJob($event)"
-          *ngIf="selectedAd"
+          class="btn btn-outline-primary ml-4"
+          (click)="addJob($event, true)"
         >
-          Soumettre
+          Publier
+        </button>
+
+        <button
+          class="btn btn-outline-secondary ml-4"
+          (click)="addJob($event, false)"
+          style="margin-left: 2%"
+        >
+          Sauvegarder
         </button>
       </div>
     </div>
