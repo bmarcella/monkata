@@ -2,6 +2,7 @@ import { formatNumber } from '@angular/common';
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { toHTML } from 'ngx-editor';
 import { Type_Categorie } from 'src/app/admin/categorie/categorie.component';
 import { CategorieService } from 'src/app/service/categorie.service';
 import { CrudService } from 'src/app/service/crud.service';
@@ -56,11 +57,14 @@ export class JobsComponent implements OnInit {
       const jbs: any = r.objs;
        this.jobs = jbs.map(job  => {
        const ent = r.ents.find(obj => obj.id ==  job.entreprise_id );
-       return {ent, job};
+        return {ent, job};
       } );
 
       if(this.jobs.length>0 && !this.isMobile ){
         this.job = this.jobs[0].job;
+        //
+        this.job.description = toHTML(this.job.description);
+        //
         this.ent = this.jobs[0].ent;
       }
       this.paginations = r.pagination;
@@ -74,6 +78,9 @@ export class JobsComponent implements OnInit {
 
   show(data: any) {
     this.job = data.job;
+     //
+     this.job.description = toHTML(this.job.description);
+     //
     this.ent = data.ent;
     if (this.isMobile)
       this.scrollToTop();
@@ -103,6 +110,9 @@ export class JobsComponent implements OnInit {
       } );
       if(this.jobs.length>0 && !this.isMobile ) {
         this.job = this.jobs[0].job;
+         //
+         this.job.description = toHTML(this.job.description);
+         //
         this.ent = this.jobs[0].ent;
       } else {
         this.job = undefined;
@@ -141,6 +151,9 @@ export class JobsComponent implements OnInit {
 
       if(this.jobs.length>0 && !this.isMobile) {
         this.job = this.jobs[0].job;
+         //
+         this.job.description = toHTML(this.job.description);
+         //
         this.ent = this.jobs[0].ent;
       } else {
         this.job = undefined;
@@ -169,6 +182,9 @@ export class JobsComponent implements OnInit {
 
       if(this.jobs.length>0 && !this.isMobile){
         this.job = this.jobs[0].job;
+         //
+         this.job.description = toHTML(this.job.description);
+         //
         this.ent = this.jobs[0].ent;
       } else {
         this.job = undefined;

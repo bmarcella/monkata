@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 
 // import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
-import { Editor, toHTML, Toolbar } from 'ngx-editor';
+import { Editor, Toolbar } from 'ngx-editor';
 import { Type_Categorie } from 'src/app/admin/categorie/categorie.component';
 import { routes } from 'src/app/core/helpers/routes/routes';
 import {
@@ -181,7 +181,7 @@ export class AddJobComponent implements OnInit, OnDestroy {
     }
     const URL = getURL("memploi","add");
     this.job.publish = b;
-    this.job.description = toHTML(JSON.parse(this.job.description));
+   // this.job.description = toHTML(JSON.parse(this.job.description));
     this.crud.postRC(URL, { job: this.job, ent: this.selectedEnt, ad: this.selectedAd }, e).then((r) => {
      this.aUI.show({ active : true, message: 'Success' , type: "success", pos: 'top-right' });
      this.router.navigate(['/details-job/'+r.id]);
