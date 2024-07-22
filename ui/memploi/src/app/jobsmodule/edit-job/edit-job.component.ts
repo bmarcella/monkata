@@ -10,7 +10,6 @@ import { CrudService } from 'src/app/service/crud.service';
 import { Currency } from 'src/app/shared/models/Currency';
 import { App_Reception, Env_Work, Horaire_de_travail, Jobs, Periode_salaire, Type_contrat } from 'src/app/shared/models/Jobs';
 import { getURL } from 'src/environments/environment.prod';
-
 @Component({
   selector: 'app-edit-listing',
   templateUrl: './edit-listing.component.html',
@@ -100,6 +99,7 @@ export class EditJobComponent implements OnInit, OnDestroy  {
      const job = r;
      if(job.date_echeance)
      job.date_echeance = r.date_echeance.split("T")[0];
+     // job.description = toDOC(job.description);
      this.job = job;
      console.log(this.job);
     }).catch((e) => {
