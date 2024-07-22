@@ -27,7 +27,7 @@ export const environment = {
   recaptcha: {
     siteKey: ReCaptchaPublicKey ,
   },
-  version: "1.1.20"
+  version: "1.1.30"
 };
 export const getURL = (service: string, endpoint: string) => {
   return `${environment.gateway}${environment.services[service].path}/${endpoint}`;
