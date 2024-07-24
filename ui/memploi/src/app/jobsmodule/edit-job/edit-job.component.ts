@@ -80,7 +80,6 @@ export class EditJobComponent implements OnInit, OnDestroy  {
   public addJob(e: any, b) {
     const URL = getURL("memploi","edit/"+this.job.id);
     this.job.publish = b;
-   //this.job.description = toHTML(JSON.parse(this.job.description));
     this.crud.post(URL, this.job , e).then((r) => {
      console.log(r);
      this.aUI.show({ active : true, message: 'Success' , type: "success", pos: 'top-right' });
