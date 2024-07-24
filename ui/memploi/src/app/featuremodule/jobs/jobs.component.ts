@@ -63,7 +63,7 @@ export class JobsComponent implements OnInit {
       if(this.jobs.length>0 && !this.isMobile ){
         this.job = this.jobs[0].job;
         //
-        this.job.description = toHTML(this.job.description);
+        // this.job.description = toHTML(this.job.description);
         //
         this.ent = this.jobs[0].ent;
       }
@@ -111,7 +111,7 @@ export class JobsComponent implements OnInit {
       if(this.jobs.length>0 && !this.isMobile ) {
         this.job = this.jobs[0].job;
          //
-         this.job.description = toHTML(this.job.description);
+         // this.job.description = toHTML(this.job.description);
          //
         this.ent = this.jobs[0].ent;
       } else {
@@ -152,7 +152,7 @@ export class JobsComponent implements OnInit {
       if(this.jobs.length>0 && !this.isMobile) {
         this.job = this.jobs[0].job;
          //
-         this.job.description = toHTML(this.job.description);
+         // this.job.description = toHTML(this.job.description);
          //
         this.ent = this.jobs[0].ent;
       } else {
@@ -183,7 +183,7 @@ export class JobsComponent implements OnInit {
       if(this.jobs.length>0 && !this.isMobile){
         this.job = this.jobs[0].job;
          //
-         this.job.description = toHTML(this.job.description);
+         // this.job.description = toHTML(this.job.description);
          //
         this.ent = this.jobs[0].ent;
       } else {
