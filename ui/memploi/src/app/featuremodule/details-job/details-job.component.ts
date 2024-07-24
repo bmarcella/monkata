@@ -49,7 +49,7 @@ export class DetailsJobComponent implements OnInit {
      console.log(r);
      this.job = r.job;
       //
-     // this.job.description = toHTML(this.job.description);
+      // this.job.description = toHTML(this.job.description);
       //
      this.ent = r.entreprise;
      this.logo = this.auth.getLogo(this.ent.id);

@@ -7,7 +7,6 @@ import {
   ActivatedRoute,
   Router,
 } from '@angular/router';
-import { toHTML } from 'ngx-editor';
 
 import { Lightbox } from 'ngx-lightbox';
 import { routes } from 'src/app/core/helpers/routes/routes';
@@ -78,7 +77,7 @@ export class ApplyComponent implements OnInit {
      console.log(r);
      this.job = r.job;
       //
-      this.job.description = toHTML(this.job.description);
+      // this.job.description = toHTML(this.job.description);
       //
      this.doc.id_job = this.job.id;
      this.ent = r.entreprise;
