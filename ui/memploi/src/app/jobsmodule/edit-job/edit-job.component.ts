@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Editor, Toolbar } from 'ngx-editor';
+import { Editor, toHTML, Toolbar } from 'ngx-editor';
 // import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { Type_Categorie } from 'src/app/admin/categorie/categorie.component';
 import { routes } from 'src/app/core/helpers/routes/routes';
@@ -80,6 +80,8 @@ export class EditJobComponent implements OnInit, OnDestroy  {
   public addJob(e: any, b) {
     const URL = getURL("memploi","edit/"+this.job.id);
     this.job.publish = b;
+    const desc = this.job.description as any;
+    this.job.description = toHTML(desc);
     this.crud.post(URL, this.job , e).then((r) => {
      console.log(r);
      this.aUI.show({ active : true, message: 'Success' , type: "success", pos: 'top-right' });
