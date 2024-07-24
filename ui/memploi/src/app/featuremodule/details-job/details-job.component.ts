@@ -13,7 +13,6 @@ import { routes } from 'src/app/core/helpers/routes/routes';
 import { AlertService } from 'src/app/service/alert.service';
 import { getURL } from 'src/environments/environment.prod';
 
-import { toHTML } from 'ngx-editor';
 import { CrudService } from '../../service/crud.service';
 import { KeycloakService } from '../../service/keycloak.service';
 
@@ -50,7 +49,7 @@ export class DetailsJobComponent implements OnInit {
      console.log(r);
      this.job = r.job;
       //
-      this.job.description = toHTML(this.job.description);
+     // this.job.description = toHTML(this.job.description);
       //
      this.ent = r.entreprise;
      this.logo = this.auth.getLogo(this.ent.id);
