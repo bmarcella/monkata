@@ -10,6 +10,7 @@
 /ui/template
 /ui/cuba
 /ui/cuda
+/ui/admin/dist/
 /ui/gw
 /ui/memploi/.angular/cache/
 /ui/auth/.angular/cache/

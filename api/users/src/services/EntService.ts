@@ -113,6 +113,7 @@ const services = {
 
       let   ents = new Entreprise();
       ents.name = req.body.name;
+      ents.categorie = req.body.categorie;
       ents.description = req.body.description;
       ents.telephone_a = req.body.telephone_a;
       ents.telephone_b = req.body.telephone_b;
@@ -129,7 +130,6 @@ const services = {
       ents.userId = keycloakId;
       ents.adresses = [add];
       ents = await entrepriseRepository.save(ents);
-      // add.entreprise = ents;
       res.send(ents);
     } catch (error) {
       console.log(error)
