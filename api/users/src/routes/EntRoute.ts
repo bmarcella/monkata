@@ -28,3 +28,6 @@ entRoute.post('/edit/:id', protect(jwt, process.env.PUBLIC_KEY + ""), serv.edit)
 // ENT
 entRoute.get('/count/:id', serv.count);
 entRoute.get('/adresse/count/:id', serv.countAdresse);
+// ENT 
+entRoute.post('/getEntByPage/:page',protect(jwt, process.env.PUBLIC_KEY + ""), serv.getEntByPage);
+entRoute.get('/approve/:state/:id',protect(jwt, process.env.PUBLIC_KEY + ""), serv.setApprove);

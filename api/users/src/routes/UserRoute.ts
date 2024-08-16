@@ -19,9 +19,12 @@ userRoute.get('/logout/:token', protect(jwt, process.env.PUBLIC_KEY + ""), ctrl.
 userRoute.get('/refreshtoken/:token', ctrl.refreshtoken);
 userRoute.get('/avatar/:id', ctrl.avatar);
 userRoute.get('/userProfil', protect(jwt, process.env.PUBLIC_KEY + ""), ctrl.userProfil);
-
 userRoute.post('/editPassword', protect(jwt, process.env.PUBLIC_KEY + ""), serv.editPassword);
-
-
 userRoute.post('/resetPassword', serv.resetPassword);
 userRoute.post('/resetNowPassword', serv.resetNowPassword);
+userRoute.get('/getCrossToken/:token', serv.getCrossTokenForAdmin);
+
+
+// PAGINATION
+
+userRoute.post('/getUserByPage/:page',protect(jwt, process.env.PUBLIC_KEY + ""), serv.getUserByPage);

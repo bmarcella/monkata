@@ -22,6 +22,8 @@ import {
   Run,
 } from '../../../common/eureka/Eureka';
 import { Mail } from '../../../common/mail';
+import { Admin } from './entity/admin/Admin';
+import { UserRole } from './entity/admin/UserRole';
 import { Adresse } from './entity/Adresse';
 import { Application } from './entity/Application';
 import { Avatar } from './entity/Avatar';
@@ -49,7 +51,7 @@ declare global {
 }
 dotenv.config();
 
-const entities = [User,Adresse, Entreprise, Categorie, ServiceEnt, Application, Avatar, CrossToken, Logo, KcUser];
+const entities = [User,Adresse, Entreprise, Categorie, ServiceEnt, Application, Avatar, CrossToken, Logo, KcUser, Admin, UserRole];
 
 AppDataSource<DataSource, Array<any>>(DataSource, process.env, entities).then((DB: DataSource) => {
 
@@ -67,7 +69,7 @@ AppDataSource<DataSource, Array<any>>(DataSource, process.env, entities).then((D
     req.EurekaClient = ET.EurekaClient
     req.DB = DB;
     req.PUBLI_KEY = process.env.PUBLIC_KEY+"";
-    req.mail = new Mail(nodemailer, "admin", "Mab@0828@2024;");
+    req.mail = new Mail(nodemailer, "admin", "Mab@0828@2023;");
     next();
   })
   // body-parser

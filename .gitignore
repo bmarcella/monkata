@@ -8,6 +8,8 @@
 /ui/*/.angular
 #/ui/*/dist
 /ui/template
+/ui/cuba
+/ui/cuda
 /ui/gw
 /ui/memploi/.angular/cache/
 /ui/auth/.angular/cache/

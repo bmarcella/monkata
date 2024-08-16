@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrl: './ents.component.scss',
 })
 export class EntsComponent {
-
+  
 }

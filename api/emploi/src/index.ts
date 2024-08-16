@@ -73,7 +73,7 @@ const app: Express = express();
   app.use((req: Request, res: Response, next: NextFunction) => {
     req.EurekaClient = ET.EurekaClient
     req.DB =  DB;
-    req.mail = new Mail(nodemailer,"memploi", "Mab@0828@2024;");
+    req.mail = new Mail(nodemailer,"memploi", "Mab@0828@2023;");
     // req.keycloak = keycloak
     next();
   })

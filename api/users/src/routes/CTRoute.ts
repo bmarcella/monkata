@@ -9,4 +9,5 @@ ctRoute.post('/addCT/:key', serv.addCT);
 ctRoute.get('/getCT/:token', serv.getCT);
 ctRoute.post('/setCT', serv.setRefreshTokenCT);
 ctRoute.get('/getFullCT/:token', serv.getFullCT);
-// appRoute.get('/logout/:token', protect(jwt, process.env.PUBLIC_KEY + ""), serv.addCT);
+
+

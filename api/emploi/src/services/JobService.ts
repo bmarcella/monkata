@@ -6,8 +6,8 @@ import {
   Response,
 } from 'express';
 import * as jwt from 'jsonwebtoken';
-import { Like } from 'typeorm/find-options/operator/Like';
 
+import { ILike } from 'typeorm';
 import {
   Http,
   SERV_EP,
@@ -185,16 +185,16 @@ getJobById : async (req: Request, res: Response) => {
       const jobsRepository = req.DB.getRepository(Jobs);
       const queryBuilder = jobsRepository.createQueryBuilder('job');
       if (query ) {
-        queryBuilder.orWhere( {titre_job: Like(`%${query}%`)  });
-        queryBuilder.orWhere( {description : Like(`%${query}%`) });
+        queryBuilder.orWhere( {titre_job: ILike(`%${query}%`)  });
+        queryBuilder.orWhere( {description : ILike(`%${query}%`) });
        }   
   
        if (location ) {
-        queryBuilder.orWhere({ville :Like(`%${location}%`) });
-        queryBuilder.orWhere( {etat: Like(`%${location}%`) });
+        queryBuilder.orWhere({ville : ILike(`%${location}%`) });
+        queryBuilder.orWhere( {etat: ILike(`%${location}%`) });
        }   
        if(categorie){
-           queryBuilder.andWhere({categorie: Like(`%${categorie}%`) });
+           queryBuilder.andWhere({categorie: ILike(`%${categorie}%`) });
        }
        if(type_contrat){
           queryBuilder.andWhere({type_contrat: type_contrat });
@@ -240,17 +240,17 @@ getJobById : async (req: Request, res: Response) => {
       const jobsRepository = req.DB.getRepository(Jobs);
       const queryBuilder = jobsRepository.createQueryBuilder('job');
       if (query ) {
-        queryBuilder.orWhere( {titre_job: Like(`%${query}%`)  });
-        queryBuilder.orWhere( {description : Like(`%${query}%`) });
+        queryBuilder.orWhere( { titre_job: ILike(`%${query}%`)  });
+        queryBuilder.orWhere( { description : ILike(`%${query}%`) });
        }   
   
        if (location ) {
-        queryBuilder.orWhere({ville :Like(`%${location}%`) });
-        queryBuilder.orWhere( {etat: Like(`%${location}%`) });
+        queryBuilder.orWhere({ville :ILike(`%${location}%`) });
+        queryBuilder.orWhere( {etat: ILike(`%${location}%`) });
        }   
   
         if(categorie){
-           queryBuilder.andWhere({categorie: Like(`%${categorie}%`) });
+           queryBuilder.andWhere({categorie: ILike(`%${categorie}%`) });
         }
   
         if(type_contrat){
@@ -579,6 +579,54 @@ getJobById : async (req: Request, res: Response) => {
     } catch (error: any) {
       console.error('Token verification failed:', error.message);
       return { error: true};
+    }
+  },
+  getJobsFilterSearchForAdmin : async (req: Request, res: Response) => {
+
+    const NPage = 10;
+    const page = Number(req.params.page);
+    const skip = (page - 1) * NPage;
+    try {
+      const {
+          query ,
+      } = req.body;
+      const jobsRepository = req.DB.getRepository(Jobs);
+      const queryBuilder = jobsRepository.createQueryBuilder('job');
+      if (query ) {
+        queryBuilder.orWhere( { titre_job: ILike(`%${query}%`)  });
+        queryBuilder.orWhere({ categorie: ILike(`%${query}%`) });
+        queryBuilder.orWhere({ ville :ILike(`%${query}%`) });
+        queryBuilder.orWhere( { etat: ILike(`%${query}%`) });
+       }   
+    const objs2 = await queryBuilder.getCount();
+    
+    const objs: Jobs [] = await queryBuilder
+    .select(['job.created_at','job.id','job.titre_job', 'job.categorie', 'job.ville','job.type_contrat', 'job.entreprise_id','job.date_echeance','job.publish', 'job.block_by_admin'])
+    .orderBy("job.created_at", "DESC")
+    .skip(skip)
+    .take(NPage)
+    .getMany();
+    let  ents: any [] = [];
+    if(objs.length>0) {
+      const { GATEWAY_URL } = process.env;
+      const http = new Http(axios, req.token || '');
+      const path = getService("users").path;
+      const URL = GATEWAY_URL+path+SERV_EP.getListEntById;
+      const ids = objs.map(jobs => jobs.entreprise_id);
+      console.log(ids);
+      ents = await http.post(URL, { ids : ids } ,false);
+    }
+
+    const totalPage =  Math.ceil(objs2/NPage);
+    const pages = [];
+    for(let i = 1; i<= totalPage; i++) {
+      pages.push(i);
+    }
+    const pagination = { numberJobs : objs2,totalPage, pages,currentPage: 1 };
+    res.send({ objs, ents, pagination});
+    } catch (error) {
+      const pagination = { numberJobs : 0 ,totalPage: 0, pages: [], currentPage: 1 };
+      res.send({ objs : [], ents : [], pagination});
     }
   },
 };

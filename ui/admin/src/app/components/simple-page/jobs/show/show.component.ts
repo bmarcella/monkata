@@ -1,35 +1,39 @@
 import { Component } from '@angular/core';
-import { AlertService } from 'src/app/service/alert.service';
-import { CrudService } from 'src/app/service/crud.service';
-import { getURL } from 'src/environments/environment.prod';
+import { getURL } from '../../../../../environments/environment.prod';
+import { AlertService } from '../../../../service/alert.service';
+import { CrudService } from '../../../../service/crud.service';
 declare var require
 const Swal = require('sweetalert2')
 
 @Component({
-  selector: 'app-show-ent',
-  templateUrl: './show-ent.component.html',
-  styleUrl: './show-ent.component.scss'
+  selector: 'app-show-job',
+  templateUrl: './show.component.html',
+  styleUrl: './show.component.scss'
 })
-export class ShowEntComponent {
+export class ShowComponent {
 
   objs: any = [];
   paginations: any ;
   page = 1;
-  query = '';
+  query ;
   asearch = false;
   constructor(  private crud: CrudService, private aUI:  AlertService) {  }
 
 
   ngOnInit() {
-   this.getEnts(this.page);
+   this.getObjs(this.page);
   }
 
-  public getEnts(page: number, e= undefined) {
+  public getObjs(page: number, e= undefined) {
     this.page = page;
-    const URL = getURL("users",'entreprise/getEntByPage/'+page);
+    const URL = getURL("memploi","getJobsForAdmin/"+Number(page));
     this.crud.post(URL,{ query: this.query},  e).then((r: any) => {
-      console.log(r);
-      this.objs = r.objs;
+      const jbs: any = r.objs;
+      this.objs = jbs.map(job  => {
+      const ent = r.ents.find(obj => obj.id ==  job.entreprise_id );
+      return {ent, job};
+      } );
+      console.log(this.objs);
       this.paginations = r.pagination;
     }).catch((e) => {
       const msg = e.error.error.message;
@@ -70,19 +74,18 @@ export class ShowEntComponent {
   }
 
   changePage(p, e) {
-    this.getEnts(p, e);
+    this.getObjs(p, e);
   }
 
   search(e) {
     this.asearch = true;
-    this.getEnts(1, e);
+    this.getObjs(1, e);
   }
 
   closeSearch(e){
-    this.asearch = false;
+     this.asearch = false;
      this.query = undefined;
-     this.getEnts(1,e);
+     this.getObjs(1,e);
   }
-
 
 }

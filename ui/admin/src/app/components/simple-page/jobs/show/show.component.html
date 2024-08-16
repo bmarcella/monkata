@@ -1,7 +1,7 @@
 <app-breadcrumb
-  [title]="'Entreprise'"
+  [title]="'Emplois'"
   [items]="['Monkata']"
-  [active_item]="'Entreprise'"
+  [active_item]="'Emplois'"
 ></app-breadcrumb>
 
 <!-- Container-fluid starts -->
@@ -41,26 +41,44 @@
               <thead>
                 <tr>
                   <th scope="col">ID</th>
-                  <th scope="col">Entreprise</th>
+                  <th scope="col">Titre emploi</th>
                   <th scope="col" sortable="invoice">Categorie</th>
-                  <th scope="col" sortable="invoice">Email</th>
-                  <th scope="col" sortable="invoice">Téléphone</th>
-                  <th scope="col" sortable="startDate">Date Created</th>
+                  <th scope="col">Entreprise</th>
+                  <th scope="col" sortable="invoice">Ville</th>
+                  <th scope="col" sortable="invoice">Type contrat</th>
+                  <th scope="col" sortable="invoice">Published</th>
+                  <th scope="col" sortable="startDate">Periode</th>
                   <th scope="col">Action</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let item of objs; let i = index">
-                  <td scope="col">#{{ item.id }}</td>
+                  <td scope="col">#{{ item.job.id }}</td>
                   <td scope="col">
-                    <a routerLink="/admin/entreprise/{{ item.id }}"
-                      >{{ item.name }}
+                    <a routerLink="/admin/entreprise/{{ item.job.id }}"
+                      >{{ item.job.titre_job }}
                     </a>
                   </td>
-                  <td scope="col">{{ item.categorie }}</td>
-                  <td scope="col">{{ item.email_contact }}</td>
-                  <td scope="col">{{ item.telephone_a }}</td>
-                  <td scope="col">{{ item.created_at.split('T')[0] }}</td>
+                  <td scope="col">{{ item.job.categorie }}</td>
+                  <td scope="col">{{ item.ent.name }}</td>
+                  <td scope="col">{{ item.job.ville }}</td>
+                  <td scope="col">{{ item.job.type_contrat }}</td>
+                  <td scope="col">
+                    <span class="badge badge-success" *ngIf="item.job.publish">
+                      Publish</span
+                    >
+                    <span class="badge badge-danger" *ngIf="!item.job.publish">
+                      Unpublish</span
+                    >
+                  </td>
+                  <td scope="col">
+                    <ul>
+                      <li>{{ item.job.created_at.split('T')[0] }}</li>
+                      <li *ngIf="item.job.date_echeance">
+                        {{ item.job.date_echeance.split('T')[0] }}
+                      </li>
+                    </ul>
+                  </td>
                   <td scope="col">
                     <button
                       class="btn btn-primary small"

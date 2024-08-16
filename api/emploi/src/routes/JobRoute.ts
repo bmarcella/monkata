@@ -33,3 +33,5 @@ jobRoute.get('/count', protect(jwt,process.env.PUBLIC_KEY+""),  ctrl.count);
 jobRoute.get('/mail',  ctrl.mail);
 
 jobRoute.get('/report/:id',protect(jwt,process.env.PUBLIC_KEY+""),  ctrl.report);
+
+jobRoute.post('/getJobsForAdmin/:page', protect(jwt,process.env.PUBLIC_KEY+""),  ctrl.getJobsFilterSearchForAdmin);

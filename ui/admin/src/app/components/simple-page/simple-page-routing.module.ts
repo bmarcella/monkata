@@ -26,6 +26,17 @@ const routes: Routes = [
     path: "entreprise",
     component: EntsComponent,
     loadChildren: () => import("./ents/ents.module").then((m) => m.EntsModule),
+  },
+  {
+    path: "user",
+    component: EntsComponent,
+    loadChildren: () => import("./users/users.module").then((m) => m.UsersModule),
+  },
+
+  {
+    path: "job",
+    component: EntsComponent,
+    loadChildren: () => import("./jobs/jobs.module").then((m) => m.JobsModule),
   }
  
 ];

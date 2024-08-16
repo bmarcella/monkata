@@ -18,12 +18,6 @@ export class User extends BaseEntity {
   @Column()
   lastName?: string;
 
-  // @Column()
-  // password?: string;
-
-  // @Column({ nullable: true })
-  // salt?: string;
-
   @Column({ type: 'varchar', length: 50, nullable: true })
   sexe?: string;
 
@@ -43,7 +37,7 @@ export class User extends BaseEntity {
   @Column()
   keycloakId?: string;
 
-  @Column({ nullable: true, default: false })
+  @Column({ nullable: true, default: true })
   approuved?: boolean;
 
 

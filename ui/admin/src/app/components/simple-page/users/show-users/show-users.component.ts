@@ -6,11 +6,11 @@ declare var require
 const Swal = require('sweetalert2')
 
 @Component({
-  selector: 'app-show-ent',
-  templateUrl: './show-ent.component.html',
-  styleUrl: './show-ent.component.scss'
+  selector: 'app-show-users',
+  templateUrl: './show-users.component.html',
+  styleUrl: './show-users.component.scss'
 })
-export class ShowEntComponent {
+export class ShowUsersComponent {
 
   objs: any = [];
   paginations: any ;
@@ -21,15 +21,15 @@ export class ShowEntComponent {
 
 
   ngOnInit() {
-   this.getEnts(this.page);
+   this.getObjs(this.page);
   }
 
-  public getEnts(page: number, e= undefined) {
+  public getObjs(page: number, e= undefined) {
     this.page = page;
-    const URL = getURL("users",'entreprise/getEntByPage/'+page);
+    const URL = getURL("users","auth/getUserByPage/"+Number(page));
     this.crud.post(URL,{ query: this.query},  e).then((r: any) => {
-      console.log(r);
       this.objs = r.objs;
+      console.log(this.objs);
       this.paginations = r.pagination;
     }).catch((e) => {
       const msg = e.error.error.message;
@@ -70,19 +70,18 @@ export class ShowEntComponent {
   }
 
   changePage(p, e) {
-    this.getEnts(p, e);
+    this.getObjs(p, e);
   }
 
   search(e) {
     this.asearch = true;
-    this.getEnts(1, e);
+    this.getObjs(1, e);
   }
 
   closeSearch(e){
     this.asearch = false;
      this.query = undefined;
-     this.getEnts(1,e);
+     this.getObjs(1,e);
   }
-
 
 }

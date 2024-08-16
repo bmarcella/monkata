@@ -18,3 +18,8 @@
     background: #60d7a9;
 }
 
+.inline-3 {
+    display: grid;
+    gap: 1%;
+    grid-template-columns: 80% 9% 9%;
+}

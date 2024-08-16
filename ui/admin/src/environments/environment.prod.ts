@@ -13,11 +13,11 @@ const getService = (): ServiceObj => {
 }
 const services = getService();
 const live = false;
-const prod = false;
+const prod = true;
 const url = {
   live : 'http://69.159.138.245:3000' ,
   dev: "http://localhost:3000",
-  prod: ""
+  prod: "https://gateway.memploi.com"
 }
 const local = (prod) ? "prod" : (live) ? "live" : "dev";
 export const environment = {

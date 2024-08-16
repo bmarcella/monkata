@@ -1,7 +1,7 @@
 <app-breadcrumb
-  [title]="'Entreprise'"
+  [title]="'Emploi'"
   [items]="['Monkata']"
-  [active_item]="'Entreprise'"
+  [active_item]="'Emploi'"
 ></app-breadcrumb>
 
 <!-- Container-fluid starts -->
@@ -41,11 +41,10 @@
               <thead>
                 <tr>
                   <th scope="col">ID</th>
-                  <th scope="col">Entreprise</th>
-                  <th scope="col" sortable="invoice">Categorie</th>
-                  <th scope="col" sortable="invoice">Email</th>
-                  <th scope="col" sortable="invoice">Téléphone</th>
-                  <th scope="col" sortable="startDate">Date Created</th>
+                  <th scope="col">Nom complet</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Télephone</th>
+                  <th scope="col">Date Création</th>
                   <th scope="col">Action</th>
                 </tr>
               </thead>
@@ -53,17 +52,16 @@
                 <tr *ngFor="let item of objs; let i = index">
                   <td scope="col">#{{ item.id }}</td>
                   <td scope="col">
-                    <a routerLink="/admin/entreprise/{{ item.id }}"
-                      >{{ item.name }}
+                    <a routerLink="/admin/user/{{ item.id }}"
+                      >{{ item.lastName }} {{ item.firstName }}
                     </a>
                   </td>
-                  <td scope="col">{{ item.categorie }}</td>
-                  <td scope="col">{{ item.email_contact }}</td>
-                  <td scope="col">{{ item.telephone_a }}</td>
+                  <td scope="col">{{ item.email }}</td>
+                  <td scope="col">{{ item.phone }}</td>
                   <td scope="col">{{ item.created_at.split('T')[0] }}</td>
                   <td scope="col">
                     <button
-                      class="btn btn-primary small"
+                      class="btn btn-primary small" 
                       *ngIf="!item.approuved"
                       (click)="withConfirmation(true, item, i)"
                     >

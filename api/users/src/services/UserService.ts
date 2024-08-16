@@ -10,7 +10,10 @@ import {
 import * as jwt from 'jsonwebtoken';
 import { v4 as uuidv4 } from 'uuid';
 
+import { ILike } from 'typeorm';
 import { servicesApp } from '../../../../common/index/Frontend';
+import { Http, SERV_EP } from '../../../../common/index/Http';
+import { getService } from '../../../../common/index/services';
 import {
   GenToken,
   getPayload,
@@ -19,6 +22,8 @@ import {
 } from '../../../../common/keycloak/AuthMiddleware';
 import MailService from '../../../../common/mail/MailService';
 import { random } from '../../../emploi/src/utils/Helper';
+import { Admin } from '../entity/admin/Admin';
+import { Role, UserRole } from '../entity/admin/UserRole';
 import { Avatar } from '../entity/Avatar';
 import { CrossToken } from '../entity/CrossToken';
 import { DefaultAvatar } from '../entity/Default';
@@ -573,6 +578,80 @@ const services = {
     } catch (error) {
       console.log(error);
       res.status(500).send(error);
+    }
+  },
+  getCrossTokenForAdmin: async (req: Request, res: Response) => {
+    const token = req.params.token;
+    const { GATEWAY_URL } = process.env;
+    const http = new Http(axios, req.token || '');
+    const path = getService("users").path;
+    const URL = GATEWAY_URL + path + SERV_EP.getCrossToken + token;
+    const resp = await http.get(URL, false);
+
+    const userRepository = req.DB.getRepository(Admin);
+    const userRoleRepository = req.DB.getRepository(UserRole);
+    const userCount = await userRepository.count();
+    const id_user = resp.profil.id;
+    if (userCount == 0) {
+      const id_user = resp.profil.id;
+      let u = new Admin();
+      u.id_user = id_user;
+      u.keycloakId = resp.profil.keycloakId;
+      u = await userRepository.save(u);
+      resp.user = u;
+      let ur: UserRole = new UserRole();
+      ur.keycloakId = resp.profil.keycloakId;
+      ur.role_name = Role.SUPER_ADMIN;
+      ur = await userRoleRepository.save(ur);
+      resp.role = ur;
+      return res.status(200).send(resp);
+    } else {
+
+      const user: User = await userRepository.findOne({
+        where: { id_user }
+      });
+      if (!user) { return res.status(401).send({ message: "You are not authorized to this website!" }); }
+      else {
+        const role = await userRoleRepository.findOne({
+          where: { keycloakId: user.keycloakId }
+        });
+        resp.user = user;
+        resp.role = role;
+        return res.status(200).send(resp);
+      }
+    }
+
+  },
+
+  getUserByPage: async (req: Request, res: Response) => {
+    const NPage = 10;
+    const page = Number(req.params.page);
+    const skip = (page - 1) * NPage;
+    const { query } = req.body;
+    try {
+      const jobsRepository = req.DB.getRepository(User);
+      const queryBuilder = jobsRepository.createQueryBuilder('user');
+       if (query) {
+        queryBuilder.where( { firstName: ILike(`%${query}%`)  });
+        queryBuilder.orWhere( { lastName: ILike(`%${query}%`)  });
+        queryBuilder.orWhere( { email: ILike(`%${query}%`)  });
+       } 
+      const  objs : User [] = await queryBuilder
+      .orderBy("user.created_at", "DESC")
+      .skip(skip)
+      .take(NPage)
+      .getMany();
+    const objs2 = await queryBuilder.getCount();
+    const totalPage =  Math.ceil(objs2/NPage);
+    const pages = [];
+    for(let i = 1; i<= totalPage; i++) {
+      pages.push(i);
+    }
+    const pagination = { totalObj : objs2, totalPage, pages, currentPage: page };
+    res.send({ objs, pagination});
+    } catch (error) {
+      console.log(error)
+      return res.status(500).send(error);
     }
   },
 

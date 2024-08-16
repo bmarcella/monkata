@@ -14,7 +14,7 @@ const getService = (): ServiceObj => {
 }
 const services = getService();
 const live = false;
-export const prod = true;
+export const prod = false;
 const url = {
   live : 'http://69.159.138.245:3000' ,
   dev:  "http://localhost:3000",

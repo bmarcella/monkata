@@ -105,10 +105,9 @@ export class KeycloakService {
 
   getCT(token: any) {
     return new Promise((r, e) => {
-      const URL = getURL("admin", "cv/getCrossToken/" + token);
+      const URL = getURL(this.serv, this.ss + "/getCrossToken/" + token);
       this.http.get(URL).pipe().subscribe({
         next: (res: any) => {
-          // console.log(res);
           this.store.setJson("_profil", res.profil);
           this.store.setJson("_cv", res.user);
           this.store.setJson("_role", res.role);

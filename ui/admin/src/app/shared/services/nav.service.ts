@@ -100,8 +100,9 @@ export class NavService implements OnDestroy {
       active: true,
       children: [
         { path: "/admin/home", title: "Dashboard", type: "link" },
-        { path: "/admin/entreprise/show", title: "Entreprise", type: "link" },
-        { path: "/admin/profil", title: "Profil", type: "link" },
+        { path: "/admin/entreprise/show", title: "Entreprises", type: "link" },
+        { path: "/admin/user/show", title: "Utilisateurs", type: "link" },
+        { path: "/admin/job/show", title: "Emplois", type: "link" },
       ],
     },
     { path: "/single-page", icon: "search", title: "Single Page",  active: false, type: "link", bookmark: true },

@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from "express";
-import { Entreprise } from "../entity/Entreprise";
+import { ILike, In } from "typeorm";
 import { Adresse } from "../entity/Adresse";
-import { In } from "typeorm";
+import { Entreprise } from "../entity/Entreprise";
 
 export const monkata_auth_url = "auth";
 const services = {
@@ -88,7 +88,7 @@ const services = {
     }
 
   },
-  getAllWithAdress: async (req: Request, res: Response) => {
+  getAllWithAdress: async (req: Request, res: Response) => {  
     try {
       const keycloakId = req.payload?.sub;
       const entrepriseRepository = req.DB.getRepository(Entreprise);
@@ -293,6 +293,51 @@ const services = {
       return res.status(500).send(error);
     }
 
+  },
+
+  getEntByPage: async (req: Request, res: Response) => {
+    const NPage = 10;
+    const page = Number(req.params.page);
+    const skip = (page - 1) * NPage;
+    const { query } = req.body;
+    try {
+      const jobsRepository = req.DB.getRepository(Entreprise);
+      const queryBuilder = jobsRepository.createQueryBuilder('entreprise');
+       if (query) {
+        queryBuilder.where( { name: ILike(`%${query}%`)  });
+        console.log("CALL IT :"+query);
+        // queryBuilder.orWhere( {description : Like(`%${query}%`) });
+       } 
+      const  objs : Entreprise [] = await queryBuilder
+      .orderBy("entreprise.created_at", "DESC")
+      .skip(skip)
+      .take(NPage)
+      .getMany();
+    const objs2 = await queryBuilder.getCount();
+    const totalPage =  Math.ceil(objs2/NPage);
+    const pages = [];
+    for(let i = 1; i<= totalPage; i++) {
+      pages.push(i);
+    }
+    const pagination = { totalObj : objs2, totalPage, pages, currentPage: page };
+    res.send({ objs, pagination});
+    } catch (error) {
+      console.log(error)
+      return res.status(500).send(error);
+    }
+  },
+
+  setApprove: async (req: Request, res: Response) => {
+    const jobsRepository = req.DB.getRepository(Entreprise);
+    const id: any = req.params.id;
+    const state: any = Boolean(req.params.state);
+    let obj: Entreprise = await jobsRepository.findOne({
+      where: { id : id }
+    });
+    if (!obj) return  res.status(404).send({ message: "Entreprise non trouvé"});
+    obj.approuved = state ;
+    obj = await jobsRepository.save(obj);
+    res.status(200).send(obj);
   },
  
 };
