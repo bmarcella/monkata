@@ -1,3 +1,4 @@
+import { DeployType } from '../../../../common/deploy/index';
 import {
   ReCaptchaPublicKey,
   ServiceObj,
@@ -13,11 +14,11 @@ const getService = (): ServiceObj => {
 }
 const services = getService();
 const live = false;
-const prod = true;
+const prod = DeployType.prod;
 const url = {
-  live : 'http://69.159.138.245:3000' ,
-  dev: "http://localhost:3000",
-  prod: "https://gateway.memploi.com"
+  live :'http://69.159.138.245:3000' ,
+  dev:"http://localhost:3000",
+  prod:"https://gateway.memploi.com"
 }
 const local = (prod) ? "prod" : (live) ? "live" : "dev";
 export const environment = {

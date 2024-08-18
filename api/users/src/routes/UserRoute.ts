@@ -28,3 +28,5 @@ userRoute.get('/getCrossToken/:token', serv.getCrossTokenForAdmin);
 // PAGINATION
 
 userRoute.post('/getUserByPage/:page',protect(jwt, process.env.PUBLIC_KEY + ""), serv.getUserByPage);
+
+userRoute.get('/getStats',protect(jwt, process.env.PUBLIC_KEY + ""), serv.getStats);

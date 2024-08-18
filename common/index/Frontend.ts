@@ -39,6 +39,17 @@ export const servicesApp: ServiceObjApp = {
     show: false,
     img: 'assets/img/icons/category-5.svg',
   },
+  console: {
+    name: "console",
+    titre: "Console",
+    description: "Monkata Console",
+    path: "/console",
+    frontend_dev: "http://localhost:4206",
+    frontend_prod: "https://console.monkata.com",
+    login: "/auth/login-cross-token",
+    show: true,
+    img: 'assets/img/icons/category-5.svg',
+  },
   memploi: {
     name: "memploi",
     titre: "Memploi",

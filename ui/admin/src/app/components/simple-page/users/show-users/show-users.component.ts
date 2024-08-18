@@ -29,7 +29,7 @@ export class ShowUsersComponent {
     const URL = getURL("users","auth/getUserByPage/"+Number(page));
     this.crud.post(URL,{ query: this.query},  e).then((r: any) => {
       this.objs = r.objs;
-      console.log(this.objs);
+      console.log(r);
       this.paginations = r.pagination;
     }).catch((e) => {
       const msg = e.error.error.message;

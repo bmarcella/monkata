@@ -622,12 +622,24 @@ getJobById : async (req: Request, res: Response) => {
     for(let i = 1; i<= totalPage; i++) {
       pages.push(i);
     }
-    const pagination = { numberJobs : objs2,totalPage, pages,currentPage: 1 };
+    const pagination = { numberJobs : objs2,totalPage, pages,currentPage: page };
     res.send({ objs, ents, pagination});
     } catch (error) {
-      const pagination = { numberJobs : 0 ,totalPage: 0, pages: [], currentPage: 1 };
+      const pagination = { numberJobs : 0 ,totalPage: 0, pages: [], currentPage: page };
       res.send({ objs : [], ents : [], pagination});
     }
   },
+  getStats: async (req: Request, res: Response) => {
+
+    const objRepository = req.DB.getRepository(Jobs);
+    const queryBuilder2 = objRepository.createQueryBuilder('jobs');
+    const objs = await queryBuilder2.getCount();
+
+    const objRepository2 = req.DB.getRepository(Postulants);
+    const queryBuilder = objRepository2.createQueryBuilder('Postulants');
+    const objs2 = await queryBuilder.getCount();
+    return res.send({ total_jobs: objs, total_postulant: objs2 });
+
+  }
 };
 export default services;

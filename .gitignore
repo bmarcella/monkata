@@ -11,11 +11,13 @@
 /ui/cuba
 /ui/cuda
 /ui/admin/dist/
+/ui/console/dist/
 /ui/gw
 /ui/memploi/.angular/cache/
 /ui/auth/.angular/cache/
 /ui/qnote/.angular/cache/
 /ui/admin/.angular/cache/
+/ui/console/.angular/cache/
 /cicd/hold/
 # Ignore operating system files
 .DS_Store

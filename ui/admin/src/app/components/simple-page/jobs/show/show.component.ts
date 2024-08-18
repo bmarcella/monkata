@@ -25,7 +25,8 @@ export class ShowComponent {
   }
 
   public getObjs(page: number, e= undefined) {
-    this.page = page;
+    this.page = Number(page);
+    console.log(this.page);
     const URL = getURL("memploi","getJobsForAdmin/"+Number(page));
     this.crud.post(URL,{ query: this.query},  e).then((r: any) => {
       const jbs: any = r.objs;
@@ -33,7 +34,7 @@ export class ShowComponent {
       const ent = r.ents.find(obj => obj.id ==  job.entreprise_id );
       return {ent, job};
       } );
-      console.log(this.objs);
+      console.log(r);
       this.paginations = r.pagination;
     }).catch((e) => {
       const msg = e.error.error.message;

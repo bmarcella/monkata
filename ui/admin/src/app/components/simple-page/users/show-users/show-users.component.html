@@ -1,7 +1,7 @@
 <app-breadcrumb
-  [title]="'Emploi'"
+  [title]="'Utilisateurs (' + paginations?.totalObj + ') '"
   [items]="['Monkata']"
-  [active_item]="'Emploi'"
+  [active_item]="'Utilisateurs'"
 ></app-breadcrumb>
 
 <!-- Container-fluid starts -->
@@ -61,7 +61,7 @@
                   <td scope="col">{{ item.created_at.split('T')[0] }}</td>
                   <td scope="col">
                     <button
-                      class="btn btn-primary small" 
+                      class="btn btn-primary small"
                       *ngIf="!item.approuved"
                       (click)="withConfirmation(true, item, i)"
                     >

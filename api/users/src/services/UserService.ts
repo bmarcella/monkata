@@ -27,6 +27,7 @@ import { Role, UserRole } from '../entity/admin/UserRole';
 import { Avatar } from '../entity/Avatar';
 import { CrossToken } from '../entity/CrossToken';
 import { DefaultAvatar } from '../entity/Default';
+import { Entreprise } from '../entity/Entreprise';
 import { KcUser } from '../entity/KC_User';
 import { Logo } from '../entity/Logo';
 import { User } from '../entity/User';
@@ -654,6 +655,15 @@ const services = {
       return res.status(500).send(error);
     }
   },
+  getStats : async (req: Request, res: Response) => {
+    const jobsRepository = req.DB.getRepository(User);
+    const queryBuilder = jobsRepository.createQueryBuilder('user');
+    const objs2 = await queryBuilder.getCount();
 
+    const objRepository = req.DB.getRepository(Entreprise);
+    const queryBuilder2 = objRepository.createQueryBuilder('entreprise');
+    const objs = await queryBuilder2.getCount();
+    return res.send({ total_user: objs2, total_entreprise: objs });
+  }
 };
 export default services;
