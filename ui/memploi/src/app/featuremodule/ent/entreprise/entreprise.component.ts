@@ -79,7 +79,7 @@ export class EntrepriseComponent implements OnInit {
   horaireOptions = Object.values(Horaire_de_travail);
   salaireOptions = Object.values(Periode_salaire);
   avatar : any;
-
+  total_view=0;
   constructor( private auth: KeycloakService, public router: Router, private crud: CrudService, private cat: CategorieService, private aUI:  AlertService) {
 
   }
@@ -124,9 +124,21 @@ export class EntrepriseComponent implements OnInit {
      if (r.jobs.length!=0) {
       this.jobs= r.jobs;
       this.job= r.jobs[0];
+      this.getView(this.job.id);
       this.jpaginations = r.pagination;
      }
       console.log("JOBS: ",r);
+    }).catch((e) => {
+      const msg = e.error.error.message;
+      console.log(e, msg);
+    });
+  }
+
+  getView(id){
+    const URL = getURL("memploi","getViewJob/"+id);
+    this.crud.get(URL).then((r: any) => {
+     console.log(r);
+     this.total_view = r.view;
     }).catch((e) => {
       const msg = e.error.error.message;
       console.log(e, msg);
@@ -146,6 +158,7 @@ export class EntrepriseComponent implements OnInit {
 
   showJob(data: any) {
     this.job = data;
+    this.getView(this.job.id);
   }
 
   delete(e, cEnt) {

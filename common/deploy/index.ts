@@ -1,4 +1,4 @@
  export const DeployType = {
-  prod: true,
-  version : 1.0
+  prod: false,
+  version : 1.2
  }

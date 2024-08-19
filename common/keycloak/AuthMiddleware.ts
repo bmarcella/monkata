@@ -61,6 +61,21 @@ export const protect = (jwt: any, p: any, role?: string) => {
   };
 };
 
+export const free = (jwt: any, p: any, role?: string) => {
+  return (req: any, res: any, next: any) => {
+    try {
+      const token = req?.headers.authorization?.split(' ')[1];
+      if (token) {
+      req.token = token;
+      req.payload = getPayload(jwt, token, process.env.PUBLIC_KEY + "");
+      }
+      next();
+    } catch (err: any) {
+      next();
+    }
+  };
+};
+
 export const getPayload = (jwt: any, token: string, PK: string): JwtPayload => {
    return jwt.verify(token, PK);
 }

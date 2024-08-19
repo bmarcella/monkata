@@ -62,6 +62,7 @@ export class JobsComponent implements OnInit {
       if(this.jobs.length>0 && !this.isMobile ){
         this.job = this.jobs[0].job;
         this.ent = this.jobs[0].ent;
+        this.view(this.job.id);
       }
       this.paginations = r.pagination;
     }
@@ -72,9 +73,21 @@ export class JobsComponent implements OnInit {
     });
   }
 
+  public view(id: any) {
+    const URL = getURL("memploi","viewJob/"+id);
+    console.log(URL);
+    this.crud.get(URL).then((r) => {
+     console.log(r);
+    }).catch((e) => {
+      const msg = e.error.error.message;
+      console.log(e);
+    });
+  }
+
   show(data: any) {
     this.job = data.job;
     this.ent = data.ent;
+    this.view(this.job.id);
     if (this.isMobile)
       this.scrollToTop();
   }

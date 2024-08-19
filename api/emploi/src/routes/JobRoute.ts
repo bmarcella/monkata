@@ -3,7 +3,7 @@ import express from 'express';
 import * as jwt from 'jsonwebtoken';
 
 import { ReCaptcha } from '../../../../common/index/ReCaptcha';
-import { protect } from '../../../../common/keycloak/AuthMiddleware';
+import { free, protect } from '../../../../common/keycloak/AuthMiddleware';
 import services from '../services/JobService';
 
 export const jobRoute = express.Router();
@@ -37,3 +37,8 @@ jobRoute.get('/report/:id',protect(jwt,process.env.PUBLIC_KEY+""),  ctrl.report)
 jobRoute.post('/getJobsForAdmin/:page', protect(jwt,process.env.PUBLIC_KEY+""),  ctrl.getJobsFilterSearchForAdmin);
 
 jobRoute.get('/getStats', protect(jwt,process.env.PUBLIC_KEY+""),  ctrl.getStats);
+
+// VIEWJOBS 
+
+jobRoute.get('/viewJob/:id',free(jwt,process.env.PUBLIC_KEY+""),  ctrl.viewJob);
+jobRoute.get('/getViewJob/:id',protect(jwt,process.env.PUBLIC_KEY+""),  ctrl.getViewJob);

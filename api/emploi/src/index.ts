@@ -33,6 +33,7 @@ import { Postulants } from './entity/Postulants';
 import { References } from './entity/References';
 import { Skills } from './entity/Skills';
 import { User_Cv } from './entity/User_Cv';
+import { ViewJob } from './entity/ViewJob';
 import { Works_exp } from './entity/Works_exp';
 import { routes } from './routes';
 
@@ -51,7 +52,7 @@ declare global {
 
 dotenv.config();
 
-const entities = [Contact, User_Cv, Jobs, Postulants, Works_exp, Etudes, Avatar, Logo, Skills, Documents, References, LanguageSkills];
+const entities = [Contact, User_Cv, Jobs, Postulants, Works_exp, Etudes, Avatar, Logo, Skills, Documents, References, LanguageSkills, ViewJob];
 AppDataSource<DataSource, Array<any>>(DataSource, process.env, entities).then( (DB: DataSource)=> {
 const app: Express = express();
   app.use(cors());
@@ -67,7 +68,7 @@ const app: Express = express();
 
   // app.use(keycloak.middleware());
 
-
+  
   const ET = EurekaTools<Eureka> (Eureka, process.env);
   
   app.use((req: Request, res: Response, next: NextFunction) => {

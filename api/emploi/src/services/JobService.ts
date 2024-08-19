@@ -18,6 +18,7 @@ import { Contact } from '../entity/Contact';
 import { Jobs } from '../entity/Jobs';
 import { Postulants } from '../entity/Postulants';
 import { User_Cv } from '../entity/User_Cv';
+import { ViewJob } from '../entity/ViewJob';
 
 export const NPage = 5;
 const services = {
@@ -640,6 +641,41 @@ getJobById : async (req: Request, res: Response) => {
     const objs2 = await queryBuilder.getCount();
     return res.send({ total_jobs: objs, total_postulant: objs2 });
 
+  },
+  viewJob: async (req: Request, res: Response) => {
+    const id = req.params.id;
+    const jobsRepository = req.DB.getRepository(Jobs);
+    const obj: Jobs = await jobsRepository.findOne({
+      where: { id }
+    });
+    if(!obj) { 
+      return res.status(404).send({ message: "Han an elam pranw lan..."});
+    } else {
+    const objRepository = req.DB.getRepository(ViewJob);
+     const vj :  ViewJob = new ViewJob();
+     vj.keycloakId = req.payload?.sub;
+     vj.id_job = Number(id);
+     const  ip: any = req.headers['x-forwarded-for'] || req.socket.remoteAddress || '';
+     vj.ip = ip;
+     const obj2 = await objRepository.save(vj);
+     return res.send(obj2);
+    }
+  },
+  getViewJob: async (req: Request, res: Response) => {
+    const id = req.params.id;
+    const jobsRepository = req.DB.getRepository(Jobs);
+    const obj: Jobs = await jobsRepository.findOne({
+      where: { id }
+    });
+    if(!obj) { 
+      return res.status(404).send({ message: ""});
+    } else {
+    const objRepository = req.DB.getRepository(ViewJob);
+    const objs = await objRepository.count({
+      where: { id_job: id }
+    });
+     return res.status(200).send({ view: objs});
+   }
   }
 };
 export default services;

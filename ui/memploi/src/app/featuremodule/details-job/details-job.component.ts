@@ -40,6 +40,18 @@ export class DetailsJobComponent implements OnInit {
     this.act.paramMap.subscribe(params => {
       this.id = params.get('id');
       this.getJob(this.id);
+      this.view(this.id);
+    });
+  }
+
+  public view(id: any) {
+    const URL = getURL("memploi","viewJob/"+id);
+    console.log(URL);
+    this.crud.get(URL).then((r) => {
+     // console.log(r);
+    }).catch((e) => {
+      const msg = e.error.error.message;
+      console.log(e);
     });
   }
 
