@@ -41,7 +41,7 @@
 <div class="details-main-wrapper">
   <div class="container">
     <div class="row">
-      <div class="col-lg-6">
+      <div class="col-lg-4">
         <div class="card" *ngIf="!cand">
           <div class="card-header">
             <span class="bar-icon">
@@ -51,6 +51,19 @@
             </span>
             <h4>Postuler</h4>
           </div>
+          <p
+            class="alert alert-warning"
+            *ngIf="
+              job?.app_Reception == memploi &&
+              (job?.is_cv_require ||
+                job?.is_lm_require ||
+                job?.is_diplome_require ||
+                job?.is_certificat_require)
+            "
+          >
+            Veuillez choisir un document par section requise pour soumettre
+            votre candidature.
+          </p>
           <div *ngIf="job?.app_Reception == memploi">
             <div class="col-md-12" *ngIf="job?.is_cv_require">
               <div class="card-header-2 mb-4">
@@ -74,11 +87,17 @@
                       </label>
                     </li>
                   </ul>
+                  <div *ngIf="cvs.length == 0">
+                    <p class="text-danger">
+                      Vous n'avez pas Curriculum Vitae disponible.
+                    </p>
+                  </div>
                   <div class="clearfix"></div>
                 </div>
               </div>
             </div>
-            <hr />
+            <hr *ngIf="cvs.length > 0" />
+
             <div class="col-md-12" *ngIf="job?.is_lm_require">
               <div class="card-header-2 mb-4">
                 <h5>Lettre de motivation</h5>
@@ -101,11 +120,16 @@
                       </label>
                     </li>
                   </ul>
+                  <div *ngIf="lms.length == 0">
+                    <p class="text-danger">
+                      Vous n'avez pas de lettre de motivation disponible.
+                    </p>
+                  </div>
                   <div class="clearfix"></div>
                 </div>
               </div>
             </div>
-            <hr />
+            <hr *ngIf="lms.length > 0" />
             <div class="col-md-12" *ngIf="job?.is_diplome_require">
               <div class="card-header-2 mb-4">
                 <h5>Diplome</h5>
@@ -128,11 +152,16 @@
                       </label>
                     </li>
                   </ul>
+                  <div *ngIf="lms.length == 0">
+                    <p class="text-danger">
+                      Vous n'avez pas de diplome disponible.
+                    </p>
+                  </div>
                   <div class="clearfix"></div>
                 </div>
               </div>
             </div>
-            <hr />
+            <hr *ngIf="dips.length > 0" />
             <div class="col-md-12 mb-4" *ngIf="job?.is_certificat_require">
               <div class="card-header-2 mb-4">
                 <h5>Certificat</h5>
@@ -155,6 +184,11 @@
                       </label>
                     </li>
                   </ul>
+                  <div *ngIf="certs.length == 0">
+                    <p class="text-danger">
+                      Vous n'avez pas de certificat disponible.
+                    </p>
+                  </div>
                   <div class="clearfix"></div>
                 </div>
               </div>
@@ -196,7 +230,7 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-6">
+      <div class="col-lg-8">
         <div class="card">
           <div class="card-header">
             <span class="bar-icon">
@@ -204,9 +238,11 @@
               <span></span>
               <span></span>
             </span>
-            <h4>Description</h4>
+            <h4>Curriculum Vitae(CV)</h4>
           </div>
-          <div class="card-body" [innerHTML]="job?.description"></div>
+          <div class="card-body">
+            <app-mon-cv [ccand]="ccand"> </app-mon-cv>
+          </div>
         </div>
       </div>
     </div>

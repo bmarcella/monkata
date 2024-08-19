@@ -344,7 +344,7 @@ class ShowUsersComponent {
       query: this.query
     }, e).then(r => {
       this.objs = r.objs;
-      console.log(this.objs);
+      console.log(r);
       this.paginations = r.pagination;
     }).catch(e => {
       const msg = e.error.error.message;
@@ -441,7 +441,7 @@ class ShowUsersComponent {
         _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementEnd"]();
       }
       if (rf & 2) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("title", "Emploi")("items", _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵpureFunction0"](7, _c0))("active_item", "Emploi");
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("title", "Utilisateurs (" + (ctx.paginations == null ? null : ctx.paginations.totalObj) + ") ")("items", _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵpureFunction0"](7, _c0))("active_item", "Utilisateurs");
         _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](8);
         _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtwoWayProperty"]("ngModel", ctx.query);
         _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](5);

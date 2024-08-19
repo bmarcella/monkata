@@ -1,6 +1,23 @@
 "use strict";
 (self["webpackChunkcuba"] = self["webpackChunkcuba"] || []).push([["main"],{
 
+/***/ 5126:
+/*!************************************!*\
+  !*** ../../common/deploy/index.ts ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   DeployType: () => (/* binding */ DeployType)
+/* harmony export */ });
+const DeployType = {
+  prod: true,
+  version: 1.0
+};
+
+/***/ }),
+
 /***/ 1856:
 /*!**************************************!*\
   !*** ../../common/index/services.ts ***!
@@ -4345,18 +4362,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   getRURL: () => (/* binding */ getRURL),
 /* harmony export */   getURL: () => (/* binding */ getURL)
 /* harmony export */ });
-/* harmony import */ var _common_index_services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../common/index/services */ 1856);
+/* harmony import */ var _common_deploy_index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../common/deploy/index */ 5126);
+/* harmony import */ var _common_index_services__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../common/index/services */ 1856);
+
 
 const getService = () => {
   const s = {};
-  _common_index_services__WEBPACK_IMPORTED_MODULE_0__.services.forEach(element => {
+  _common_index_services__WEBPACK_IMPORTED_MODULE_1__.services.forEach(element => {
     s[element.name] = element;
   });
   return s;
 };
 const services = getService();
 const live = false;
-const prod = true;
+const prod = _common_deploy_index__WEBPACK_IMPORTED_MODULE_0__.DeployType.prod;
 const url = {
   live: 'http://69.159.138.245:3000',
   dev: "http://localhost:3000",
@@ -4368,7 +4387,7 @@ const environment = {
   gateway: url[local],
   services,
   recaptcha: {
-    siteKey: _common_index_services__WEBPACK_IMPORTED_MODULE_0__.ReCaptchaPublicKey
+    siteKey: _common_index_services__WEBPACK_IMPORTED_MODULE_1__.ReCaptchaPublicKey
   }
 };
 const getURL = (service, endpoint) => {

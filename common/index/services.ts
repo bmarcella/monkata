@@ -14,16 +14,10 @@ export const services: Service[] = [
     frontend_prod: 'https://memploi.com'
   },
   {
-    name: "admin",
-    path: "/admin",
-    frontend_dev: "https://localhost:4206",
-    frontend_prod: 'https://admin.monkata.com'
-  },
-  {
-    name: "qnote",
-    path: "/qnote",
-    frontend_dev: "https://localhost:4205",
-    frontend_prod: 'https://qnote.pledika.com'
+    name: "pledika",
+    path: "/pledika",
+    frontend_dev: "https://localhost:4208",
+    frontend_prod: 'https://pledika.com'
   },
 ];
 export const ReCaptchaPublicKey = '6LcthfgpAAAAAHffOi3dMqD4ses5xCGIDA98HRUv';

@@ -428,7 +428,8 @@ class ShowComponent {
     this.getObjs(this.page);
   }
   getObjs(page, e = undefined) {
-    this.page = page;
+    this.page = Number(page);
+    console.log(this.page);
     const URL = (0,_environments_environment_prod__WEBPACK_IMPORTED_MODULE_0__.getURL)("memploi", "getJobsForAdmin/" + Number(page));
     this.crud.post(URL, {
       query: this.query
@@ -441,7 +442,7 @@ class ShowComponent {
           job
         };
       });
-      console.log(this.objs);
+      console.log(r);
       this.paginations = r.pagination;
     }).catch(e => {
       const msg = e.error.error.message;
@@ -547,7 +548,7 @@ class ShowComponent {
         _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementEnd"]();
       }
       if (rf & 2) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("title", "Emplois")("items", _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵpureFunction0"](7, _c0))("active_item", "Emplois");
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("title", "Emplois (" + (ctx.paginations == null ? null : ctx.paginations.numberJobs) + ")")("items", _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵpureFunction0"](7, _c0))("active_item", "Emplois");
         _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](8);
         _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtwoWayProperty"]("ngModel", ctx.query);
         _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](5);

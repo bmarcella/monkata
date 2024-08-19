@@ -42,8 +42,46 @@
           </ul>
         </div>
         <div class="col-lg-3">
-          <div class="callnow" *ngIf="ent">
+          <div
+            class="callnow"
+            *ngIf="ent && job?.app_Reception == 'Memploi.com'"
+          >
             <a (click)="post($event)" style="color: black"> POSTULER</a>
+          </div>
+          <div *ngIf="ent && job?.app_Reception != 'Memploi.com'">
+            <p *ngIf="job.app_Reception == 'Email'">
+              Email pour postuler a ce poste :
+            </p>
+            <p></p>
+            <p *ngIf="job.app_Reception == 'Whatsapp'">
+              Numero téléphone pour postuler a ce poste :
+            </p>
+            <p>
+              <a
+                href="mailto:{{ job.email_to_apply }}"
+                *ngIf="job.app_Reception == 'Email'"
+                style="color: black"
+              >
+                {{ job.email_to_apply }}</a
+              >
+
+              <a
+                href="mailto:{{ job.phone_to_apply }}"
+                *ngIf="job.app_Reception == 'Whatsapp'"
+                style="color: black"
+              >
+                {{ job.phone_to_apply }}</a
+              >
+            </p>
+
+            <div class="callnow" *ngIf="job.app_Reception == 'Lien'">
+              <a
+                href="{{ job.lien_to_apply }}"
+                target="_blank"
+                style="color: black"
+                >POSTULER</a
+              >
+            </div>
           </div>
           <div class="callnow" *ngIf="!ent">
             <span class="text-danger"> Poste non disponible</span>

@@ -14,6 +14,7 @@ import { CrudService } from 'src/app/service/crud.service';
 import { KeycloakService } from 'src/app/service/keycloak.service';
 import { Type_Doc } from 'src/app/shared/models/Documents';
 import { App_Reception } from 'src/app/shared/models/Jobs';
+import { User_Cv } from 'src/app/shared/models/User_Cv';
 import { getURL } from 'src/environments/environment.prod';
 
 @Component({
@@ -68,6 +69,7 @@ export class ApplyComponent implements OnInit {
       this.id = params.get('id');
       this.getJob(this.id);
       this.getDocs();
+      this.getMonCv();
     });
   }
 
@@ -76,9 +78,6 @@ export class ApplyComponent implements OnInit {
     this.crud.get(URL).then((r) => {
      console.log(r);
      this.job = r.job;
-      //
-      // this.job.description = toHTML(this.job.description);
-      //
      this.doc.id_job = this.job.id;
      this.ent = r.entreprise;
      this.logo = this.auth.getLogo(this.ent.id);
@@ -118,10 +117,16 @@ export class ApplyComponent implements OnInit {
     const URL = getURL("memploi","cv/candidature/"+this.job.id);
     this.crud.get(URL).then((r) => {
     this.cand = r[0];
-    console.log(r);
     }).catch((e) =>
       console.log(e)
     );
+  }
+  ccand ;
+  public getMonCv() {
+    const URL = getURL("memploi","cv/getFull");
+    this.crud.get(URL).then((r) => {
+    this.ccand = r as User_Cv;
+    }).catch((e) => console.log(e));
   }
 
 }

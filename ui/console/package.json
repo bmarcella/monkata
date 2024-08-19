@@ -1,9 +1,9 @@
 {
-  "name": "cuba",
+  "name": "Monkata.Console",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --port=4206",
+    "start": "ng serve --port=4207",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
