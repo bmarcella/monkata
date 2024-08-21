@@ -14,13 +14,13 @@ export class KcUser extends BaseEntity {
   @Column({ nullable: true, unique: true })
   sub?: string;
 
-  @Column({ type: 'varchar', length: 255, nullable: false, fe })
+  @Column({ type: 'varchar', length: 255, nullable: false, default: "Votre prénom" })
   given_name: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 255, nullable: false, default: "Votre Nom" })
   family_name: string;
   
-  @Column({ type: 'varchar', length: 255, nullable: false })
+  @Column({ type: 'varchar', length: 255, nullable: false, unique: true })
   email: string
 
   @Column({ type: 'varchar', length: 255, nullable: false })
