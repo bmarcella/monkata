@@ -23,10 +23,10 @@ export class KcUser extends BaseEntity {
   @Column({ unique: true })
   email: string
 
-  @Column({ type: 'varchar', length: 255, nullable: false })
+  @Column({ type: 'varchar', length: 255, nullable: false, default: "empty"})
   password: string;
 
-  @Column({ nullable: true })
+  @Column({ type: 'varchar', length: 255, nullable: false, default: "empty"  })
   salt:string;
 
   
