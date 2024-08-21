@@ -8,7 +8,6 @@ import { CrudService } from 'src/app/service/crud.service';
 import { KeycloakService } from 'src/app/service/keycloak.service';
 import { Etat_demande } from 'src/app/shared/models/Postulants';
 import { getURL } from 'src/environments/environment.prod';
-import { CvComponent } from '../../components/cv/cv.component';
 
 @Component({
   selector: 'app-recruitement',
@@ -144,6 +143,7 @@ export class RecComponent implements OnInit {
      }
     console.log("POST: ",r);
     }).catch((e) => {
+
       const msg = e.error.error.message;
       console.log(e, msg);
     });
@@ -153,18 +153,25 @@ export class RecComponent implements OnInit {
     this.getPostulants(this.job.id, p, e);
   }
 
+  changeCands(c: any){
+    this.post = c;
+    this.ccand = undefined;
+    this.getCVForRecuiter( this.post.id_postulant);
+  }
+
 
 
   getCVForRecuiter(id:number){
     const URL = getURL("memploi","cv/getCVForRecuiter/"+id);
     this.crud.get(URL).then((r: any) => {
-    this.ccand= r;
-    console.log("CV_POST: ",r);
+    this.ccand = r;
     }).catch((e) => {
       const msg = e.error.error.message;
       console.log(e, msg);
     });
   }
+
+
 
   changeState(data: any){
     console.log(data);

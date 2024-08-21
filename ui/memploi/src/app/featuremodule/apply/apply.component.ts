@@ -67,6 +67,7 @@ export class ApplyComponent implements OnInit {
   ngOnInit(): void {
     this.act.paramMap.subscribe(params => {
       this.id = params.get('id');
+      this.getCompletion();
       this.getJob(this.id);
       this.getDocs();
       this.getMonCv();
@@ -127,6 +128,34 @@ export class ApplyComponent implements OnInit {
     this.crud.get(URL).then((r) => {
     this.ccand = r as User_Cv;
     }).catch((e) => console.log(e));
+  }
+
+  note : any = 0;
+  public getCompletion() {
+    const URL = getURL("memploi","cv/completion");
+    this.crud.get(URL).then((r) => {
+    this.note = r;
+    // console.log(r);
+    }).catch((e) => console.log(e));
+  }
+
+  getNote(){
+    if(this.note==0) return 0;
+    return Math.round((this.note.note / this.note.total ) * 100 );
+  }
+  filler = {
+    email : "Ajouter votre email de contact",
+    etudes : "Ajouter au moins une étude",
+    language : "Ajouter au moins une langue parler",
+    name : "Ajouter votre nom et prénom",
+    phone : "Ajouter au moin un numero de téléphone",
+    profLen : "Votre profil droit avoir au moins 200 characteres",
+    skills : "Ajouter au moins une compétence",
+    titreAndProfile : "Vous devez ajouter votre titre et profil",
+    works : "Ajouter au moins une experiences de travails",
+  };
+  miss(key: any) {
+    return this.filler[key];
   }
 
 }

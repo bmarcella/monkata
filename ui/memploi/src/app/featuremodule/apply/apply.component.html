@@ -71,8 +71,14 @@
               </div>
               <div class="card-body">
                 <div class="input-block featuresform-list mb-0">
+                  <div *ngIf="cvs.length == 0">
+                    <p class="text-danger">Non soumis</p>
+                    <a class="btn btn-secondary mb-4" routerLink="/profile/cv">
+                      Ajouter Curriculum Vitae</a
+                    >
+                  </div>
                   <ul>
-                    <li *ngFor="let option of cvs">
+                    <li *ngFor="let option of cvs" style="width: 100%">
                       <label class="custom_check">
                         <input
                           type="radio"
@@ -87,11 +93,7 @@
                       </label>
                     </li>
                   </ul>
-                  <div *ngIf="cvs.length == 0">
-                    <p class="text-danger">
-                      Vous n'avez pas Curriculum Vitae disponible.
-                    </p>
-                  </div>
+
                   <div class="clearfix"></div>
                 </div>
               </div>
@@ -105,7 +107,7 @@
               <div class="card-body">
                 <div class="input-block featuresform-list mb-0">
                   <ul>
-                    <li *ngFor="let option of lms">
+                    <li *ngFor="let option of lms" style="width: 100%">
                       <label class="custom_check">
                         <input
                           type="radio"
@@ -121,9 +123,10 @@
                     </li>
                   </ul>
                   <div *ngIf="lms.length == 0">
-                    <p class="text-danger">
-                      Vous n'avez pas de lettre de motivation disponible.
-                    </p>
+                    <p class="text-danger">Non soumis</p>
+                    <a class="btn btn-secondary mb-4" routerLink="/profile/cv">
+                      Ajouter lettre de motivation
+                    </a>
                   </div>
                   <div class="clearfix"></div>
                 </div>
@@ -137,7 +140,7 @@
               <div class="card-body">
                 <div class="input-block featuresform-list mb-0">
                   <ul>
-                    <li *ngFor="let option of dips">
+                    <li *ngFor="let option of dips" style="width: 100%">
                       <label class="custom_check">
                         <input
                           type="radio"
@@ -153,9 +156,10 @@
                     </li>
                   </ul>
                   <div *ngIf="lms.length == 0">
-                    <p class="text-danger">
-                      Vous n'avez pas de diplome disponible.
-                    </p>
+                    <p class="text-danger">Non soumis</p>
+                    <a class="btn btn-secondary mb-4" routerLink="/profile/cv">
+                      Ajouter diplome
+                    </a>
                   </div>
                   <div class="clearfix"></div>
                 </div>
@@ -169,7 +173,7 @@
               <div class="card-body">
                 <div class="input-block featuresform-list mb-0">
                   <ul>
-                    <li *ngFor="let option of certs">
+                    <li *ngFor="let option of certs" style="width: 100%">
                       <label class="custom_check">
                         <input
                           type="radio"
@@ -185,16 +189,39 @@
                     </li>
                   </ul>
                   <div *ngIf="certs.length == 0">
-                    <p class="text-danger">
-                      Vous n'avez pas de certificat disponible.
-                    </p>
+                    <p class="text-danger">Non soumis</p>
+                    <a class="btn btn-secondary mb-4" routerLink="/profile/cv">
+                      Ajouter certificat
+                    </a>
                   </div>
                   <div class="clearfix"></div>
                 </div>
               </div>
             </div>
-            <button class="btn btn-primary" (click)="apply($event)">
+            <button
+              class="btn btn-primary"
+              (click)="apply($event)"
+              *ngIf="getNote() >= 80 || (cvs.length > 0 && doc.id_cv)"
+            >
               Soumettre candidature
+            </button>
+
+            <p
+              class="alert alert-warning"
+              *ngIf="getNote() < 80 && cvs.length == 0"
+            >
+              Vous ne pouvez pas soumettre votre candidature pour le moment car
+              votre CV n'est complété qu'à ({{ getNote() }}%). Veuillez
+              compléter votre CV pour finaliser votre soumission.
+            </p>
+
+            <button
+              class="btn btn-primary mt-4"
+              routerLink="/profile/cv"
+              target="_blank"
+              *ngIf="getNote() < 80 && cvs.length == 0"
+            >
+              Completer votre cv
             </button>
           </div>
           <div class="card-body" *ngIf="job?.app_Reception == email">
@@ -213,6 +240,24 @@
             </a>
           </div>
         </div>
+
+        <div
+          class="card dash-cards"
+          *ngIf="!cand && getNote() < 80 && cvs.length == 0"
+        >
+          <div class="card-body text-center"></div>
+
+          <div class="col-md-12" *ngFor="let item of note.filler | keyvalue">
+            <div
+              *ngIf="!item.value"
+              class="alert alert-danger col-md-12 mb-1 mt-1"
+              style="font-size: 12px"
+            >
+              {{ miss(item.key) }}
+            </div>
+          </div>
+        </div>
+
         <div class="card" *ngIf="cand">
           <div class="card-header">
             <span class="bar-icon">
@@ -241,7 +286,7 @@
             <h4>Curriculum Vitae(CV)</h4>
           </div>
           <div class="card-body">
-            <app-mon-cv [ccand]="ccand"> </app-mon-cv>
+            <app-mon-cv [ccand]="ccand" *ngIf="ccand"> </app-mon-cv>
           </div>
         </div>
       </div>

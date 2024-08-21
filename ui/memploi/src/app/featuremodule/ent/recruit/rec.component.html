@@ -14,11 +14,12 @@
                   (selectionChange)="selectEnt($event)"
                   class="form-control"
                   name="currenry"
-                  placeholder="Entreprise"
+                  [placeholder]="cEnt ? cEnt.name : 'Entreprise'"
                 >
                   <mat-option
                     *ngFor="let j of ents; let i = index"
                     [value]="{ data: j, index: i }"
+                    [selected]="cEnt.id == j.id"
                   >
                     {{ j.name }}
                   </mat-option>
@@ -52,7 +53,7 @@
                   (selectionChange)="selectState($event)"
                   class="form-control"
                   name="currenry"
-                  placeholder="Etat de la demande"
+                  [placeholder]="state ? state : 'Tout'"
                 >
                   <mat-option value="false"> Tout </mat-option>
                   <mat-option
@@ -72,9 +73,11 @@
               [cand]="cand"
               [ccand]="post"
               *ngFor="let cand of cands"
+              (click)="changeCands(cand)"
               (changeState)="changeState($event)"
             ></app-item-cand>
           </div>
+
           <div class="col-md-9">
             <div class="card mb-2" *ngIf="post">
               <div class="card-header">

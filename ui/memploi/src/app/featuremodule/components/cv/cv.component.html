@@ -4,8 +4,8 @@
 "
 >
   <div class="row">
-    <h3 class="text-center">{{ ccand.firstName }} {{ ccand.lastName }}</h3>
-    <h6 class="text-center">{{ ccand.title_prof }}</h6>
+    <h3 class="text-center">{{ ccand?.firstName }} {{ ccand?.lastName }}</h3>
+    <h6 class="text-center">{{ ccand?.title_prof }}</h6>
     <span class="text-center col-md-12">
       <i *ngIf="ccand.city || ccand.country">
         {{ ccand.city }}<i *ngIf="ccand.city && ccand.country">,</i
