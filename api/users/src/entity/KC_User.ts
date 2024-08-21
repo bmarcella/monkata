@@ -14,19 +14,19 @@ export class KcUser extends BaseEntity {
   @Column({ nullable: true, unique: true })
   sub?: string;
 
-  @Column({ type: 'varchar', length: 255, nullable: false, default: "Votre prénom" })
+  @Column({  nullable: false})
   given_name: string;
 
-  @Column({ type: 'varchar', length: 255, nullable: false, default: "Votre Nom" })
+  @Column({ nullable: false })
   family_name: string;
   
   @Column({ unique: true })
   email: string
 
-  @Column({ type: 'varchar', length: 255, nullable: false, default: "empty"})
+  @Column({ })
   password: string;
 
-  @Column({ type: 'varchar', length: 255, nullable: false, default: "empty"  })
+  @Column()
   salt:string;
 
   

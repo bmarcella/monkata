@@ -12,10 +12,10 @@ export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id?: number
 
-  @Column({ type: 'varchar', length: 255, nullable: false, default: "Votre prénom" })
+  @Column({ type: 'varchar', length: 255 })
   firstName?: string;
 
-  @Column({ type: 'varchar', length: 255, nullable: false, default: "Votre nom" })
+  @Column({ type: 'varchar', length: 255 })
   lastName?: string;
 
   @Column({ type: 'varchar', length: 50, nullable: true })
