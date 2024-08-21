@@ -27,9 +27,8 @@ export class User extends BaseEntity {
   @Column({ type: 'varchar', length: 20, nullable: true })
   phone?: string;
 
-  @Column({ type: 'varchar', length: 255, nullable: false })
+  @Column({ unique: true })
   email?: string;
-
 
   @Column({ nullable: true })
   portfolio?: string;

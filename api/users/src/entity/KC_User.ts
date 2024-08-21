@@ -20,7 +20,7 @@ export class KcUser extends BaseEntity {
   @Column({ type: 'varchar', length: 255, nullable: false, default: "Votre Nom" })
   family_name: string;
   
-  @Column({ type: 'varchar', length: 255, nullable: false, unique: true })
+  @Column({ unique: true })
   email: string
 
   @Column({ type: 'varchar', length: 255, nullable: false })
