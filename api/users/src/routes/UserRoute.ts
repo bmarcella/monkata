@@ -31,4 +31,4 @@ userRoute.post('/getUserByPage/:page',protect(jwt, process.env.PUBLIC_KEY + ""),
 
 userRoute.get('/getStats',protect(jwt, process.env.PUBLIC_KEY + ""), serv.getStats);
 
-userRoute.get('/setName', serv.setName);
+// userRoute.get('/setName', serv.setName);
