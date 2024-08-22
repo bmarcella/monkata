@@ -21,7 +21,7 @@ export class User extends BaseEntity {
   @Column({ type: 'varchar', length: 50, nullable: true })
   sexe?: string;
 
-  @Column({ type: 'varchar', length: 50, nullable: true })
+  @Column({ nullable: true })
   avatar?: string;
 
   @Column({ type: 'varchar', length: 20, nullable: true })

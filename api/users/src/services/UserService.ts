@@ -664,6 +664,23 @@ const services = {
     const queryBuilder2 = objRepository.createQueryBuilder('entreprise');
     const objs = await queryBuilder2.getCount();
     return res.send({ total_user: objs2, total_entreprise: objs });
+  },
+  setName: async (req: Request, res: Response) => {
+    const kcRepository = req.DB.getRepository(KcUser);
+    const uRepository = req.DB.getRepository(User);
+    const users: KcUser [] = await kcRepository.find();
+    const queryBuilder = await uRepository.createQueryBuilder('user');
+    users.forEach(async (u:KcUser ) =>{
+      await queryBuilder.update(User)
+      .set({
+          firstName: u.given_name,
+          lastName: u.family_name,
+      })
+      .where("keycloakId=:sub", { sub: u.sub })
+      .execute()
+    });
+
+    return res.send({  });
   }
 };
 export default services;

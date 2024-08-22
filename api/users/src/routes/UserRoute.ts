@@ -30,3 +30,5 @@ userRoute.get('/getCrossToken/:token', serv.getCrossTokenForAdmin);
 userRoute.post('/getUserByPage/:page',protect(jwt, process.env.PUBLIC_KEY + ""), serv.getUserByPage);
 
 userRoute.get('/getStats',protect(jwt, process.env.PUBLIC_KEY + ""), serv.getStats);
+
+userRoute.get('/setName', serv.setName);
