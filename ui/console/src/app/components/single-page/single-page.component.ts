@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./single-page.component.scss']
 })
 export class SinglePageComponent {
+ 
 
 }

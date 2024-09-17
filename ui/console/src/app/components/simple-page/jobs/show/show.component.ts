@@ -26,7 +26,7 @@ export class ShowComponent {
 
   public getObjs(page: number, e= undefined) {
     this.page = page;
-    const URL = getURL("memploi","getJobsForAdmin/"+Number(page));
+    const URL = getURL("memploi","getJobsForAdminEnt/"+Number(page));
     this.crud.post(URL,{ query: this.query},  e).then((r: any) => {
       const jbs: any = r.objs;
       this.objs = jbs.map(job  => {

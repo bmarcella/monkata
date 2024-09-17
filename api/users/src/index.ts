@@ -29,6 +29,8 @@ import { Application } from './entity/Application';
 import { Avatar } from './entity/Avatar';
 import { Categorie } from './entity/Categorie';
 import { CrossToken } from './entity/CrossToken';
+import { EntApp } from './entity/EntApp';
+import { EntAppToken } from './entity/EntAppToken';
 import { Entreprise } from './entity/Entreprise';
 import { KcUser } from './entity/KC_User';
 import { Logo } from './entity/Logo';
@@ -42,7 +44,10 @@ declare global {
     interface Request {
       EurekaClient?: any,
       payload?: JwtPayload,
+      payloadEnt?: any,
       token?: string
+      tokenEnt?: string,
+      idEnt: number,
       DB: any,
       mail: Mail,
       PUBLI_KEY: string,
@@ -51,7 +56,14 @@ declare global {
 }
 dotenv.config();
 
-const entities = [User,Adresse, Entreprise, Categorie, ServiceEnt, Application, Avatar, CrossToken, Logo, KcUser, Admin, UserRole];
+const entities = 
+   [User, Adresse,
+   Entreprise, Categorie, 
+   ServiceEnt, Application,
+   Avatar,CrossToken,
+   Logo, KcUser,
+   Admin,UserRole,
+   EntApp, EntAppToken ];
 
 AppDataSource<DataSource, Array<any>>(DataSource, process.env, entities).then((DB: DataSource) => {
 

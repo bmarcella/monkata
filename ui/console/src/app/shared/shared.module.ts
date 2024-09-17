@@ -87,6 +87,7 @@ import { TableService } from './services/table.service';
     MyAccountComponent,
     SvgIconComponent,
     SwiperComponent,
+
   ],
   imports: [
     CommonModule, 
@@ -97,7 +98,8 @@ import { TableService } from './services/table.service';
     NgbModule,
     // DragulaModule.forRoot(),
     TranslateModule.forRoot(),
-    SwiperModule],
+    SwiperModule
+  ],
   providers: [NavService, LayoutService, DecimalPipe, TableService],
   exports: [NgbModule, FormsModule, ReactiveFormsModule,
     TranslateModule,

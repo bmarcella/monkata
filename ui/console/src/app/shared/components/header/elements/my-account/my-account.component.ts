@@ -17,13 +17,15 @@ export class MyAccountComponent implements OnInit {
   user: any ;
   role: any;
   constructor(public router: Router, private kc : KeycloakService) {
-    if (JSON.parse(localStorage.getItem("_profil"))) {
-      this.user = JSON.parse(localStorage.getItem("_profil"));
-     } 
-
-     if (JSON.parse(localStorage.getItem("_role"))) {
-      this.role = JSON.parse(localStorage.getItem("_role"));
-     } 
+    try {
+      if (JSON.parse(localStorage.getItem("_profil"))) {
+        this.user = JSON.parse(localStorage.getItem("_profil"));
+       } 
+    } catch (error) {
+      console.log(error);
+       // kc.forceLogout();
+    }
+    
   }
 
   ngOnInit() {}

@@ -3,7 +3,7 @@ import express from 'express';
 import * as jwt from 'jsonwebtoken';
 
 import { ReCaptcha } from '../../../../common/index/ReCaptcha';
-import { protect } from '../../../../common/keycloak/AuthMiddleware';
+import { protect, protectEnt } from '../../../../common/keycloak/AuthMiddleware';
 import services from '../services/EntService';
 
 export const entRoute = express.Router();
@@ -31,3 +31,9 @@ entRoute.get('/adresse/count/:id', serv.countAdresse);
 // ENT 
 entRoute.post('/getEntByPage/:page',protect(jwt, process.env.PUBLIC_KEY + ""), serv.getEntByPage);
 entRoute.get('/approve/:state/:id',protect(jwt, process.env.PUBLIC_KEY + ""), serv.setApprove);
+
+entRoute.post('/addEntApp', protect(jwt, process.env.PUBLIC_KEY + ""), serv.addEntApp);
+entRoute.get('/loginEnt/:idEnt/:appName', protect(jwt, process.env.PUBLIC_KEY + ""), serv.loginEnt);
+
+entRoute.get('/get', [ protect(jwt, process.env.PUBLIC_KEY + ""), protectEnt(jwt, process.env.PUBLIC_KEY + "")], serv.getByIdSec);
+entRoute.get('/count', [ protect(jwt, process.env.PUBLIC_KEY + ""), protectEnt(jwt, process.env.PUBLIC_KEY + "")], serv.countEnt);

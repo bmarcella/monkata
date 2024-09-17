@@ -8,6 +8,7 @@ import {
   Router,
 } from '@angular/router';
 
+import { DefaultAppService } from '../service/default-app.service';
 import { KeycloakService } from '../service/keycloak.service';
 
 @Component({
@@ -18,13 +19,14 @@ import { KeycloakService } from '../service/keycloak.service';
 })
 export class CrosstokenComponent implements OnInit {
   token: any;
-  constructor(public router: Router, private kc: KeycloakService, public act: ActivatedRoute) { }
+  constructor(public router: Router, private kc: KeycloakService, public act: ActivatedRoute, public dApp: DefaultAppService) { }
 
   ngOnInit(): void {
     this.act.paramMap.subscribe(params => {
       this.token = params.get('token');
       this.kc.getCT(this.token).then((r: any) => {
         console.log(r);
+        this.dApp.setApp(r.cross_token.defaultApp)
         const kc = JSON.parse(r.cross_token.kCToken);
         this.kc.refreshNewToken(kc);
         this.kc.setLogin();

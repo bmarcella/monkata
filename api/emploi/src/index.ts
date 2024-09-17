@@ -42,6 +42,8 @@ declare global {
   namespace Express {
     interface Request {
       EurekaClient?: any,
+      payloadEnt?: any,
+      tokenEnt:any,
       payload?: JwtPayload,
       token?: string
       DB: any,

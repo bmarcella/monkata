@@ -1,0 +1,216 @@
+<div class="profile-content">
+  <div class="row dashboard-info">
+    <!--Details Main  Section-->
+    <div class="details-main-wrapper">
+      <div class="container">
+        <div class="">
+          <div class="row dashborad-menus dashborad-menus-2 sub-menu mb-4">
+            <div class="col-md-4">
+              <div class="input-block">
+                <label for="instagram" class="col-form-label"
+                  >Choisissez l'entreprise</label
+                >
+                <mat-select
+                  (selectionChange)="selectEnt($event)"
+                  class="form-control"
+                  name="currenry"
+                  [placeholder]="cEnt ? cEnt.name : 'Entreprise'"
+                >
+                  <mat-option
+                    *ngFor="let j of ents; let i = index"
+                    [value]="{ data: j, index: i }"
+                    [selected]="cEnt.id == j.id"
+                  >
+                    {{ j.name }}
+                  </mat-option>
+                </mat-select>
+              </div>
+            </div>
+            <div class="col-md-4" *ngIf="cEnt">
+              <div class="input-block">
+                <label for="instagram" class="col-form-label"
+                  >Choisissez le poste</label
+                >
+                <mat-select
+                  [(ngModel)]="job"
+                  (selectionChange)="selectJob($event)"
+                  class="form-control"
+                  name="currenry"
+                  placeholder="Entreprise"
+                >
+                  <mat-option *ngFor="let j of jobs; let i = index" [value]="j">
+                    {{ j.titre_job }}
+                  </mat-option>
+                </mat-select>
+              </div>
+            </div>
+            <div class="col-md-4" *ngIf="job">
+              <div class="input-block">
+                <label for="instagram" class="col-form-label"
+                  >Choisissez L'etat</label
+                >
+                <mat-select
+                  (selectionChange)="selectState($event)"
+                  class="form-control"
+                  name="currenry"
+                  [placeholder]="state ? state : 'Tout'"
+                >
+                  <mat-option value="false"> Tout </mat-option>
+                  <mat-option
+                    *ngFor="let j of etatDemandeOptions; let i = index"
+                    [value]="j"
+                  >
+                    {{ j }}
+                  </mat-option>
+                </mat-select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-3">
+            <app-item-cand
+              [cand]="cand"
+              [ccand]="post"
+              *ngFor="let cand of cands"
+              (click)="changeCands(cand)"
+              (changeState)="changeState($event)"
+            ></app-item-cand>
+          </div>
+
+          <div class="col-md-9">
+            <div class="card mb-2" *ngIf="post">
+              <div class="card-header">
+                <span class="bar-icon">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </span>
+                <h4>Documents</h4>
+              </div>
+              <div class="card-body">
+                <div class="gallery-media" *ngIf="post">
+                  <div class="galleryimg-upload row mb-4">
+                    <div class="gallery-upload col-md-2 mb-4" *ngIf="post.cv">
+                      <a [href]="getDoc(post.cv)" target="_blank">
+                        <img
+                          style="width: 128px"
+                          src="assets/img/docs/pdf.png"
+                          class="img-fluid"
+                          alt=""
+                        />
+                      </a>
+                      <br />
+                      <div style="text-align: center">
+                        <i> CV</i>
+                      </div>
+                    </div>
+
+                    <div
+                      class="gallery-upload col-md-2 mb-4"
+                      *ngIf="post.diplome"
+                    >
+                      <a [href]="getDoc(post.diplome)" target="_blank">
+                        <img
+                          style="width: 128px"
+                          src="assets/img/docs/pdf.png"
+                          class="img-fluid"
+                          alt=""
+                        />
+                      </a>
+                      <br />
+                      <div style="text-align: center">
+                        <i> Diplome</i>
+                      </div>
+                    </div>
+
+                    <div
+                      class="gallery-upload col-md-2 mb-4"
+                      *ngIf="post.certificat"
+                    >
+                      <a [href]="getDoc(post.certificat)" target="_blank">
+                        <img
+                          style="width: 128px"
+                          src="assets/img/docs/pdf.png"
+                          class="img-fluid"
+                          alt=""
+                        />
+                      </a>
+                      <br />
+                      <div style="text-align: center">
+                        <i> Certificat</i>
+                      </div>
+                    </div>
+
+                    <div class="gallery-upload col-md-2 mb-4" *ngIf="post.lm">
+                      <a [href]="getDoc(post.lm)" target="_blank">
+                        <img
+                          style="width: 128px"
+                          src="assets/img/docs/pdf.png"
+                          class="img-fluid"
+                          alt=""
+                        />
+                      </a>
+                      <br />
+                      <div style="text-align: center">
+                        <i> Lettre de Motivation</i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card" *ngIf="ccand">
+              <div class="card-header">
+                <span class="bar-icon">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </span>
+                <h4>Curriculum Vitae</h4>
+              </div>
+              <div class="card-body">
+                <app-mon-cv [ccand]="ccand"> </app-mon-cv>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-4" *ngIf="paginations">
+          <div class="blog-pagination">
+            <nav>
+              <ul class="pagination">
+                <li class="justify-content-center pagination-center">
+                  <div class="pagelink">
+                    <ul>
+                      <li
+                        [ngClass]="[
+                          paginations?.currentPage == p ? 'active' : ''
+                        ]"
+                        class="page-item"
+                        *ngFor="let p of paginations?.pages"
+                      >
+                        <a
+                          *ngIf="paginations.currentPage == p"
+                          class="page-link"
+                          >{{ p }}
+                          <span class="visually-hidden">(current)</span></a
+                        >
+                        <a
+                          *ngIf="paginations.currentPage != p"
+                          (click)="changePage(p, $event)"
+                          class="page-link"
+                          >{{ p }}
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /Details Main Section -->
+  </div>
+</div>

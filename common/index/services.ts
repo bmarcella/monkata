@@ -14,10 +14,22 @@ export const services: Service[] = [
     frontend_prod: 'https://memploi.com'
   },
   {
+    name: "admin",
+    path: "/users",
+    frontend_dev: "https://localhost:4201",
+    frontend_prod: 'https://memploi.com'
+  },
+  {
     name: "pledika",
     path: "/pledika",
     frontend_dev: "https://localhost:4208",
     frontend_prod: 'https://pledika.com'
+  },
+  {
+    name: "console",
+    path: "/users",
+    frontend_dev: "https://localhost:4207",
+    frontend_prod: 'https://console.monkata.com'
   },
 ];
 export const ReCaptchaPublicKey = '6LcthfgpAAAAAHffOi3dMqD4ses5xCGIDA98HRUv';

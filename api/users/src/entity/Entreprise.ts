@@ -1,12 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
-import { ServiceEnt } from "./ServiceEnt";
-import { BaseEntity } from "./BaseEntity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Adresse } from "./Adresse";
+import { BaseEntity } from "./BaseEntity";
+import { ServiceEnt } from "./ServiceEnt";
 @Entity()
 export class Entreprise extends BaseEntity {
 
     @PrimaryGeneratedColumn()
-    id?: number
+    id: number;
 
     @Column()
     name?: string;

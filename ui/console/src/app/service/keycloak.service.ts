@@ -24,6 +24,7 @@ export class KeycloakService {
     const r = (_tk && this.isLog) as boolean;
     return r;
   }
+
   isLoggedInGuard() {
     const _tk = this.store.get("_token");
     if (_tk) this.isLog = true;
@@ -44,6 +45,20 @@ export class KeycloakService {
     }
     return true; // Assume expired if no expiration is set
   }
+  
+  async LoginEnt(r: any) {
+    const t = { appEnt:  r.appEnt , appEntToken :  r.token };
+    await this.store.setJson("entToken",  t );
+    return t;
+  }
+  async getLoginEnt() : Promise<any> {
+    return  await this.store.getJson("entToken");
+  }
+
+  async logoutEnt() {
+     this.store.remove("entToken");
+  }
+
   isRefreshTokenExpired(): boolean {
     const expiration = localStorage.getItem('refresh_token_expiration');
     const now = new Date().getTime(); // Get current time in milliseconds
@@ -95,6 +110,7 @@ export class KeycloakService {
     this.store.remove("_profil");
     this.store.remove("_cv");
     this.store.remove("_role");
+    this.logoutEnt();
   }
 
   refreshToken() {
@@ -105,7 +121,7 @@ export class KeycloakService {
 
   getCT(token: any) {
     return new Promise((r, e) => {
-      const URL = getURL(this.serv, this.ss + "/getCrossToken/" + token);
+      const URL = getURL(this.serv, this.ss + "/getCrossFreeToken/" + token);
       this.http.get(URL).pipe().subscribe({
         next: (res: any) => {
           this.store.setJson("_profil", res.profil);

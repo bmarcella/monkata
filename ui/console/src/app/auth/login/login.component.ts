@@ -16,7 +16,9 @@ export class LoginComponent implements OnInit {
   constructor(public router: Router, private crud: CrudService) {
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+     this.login();
+  }
 
   public login() {
     this.crud.login();

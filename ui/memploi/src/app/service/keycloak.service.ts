@@ -74,7 +74,6 @@ export class KeycloakService {
   }
 
   refreshNewToken(data: any) {
-
     this.isLog = true;
     const now = new Date();
     const expirationDate = new Date(now.getTime() + (data.expires_in * 1000)); // Convert seconds to milliseconds

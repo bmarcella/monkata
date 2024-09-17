@@ -28,7 +28,6 @@ export class CategorieService {
   show(): Promise<any> {
     return new Promise((r, e) => {
       const URL = getURL(this.serv, this.ss + "/show");
-      console.log(URL);
       this.http.get(URL).pipe().subscribe({
         next: (res: any) => {
           r(res);
@@ -43,7 +42,6 @@ export class CategorieService {
   getCatforEnt(name : string): Promise<any> {
     return new Promise((r, e) => {
       const URL = getURL(this.serv, this.ss + "/listByTypeCat/"+name);
-      console.log(URL);
       this.http.get(URL).pipe().subscribe({
         next: (res: any) => {
           r(res);

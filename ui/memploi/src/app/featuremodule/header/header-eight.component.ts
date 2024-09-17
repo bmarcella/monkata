@@ -9,7 +9,7 @@ import { CrudService } from 'src/app/service/crud.service';
 import { KeycloakService } from 'src/app/service/keycloak.service';
 import { SidebarService } from 'src/app/service/sidebar.service';
 import { header } from 'src/app/shared/models/header.model';
-import { getURL } from 'src/environments/environment.prod';
+import { getRURL, getURL } from 'src/environments/environment.prod';
 
 @Component({
   selector: 'app-header',
@@ -84,6 +84,16 @@ export class HeaderComponent implements OnInit {
 
   public loginNow() {
    this.crud.login();
+  }
+
+  crossToken(){
+    const URL = getURL("users","cross-token/directLoginCT/memploi");
+    this.crud.get(URL).then((r) => {
+    const URL = getRURL(r.cross_token,r.app);
+    console.log(r, URL);
+    //window.location.href = URL;
+    window.open(URL, '_blank');
+    }).catch((e) => console.log(e));
   }
 
 

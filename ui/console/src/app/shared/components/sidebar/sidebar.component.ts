@@ -1,7 +1,8 @@
-import { Component, ViewEncapsulation, HostListener } from '@angular/core';
+import { Component, HostListener, ViewEncapsulation } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { Menu, NavService } from '../../services/nav.service';
+import { Observable, of } from 'rxjs';
 import { LayoutService } from '../../services/layout.service';
+import { Menu, NavService } from '../../services/nav.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -14,6 +15,10 @@ export class SidebarComponent {
 
   public iconSidebar;
   public menuItems: Menu[];
+  selectgroupby;
+
+  ents: Observable<number[]>;
+
 
   // For Horizontal Menu
   public margin: any = 0;
@@ -23,6 +28,7 @@ export class SidebarComponent {
 
   constructor(private router: Router, public navServices: NavService,
     public layout: LayoutService) {
+      this.ents=of([1,2,3,4,5,6]);
     this.navServices.items.subscribe(menuItems => {
       this.menuItems = menuItems;
       this.router.events.subscribe((event) => {

@@ -52,6 +52,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     LoginComponent,
     AlertComponent
   ],
+  exports:[AlertComponent],
   imports: [
     BrowserModule,
     FormsModule,

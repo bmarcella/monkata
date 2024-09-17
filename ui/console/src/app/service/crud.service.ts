@@ -29,7 +29,7 @@ export class CrudService {
   }
 
   login() {
-    this.get(getURL("users", "cross-token/addCT/admin")).then((r) => {
+    this.get(getURL("users", "cross-token/addCT/console")).then((r) => {
 
       const URL = getRURL(r.cross_token, r.monkata_auth);
       window.location.href = URL;
@@ -38,7 +38,7 @@ export class CrudService {
 
   loginWithReturn(path: any, event?: any) {
     const button = this.getButton(event);
-    this.post(getURL("users", "cross-token/addCT/admin"), { path }).then((r) => {
+    this.post(getURL("users", "cross-token/addCT/console"), { path }).then((r) => {
       if (button) button.disabled = false;
       const URL = getRURL(r.cross_token, r.monkata_auth);
       window.location.href = URL;
@@ -101,19 +101,26 @@ export class CrudService {
   }
 
   get(URL: string, event?: any): Promise<any> {
-    const button = this.getButton(event);
+    const button =  this.getButton(event);
     return new Promise((r, e) => {
-      this.http.get(URL).pipe().subscribe({
-        next: (res: any) => {
-          if (button) button.disabled = false;
-          r(res);
-        },
-        error: (error: any) => {
-          if (button) button.disabled = false;
-          console.log(error);
-          e(error);
-        }
-      });
+      try {
+        this.http.get(URL).pipe().subscribe({
+          next: (res: any) => {
+            if (button) button.disabled = false;
+            r(res);
+          },
+          error: (error: any) => {
+            if (button) button.disabled = false;
+            console.log(URL, error);
+            e(error);
+          }
+        });
+        
+      } catch (error) {
+        console.log(URL, error);
+        e(error);
+      }
+      
     });
   }
 

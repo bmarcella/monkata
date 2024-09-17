@@ -32,6 +32,7 @@ import { KcUser } from '../entity/KC_User';
 import { Logo } from '../entity/Logo';
 import { User } from '../entity/User';
 
+
 export class KCToken {
   access_token: string;
   expires_in: number
@@ -607,7 +608,6 @@ const services = {
       resp.role = ur;
       return res.status(200).send(resp);
     } else {
-
       const user: User = await userRepository.findOne({
         where: { id_user }
       });
@@ -622,6 +622,16 @@ const services = {
       }
     }
 
+  },
+
+  getCrossToken: async (req: Request, res: Response) => {
+    const token = req.params.token;
+    const { GATEWAY_URL } = process.env;
+    const http = new Http(axios, req.token || '');
+    const path = getService("users").path;
+    const URL = GATEWAY_URL + path + SERV_EP.getCrossToken + token;
+    const resp = await http.get(URL, false);
+    return res.status(200).send(resp);
   },
 
   getUserByPage: async (req: Request, res: Response) => {
@@ -681,6 +691,6 @@ const services = {
     });
 
     return res.send({  });
-  }
+  },
 };
 export default services;

@@ -1,11 +1,7 @@
-<div
-  class="row"
-  id="letterContent {
-"
->
+<div class="row" id="letterContent" #dataToExport>
   <div class="row">
     <h3 class="text-center">{{ ccand?.firstName }} {{ ccand?.lastName }}</h3>
-    <h6 class="text-center">{{ ccand?.title_prof }}</h6>
+    <h6 class="text-center">{{ ccand.title_prof }}</h6>
     <span class="text-center col-md-12">
       <i *ngIf="ccand.city || ccand.country">
         {{ ccand.city }}<i *ngIf="ccand.city && ccand.country">,</i
@@ -109,6 +105,7 @@
     </div>
   </div>
 </div>
-<!-- <div class="text-right">
-  <A class="btn btn-primary">Téléchargez CV</A>
-</div> -->
+
+<div class="text-right mt-4" *ngIf="showBtnDL">
+  <A class="btn btn-primary" (click)="downloadAsPdf()">Téléchargez CV</A>
+</div>

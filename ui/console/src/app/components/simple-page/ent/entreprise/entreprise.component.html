@@ -1,0 +1,720 @@
+<div class="profile-content">
+  <div class="row dashboard-info">
+    <!--Details Main  Section-->
+    <div class="details-main-wrapper">
+      <div class="container">
+        <div class="">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-12">
+                  <label for="titre_job" class="col-form-label"
+                    >Séléctioner l'entreprise</label
+                  >
+                  <div class="input-block">
+                    <mat-select
+                      (selectionChange)="show($event)"
+                      class="form-control"
+                      name="currenry"
+                      placeholder="Entreprise"
+                    >
+                      <mat-option
+                        *ngFor="let j of ents; let i = index"
+                        [value]="{ data: j, index: i }"
+                      >
+                        {{ j.name }}
+                      </mat-option>
+                    </mat-select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6" *ngIf="cEnt">
+              <div class="card mb-2">
+                <div class="card-body">
+                  <div class="about-details">
+                    <div class="about-headings">
+                      <div class="authordetails">
+                        <h5>{{ cEnt?.name }}</h5>
+                        <p>{{ cEnt?.categorie }}</p>
+                        <p>
+                          <span>{{ cEnt?.type_ent }}</span>
+                          <span *ngIf="cEnt.approuved" class="text-success"
+                            >Approuvé <i class="fa fa-check"> </i
+                          ></span>
+                          <span *ngIf="!cEnt.approuved" class="text-danger"
+                            >Non Approuvé <i class="fa fa-close"> </i
+                          ></span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="descriptionlinks">
+                    <div class="row">
+                      <div class="col-lg-6"></div>
+                      <div class="col-lg-6">
+                        <div class="callnow">
+                          <a (click)="delete($event, cEnt)"> Supprimer </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12" *ngIf="cEnt">
+            <div class="">
+              <ul class="dashborad-menus dashborad-menus-2 sub-menu">
+                <li [ngClass]="[path === 0 ? 'active' : '']">
+                  <a (click)="switcher(0)">
+                    <span>Informations</span>
+                  </a>
+                </li>
+
+                <li [ngClass]="[path === 3 ? 'active' : '']">
+                  <a (click)="switcher(3)">
+                    <span>Details</span>
+                  </a>
+                </li>
+
+                <li [ngClass]="[path === 1 ? 'active' : '']">
+                  <a (click)="switcher(1)">
+                    <span>Burreaux</span>
+                  </a>
+                </li>
+
+                <li [ngClass]="[path === 2 ? 'active' : '']">
+                  <a (click)="switcher(2)">
+                    <span>Jobs</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="col-md-12" *ngIf="path == 0">
+              <div class="card">
+                <div class="card-header">
+                  <span class="bar-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </span>
+                  <h4>Informations</h4>
+                </div>
+                <div class="card-body">
+                  <div class="card-body">
+                    <div class="progress my-3 col-md-6" *ngIf="progress > 0">
+                      <div
+                        class="progress-bar progress-bar-info progress-bar-striped"
+                        role="progressbar"
+                        attr.aria-valuenow="{{ progress }}"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                        [ngStyle]="{ width: progress + '%' }"
+                      >
+                        {{ progress }}%
+                      </div>
+                    </div>
+                    <div class="profile-photo">
+                      <div class="profile-img">
+                        <div class="settings-upload-img">
+                          <img [src]="avatar" alt="profile" />
+                        </div>
+                        <div class="settings-upload-btn">
+                          <input
+                            (change)="onFileSelected($event)"
+                            type="file"
+                            accept="image/*"
+                            name="image"
+                            class="hide-input image-upload"
+                            id="file"
+                          />
+                          <label for="file" class="file-upload">Logo</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row mb-4">
+                    <div class="col-md-4">
+                      <div class="input-block formlast-input">
+                        <label for="fa-google-plus-g" class="col-form-label"
+                          >Nombre d'employé</label
+                        >
+                        <div class="pass-group group-img">
+                          <span class="lock-icon"
+                            ><i class="fa fa-users"></i
+                          ></span>
+                          <input
+                            type="number"
+                            [(ngModel)]="cEnt.compagnie_size"
+                            class="form-control"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="input-block formlast-input">
+                        <label for="instagram" class="col-form-label"
+                          >Website</label
+                        >
+                        <div class="pass-group group-img">
+                          <span class="lock-icon"
+                            ><i class="fa fa-globe"></i
+                          ></span>
+                          <input
+                            type="phone"
+                            class="form-control"
+                            [(ngModel)]="cEnt.website"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-4">
+                      <div class="input-block formlast-input">
+                        <label for="instagram" class="col-form-label"
+                          >Année de création</label
+                        >
+                        <div class="pass-group group-img">
+                          <span class="lock-icon"
+                            ><i class="fa fa-calendar"></i
+                          ></span>
+                          <input
+                            type="phone"
+                            class="form-control"
+                            [(ngModel)]="cEnt.year_founded"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row mb-4">
+                    <div class="col-md-4">
+                      <div class="input-block formlast-input">
+                        <label for="fa-google-plus-g" class="col-form-label"
+                          >Email</label
+                        >
+                        <div class="pass-group group-img">
+                          <span class="lock-icon"
+                            ><i class="fa fa-mail"></i
+                          ></span>
+                          <input
+                            type="email"
+                            [(ngModel)]="cEnt.email_contact"
+                            class="form-control"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="input-block formlast-input">
+                        <label for="instagram" class="col-form-label"
+                          >Téléphone 1</label
+                        >
+                        <div class="pass-group group-img">
+                          <span class="lock-icon"
+                            ><i class="fa fa-phone"></i
+                          ></span>
+                          <input
+                            type="phone"
+                            class="form-control"
+                            [(ngModel)]="cEnt.telephone_a"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="input-block formlast-input">
+                        <label for="instagram" class="col-form-label"
+                          >Téléphone 2</label
+                        >
+                        <div class="pass-group group-img">
+                          <span class="lock-icon"
+                            ><i class="fa fa-phone"></i
+                          ></span>
+                          <input
+                            type="phone"
+                            class="form-control"
+                            [(ngModel)]="cEnt.telephone_b"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="input-block mb-4">
+                    <button
+                      class="btn btn-primary"
+                      (click)="editEnt($event)"
+                      style="margin-left: 1%"
+                    >
+                      Modifier
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12" *ngIf="path == 3">
+              <div class="card">
+                <div class="card-header">
+                  <span class="bar-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </span>
+                  <h4>Details</h4>
+                </div>
+
+                <div class="card-body">
+                  <div class="input-block mb-4">
+                    <label class="col-form-label">Slogan</label>
+                    <input [(ngModel)]="cEnt.slogan" class="form-control" />
+                  </div>
+                  <div class="input-block mb-4">
+                    <label class="col-form-label">Description</label>
+                    <div class="col-md-12">
+                      <textarea
+                        class="form-control"
+                        [(ngModel)]="cEnt.description"
+                        style="height: 200px; width: 100%"
+                      ></textarea>
+                    </div>
+                  </div>
+
+                  <div class="input-block mb-4">
+                    <label class="col-form-label">Objectif</label>
+                    <div class="col-md-12">
+                      <textarea
+                        class="form-control"
+                        [(ngModel)]="cEnt.objectif"
+                        style="height: 200px; width: 100%"
+                      ></textarea>
+                    </div>
+                  </div>
+                  <div class="input-block mb-4">
+                    <label class="col-form-label">Mission</label>
+                    <div class="col-md-12">
+                      <textarea
+                        class="form-control"
+                        [(ngModel)]="cEnt.mission"
+                        style="height: 200px; width: 100%"
+                      ></textarea>
+                    </div>
+                  </div>
+                  <div class="input-block mb-4">
+                    <label class="col-form-label">Vision</label>
+                    <div class="col-md-12">
+                      <textarea
+                        class="form-control"
+                        [(ngModel)]="cEnt.vision"
+                        style="height: 200px; width: 100%"
+                      >
+                      </textarea>
+                    </div>
+                  </div>
+
+                  <div class="input-block mb-4">
+                    <button
+                      class="btn btn-primary"
+                      style="margin-left: 1%"
+                      (click)="editEnt($event)"
+                    >
+                      Modifier
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12" *ngIf="path == 1">
+              <div class="card dash-cards mb-4">
+                <div class="card-header">
+                  <h4>
+                    Burreau
+                    <span *ngIf="cEnt.adresses.length > 0"
+                      >- ({{ cEnt.adresses.length }})</span
+                    >
+                  </h4>
+                </div>
+                <div class="card-body row">
+                  <div class="col-md-6">
+                    <h5>Ajouter nouveau bureau</h5>
+                    <div>
+                      <div class="row mb-4">
+                        <div class="col-md-12">
+                          <div class="input-block formlast-input">
+                            <label for="fa-google-plus-g" class="col-form-label"
+                              >Nom</label
+                            >
+                            <div class="pass-group group-img">
+                              <input
+                                type="text"
+                                [(ngModel)]="w.name"
+                                class="form-control"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row mb-4">
+                        <div class="col-md-4">
+                          <div class="input-block formlast-input">
+                            <label for="fa-google-plus-g" class="col-form-label"
+                              >Pays</label
+                            >
+                            <div class="pass-group group-img">
+                              <span class="lock-icon">
+                                <i class="fa fa-globe"></i>
+                              </span>
+                              <input
+                                type="test"
+                                [(ngModel)]="w.country"
+                                class="form-control"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="input-block formlast-input">
+                            <label for="fa-google-plus-g" class="col-form-label"
+                              >Departement</label
+                            >
+                            <div class="pass-group group-img">
+                              <span class="lock-icon">
+                                <i class="fa fa-location-arrow"></i>
+                              </span>
+                              <input
+                                type="test"
+                                [(ngModel)]="w.etat"
+                                class="form-control"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="input-block formlast-input">
+                            <label for="instagram" class="col-form-label"
+                              >Ville
+                            </label>
+                            <div class="pass-group group-img">
+                              <span class="lock-icon">
+                                <i class="fa fa-location-arrow"></i>
+                              </span>
+                              <input
+                                type="text"
+                                class="form-control"
+                                [(ngModel)]="w.ville"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-12">
+                          <div class="input-block formlast-input">
+                            <label for="fa-google-plus-g" class="col-form-label"
+                              >Rue</label
+                            >
+                            <div class="pass-group group-img">
+                              <input
+                                type="text"
+                                [(ngModel)]="w.rue"
+                                class="form-control"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <button
+                        class="btn btn-primary"
+                        style="margin-left: 1%"
+                        (click)="addAdresse(w, $event)"
+                      >
+                        <i class="fa-solid fa-plus"></i>
+                      </button>
+
+                      <hr />
+                    </div>
+                  </div>
+                  <div class="col-md-6" style="border-left: 1px solid #929191">
+                    <h5>Vos bureaux</h5>
+                    <div
+                      id="adresses-{{ w.id }}"
+                      *ngFor="let w of cEnt.adresses; let i = index"
+                    >
+                      <div clas="row" *ngIf="add[i]">
+                        <div class="row mb-4">
+                          <div class="col-md-12">
+                            <div class="input-block formlast-input">
+                              <label
+                                for="fa-google-plus-g"
+                                class="col-form-label"
+                                >Nom</label
+                              >
+                              <div class="pass-group group-img">
+                                <input
+                                  type="text"
+                                  [(ngModel)]="w.name"
+                                  class="form-control"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="row mb-4">
+                          <div class="col-md-4">
+                            <div class="input-block formlast-input">
+                              <label
+                                for="fa-google-plus-g"
+                                class="col-form-label"
+                                >Pays</label
+                              >
+                              <div class="pass-group group-img">
+                                <span class="lock-icon">
+                                  <i class="fa fa-globe"></i>
+                                </span>
+                                <input
+                                  type="test"
+                                  [(ngModel)]="w.country"
+                                  class="form-control"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="input-block formlast-input">
+                              <label
+                                for="fa-google-plus-g"
+                                class="col-form-label"
+                                >Departement</label
+                              >
+                              <div class="pass-group group-img">
+                                <span class="lock-icon">
+                                  <i class="fa fa-location-arrow"></i>
+                                </span>
+                                <input
+                                  type="test"
+                                  [(ngModel)]="w.etat"
+                                  class="form-control"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="input-block formlast-input">
+                              <label for="instagram" class="col-form-label"
+                                >Ville
+                              </label>
+                              <div class="pass-group group-img">
+                                <span class="lock-icon">
+                                  <i class="fa fa-location-arrow"></i>
+                                </span>
+                                <input
+                                  type="text"
+                                  class="form-control"
+                                  [(ngModel)]="w.ville"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-12">
+                            <div class="input-block formlast-input">
+                              <label
+                                for="fa-google-plus-g"
+                                class="col-form-label"
+                                >Rue</label
+                              >
+                              <div class="pass-group group-img">
+                                <input
+                                  type="text"
+                                  [(ngModel)]="w.rue"
+                                  class="form-control"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <button
+                          class="btn btn-primary"
+                          style="margin-left: 1%"
+                          (click)="editAdresse(w, i, $event)"
+                        >
+                          <i class="fa-solid fa-pencil"></i>
+                        </button>
+                      </div>
+                      <div clas="row" *ngIf="!add[i]">
+                        <div class="popular-box">
+                          <div class="popular-inner">
+                            <div
+                              class="popular-content"
+                              style="margin-top: -3%"
+                            >
+                              <h4 style="margin-top: -3%">
+                                <a>
+                                  {{ w.name }}
+                                </a>
+                              </h4>
+                              <p>
+                                <span *ngIf="w?.rue">{{ w?.rue }}, </span>
+                                <span *ngIf="w?.ville">{{ w?.ville }}, </span>
+                                <span *ngIf="w?.etat">{{ w?.etat }}, </span>
+                                <span *ngIf="w?.country">{{ w?.country }}</span>
+                              </p>
+                            </div>
+                            <button
+                              class="btn btn-primary"
+                              (click)="add[i] = true"
+                              style="margin-left: 1%; float: right"
+                            >
+                              <i class="fa-solid fa-pencil"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+
+                      <hr />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12" *ngIf="path == 2">
+              <div class="container">
+                <div class="row" *ngIf="jobs.length > 0">
+                  <div class="col-lg-4">
+                    <app-home-job-item
+                      class="row"
+                      *ngFor="let j of jobs"
+                      [job]="{ job: j, ent: cEnt }"
+                      [showApply]="false"
+                      (click)="showJob(j)"
+                      [cjob]="job"
+                    >
+                    </app-home-job-item>
+                  </div>
+                  <div class="col-lg-8" *ngIf="job">
+                    <div class="card mb-4">
+                      <div class="card-body">
+                        <div class="about-details">
+                          <div class="about-headings">
+                            <div class="authordetails">
+                              <h5>{{ job?.titre_job }}</h5>
+                              <p>
+                                <span *ngIf="job?.ville"
+                                  >{{ job?.ville
+                                  }}<i *ngIf="job?.etat || job?.country">, </i>
+                                </span>
+                                <span *ngIf="job?.etat"
+                                  >{{ job?.etat }}<i *ngIf="job?.country">, </i>
+                                </span>
+                                <span *ngIf="job?.country">{{
+                                  job?.country
+                                }}</span>
+                              </p>
+                              <p>Nombre de Vue : {{ total_view }}</p>
+                            </div>
+                          </div>
+                          <div class="rate-details">
+                            <h6 *ngIf="job?.salaire">
+                              {{ currency(job?.salaire) }} {{ job?.currency }}
+                            </h6>
+                            <p>{{ job?.periode_salaire }}</p>
+                          </div>
+                        </div>
+                        <div class="descriptionlinks">
+                          <div class="row">
+                            <div class="col-lg-6">
+                              <span *ngIf="job.publish" class="text-success"
+                                >Publié <i class="fa fa-check ml-2"> </i
+                              ></span>
+                              <span *ngIf="!job.publish" class="text-danger"
+                                >Non Publié<i class="fa fa-close ml-2"> </i
+                              ></span>
+                            </div>
+                            <div class="col-lg-6">
+                              <div class="callnow">
+                                <a routerLink="/jobs/edit-job/{{ job?.id }}">
+                                  Modifier Poste
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card">
+                      <div class="card-header">
+                        <span class="bar-icon">
+                          <span></span>
+                          <span></span>
+                          <span></span>
+                        </span>
+                        <h4>Description</h4>
+                      </div>
+                      <div
+                        class="card-body"
+                        [innerHTML]="job?.description"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card" *ngIf="jobs.length == 0">
+                  <div class="card-header text-center">
+                    <h4>Vous n'avez pas de postes</h4>
+                  </div>
+                  <div class="card-body text-center">
+                    <a class="btn btn-primary" routerLink="/jobs/add-job">
+                      Ajouter un poste
+                    </a>
+                  </div>
+                </div>
+
+                <div class="row mt-4" *ngIf="jpaginations">
+                  <div class="blog-pagination">
+                    <nav>
+                      <ul class="pagination">
+                        <li class="justify-content-center pagination-center">
+                          <div class="pagelink">
+                            <ul>
+                              <li
+                                [ngClass]="[
+                                  jpaginations?.currentPage == p ? 'active' : ''
+                                ]"
+                                class="page-item"
+                                *ngFor="let p of jpaginations?.pages"
+                              >
+                                <a
+                                  *ngIf="jpaginations.currentPage == p"
+                                  class="page-link"
+                                  >{{ p }}
+                                  <span class="visually-hidden"
+                                    >(current)</span
+                                  ></a
+                                >
+                                <a
+                                  *ngIf="jpaginations.currentPage != p"
+                                  (click)="changeJobPage(p, $event)"
+                                  class="page-link"
+                                  >{{ p }}
+                                </a>
+                              </li>
+                            </ul>
+                          </div>
+                        </li>
+                      </ul>
+                    </nav>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /Details Main Section -->
+  </div>
+</div>

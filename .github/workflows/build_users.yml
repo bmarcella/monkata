@@ -9,3 +9,4 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: cd ./api/users && npm install && npm run build
+          kubectl rollout restart deployment users-deployment

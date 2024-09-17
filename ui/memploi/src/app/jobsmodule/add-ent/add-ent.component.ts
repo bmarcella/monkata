@@ -29,6 +29,7 @@ export  type Entreprise = {
     street: string,
   }
   categorie : string,
+  appName : string,
 };
 
 @Component({
@@ -52,7 +53,8 @@ export class AddEntComponent {
         city :  '',
         street: '',
     },
-    categorie:''
+    categorie:'',
+    appName:'Memploi'
   };
 
   type_ent  = [
@@ -76,7 +78,8 @@ export class AddEntComponent {
           city :  '',
           street: '',
       },
-      categorie:''
+      categorie:'',
+      appName:'Memploi'
     };
   }
 

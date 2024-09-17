@@ -26,8 +26,8 @@ export class LoginComponent implements OnInit {
   prod = prod;
   name: any;
   creds: Login = {
-    username: "",
-    password: ""
+    username: (prod)? "": "bmarcella91@gmail.com",
+    password: (prod)? "": "lolo91"
   }
   ct: any;
   constructor(public router: Router, private kc: KeycloakService, private aUI:  AlertService,  private crud: CrudService) {
@@ -38,6 +38,7 @@ export class LoginComponent implements OnInit {
   }
   ngOnInit(): void {
     this.getApp();
+    if(!prod) this.login(this.creds);
   }
 
   public getApp() {

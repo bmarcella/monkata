@@ -68,7 +68,7 @@ export const servicesApp: ServiceObjApp = {
     path: "/jobs",
     frontend_dev: "http://localhost:4208",
     frontend_prod: "https://www.pledika.com",
-    show: false,
+    show: true,
     img: 'assets/img/logo_2.png',
   },
 };

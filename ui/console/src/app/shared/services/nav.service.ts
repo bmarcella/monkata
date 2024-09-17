@@ -82,7 +82,6 @@ export class NavService implements OnDestroy {
   }
 
   ngOnDestroy() {
-    // this.unsubscriber.next();
     this.unsubscriber.complete();
   }
 
@@ -90,22 +89,31 @@ export class NavService implements OnDestroy {
     this.screenWidth.next(width);
   }
 
+  mp: any =  {
+    title: "MEmploi",
+    icon: "dashboard",
+    type: "sub",
+    // active: true,
+    children: [
+      { path: "/admin/job/show", title: "Emplois", type: "link" },
+      { path: "/admin/job/recruitment", title: "Recrutements", type: "link" },
+      { path: "/admin/user/show", title: "Postulants", type: "link" },
+    ],
+  };
+
   MENUITEMS: Menu[] = [
     {
-      title: "Monkata",
+      title: "Entreprise",
       icon: "dashboard",
       type: "sub",
-      badgeType: "light-primary",
-      badgeValue: "3",
       active: true,
       children: [
         { path: "/admin/home", title: "Dashboard", type: "link" },
-        { path: "/admin/entreprise/show", title: "Entreprises", type: "link" },
-        { path: "/admin/user/show", title: "Utilisateurs", type: "link" },
-        { path: "/admin/job/show", title: "Emplois", type: "link" },
+        { path: "/admin/entreprise/show", title: "Configuration", type: "link" },
       ],
     },
-    { path: "/single-page", icon: "search", title: "Single Page",  active: false, type: "link", bookmark: true },
+    this.mp
+    // { path: "/single-page", icon: "search", title: "Single Page",  active: false, type: "link", bookmark: true },
   ];
 
   // Array

@@ -583,6 +583,61 @@ getJobById : async (req: Request, res: Response) => {
     }
   },
   getJobsFilterSearchForAdmin : async (req: Request, res: Response) => {
+    const NPage = 10;
+    const page = Number(req.params.page);
+    const skip = (page - 1) * NPage;
+    try {
+      const {
+          query ,
+      } = req.body;
+      const jobsRepository = req.DB.getRepository(Jobs);
+      const queryBuilder = jobsRepository.createQueryBuilder('job');
+      if (query ) {
+        queryBuilder.orWhere( { titre_job: ILike(`%${query}%`)  });
+        queryBuilder.orWhere({ categorie: ILike(`%${query}%`) });
+        queryBuilder.orWhere({ ville :ILike(`%${query}%`) });
+        queryBuilder.orWhere( { etat: ILike(`%${query}%`) });
+       }   
+    const objs2 = await queryBuilder.getCount();
+    
+    const objs: Jobs [] = await queryBuilder
+    .select(['job.created_at','job.id','job.titre_job', 'job.categorie', 'job.ville','job.type_contrat', 'job.entreprise_id','job.date_echeance','job.publish', 'job.block_by_admin'])
+    .orderBy("job.created_at", "DESC")
+    .skip(skip)
+    .take(NPage)
+    .getMany();
+    let  ents: any [] = [];
+    if(objs.length>0) {
+      const { GATEWAY_URL } = process.env;
+      const http = new Http(axios, req.token || '');
+      const path = getService("users").path;
+      const URL = GATEWAY_URL+path+SERV_EP.getListEntById;
+      const ids = objs.map(jobs => jobs.entreprise_id);
+      console.log(ids);
+      ents = await http.post(URL, { ids : ids } ,false);
+    }
+
+    const totalPage =  Math.ceil(objs2/NPage);
+    const pages = [];
+    for(let i = 1; i<= totalPage; i++) {
+      pages.push(i);
+    }
+    const pagination = { numberJobs : objs2,totalPage, pages,currentPage: page };
+    res.send({ objs, ents, pagination});
+    } catch (error) {
+      const pagination = { numberJobs : 0 ,totalPage: 0, pages: [], currentPage: page };
+      res.send({ objs : [], ents : [], pagination});
+    }
+  },
+  getJobsFilterSearchForAdminEnt : async (req: Request, res: Response) => {
+
+    console.log(req.payloadEnt);
+    let id : any = false
+    try {
+       id = Number(req.payloadEnt.obj.entId);
+    } catch (error) {
+      console.log(error,"NEW:",req.payloadEnt.obj.entId );
+    }
 
     const NPage = 10;
     const page = Number(req.params.page);
@@ -593,6 +648,8 @@ getJobById : async (req: Request, res: Response) => {
       } = req.body;
       const jobsRepository = req.DB.getRepository(Jobs);
       const queryBuilder = jobsRepository.createQueryBuilder('job');
+
+      if(id) queryBuilder.where( { entreprise_id: id });
       if (query ) {
         queryBuilder.orWhere( { titre_job: ILike(`%${query}%`)  });
         queryBuilder.orWhere({ categorie: ILike(`%${query}%`) });
@@ -676,6 +733,30 @@ getJobById : async (req: Request, res: Response) => {
     });
      return res.status(200).send({ view: objs});
    }
-  }
+  },
+  countEnt : async (req: any, res: Response) => {
+    const id = Number(req.payloadEnt.obj.entId);
+    const jobsRepository = req.DB.getRepository(Jobs);
+    const job: Jobs = await jobsRepository.count({
+      select: ["entreprise_id"],
+      where: { entreprise_id: id }
+    });
+   // get postulant view 
+    const wh = "t1.id_job = t2.id AND t2.entreprise_id ='"+id+"'"; 
+    const post = await req.DB.getRepository(Postulants)
+    .createQueryBuilder("t1")
+    .from(Jobs, "t2") // Jointure cartésienne
+    .where(wh) // Clause WHERE basée sur une colonne commune
+    .getCount();
+    // get count view 
+    const wht = "t1.id_job = t2.id AND t2.entreprise_id ='"+id+"'"; 
+    const view = await req.DB.getRepository(ViewJob)
+    .createQueryBuilder("t1")
+    .from(Jobs, "t2") // Jointure cartésienne
+    .where(wht) // Clause WHERE basée sur une colonne commune
+    .getCount();
+
+    return res.status(200).send({ job, post, view });
+  },
 };
 export default services;
