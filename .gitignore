@@ -19,6 +19,7 @@
 /ui/admin/.angular/cache/
 /ui/console/.angular/cache/
 /cicd/hold/
+node_modules
 # Ignore operating system files
 .DS_Store
 aws.txt
