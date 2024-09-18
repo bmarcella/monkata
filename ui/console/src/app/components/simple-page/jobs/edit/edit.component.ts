@@ -7,7 +7,7 @@ declare var require
 const Swal = require('sweetalert2')
 
 @Component({
-  selector: 'app-add-job',
+  selector: 'app-edit-job',
   templateUrl: './component.html',
   styleUrl: './component.scss'
 })
