@@ -10,18 +10,21 @@ import { ObjComponent } from './component';
 import { CvComponent } from './cv/cv.component';
 import { DetailsComponent } from './details/details.component';
 import { EditJobComponent } from './edit/edit.component';
+import { ItemCandComponent } from './item-cand/item-cand.component';
+import { RecruitComponent } from './recruit/recruit.component';
 import { RoutingModule } from './routing.module';
 import { ShowComponent } from './show/show.component';
-
-
 @NgModule({
   declarations: [
     ObjComponent,
     ShowComponent,
     DetailsComponent,
     AddJobComponent,
+    ItemCandComponent,
     EditJobComponent,
-    CvComponent
+    CvComponent,
+    RecruitComponent
+
   ],
   imports: [
     CommonModule,
