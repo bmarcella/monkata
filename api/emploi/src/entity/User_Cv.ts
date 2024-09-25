@@ -118,6 +118,9 @@ export class User_Cv {
 
   @Column({ type: 'timestamptz', nullable: true })
   date_last_attempt?: Date;
+
+  @Column({ nullable: false, default: true })
+  public_cv!: boolean;
 }
 
 

@@ -22,7 +22,7 @@ export class ItemCandComponent {
   selectState(e) {
     this.changeState.emit({
       id: this.cand.id,
-      state: e.value
+      state: e.target.value
     });
   }
 

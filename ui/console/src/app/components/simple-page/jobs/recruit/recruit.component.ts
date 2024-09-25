@@ -129,7 +129,7 @@ export class RecruitComponent implements OnInit  {
   }
 
   selectJob(event: any) {
-    const data = event.value;
+    const data = event.target.value;
     this.getPostulants(data.id, 1);
   }
 
@@ -138,7 +138,7 @@ export class RecruitComponent implements OnInit  {
   }
 
   selectState(event: any) {
-    const data = event.value
+    const data = event.target.value;
     this.state = data;
     this.cands = [];
     this.ccand = undefined;

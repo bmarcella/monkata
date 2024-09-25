@@ -83,166 +83,163 @@
   </div>
 </div>
 
-<div class="card">
-  <div class="card-header">
-    <h4>Informations Generales</h4>
-  </div>
-  <div class="card-body">
-   
-  </div>
-</div>
 
-<div class="card">
-  <div class="card-header">
-    <h4>Description du Poste</h4>
-  </div>
-  <div class="card-body">
-    <div>
-      <!-- Job Description -->
-      <div class="input-block">
-        <div class="NgxEditor__Wrapper">
-          <ngx-editor-menu [editor]="editor" [toolbar]="toolbar">
-          </ngx-editor-menu>
-          <ngx-editor [editor]="editor" [(ngModel)]="job.description">
-          </ngx-editor>
-        </div>
-      </div>
 
-      <div class="row mt-4" *ngIf="selectedAd">
-        <div class="col-md-6">
-          <div class="card-header">
-            <h4>Methode d'application</h4>
+
+  <div class="card">
+    <div class="card-header">
+      <h4>Description du Poste</h4>
+    </div>
+    <div class="card-body">
+      <div>
+        <!-- Job Description -->
+        <div class="input-block">
+          <div class="NgxEditor__Wrapper">
+            <ngx-editor-menu [editor]="editor" [toolbar]="toolbar">
+            </ngx-editor-menu>
+            <ngx-editor [editor]="editor" [(ngModel)]="job.description">
+            </ngx-editor>
           </div>
-          <div class="card-body">
-            <div class="input-block featuresform-list mb-0">
-              <ul>
-                <li *ngFor="let option of repOptions">
-                  <label class="custom_check">
-                    <input
-                      (change)="changeRec(option)"
-                      type="radio"
-                      [(ngModel)]="job.app_reception"
-                      name="app_reception"
-                      [value]="option"
-                    />
-                    <span class="checkmark"></span> {{ option }}
-                  </label>
-                </li>
-              </ul>
-              <div class="clearfix"></div>
+        </div>
+
+        <div class="row mt-4" *ngIf="selectedAd">
+          <div class="col-md-6">
+            <div class="card-header">
+              <h4>Methode d'application</h4>
+            </div>
+            <div class="card-body">
+              <div class="input-block featuresform-list mb-0">
+                <ul>
+                  <li *ngFor="let option of repOptions">
+                    <label class="custom_check">
+                      <input
+                        (change)="changeRec(option)"
+                        type="radio"
+                        [(ngModel)]="job.app_reception"
+                        name="app_reception"
+                        [value]="option"
+                      />
+                      <span class="checkmark"></span> {{ option }}
+                    </label>
+                  </li>
+                </ul>
+                <div class="clearfix"></div>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="col-md-6">
-          <div
-            class="card-header"
-            *ngIf="
+          <div class="col-md-6">
+            <div
+              class="card-header"
+              *ngIf="
                       job.app_reception && job.app_reception != rec.memploi
                     "
-          >
-            <h4>Reception d'application</h4>
-          </div>
-          <div class="card-body">
-            <div class="input-block mb-0">
-              <div class="input-block" *ngIf="job.app_reception == rec.lien">
-                <label for="lien_to_apply">Lien du poste</label>
-                <input
-                  type="text"
-                  id="lien_to_apply"
-                  [(ngModel)]="job.lien_to_apply"
-                  name="lien_to_apply"
-                  class="form-control"
-                />
-              </div>
+            >
+              <h4>Reception d'application</h4>
+            </div>
+            <div class="card-body">
+              <div class="input-block mb-0">
+                <div class="input-block" *ngIf="job.app_reception == rec.lien">
+                  <label for="lien_to_apply">Lien du poste</label>
+                  <input
+                    type="text"
+                    id="lien_to_apply"
+                    [(ngModel)]="job.lien_to_apply"
+                    name="lien_to_apply"
+                    class="form-control"
+                  />
+                </div>
 
-              <div class="input-block" *ngIf="job.app_reception == rec.email">
-                <label for="lien_to_apply">Email du poste</label>
-                <input
-                  type="email"
-                  id="lien_to_apply"
-                  [(ngModel)]="job.email_to_apply"
-                  name="lien_to_apply"
-                  class="form-control"
-                />
-              </div>
+                <div class="input-block" *ngIf="job.app_reception == rec.email">
+                  <label for="lien_to_apply">Email du poste</label>
+                  <input
+                    type="email"
+                    id="lien_to_apply"
+                    [(ngModel)]="job.email_to_apply"
+                    name="lien_to_apply"
+                    class="form-control"
+                  />
+                </div>
 
-              <div
-                class="input-block"
-                *ngIf="job.app_reception == rec.whatsapp"
-              >
-                <label for="lien_to_apply">Numero de telephone du poste</label>
-                <input
-                  type="phone"
-                  id="lien_to_apply"
-                  [(ngModel)]="job.phone_to_apply"
-                  name="lien_to_apply"
-                  class="form-control"
-                />
-              </div>
+                <div
+                  class="input-block"
+                  *ngIf="job.app_reception == rec.whatsapp"
+                >
+                  <label for="lien_to_apply"
+                    >Numero de telephone du poste</label
+                  >
+                  <input
+                    type="phone"
+                    id="lien_to_apply"
+                    [(ngModel)]="job.phone_to_apply"
+                    name="lien_to_apply"
+                    class="form-control"
+                  />
+                </div>
 
-              <div class="clearfix"></div>
+                <div class="clearfix"></div>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="col-md-6">
-          <div class="card-header">
-            <h4>Documents exigés</h4>
-          </div>
-          <div class="card-body">
-            <div class="input-block featuresform-list mb-0">
-              <ul>
-                <li>
-                  <label class="custom_check">
-                    <input type="checkbox" [(ngModel)]="job.is_cv_require" />
-                    <span class="checkmark"></span> CV
-                  </label>
-                </li>
+          <div class="col-md-6">
+            <div class="card-header">
+              <h4>Documents exigés</h4>
+            </div>
+            <div class="card-body">
+              <div class="input-block featuresform-list mb-0">
+                <ul>
+                  <li>
+                    <label class="custom_check">
+                      <input type="checkbox" [(ngModel)]="job.is_cv_require" />
+                      <span class="checkmark"></span> CV
+                    </label>
+                  </li>
 
-                <li>
-                  <label class="custom_check">
-                    <input type="checkbox" [(ngModel)]="job.is_lm_require" />
-                    <span class="checkmark"></span> Lettre de motivation
-                  </label>
-                </li>
+                  <li>
+                    <label class="custom_check">
+                      <input type="checkbox" [(ngModel)]="job.is_lm_require" />
+                      <span class="checkmark"></span> Lettre de motivation
+                    </label>
+                  </li>
 
-                <li>
-                  <label class="custom_check">
-                    <input
-                      type="checkbox"
-                      [(ngModel)]="job.is_certificat_require"
-                    />
-                    <span class="checkmark"></span> Certificat
-                  </label>
-                </li>
+                  <li>
+                    <label class="custom_check">
+                      <input
+                        type="checkbox"
+                        [(ngModel)]="job.is_certificat_require"
+                      />
+                      <span class="checkmark"></span> Certificat
+                    </label>
+                  </li>
 
-                <li>
-                  <label class="custom_check">
-                    <input
-                      type="checkbox"
-                      [(ngModel)]="job.is_diplome_require"
-                    />
-                    <span class="checkmark"></span> Diplome
-                  </label>
-                </li>
-              </ul>
-              <div class="clearfix"></div>
+                  <li>
+                    <label class="custom_check">
+                      <input
+                        type="checkbox"
+                        [(ngModel)]="job.is_diplome_require"
+                      />
+                      <span class="checkmark"></span> Diplome
+                    </label>
+                  </li>
+                </ul>
+                <div class="clearfix"></div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+
+  <button class="btn btn-outline-primary ml-4" (click)="addJob($event, true)">
+    Publier
+  </button>
+
+  <button
+    class="btn btn-outline-secondary ml-4"
+    (click)="addJob($event, false)"
+    style="margin-left: 2%"
+  >
+    Sauvegarder
+  </button>
 </div>
-
-<button class="btn btn-outline-primary ml-4" (click)="addJob($event, true)">
-  Publier
-</button>
-
-<button
-  class="btn btn-outline-secondary ml-4"
-  (click)="addJob($event, false)"
-  style="margin-left: 2%"
->
-  Sauvegarder
-</button>
