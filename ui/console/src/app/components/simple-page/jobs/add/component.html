@@ -85,32 +85,29 @@
 
 <div class="card">
   <div class="card-header">
-    <h5></h5>
+    <h5>Configuration</h5>
   </div>
   <div class="card-body">
     <div class="row">
       <div class="col-md-3">
-        <div class="row">
-          <div class="col-sm-12">
-            <h5 class="mb-0">Type d'emploi</h5>
-          </div>
-          <div class="col">
-            <div
-              class="mb-3 m-t-15 custom-radio-ml"
-              *ngFor="let option of contratOptions"
-            >
-              <div class="radio radio-primary">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="type_emploie"
-                  (change)="job.type_contrat = option"
-                  [value]="option"
-                />
-                <label class="form-check-label" for="radio11"
-                  >{{ option }}</label
-                >
-              </div>
+        <div class="col-sm-12">
+          <h5 class="mb-0">Type d'emploi</h5>
+        </div>
+        <div class="col">
+          <div
+            class="mb-3 m-t-15 custom-radio-ml"
+            *ngFor="let option of contratOptions"
+          >
+            <div class="radio radio-primary">
+              <input
+                class="form"
+                type="radio"
+                id="type_emploie"
+                name="type_emploie"
+                (change)="job.type_contrat = option"
+                [value]="option"
+              />
+              <label class="form-check-label" for="radio11">{{ option }}</label>
             </div>
           </div>
         </div>
