@@ -83,146 +83,150 @@
   </div>
 </div>
 
-
-
-
-  <div class="card">
-    <div class="card-header">
-      <h4>Description du Poste</h4>
-    </div>
-    <div class="card-body">
-      <div>
-        <!-- Job Description -->
-        <div class="input-block">
-          <div class="NgxEditor__Wrapper">
-            <ngx-editor-menu [editor]="editor" [toolbar]="toolbar">
-            </ngx-editor-menu>
-            <ngx-editor [editor]="editor" [(ngModel)]="job.description">
-            </ngx-editor>
+<div class="card">
+  <div class="card-header">
+    <h5></h5>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="row">
+          <div class="col-sm-12">
+            <h5 class="mb-0">Type d'emploi</h5>
+          </div>
+          <div class="col">
+            <div
+              class="mb-3 m-t-15 custom-radio-ml"
+              *ngFor="let option of contratOptions"
+            >
+              <div class="radio radio-primary">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="type_emploie"
+                  (change)="job.type_contrat = option"
+                  [value]="option"
+                />
+                <label class="form-check-label" for="radio11"
+                  >{{ option }}</label
+                >
+              </div>
+            </div>
           </div>
         </div>
+      </div>
 
-        <div class="row mt-4" *ngIf="selectedAd">
-          <div class="col-md-6">
-            <div class="card-header">
-              <h4>Methode d'application</h4>
-            </div>
-            <div class="card-body">
-              <div class="input-block featuresform-list mb-0">
-                <ul>
-                  <li *ngFor="let option of repOptions">
-                    <label class="custom_check">
-                      <input
-                        (change)="changeRec(option)"
-                        type="radio"
-                        [(ngModel)]="job.app_reception"
-                        name="app_reception"
-                        [value]="option"
-                      />
-                      <span class="checkmark"></span> {{ option }}
-                    </label>
-                  </li>
-                </ul>
-                <div class="clearfix"></div>
-              </div>
-            </div>
+      <div class="col-md-3">
+        <div class="row">
+          <div class="col-sm-12">
+            <h5 class="mb-0">Environment de travail</h5>
           </div>
-          <div class="col-md-6">
+          <div class="col">
             <div
-              class="card-header"
-              *ngIf="
-                      job.app_reception && job.app_reception != rec.memploi
-                    "
+              class="mb-3 m-t-15 custom-radio-ml"
+              *ngFor="let option of envOptions"
             >
-              <h4>Reception d'application</h4>
-            </div>
-            <div class="card-body">
-              <div class="input-block mb-0">
-                <div class="input-block" *ngIf="job.app_reception == rec.lien">
-                  <label for="lien_to_apply">Lien du poste</label>
-                  <input
-                    type="text"
-                    id="lien_to_apply"
-                    [(ngModel)]="job.lien_to_apply"
-                    name="lien_to_apply"
-                    class="form-control"
-                  />
-                </div>
-
-                <div class="input-block" *ngIf="job.app_reception == rec.email">
-                  <label for="lien_to_apply">Email du poste</label>
-                  <input
-                    type="email"
-                    id="lien_to_apply"
-                    [(ngModel)]="job.email_to_apply"
-                    name="lien_to_apply"
-                    class="form-control"
-                  />
-                </div>
-
-                <div
-                  class="input-block"
-                  *ngIf="job.app_reception == rec.whatsapp"
+              <div class="radio radio-primary">
+                <input
+                  class="form-check-input"
+                  (change)="job.env_de_travail = option"
+                  type="radio"
+                  name="environment_de_travail"
+                  [value]="option"
+                />
+                <label class="form-check-label" for="radio11"
+                  >{{ option }}</label
                 >
-                  <label for="lien_to_apply"
-                    >Numero de telephone du poste</label
-                  >
-                  <input
-                    type="phone"
-                    id="lien_to_apply"
-                    [(ngModel)]="job.phone_to_apply"
-                    name="lien_to_apply"
-                    class="form-control"
-                  />
-                </div>
-
-                <div class="clearfix"></div>
               </div>
             </div>
           </div>
+        </div>
+      </div>
 
-          <div class="col-md-6">
-            <div class="card-header">
-              <h4>Documents exigés</h4>
+      <div class="col-md-3">
+        <div class="row">
+          <div class="col-sm-12">
+            <h5 class="mb-0">Horaire de Travail</h5>
+          </div>
+          <div class="col">
+            <div
+              class="mb-3 m-t-15 custom-radio-ml"
+              *ngFor="let option of horaireOptions"
+            >
+              <div class="radio radio-primary">
+                <input
+                  class="form-check-input"
+                  (change)="job.horaire_de_travail = option"
+                  type="radio"
+                  name="horaire_de_travail"
+                  [value]="option"
+                />
+                <label class="form-check-label" for="radio11"
+                  >{{ option }}</label
+                >
+              </div>
             </div>
-            <div class="card-body">
-              <div class="input-block featuresform-list mb-0">
-                <ul>
-                  <li>
-                    <label class="custom_check">
-                      <input type="checkbox" [(ngModel)]="job.is_cv_require" />
-                      <span class="checkmark"></span> CV
-                    </label>
-                  </li>
+          </div>
+        </div>
+      </div>
 
-                  <li>
-                    <label class="custom_check">
-                      <input type="checkbox" [(ngModel)]="job.is_lm_require" />
-                      <span class="checkmark"></span> Lettre de motivation
-                    </label>
-                  </li>
+      <div class="col-md-3">
+        <div class="row">
+          <div class="col-sm-12">
+            <h5 class="mb-0">Salaire</h5>
+          </div>
+          <div class="col">
+            <div
+              class="mb-3 m-t-15 custom-radio-ml"
+              *ngFor="let option of salaireOptions"
+            >
+              <div class="radio radio-primary">
+                <input
+                  class="form-check-input"
+                  (change)="job.periode_salaire = option"
+                  type="radio"
+                  name="periode_de_salaire"
+                  [value]="option"
+                />
+                <label class="form-check-label" for="radio11"
+                  >{{ option }}</label
+                >
+              </div>
+            </div>
 
-                  <li>
-                    <label class="custom_check">
-                      <input
-                        type="checkbox"
-                        [(ngModel)]="job.is_certificat_require"
-                      />
-                      <span class="checkmark"></span> Certificat
-                    </label>
-                  </li>
+            <div
+              class="mb-3 m-t-15 custom-radio-ml"
+              *ngIf="job.periode_salaire"
+            >
+              <div class="form-group">
+                <label for="Price" class="col-form-label">Devise</label>
+                <select
+                  [(ngModel)]="job.currency"
+                  [ngModelOptions]="{ standalone: true }"
+                  class="form-control"
+                  name="currenry"
+                  placeholder="Devise"
+                >
+                  <option *ngFor="let opt of devOptions" [value]="opt">
+                    {{ opt }}
+                  </option>
+                </select>
+              </div>
 
-                  <li>
-                    <label class="custom_check">
-                      <input
-                        type="checkbox"
-                        [(ngModel)]="job.is_diplome_require"
-                      />
-                      <span class="checkmark"></span> Diplome
-                    </label>
-                  </li>
-                </ul>
-                <div class="clearfix"></div>
+              <div class="form-group">
+                <label for="salaire*"
+                  >Salaire
+                  <span *ngIf="job.periode_salaire"
+                    >({{ job.periode_salaire }})</span
+                  ></label
+                >
+                <input
+                  type="number"
+                  id="salaire"
+                  [(ngModel)]="job.salaire"
+                  name="salaire"
+                  class="form-control"
+                />
               </div>
             </div>
           </div>
@@ -230,16 +234,159 @@
       </div>
     </div>
   </div>
-
-  <button class="btn btn-outline-primary ml-4" (click)="addJob($event, true)">
-    Publier
-  </button>
-
-  <button
-    class="btn btn-outline-secondary ml-4"
-    (click)="addJob($event, false)"
-    style="margin-left: 2%"
-  >
-    Sauvegarder
-  </button>
 </div>
+
+<div class="card">
+  <div class="card-header">
+    <h4>Description du Poste</h4>
+  </div>
+  <div class="card-body">
+    <div>
+      <!-- Job Description -->
+      <div class="input-block">
+        <div class="NgxEditor__Wrapper">
+          <ngx-editor-menu [editor]="editor" [toolbar]="toolbar">
+          </ngx-editor-menu>
+          <ngx-editor [editor]="editor" [(ngModel)]="job.description">
+          </ngx-editor>
+        </div>
+      </div>
+
+      <div class="row mt-4" *ngIf="selectedAd">
+        <div class="col-md-6">
+          <div class="card-header">
+            <h4>Methode d'application</h4>
+          </div>
+          <div class="card-body">
+            <div class="input-block featuresform-list mb-0">
+              <ul>
+                <li *ngFor="let option of repOptions">
+                  <label class="custom_check">
+                    <input
+                      (change)="changeRec(option)"
+                      type="radio"
+                      [(ngModel)]="job.app_reception"
+                      name="app_reception"
+                      [value]="option"
+                    />
+                    <span class="checkmark"></span> {{ option }}
+                  </label>
+                </li>
+              </ul>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div
+            class="card-header"
+            *ngIf="
+                      job.app_reception && job.app_reception != rec.memploi
+                    "
+          >
+            <h4>Reception d'application</h4>
+          </div>
+          <div class="card-body">
+            <div class="input-block mb-0">
+              <div class="input-block" *ngIf="job.app_reception == rec.lien">
+                <label for="lien_to_apply">Lien du poste</label>
+                <input
+                  type="text"
+                  id="lien_to_apply"
+                  [(ngModel)]="job.lien_to_apply"
+                  name="lien_to_apply"
+                  class="form-control"
+                />
+              </div>
+
+              <div class="input-block" *ngIf="job.app_reception == rec.email">
+                <label for="lien_to_apply">Email du poste</label>
+                <input
+                  type="email"
+                  id="lien_to_apply"
+                  [(ngModel)]="job.email_to_apply"
+                  name="lien_to_apply"
+                  class="form-control"
+                />
+              </div>
+
+              <div
+                class="input-block"
+                *ngIf="job.app_reception == rec.whatsapp"
+              >
+                <label for="lien_to_apply">Numero de telephone du poste</label>
+                <input
+                  type="phone"
+                  id="lien_to_apply"
+                  [(ngModel)]="job.phone_to_apply"
+                  name="lien_to_apply"
+                  class="form-control"
+                />
+              </div>
+
+              <div class="clearfix"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="card-header">
+            <h4>Documents exigés</h4>
+          </div>
+          <div class="card-body">
+            <div class="input-block featuresform-list mb-0">
+              <ul>
+                <li>
+                  <label class="custom_check">
+                    <input type="checkbox" [(ngModel)]="job.is_cv_require" />
+                    <span class="checkmark"></span> CV
+                  </label>
+                </li>
+
+                <li>
+                  <label class="custom_check">
+                    <input type="checkbox" [(ngModel)]="job.is_lm_require" />
+                    <span class="checkmark"></span> Lettre de motivation
+                  </label>
+                </li>
+
+                <li>
+                  <label class="custom_check">
+                    <input
+                      type="checkbox"
+                      [(ngModel)]="job.is_certificat_require"
+                    />
+                    <span class="checkmark"></span> Certificat
+                  </label>
+                </li>
+
+                <li>
+                  <label class="custom_check">
+                    <input
+                      type="checkbox"
+                      [(ngModel)]="job.is_diplome_require"
+                    />
+                    <span class="checkmark"></span> Diplome
+                  </label>
+                </li>
+              </ul>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="btn btn-outline-primary ml-4" (click)="addJob($event, true)">
+  Publier
+</button>
+
+<button
+  class="btn btn-outline-secondary ml-4"
+  (click)="addJob($event, false)"
+  style="margin-left: 2%"
+>
+  Sauvegarder
+</button>
