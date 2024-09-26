@@ -59,11 +59,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name:  users-service
-  annotations:
-    kubernetes.digitalocean.com/load-balancer-id: "c1eac114-1d6b-4fa1-8142-d7cd6c620df8"
-    service.beta.kubernetes.io/do-loadbalancer-http-idle-timeout-seconds: "65"
-    service.beta.kubernetes.io/do-loadbalancer-protocol: "http"
-    service.beta.kubernetes.io/do-loadbalancer-tls-ports: "3002"
+
 spec:
   selector:
     app:  users
