@@ -59,6 +59,12 @@ kubectl delete service gateway-service
 kubectl delete service ui-memploi-service
 kubectl delete service users-service
 
+kubectl delete deployment eureka-deployment
+kubectl delete deployment gateway-deployment
+kubectl delete deployment users-deployment
+kubectl delete deployment ui-memploi-deployment
+kubectl delete deployment emploi-deployment
+
 
 
 
