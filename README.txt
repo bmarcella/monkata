@@ -20,3 +20,23 @@ doctl compute certificate list
 doctl compute load-balancer list --format "ID,Name,IP"
 
 kubectl exec -it {}  -c gateway -- printenv
+
+
+ kubectl delete pod emploi-deployment-fd477886-7tff7  --force
+
+  kubectl delete pod  eureka-deployment-7f64b98496-r96f2  --force
+  kubectl delete pod  eureka-deployment-7f64b98496-tl644  --force
+  kubectl delete pod  eureka-deployment-bbfcf57c4-ghdh6   --force
+
+  kubectl scale deployment eureka-deployment --replicas=0
+  kubectl scale deployment gateway-deployment --replicas=0
+   kubectl scale deployment users-deployment  --replicas=0
+  kubectl scale deployment eureka-deployment --replicas=0
+   kubectl scale deployment ui-memploi-deployment --replicas=0
+  kubectl scale deployment  emploi-deployment --replicas=0
+
+    kubectl scale deployment eureka-deployment --replicas=1
+  kubectl scale deployment gateway-deployment --replicas=0
+   kubectl scale deployment users-deployment  --replicas=0
+   kubectl scale deployment ui-memploi-deployment --replicas=0
+  kubectl scale deployment  emploi-deployment --replicas=0

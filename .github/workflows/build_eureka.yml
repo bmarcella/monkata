@@ -58,4 +58,4 @@ jobs:
         with:
           token: ${{ secrets.OC_TOKEN }}
           run: doctl kubernetes cluster kubeconfig save 0a6946a5-edc3-414b-afff-1f19885c54ec
-          -run: kubectl rollout restart deployment eurekaserver-deployment
+          -run: kubectl rollout restart deployment eureka-deployment

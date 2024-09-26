@@ -93,22 +93,24 @@
         <div class="col-sm-12">
           <h5 class="mb-0">Type d'emploi</h5>
         </div>
-        <div class="col">
-          <div
-            class="mb-3 m-t-15 custom-radio-ml"
-            *ngFor="let option of contratOptions"
-          >
-            <div class="radio radio-primary">
+
+        <div class="row mt-4">
+          <div class="col">
+            <label
+              class="d-block"
+              for="edo-ani"
+              *ngFor="let option of contratOptions"
+            >
               <input
-                class="form"
+                class="radio_animated"
                 type="radio"
-                id="type_emploie"
+                id="type_emploie-{{i}}"
                 name="type_emploie"
                 (change)="job.type_contrat = option"
                 [value]="option"
               />
-              <label class="form-check-label" for="radio11">{{ option }}</label>
-            </div>
+              {{ option }}
+            </label>
           </div>
         </div>
       </div>
@@ -118,23 +120,25 @@
           <div class="col-sm-12">
             <h5 class="mb-0">Environment de travail</h5>
           </div>
-          <div class="col">
-            <div
-              class="mb-3 m-t-15 custom-radio-ml"
-              *ngFor="let option of envOptions"
-            >
-              <div class="radio radio-primary">
+
+          <div class="row mt-4">
+            <div class="col">
+              <label
+                class="d-block"
+                for="edo-ani"
+                *ngFor="let option of envOptions"
+              >
                 <input
-                  class="form-check-input"
+                  class="radio_animated"
+                  type="radio"
+                  id="environment_de_travail-{{i}}"
                   (change)="job.env_de_travail = option"
                   type="radio"
                   name="environment_de_travail"
                   [value]="option"
                 />
-                <label class="form-check-label" for="radio11"
-                  >{{ option }}</label
-                >
-              </div>
+                {{ option }}
+              </label>
             </div>
           </div>
         </div>
@@ -145,23 +149,25 @@
           <div class="col-sm-12">
             <h5 class="mb-0">Horaire de Travail</h5>
           </div>
-          <div class="col">
-            <div
-              class="mb-3 m-t-15 custom-radio-ml"
-              *ngFor="let option of horaireOptions"
-            >
-              <div class="radio radio-primary">
+
+          <div class="row mt-4">
+            <div class="col">
+              <label
+                class="d-block"
+                for="edo-ani"
+                *ngFor="let option of horaireOptions"
+              >
                 <input
-                  class="form-check-input"
+                  class="radio_animated"
+                  type="radio"
+                  id="horaire_de_travail-{{i}}"
                   (change)="job.horaire_de_travail = option"
                   type="radio"
                   name="horaire_de_travail"
                   [value]="option"
                 />
-                <label class="form-check-label" for="radio11"
-                  >{{ option }}</label
-                >
-              </div>
+                {{ option }}
+              </label>
             </div>
           </div>
         </div>
@@ -172,29 +178,28 @@
           <div class="col-sm-12">
             <h5 class="mb-0">Salaire</h5>
           </div>
-          <div class="col">
-            <div
-              class="mb-3 m-t-15 custom-radio-ml"
-              *ngFor="let option of salaireOptions"
-            >
-              <div class="radio radio-primary">
+
+          <div class="row mt-4">
+            <div class="col">
+              <label
+                class="d-block"
+                for="edo-ani"
+                *ngFor="let option of salaireOptions"
+              >
                 <input
-                  class="form-check-input"
+                  class="radio_animated"
+                  type="radio"
+                  id="periode_de_salaire-{{i}}"
                   (change)="job.periode_salaire = option"
                   type="radio"
                   name="periode_de_salaire"
                   [value]="option"
                 />
-                <label class="form-check-label" for="radio11"
-                  >{{ option }}</label
-                >
-              </div>
+                {{ option }}
+              </label>
             </div>
 
-            <div
-              class="mb-3 m-t-15 custom-radio-ml"
-              *ngIf="job.periode_salaire"
-            >
+            <div class="col" *ngIf="job.periode_salaire">
               <div class="form-group">
                 <label for="Price" class="col-form-label">Devise</label>
                 <select
