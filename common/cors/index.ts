@@ -1,7 +1,10 @@
 const allowedOrigins = [
   'https://auth.monkata.com',
   'https://monkata.com',
+  'https://www.monkata.com',
   'https://memploi.com',
+  'https://www.memploi.com',
+  'https://pledika.com',
   'https://pledika.com',
   // Ajoutez d'autres domaines frontend ici
 ];

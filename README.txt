@@ -35,7 +35,7 @@ kubectl exec -it {}  -c gateway -- printenv
   kubectl scale deployment ui-memploi-deployment --replicas=0
   kubectl scale deployment  emploi-deployment --replicas=0
 
-    kubectl scale deployment eureka-deployment --replicas=1
+kubectl scale deployment eureka-deployment --replicas=1
 kubectl scale deployment gateway-deployment --replicas=1
 kubectl scale deployment users-deployment  --replicas=1
 kubectl scale deployment ui-memploi-deployment --replicas=1
