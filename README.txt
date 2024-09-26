@@ -4,6 +4,7 @@ netstat -ano | findstr 8070
 taskkill /F /pid {id}
 
 kubectl exec -it gateway-deployment-69cffc68cf-k4tds  -c gateway -- printenv
+kubectl exec -it eureka-deployment-65f9f67474-lg6q4  -c gateway -- printenv
 
 kubectl create secret generic {key_name} --from-literal=JWT-KEY={any_value}
 kubectl scale deployment <deployment-name> --replicas=0
@@ -40,3 +41,13 @@ kubectl exec -it {}  -c gateway -- printenv
    kubectl scale deployment users-deployment  --replicas=0
    kubectl scale deployment ui-memploi-deployment --replicas=0
   kubectl scale deployment  emploi-deployment --replicas=0
+
+
+   kubectl delete service eureka-service 
+
+   emploi-service              LoadBalancer   10.245.27.127    159.89.246.9      3003:32468/TCP               81d
+eureka-service              LoadBalancer   10.245.172.150   174.138.119.88    8070:30914/TCP               73d
+gateway-service             LoadBalancer   10.245.70.130    165.227.250.151   80:31985/TCP,443:30319/TCP   81d
+kubernetes                  ClusterIP      10.245.0.1       <none>            443/TCP                      81d
+ui-memploi-service          LoadBalancer   10.245.59.109    45.55.96.100      80:30414/TCP,443:32716/TCP   73d
+users-service               LoadBalancer   10.245.23.71     45.55.98.187      3002:32164/TCP               80d
