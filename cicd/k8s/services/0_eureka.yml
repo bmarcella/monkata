@@ -25,7 +25,7 @@ kind: Service
 metadata:
   name: eureka-service
   annotations:
-    kubernetes.digitalocean.com/load-balancer-id: "aa38e471-f990-4152-8c42-b5ba9904523a"
+    kubernetes.digitalocean.com/load-balancer-id: "03d3d1d9-0dd4-47e2-8b34-09f410f43d7a"
     service.beta.kubernetes.io/do-loadbalancer-http-idle-timeout-seconds: "65"
     service.beta.kubernetes.io/do-loadbalancer-protocol: "http"
     service.beta.kubernetes.io/do-loadbalancer-tls-ports: "8070"
