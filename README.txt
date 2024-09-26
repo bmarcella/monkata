@@ -69,8 +69,19 @@ kubectl delete deployment emploi-deployment
 
 
    annotations:
-    kubernetes.digitalocean.com/load-balancer-id: "20634e8b-73c5-4fea-99a0-96a89b5b1ee3"
+    kubernetes.digitalocean.com/load-balancer-id: "aa38e471-f990-4152-8c42-b5ba9904523a"
+    service.beta.kubernetes.io/do-loadbalancer-http-idle-timeout-seconds: "65"
+    service.beta.kubernetes.io/do-loadbalancer-protocol: "http"
+    service.beta.kubernetes.io/do-loadbalancer-tls-ports: "8070"
+    service.beta.kubernetes.io/do-loadbalancer-certificate-id: "eb7004be-bb83-4b3d-8094-9459adad52d8"
+
+
+     annotations:
+    kubernetes.digitalocean.com/load-balancer-id: "2c11d3de-035d-483d-bba1-0fe0c7af72fe"
     service.beta.kubernetes.io/do-loadbalancer-http-idle-timeout-seconds: "65"
     service.beta.kubernetes.io/do-loadbalancer-protocol: "http"
     service.beta.kubernetes.io/do-loadbalancer-tls-ports: "443"
-    service.beta.kubernetes.io/do-loadbalancer-certificate-id: "eb7004be-bb83-4b3d-8094-9459adad52d8"
+    service.beta.kubernetes.io/do-loadbalancer-certificate-id: "932680d8-03b0-4d65-b849-9bb6f64f2cbf"
+
+
+kubectl exec -it eureka-deployment-6794bff74c-9n7rb  -c eureka -- printenv
