@@ -55,4 +55,9 @@ ui-memploi-service          LoadBalancer   10.245.59.109    45.55.96.100      80
 users-service               LoadBalancer   10.245.23.71     45.55.98.187      3002:32164/TCP               80d
 
 
-  
+   annotations:
+    kubernetes.digitalocean.com/load-balancer-id: "20634e8b-73c5-4fea-99a0-96a89b5b1ee3"
+    service.beta.kubernetes.io/do-loadbalancer-http-idle-timeout-seconds: "65"
+    service.beta.kubernetes.io/do-loadbalancer-protocol: "http"
+    service.beta.kubernetes.io/do-loadbalancer-tls-ports: "443"
+    service.beta.kubernetes.io/do-loadbalancer-certificate-id: "eb7004be-bb83-4b3d-8094-9459adad52d8"
