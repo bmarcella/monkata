@@ -43,6 +43,8 @@ kubectl exec -it {}  -c gateway -- printenv
   kubectl scale deployment  emploi-deployment --replicas=0
 
 
+
+
    kubectl delete service eureka-service 
 
    emploi-service              LoadBalancer   10.245.27.127    159.89.246.9      3003:32468/TCP               81d
@@ -51,3 +53,6 @@ gateway-service             LoadBalancer   10.245.70.130    165.227.250.151   80
 kubernetes                  ClusterIP      10.245.0.1       <none>            443/TCP                      81d
 ui-memploi-service          LoadBalancer   10.245.59.109    45.55.96.100      80:30414/TCP,443:32716/TCP   73d
 users-service               LoadBalancer   10.245.23.71     45.55.98.187      3002:32164/TCP               80d
+
+
+  
