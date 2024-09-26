@@ -41,6 +41,12 @@ apiVersion: v1
 kind: Service
 metadata:
   name:  ui-memploi-service
+  annotations:
+    kubernetes.digitalocean.com/load-balancer-id: 7cf579bb-4f1d-4295-8569-96df405f38f4"
+    service.beta.kubernetes.io/do-loadbalancer-http-idle-timeout-seconds: "65"
+    service.beta.kubernetes.io/do-loadbalancer-protocol: "http"
+    service.beta.kubernetes.io/do-loadbalancer-tls-ports: "80"
+    service.beta.kubernetes.io/do-loadbalancer-certificate-id: "0855a031-e7cc-43f6-aa95-0f59af50962b"
 spec:
   type: LoadBalancer
   selector:

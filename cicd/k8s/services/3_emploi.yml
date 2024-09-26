@@ -59,11 +59,10 @@ kind: Service
 metadata:
   name:  emploi-service
   annotations:
-    kubernetes.digitalocean.com/load-balancer-id: "03d3d1d9-0dd4-47e2-8b34-09f410f43d7a"
+    kubernetes.digitalocean.com/load-balancer-id: "c1eac114-1d6b-4fa1-8142-d7cd6c620df8"
     service.beta.kubernetes.io/do-loadbalancer-http-idle-timeout-seconds: "65"
     service.beta.kubernetes.io/do-loadbalancer-protocol: "http"
     service.beta.kubernetes.io/do-loadbalancer-tls-ports: "3003"
-    service.beta.kubernetes.io/do-loadbalancer-certificate-id: "0855a031-e7cc-43f6-aa95-0f59af50962b" 
 spec:
   selector:
     app:  emploi
