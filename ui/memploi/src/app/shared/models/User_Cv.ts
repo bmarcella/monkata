@@ -57,6 +57,8 @@ export interface User_Cv {
   disponibilte? : Dispo;
   relocate ?: boolean;
   public_cv?: boolean;
+  telephone_a : string,
+  telephone_b: string,
 }
 
 
