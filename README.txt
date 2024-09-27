@@ -21,7 +21,9 @@ doctl compute certificate list
 doctl compute load-balancer list --format "ID,Name,IP"
 
 kubectl exec -it {}  -c gateway -- printenv
+ns3.digitalocean.com.
 
+TXT google : google-site-verification=WRB5DYNlESHnVbTtQE4MPcYnRpZEuQmWwovmlzT2_LA
 
  kubectl delete pod emploi-deployment-fd477886-7tff7  --force
 

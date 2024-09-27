@@ -5,7 +5,7 @@ const allowedOrigins = [
   'https://memploi.com',
   'https://www.memploi.com',
   'https://pledika.com',
-  'https://pledika.com',
+  'https://www.pledika.com',
   // Ajoutez d'autres domaines frontend ici
 ];
 

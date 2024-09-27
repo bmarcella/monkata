@@ -56,7 +56,7 @@ export const servicesApp: ServiceObjApp = {
     description: "Trouver l'emploi qui vous convient!",
     path: "/jobs",
     frontend_dev: "http://localhost:4201",
-    frontend_prod: "https://memploi.com",
+    frontend_prod: "https://www.memploi.com",
     login: "/auth/login-cross-token",
     show: true,
     img: 'assets/img/logo_2.png',
