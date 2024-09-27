@@ -54,6 +54,12 @@ kind: Service
 apiVersion: v1
 metadata:
   name: gateway-service
+  annotations:
+    kubernetes.digitalocean.com/load-balancer-id: "d012d867-b389-4c96-b76b-6cc0ebc40545"
+    service.beta.kubernetes.io/do-loadbalancer-http-idle-timeout-seconds: "65"
+    service.beta.kubernetes.io/do-loadbalancer-protocol: "http"
+    service.beta.kubernetes.io/do-loadbalancer-tls-ports: "80"
+    service.beta.kubernetes.io/do-loadbalancer-certificate-id: "27c22c2e-73c6-4e58-b60b-3e5c9659725a"
 spec:
   type: LoadBalancer
   selector:
