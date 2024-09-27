@@ -38,5 +38,5 @@ jobs:
         with:
           token: ${{ secrets.OC_TOKEN }}
           run: |
-            doctl kubernetes cluster kubeconfig save 0a6946a5-edc3-414b-afff-1f19885c54ec
+            doctl kubernetes cluster kubeconfig save 2d0fa4f8-06e7-4cc3-acfa-1b3f6e3dba2d
             kubectl rollout restart deployment gateway-deployment
