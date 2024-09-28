@@ -1,6 +1,6 @@
 {
   "name": "MMemploi",
-  "version": "0.0.300",
+  "version": "0.0.345",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port=4201 ",

@@ -32,8 +32,9 @@ TXT google : google-site-verification=WRB5DYNlESHnVbTtQE4MPcYnRpZEuQmWwovmlzT2_L
   kubectl delete pod  eureka-deployment-bbfcf57c4-ghdh6   --force
 
   kubectl scale deployment eureka-deployment --replicas=0
-  kubectl scale deployment gateway-deployment --replicas=0
+
   kubectl scale deployment users-deployment  --replicas=0
+   kubectl scale deployment gateway-deployment --replicas=0
   kubectl scale deployment ui-memploi-deployment --replicas=0
   kubectl scale deployment  emploi-deployment --replicas=0
 
@@ -52,8 +53,9 @@ kubectl delete service ui-memploi-service
 kubectl delete service users-service
 
 kubectl delete deployment eureka-deployment
-kubectl delete deployment gateway-deployment
+
 kubectl delete deployment users-deployment
+kubectl delete deployment gateway-deployment
 kubectl delete deployment ui-memploi-deployment
 kubectl delete deployment emploi-deployment
 
