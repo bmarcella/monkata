@@ -18,7 +18,7 @@ const prod = DeployType.prod;
 const url = {
   live :'http://69.159.138.245:3000' ,
   dev:"http://localhost:3000",
-  prod:"https://gateway.memploi.com"
+  prod: DeployType.gateway
 }
 const local = (prod) ? "prod" : (live) ? "live" : "dev";
 export const environment = {

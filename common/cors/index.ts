@@ -1,5 +1,6 @@
 const allowedOrigins = [
   'https://auth.monkata.com',
+  'https://console.monkata.com',
   'https://monkata.com',
   'https://www.monkata.com',
   'https://memploi.com',
