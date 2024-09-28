@@ -47,7 +47,7 @@ metadata:
     #service.beta.kubernetes.io/do-loadbalancer-protocol: "https"
     #service.beta.kubernetes.io/do-loadbalancer-tls-ports: "80"
     service.beta.kubernetes.io/do-loadbalancer-certificate-name: "memploi"
-    service.beta.kubernetes.io/do-loadbalancer-certificate-id: "cee08636-fc8d-4e31-8176-a3fda7863c52"
+    service.beta.kubernetes.io/do-loadbalancer-certificate-id: "a4aee7ab-2abf-49f3-abf1-d9661a28e8a8"
 spec:
   type: LoadBalancer
   selector:
