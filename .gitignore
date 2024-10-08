@@ -12,6 +12,7 @@
 /ui/cuda
 /ui/admin/dist/
 /ui/console/dist/
+/ui/console/mail/
 /ui/gw
 /ui/memploi/.angular/cache/
 /ui/auth/.angular/cache/

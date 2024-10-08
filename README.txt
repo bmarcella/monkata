@@ -65,6 +65,7 @@ kubectl rollout restart deployment users-deployment
 kubectl rollout restart deployment ui-memploi-deployment
 kubectl rollout restart deployment emploi-deployment
 
+doctl kubernetes cluster kubeconfig save 2d0fa4f8-06e7-4cc3-acfa-1b3f6e3dba2d
 
 
 
