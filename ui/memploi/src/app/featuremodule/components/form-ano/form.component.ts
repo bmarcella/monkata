@@ -84,8 +84,6 @@ export class FormAnoComponent {
     (error: string) => {
       console.log(error);
     });
-
-
   }
 
 
@@ -107,6 +105,15 @@ export class FormAnoComponent {
         if (event.type === HttpEventType.UploadProgress) {
           this.progress = Math.round(100 * event.loaded / event.total);
         } else if (event instanceof HttpResponse) {
+          this.uInfo = {
+            lastName: "",
+            firstName: "",
+            email: "",
+            phone: "",
+            tokenRC:""
+          };
+          this.cv = undefined;
+          this.lm = undefined;
           console.log(event);
           this.progress = undefined;
           this.message = event.body.message;
