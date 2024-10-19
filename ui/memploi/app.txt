@@ -1,5 +1,0 @@
-  // "allowedCommonJsDependencies": [
-            //   "apexcharts",
-            //   "file-saver",
-            //   "aos"
-            // ],
