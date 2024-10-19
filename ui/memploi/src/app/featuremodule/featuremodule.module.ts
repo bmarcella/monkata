@@ -15,6 +15,6 @@ import { ContactComponent } from './contact/contact.component';
 
 @NgModule({
   declarations: [FeaturemoduleComponent, CrosstokenComponent, ApplyComponent, JobsComponent, CompagnyComponent, ContactComponent],
-  imports: [CommonModule, FeaturemoduleRoutingModule,  SharedModule],
+  imports: [CommonModule, FeaturemoduleRoutingModule, SharedModule],
 })
-export class FeaturemoduleModule {}
+export class FeaturemoduleModule { }

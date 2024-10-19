@@ -7,6 +7,7 @@ import { NgModule } from '@angular/core';
 import { SharedModule } from '../../../shared/shared.module';
 import { ObjComponent } from './component';
 import { DetailsUsersComponent } from './details-users/details-users.component';
+import { FreeCandComponent } from './freecand/FreeCand.component';
 import { RoutingModule } from './routing.module';
 import { ShowUsersComponent } from './show-users/show-users.component';
 
@@ -14,7 +15,8 @@ import { ShowUsersComponent } from './show-users/show-users.component';
   declarations: [
     ObjComponent,
     ShowUsersComponent,
-    DetailsUsersComponent
+    DetailsUsersComponent,
+    FreeCandComponent,
   ],
   imports: [
     CommonModule,

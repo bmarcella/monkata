@@ -86,6 +86,7 @@ export class SignupComponent {
       this.sign = false;
       console.log(error);
     });
+    
   }
 
 

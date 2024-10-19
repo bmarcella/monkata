@@ -76,6 +76,24 @@ export class Http {
     }
   }
 
+  public async formaData(tokenEndpoint: string, data: any, headers: any) : Promise<any> {
+    try {
+     // 'Content-Type': 'multipart/form-data',
+      const response = await this.axios.post(tokenEndpoint, data, {
+        headers: {
+     
+          ...headers, // Important to set the correct headers
+        },
+      });
+      console.log('File uploaded successfully:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error uploading file:', error);
+      throw error;
+    }
+  }
+
+
   public async delete(tokenEndpoint: string, secure : boolean = false)  : Promise<any>{
     try {
       const response = await this.axios.delete(tokenEndpoint,{

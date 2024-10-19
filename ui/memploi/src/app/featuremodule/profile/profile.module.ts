@@ -1,9 +1,9 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 
+import { SharedModule } from 'src/app/shared/shared/shared.module';
 import { ProfileRoutingModule } from './profile-routing.module';
 import { ProfileComponent } from './profile.component';
-import { SharedModule } from 'src/app/shared/shared/shared.module';
 
 
 @NgModule({
@@ -15,6 +15,6 @@ import { SharedModule } from 'src/app/shared/shared/shared.module';
     ProfileRoutingModule,
     SharedModule
   ],
-  exports :[ SharedModule ]
+  exports: [SharedModule]
 })
 export class ProfileModule { }

@@ -20,6 +20,7 @@ import { NgxEditorModule } from 'ngx-editor';
 import { LightboxModule } from 'ngx-lightbox/lightbox.module';
 import { CvComponent } from 'src/app/featuremodule/components/cv/cv.component';
 import { EntItemComponent } from 'src/app/featuremodule/components/ent-item/ent-item.component';
+import { FormAnoComponent } from 'src/app/featuremodule/components/form-ano/form.component';
 import { HomeJobItemComponent } from 'src/app/featuremodule/components/home-job-item/home-job-item.component';
 import { ItemCandComponent } from 'src/app/featuremodule/components/item-cand/item-cand.component';
 import { FooterComponent } from 'src/app/featuremodule/footer/footer-eight.component';
@@ -27,7 +28,7 @@ import { HeaderComponent } from 'src/app/featuremodule/header/header-eight.compo
 import { ListMapComponent } from 'src/app/jobsmodule/listings/list-map/list-map.component';
 import { BreadcrumbComponent } from '../components/breadcrumb/breadcrumb.component';
 @NgModule({
-  declarations: [ HeaderComponent, FooterComponent, ListMapComponent, BreadcrumbComponent,  HomeJobItemComponent, EntItemComponent, ItemCandComponent, CvComponent],
+  declarations: [HeaderComponent, FooterComponent, ListMapComponent, BreadcrumbComponent, HomeJobItemComponent, EntItemComponent, ItemCandComponent, CvComponent, FormAnoComponent],
   imports: [
     CommonModule,
     CarouselModule,
@@ -42,6 +43,7 @@ import { BreadcrumbComponent } from '../components/breadcrumb/breadcrumb.compone
     ReactiveFormsModule,
     LightboxModule,
     MatFormFieldModule,
+
     // NgxSliderModule,
     NgxEditorModule.forRoot({
       locals: {
@@ -96,6 +98,7 @@ import { BreadcrumbComponent } from '../components/breadcrumb/breadcrumb.compone
     EntItemComponent,
     ItemCandComponent,
     CvComponent,
+    FormAnoComponent,
     MatCardModule,
     NgApexchartsModule,
     // GMapModule,

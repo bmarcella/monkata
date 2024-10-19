@@ -22,6 +22,8 @@ import {
 } from '../../../common/eureka/Eureka';
 import { JwtPayload } from '../../../common/keycloak/AuthMiddleware';
 import { Mail } from '../../../common/mail/index';
+import { ApplicantAno } from './entity/Anonimous/ApplicantAno';
+import { UserAno } from './entity/Anonimous/UserAno';
 import { Avatar } from './entity/Avatar';
 import { Contact } from './entity/Contact';
 import { Documents } from './entity/Documents';
@@ -54,7 +56,7 @@ declare global {
 
 dotenv.config();
 
-const entities = [Contact, User_Cv, Jobs, Postulants, Works_exp, Etudes, Avatar, Logo, Skills, Documents, References, LanguageSkills, ViewJob];
+const entities = [Contact, User_Cv, Jobs, Postulants, Works_exp, Etudes, Avatar, Logo, Skills, Documents, References, LanguageSkills, ViewJob, UserAno, ApplicantAno];
 AppDataSource<DataSource, Array<any>>(DataSource, process.env, entities).then( (DB: DataSource)=> {
 const app: Express = express();
   app.use(cors());

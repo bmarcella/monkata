@@ -4,6 +4,7 @@ import {
   Routes,
 } from '@angular/router';
 import { DetailsUsersComponent } from './details-users/details-users.component';
+import { FreeCandComponent } from './freecand/FreeCand.component';
 import { ShowUsersComponent } from './show-users/show-users.component';
 
 
@@ -16,6 +17,10 @@ const routes: Routes = [
   {
     path: "details/:id",
     component : DetailsUsersComponent
+  },
+  {
+    path: "freecand",
+    component : FreeCandComponent
   }
 ];
 

@@ -7,6 +7,7 @@ import {
   ActivatedRoute,
   Router,
 } from '@angular/router';
+import { ViewportScroller } from '@angular/common';
 
 import { Lightbox } from 'ngx-lightbox';
 import { routes } from 'src/app/core/helpers/routes/routes';
@@ -31,8 +32,11 @@ export class DetailsJobComponent implements OnInit {
   id: any | undefined;
   logo: any;
   user: any;
-  constructor(private aUI:  AlertService, private auth: KeycloakService, private _lightbox: Lightbox, public router: Router, public act: ActivatedRoute, private crud: CrudService ) {
+  constructor(private viewportScroller: ViewportScroller, private aUI:  AlertService, private auth: KeycloakService, private _lightbox: Lightbox, public router: Router, public act: ActivatedRoute, private crud: CrudService ) {
 
+  }
+  public anchor(elementId: string): void {
+    this.viewportScroller.scrollToAnchor(elementId);
   }
 
 
