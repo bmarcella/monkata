@@ -77,7 +77,7 @@ const services = {
     services.sendMailWithFile(obj,aa,job, { cv, lm } );
     return res.status(200).send({ message: "Votre dossier de candidature a été transmis avec succès." });
   },
-  sendMailWithFile: async (user:UserAno , app:ApplicantAno, job: Jobs, files: any)  => {
+  sendMailWithFile: async (user: UserAno , app:ApplicantAno, job: Jobs, files: any)  => {
     return new Promise((resolve, err) => {
       try {
       const { MAIL_EP } = process.env;
@@ -96,6 +96,7 @@ const services = {
       formData.append("lm", lm.buffer, lm.originalname);
       formData.append('receiver',data.receiver);
       formData.append('replyTo',data.replyTo);
+      formData.append('postulant',user.lastName+" "+user.firstName);
       formData.append('subject',data.subject);
       formData.append('body',data.body);
       const http = new Http(axios, "");
