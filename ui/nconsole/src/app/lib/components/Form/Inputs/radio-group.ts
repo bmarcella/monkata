@@ -5,9 +5,9 @@ import { DFieldConfig } from '../decorators/DField';
 @Component({
   selector: 'd-radio-group',
   template: `
-  <div  [class]="field?.group_class || '' ">
+  <div  [class]="field.group_class || '' ">
   <div *ngIf="field?.group_title" [class]="field.group_title_class || '' ">
-       {{ field?.group_title }}
+       {{ field.group_title }}
   </div>
   <div *ngFor="let item of field?.data; let i = index"
     [class]="field.container_class || '' "

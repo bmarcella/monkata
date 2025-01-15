@@ -15,11 +15,7 @@
 /ui/console/dist/
 /ui/console/mail/
 /ui/gw
-/ui/memploi/.angular/cache/
-/ui/auth/.angular/cache/
-/ui/qnote/.angular/cache/
-/ui/admin/.angular/cache/
-/ui/console/.angular/cache/
+/ui/*/.angular/cache/
 /cicd/hold/
 node_modules
 # Ignore operating system files
