@@ -1,0 +1,94 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!-- ============ Body content start ============= -->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+        <div class="col-md-12 mb-4">
+            <div class="col-md-12 mb-2">
+                <h3 class="mb-3  text-center"> Payroll en cours </h3>
+                <h5 class="text-danger text-center">
+                    <a class="text-danger" routerLink="/app/payroll">Retournez</a> </h5>
+            </div>
+
+            <div class="card">
+                <div class="card-body" *ngIf="!mois">
+
+                    <h3 class="mb-3  text-center"> Choisissez le mois </h3>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <select class="form-control" (change)='onOptionsSelected()' [(ngModel)]="mois">
+                <option value="">Choisissez le mois pour le payroll</option>
+                <option [ngValue]="item" *ngFor="let item of payroll">{{item.code}}</option>
+              </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body" *ngIf="mois">
+                    <h3 class="mb-3  text-center"> Payroll mois : {{mois.code}} </h3>
+                    <h5 class="text-danger text-center"><a class="text-danger" (click)="mois=undefined">Changez de mois</a> </h5>
+                    <div class="col-md-12 mt-4">
+                        <label class="alert alert-success" *ngIf="msg && msg.etat && msg.active ">{{msg.msg}}</label>
+                        <label class="alert alert-danger" *ngIf="msg  && !msg.etat && msg.active ">{{msg.msg}}</label>
+                        <div class=" row" style="float:right;">
+                            <div class="form-group col-md-12 row">
+                                <div class="col-md-4" style="float:left;">
+                                    <label for="recipient-name-1" class="col-form-label">Rechercher</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" [(ngModel)]="query" class="form-control" (keyup)="onKeyUp($event)">
+                                </div>
+                            </div>
+                        </div>
+                        <table class="display my-table  table table-bordered" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Code payroll</th>
+                                    <th>Code personel</th>
+                                    <th>Nom complet </th>
+                                    <th>Role </th>
+                                    <th>Salaire brut</th>
+                                    <th>Salaire net</th>
+                                    <th>type payroll</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let o of roles; let i = index">
+                                    <td>{{ o?.code}}</td>
+                                    <td>{{ o?.code_user}}</td>
+                                    <td>{{ o?.nom }} {{ o?.pnom }} </td>
+                                    <td>{{ o?.role }} </td>
+                                    <td>
+                                        {{ o?.salaire_brut}} HTG
+                                    </td>
+                                    <td>
+                                        {{ o?.salaire_net}} HTG
+                                    </td>
+                                    <td>
+                                        {{ o?.type_payroll}}
+                                    </td>
+                                    <td>
+                                        <button *ngIf="!o.receive" (click)="pay(o,i)" class="btn btn-primary">Paiement reçu</button>
+                                        <a *ngIf="o.receive" target="_blank" routerLink="/app/payroll/payrollFiche/{{o.id}}" class="btn btn-success">Voir fiche</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- end of col -->
+        </div>
+
+
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+    <!-- ============ Body content End ============= -->
+</div>
+<!--=============== End app-admin-wrap ================-->

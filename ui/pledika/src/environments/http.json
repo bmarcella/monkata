@@ -1,0 +1,8 @@
+{
+    "server": "pledika",
+    "prod": true,
+    "port": 8080,
+    "endpoint": "herokuapp.com/api/",
+    "endPlk": "https://pledika.com/",
+    "token": "fasfyyAh129999sdg7fsafeGSGgjajhha127SHHwetyHwihd828yudbzbBbdavh378bsdbfjfhdf8834rbbdfmsdfn78"
+}

@@ -1,0 +1,61 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!-- ============ Body content start ============= -->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+
+        <div class="col-md-12 row">
+
+            <div class="col-md-3">
+                <div class="card card-icon mb-4" routerLink="/app/payroll/create">
+                    <div class="card-body text-center">
+                        <i class="i-Add"></i>
+                        <p class="text-muted mt-2 mb-2">Nouveau Payroll</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card card-icon mb-4" routerLink="/app/payroll/finish">
+                    <div class="card-body text-center">
+                        <i class="i-Folder-Block"></i>
+                        <p class="text-muted mt-2 mb-2">Payroll en cours</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card card-icon mb-4" routerLink="/app/payroll/config">
+                    <div class="card-body text-center">
+                        <i class="i-Gear"></i>
+                        <p class="text-muted mt-2 mb-2">Configuration Payroll</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card card-icon mb-4" routerLink="/app/payroll/history">
+                    <div class="card-body text-center">
+                        <i class="i-Folder-Block"></i>
+                        <p class="text-muted mt-2 mb-2">Historique Payroll</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card card-icon mb-4" routerLink="/app/payroll/stat">
+                    <div class="card-body text-center">
+                        <i class="i-Line-Chart-3"></i>
+                        <p class="text-muted mt-2 mb-2">Statistique Payroll</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+    <!-- ============ Body content End ============= -->
+</div>
+<!--=============== End app-admin-wrap ================-->

@@ -1,0 +1,154 @@
+<div class="attendance-container">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="mb-1">Attendance Management</h2>
+      <p class="text-muted mb-0">Track and manage employee attendance</p>
+    </div>
+    <div>
+      <button class="btn btn-outline-primary me-2">
+        <i class="bi bi-download me-2"></i>Export
+      </button>
+      <button class="btn btn-primary">
+        <i class="bi bi-plus-lg me-2"></i>Mark Attendance
+      </button>
+    </div>
+  </div>
+
+  <div class="row g-4 mb-4">
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="stats-icon bg-primary">
+              <i class="bi bi-person-check"></i>
+            </div>
+            <div class="ms-3">
+              <p class="mb-1 text-muted">Present Today</p>
+              <h4 class="mb-0">45/48</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="stats-icon bg-warning">
+              <i class="bi bi-clock"></i>
+            </div>
+            <div class="ms-3">
+              <p class="mb-1 text-muted">Late Today</p>
+              <h4 class="mb-0">2</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="stats-icon bg-danger">
+              <i class="bi bi-person-x"></i>
+            </div>
+            <div class="ms-3">
+              <p class="mb-1 text-muted">Absent Today</p>
+              <h4 class="mb-0">1</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="stats-icon bg-info">
+              <i class="bi bi-calendar-check"></i>
+            </div>
+            <div class="ms-3">
+              <p class="mb-1 text-muted">On Leave</p>
+              <h4 class="mb-0">3</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ul class="nav nav-tabs mb-4">
+    <li class="nav-item" *ngFor="let tab of tabs">
+      <a class="nav-link" 
+         [ngClass]="{'active': activeTab === tab.id}"
+         (click)="setActiveTab(tab.id)">
+        <i class="bi {{tab.icon}} me-2"></i>
+        {{tab.name}}
+      </a>
+    </li>
+  </ul>
+
+  <div class="tab-content">
+    <!-- Daily View Tab -->
+    <div *ngIf="activeTab === 'daily'" class="tab-pane fade show active">
+      <div class="card">
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Employee</th>
+                  <th>Department</th>
+                  <th>Date</th>
+                  <th>Check In</th>
+                  <th>Check Out</th>
+                  <th>Work Hours</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let record of attendanceRecords">
+                  <td>{{record.employeeName}}</td>
+                  <td>{{record.department}}</td>
+                  <td>{{record.date}}</td>
+                  <td>{{record.checkIn}}</td>
+                  <td>{{record.checkOut}}</td>
+                  <td>{{record.workHours}}</td>
+                  <td>
+                    <span class="badge" 
+                          [ngClass]="{
+                            'bg-success': record.status === 'present',
+                            'bg-warning': record.status === 'late',
+                            'bg-danger': record.status === 'absent',
+                            'bg-info': record.status === 'leave'
+                          }">
+                      {{record.status}}
+                    </span>
+                  </td>
+                  <td>
+                    <div class="btn-group">
+                      <button class="btn btn-sm btn-outline-primary">
+                        <i class="bi bi-pencil"></i>
+                      </button>
+                      <button class="btn btn-sm btn-outline-secondary">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Placeholder content for other tabs -->
+    <div *ngIf="activeTab !== 'daily'" class="card">
+      <div class="card-body">
+        <p class="text-muted">Content for {{activeTab}} view will be implemented here.</p>
+      </div>
+    </div>
+  </div>
+</div>

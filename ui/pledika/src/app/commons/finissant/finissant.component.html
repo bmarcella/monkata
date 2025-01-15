@@ -1,0 +1,80 @@
+Etudianass="app-admin-wrap">
+
+<app-navbar></app-navbar>
+<app-side></app-side>
+<!--=============== Left side End ================-->
+<!-- ============ Body content start ============= -->
+<div class="main-content-wrap sidenav-open d-flex flex-column">
+    <app-breadcrumb></app-breadcrumb>
+    <div class="row col-md-12">
+        <div class="col-md-12 m-2">
+            <h3 class="text-center">La liste des finissants ({{users?.length}})</h3>
+        </div>
+
+        <div class="col-md-12 mb-4">
+            <div class="card text-left" *ngIf="users">
+                <div class="card-body">
+                    <div class=" row" style="float:right;">
+                        <div class="form-group col-md-12 row">
+                            <div class="col-md-4" style="float:left;">
+                                <label for="recipient-name-1" class="col-form-label">Rechercher</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" (keyup)="onKey($event)">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="zero_configuration_table" class="display table table-striped table-bordered" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Nom</th>
+                                    <th>Prenom</th>
+                                    <th>Sexe</th>
+                                    <th>Classe</th>
+                                    <th>Bourse</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let o of users; let i = index">
+                                    <td>{{o.code}}</td>
+                                    <td>{{o.lastName}}</td>
+                                    <td>{{o.firstName}}</td>
+                                    <td>{{o.sexe}}</td>
+                                    <td>{{o.classe}}</td>
+                                    <td>
+                                        <div class="form-group ">
+                                            <select [(ngModel)]="o.bourse" class="form-control" [disabled]="true">
+                                                  <option value="1" >Bourse</option>
+                                                  <option value="2" >Demi bourse</option>
+                                                </select>
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <button routerLink="/app/editProf/{{o.id}}" class="m-2 btn btn-primary">
+                                          <i class="nav-icon i-Edit"></i>
+                                        </button>
+                                        <button (click)="del(o.id,i)" class="m-2 btn btn-danger">
+                                          <i class="nav-icon i-Close"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- end of col -->
+        </div>
+
+
+        <!-- fotter end -->
+    </div>
+    <app-footer></app-footer>
+    <!-- ============ Body content End ============= -->
+</div>
+<!--=============== End app-admin-wrap ================-->

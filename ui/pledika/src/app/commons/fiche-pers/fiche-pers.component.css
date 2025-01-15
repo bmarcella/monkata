@@ -1,0 +1,126 @@
+* {
+    font-family: 'Nunito', serif;
+}
+
+.page-print {
+    position: absolute;
+    right: 10%;
+    top: 50%;
+}
+
+.page {
+    width: 625px;
+    height: 750px;
+    border: 1px solid black;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 5px;
+}
+
+.block-a {
+    width: 90%;
+    margin-left: 5%;
+    display: inline-block;
+}
+
+.b-8 {
+    width: 72.5%;
+    margin: 1%;
+    text-align: left;
+    display: inline-block;
+    float: left;
+}
+
+.att {
+    display: inline-block;
+    width: 48%;
+    margin: 1%;
+}
+
+.att-8 {
+    display: inline-block;
+    width: 68%;
+    margin: 1%;
+}
+
+.att-3 {
+    display: inline-block;
+    width: 31%;
+    margin: 1%;
+}
+
+b {
+    font-size: 12px;
+}
+
+i {
+    font-size: 10px;
+}
+
+.page:last-child {
+    padding: 1%;
+}
+
+.foot {
+    position: relative;
+    width: 80%;
+    margin-left: 10%;
+    height: 40px;
+    text-align: center;
+    padding: 10px;
+}
+
+.avatar {
+    float: left;
+    width: 23%;
+    height: 17%;
+    padding: 5px;
+    border: 1px solid black;
+    display: inline-block;
+}
+
+img {
+    width: 90%;
+    height: 80%;
+    margin: 5%;
+}
+
+.foot h3 {
+    font-size: 12px;
+}
+
+.head {
+    position: relative;
+    top: 0%;
+    width: 80%;
+    margin-left: 10%;
+    height: 80px;
+    text-align: center;
+    padding: 10px;
+    border-bottom: 1px solid black;
+}
+
+.border {
+    border: 1px solid gray;
+}
+
+.head h1 {
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.head h3 {
+    font-size: 12px;
+}
+
+.row {
+    text-align: center;
+}
+
+.title {
+    font-size: 15px;
+    text-decoration: underline;
+    text-align: center;
+    padding: 2%;
+    font-weight: bold;
+}

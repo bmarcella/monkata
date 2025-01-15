@@ -1,0 +1,329 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!-- ============ Body content start ============= -->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+        <div class="col-md-12 mb-2">
+            ``
+            <h4 class="mb-3  text-center"> Gestion de l'établissement</h4>
+        </div>
+        <div class="col-md-12 mb-2">
+            <div class="card text-left">
+                <div class="card-body">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="home-basic-tab" data-toggle="tab" href="#homeBasic" role="tab" aria-controls="homeBasic" aria-selected="true">Accueil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="profile-basic-tab" data-toggle="tab" href="#profileBasic" role="tab" aria-controls="profileBasic" aria-selected="false">Entités</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="grade-basic-tab" data-toggle="tab" href="#gradeBasic" role="tab" aria-controls="gradeBasic" aria-selected="true">Grade</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="doc-basic-tab" data-toggle="tab" href="#docBasic" role="tab" aria-controls="docBasic" aria-selected="false">Documents</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" id="outil-basic-tab" data-toggle="tab" href="#outilBasic" role="tab" aria-controls="outilBasic" aria-selected="false">Outils</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" id="contact-basic-tab" data-toggle="tab" href="#contactBasic" role="tab" aria-controls="contactBasic" aria-selected="false">Configuration</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="homeBasic" role="tabpanel" aria-labelledby="home-basic-tab">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="card card-icon mb-4" routerLink="/app/acad">
+                                        <div class="card-body text-center">
+                                            <i class="i-Clock-3"></i>
+                                            <p class="text-muted mt-2 mb-2">Année académique</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card card-icon mb-4" routerLink="/app/salle">
+                                        <div class="card-body text-center">
+                                            <i class="i-Home-Window"></i>
+                                            <p class="text-muted mt-2 mb-2">Espaces</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card card-icon mb-4" routerLink="/app/contact">
+                                        <div class="card-body text-center">
+                                            <i class="i-Envelope"></i>
+                                            <p class="text-muted mt-2 mb-2">Contact</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card card-icon mb-4" routerLink="/app/events">
+                                        <div class="card-body text-center">
+                                            <i class="i-Calendar"></i>
+                                            <p class="text-muted mt-2 mb-2">Evènements</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card card-icon mb-4" routerLink="/app/anneeDivision">
+                                        <div class="card-body text-center">
+                                            <i class="i-Calendar-2"></i>
+                                            <p class="text-muted mt-2 mb-2">Gestion des périodes</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="gradeBasic" role="tabpanel" aria-labelledby="grade-basic-tab">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="card card-icon mb-4" routerLink="/app/classe">
+                                        <div class="card-body text-center">
+                                            <i class="i-Library"></i>
+                                            <p class="text-muted mt-2 mb-2">Classes & Promotion</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="col-md-3">
+                                    <div class="card card-icon mb-4" routerLink="/app/programme">
+                                        <div class="card-body text-center">
+                                            <i class="i-Book"></i>
+                                            <p class="text-muted mt-2 mb-2">Programmes & cours</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card card-icon mb-4" routerLink="/app/fourniture">
+                                        <div class="card-body text-center">
+                                            <i class="i-Shopping-Bag"></i>
+                                            <p class="text-muted mt-2 mb-2">Fournitures Scolaires</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="outilBasic" role="tabpanel" aria-labelledby="outil-basic-tab">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="card card-icon mb-4" routerLink="/app/notes">
+                                        <div class="card-body text-center">
+                                            <i class="i-Folder-Open-2"></i>
+                                            <p class="text-muted mt-2 mb-2">Actions rapides</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card card-icon mb-4" routerLink="/app/noteFactory">
+                                        <div class="card-body text-center">
+                                            <i class="i-Reel"></i>
+                                            <p class="text-muted mt-2 mb-2">Gestion des notes</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card card-icon mb-4" routerLink="/app/affectation">
+                                        <div class="card-body text-center">
+                                            <i class="i-Filter-2"></i>
+                                            <p class="text-muted mt-2 mb-2">Affectation</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card card-icon mb-4" routerLink="/app/progression">
+                                        <div class="card-body text-center">
+                                            <i class="i-Arrow-Up"></i>
+                                            <p class="text-muted mt-2 mb-2">Progression</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card card-icon mb-4" target="_blank" routerLink="/app/periodeManager">
+                                        <div class="card-body text-center">
+                                            <i class="i-Administrator"></i>
+                                            <p class="text-muted mt-2 mb-2">Gestion des étudiants par période</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card card-icon mb-4" target="_blank" routerLink="/app/GRP">
+                                        <div class="card-body text-center">
+                                            <i class="i-Arrow-Right"></i>
+                                            <p class="text-muted mt-2 mb-2">Résultats Après reprise</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card card-icon mb-4" target="_blank" routerLink="/app/decisionFinale">
+                                        <div class="card-body text-center">
+                                            <i class="i-Medal-2"></i>
+                                            <p class="text-muted mt-2 mb-2">Décision finale</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card card-icon mb-4" routerLink="/app/gfinissant">
+                                        <div class="card-body text-center">
+                                            <i class="i-Cap"></i>
+                                            <p class="text-muted mt-2 mb-2">Gestions des finissants </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade " id="docBasic" role="tabpanel" aria-labelledby="doc-basic-tab">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <a class="card card-icon mb-4" target="_blank" routerLink="/app/rnotep">
+                                        <div class="card-body text-center">
+                                            <i class="i-Paper-Plane"></i>
+                                            <p class="text-muted mt-2 mb-2">Relevées de notes</p>
+                                            <span class="badge badge-success text-center">periode</span>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-3">
+                                    <a class="card card-icon mb-4" target="_blank" routerLink="/app/rnoteg">
+                                        <div class="card-body text-center">
+                                            <i class="i-Paper-Plane"></i>
+                                            <p class="text-muted mt-2 mb-2">Relevées de notes</p>
+                                            <span class="badge badge-success text-center">Génerale</span>
+                                        </div>
+                                    </a>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <a class="card card-icon mb-4" target="_blank" routerLink="/app/lpalmares">
+                                        <div class="card-body text-center">
+                                            <i class="i-Paper-Plane"></i>
+                                            <p class="text-muted mt-2 mb-2">Palmares</p>
+                                        </div>
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="profileBasic" role="tabpanel" aria-labelledby="profile-basic-tab">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="card card-icon mb-4" routerLink="/app/etudiants">
+                                        <div class="card-body text-center">
+                                            <i class="i-Administrator"></i>
+                                            <p class="text-muted mt-2 mb-2">Etudiants</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="card card-icon mb-4" routerLink="/app/parents">
+                                        <div class="card-body text-center">
+                                            <i class="i-Administrator"></i>
+                                            <p class="text-muted mt-2 mb-2">Parents</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="card card-icon mb-4" routerLink="/app/prof">
+                                        <div class="card-body text-center">
+                                            <i class="i-Teacher"></i>
+                                            <p class="text-muted mt-2 mb-2">Enseignants</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="card card-icon mb-4" routerLink="/app/personnel">
+                                        <div class="card-body text-center">
+                                            <i class="i-Administrator"></i>
+                                            <p class="text-muted mt-2 mb-2">Personnels</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card card-icon mb-4" routerLink="/app/boursier">
+                                        <div class="card-body text-center">
+                                            <i class="i-Cap"></i>
+                                            <p class="text-muted mt-2 mb-2">Boursiers</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card card-icon mb-4" routerLink="/app/finissant">
+                                        <div class="card-body text-center">
+                                            <i class="i-Administrator"></i>
+                                            <p class="text-muted mt-2 mb-2">Finissants</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card card-icon mb-4" routerLink="/app/poubelle">
+                                        <div class="card-body text-center">
+                                            <i class="i-Folder-Trash"></i>
+                                            <p class="text-muted mt-2 mb-2">Entité exclues</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card card-icon mb-4" routerLink="/app/delete">
+                                        <div class="card-body text-center">
+                                            <i class="i-Remove-Basket"></i>
+                                            <p class="text-muted mt-2 mb-2"> Suppression</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="contactBasic" role="tabpanel" aria-labelledby="contact-basic-tab">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="card card-icon mb-4" routerLink="/app/location">
+                                        <div class="card-body text-center">
+                                            <i class="i-Globe"></i>
+                                            <p class="text-muted mt-2 mb-2">Configuration location</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card card-icon mb-4" routerLink="/app/configPromo">
+                                        <div class="card-body text-center">
+                                            <i class="i-Gear"></i>
+                                            <p class="text-muted mt-2 mb-2">Configuration Promotion</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card card-icon mb-4" routerLink="/app/config">
+                                        <div class="card-body text-center">
+                                            <i class="i-Settings-Window"></i>
+                                            <p class="text-muted mt-2 mb-2">Configuration Etablissement</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end of col -->
+        <!-- Footer Start -->
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+    <!-- ============ Body content End ============= -->
+</div>
+<!--=============== End app-admin-wrap ================-->

@@ -1,0 +1,17 @@
+{
+    "editor.find.seedSearchStringFromSelection": false,
+    "editor.autoIndent": "none",
+    "editor.trimAutoWhitespace": false,
+    "html.format.enable": false,
+    "cSpell.words": [
+        "afrags",
+        "cparent",
+        "ent",
+        "etats",
+        "exposant",
+        "montant",
+        "vfor",
+        "villes"
+    ],
+    "git.ignoreLimitWarning": true
+}

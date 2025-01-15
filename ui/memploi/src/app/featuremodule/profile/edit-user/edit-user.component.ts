@@ -29,7 +29,7 @@ export class EditUserComponent implements OnInit {
   public toggleData = false;
   public toggle = false;
   public avatar: any;
-
+  code : string ;
   pass = {
     newPassword: "",
     newPassword2: "",
@@ -40,6 +40,7 @@ export class EditUserComponent implements OnInit {
   cv!: User_Cv;
   constructor(private auth: KeycloakService, public router: Router, private route: ActivatedRoute, private crud: CrudService, private aUI:  AlertService){
     this.user = this.auth.profil();
+    console.log("USER:", this.user);
     if(this.user) this.avatar = this.auth.getAvatar(this.user.id);
   }
   togglePassword() {
@@ -58,9 +59,27 @@ export class EditUserComponent implements OnInit {
     this.crud.get(URL).then((r) => {
     this.cv = r as User_Cv;
     if(this.user) this.avatar = this.auth.getAvatar(r.id);
-    console.log(r);
     }).catch((e) => console.log(e));
   }
+
+  public approve(e: any) {
+    const URL = getURL("memploi","cv/approveUser/"+this.code);
+    this.crud.get(URL).then((r) => {
+      if(!r.error){
+        this.code = "";
+        this.auth.approveUser();
+        this.user.approuved = true;
+        this.aUI.show({ active : true, message: 'Email validé avec succès!' , type: "success", pos: 'top-right' });
+      } else {
+        this.aUI.show({ active : true, message: "Vous avez entré un mauvais code de validation" , type: "danger", pos: 'top-right' });
+      }
+    }).catch((e) => {
+      this.aUI.show({ active : true, message: e , type: "danger", pos: 'top-right' });
+      console.log(e);
+
+    } );
+  }
+
 
   public SaveUserCV(e) {
     const URL = getURL("memploi","cv/edit");
@@ -81,8 +100,8 @@ export class EditUserComponent implements OnInit {
     this.crud.post(URL, user, e).then((r) => {
       this.aUI.show({ active : true, message: 'Profil modifié avec succès!' , type: "success", pos: 'top-right' });
     }).catch((e) =>{
-      this.aUI.show({ active : true, message: e , type: "success", pos: 'top-right' });
-      console.log(e)
+       this.aUI.show({ active : true, message: e  , type: "danger", pos: 'top-right' });
+       console.log(e)
    });
   }
 

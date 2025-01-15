@@ -1,0 +1,35 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!-- ============ Body content start ============= -->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+        <div class="col-md-6" style="margin-left:25%;">
+            <div class="card p-4">
+                <div class="col-md-12 mb-2">
+                    <h4 class="text-center"> Initialisation du dossier</h4>
+                </div>
+                <div class="separator-breadcrumb border-top"></div>
+                <!-- end of row-->
+                <div *ngIf="!e" class="text-center m-4 p-4">
+                    <div class="spinner-bubble spinner-bubble-warning m-5"></div>
+                </div>
+                <div *ngIf="e" class="text-center text-center m-2 p-4">
+                    <a routerLink="/app/editProf/{{ID}}" class="btn btn-rounded btn-success m-2"> Voir le dossier etudiant</a>
+                    <br>
+                    <a routerLink="/app/domaine" class="btn btn-rounded btn-primary m-2"> Nouvelle Admission</a>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- end of row-->
+        <!-- Footer Start -->
+
+        <app-footer></app-footer>
+        <!-- fotter end -->
+        <!-- ============ Body content End ============= -->
+    </div>
+    <!--=============== End app-admin-wrap ================-->

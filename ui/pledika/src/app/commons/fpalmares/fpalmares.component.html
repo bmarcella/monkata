@@ -1,0 +1,88 @@
+<div class="page-print p-1">
+    <div class="col-md-12 row p-2 m-1">
+        <button class="btn btn-sm btn-primary m-1" (click)="edit=!edit"> <i *ngIf="edit"> Fermer note </i> <i *ngIf="!edit">
+        Ouvrir note </i> </button>
+        <button class="btn btn-success" (click)="initResult()">Synchroniser les resultats des examens </button>
+    </div>
+    <div class="col-md-12 row m-1">
+        <button class="btn btn-primary" [useExistingCss]="true" printSectionId="print-section" ngxPrint>print</button>
+    </div>
+</div>
+
+<div class="page" id="print-section">
+    <div *ngIf="rap.student && rap.result" class="mpage page-{{pos}}" [ngStyle]="{'margin-bottom': getMarge('page-',pos) }">
+        <app-entete [etab]="etab"></app-entete>
+        <div class="identity">
+            <p class="line-text"> <b class="reponse">Palmarès </b> </p>
+            <p class="line-text-a"> <b class="reponse">Classe :</b><span class="reponse">{{promo?.code.split("-")[0]}}</span> </p>
+            <p class="line-text-b"> <b class="reponse"></b><span class="reponse"></span>{{promo?.code.split("-")[1]}} - {{promo?.code.split("-")[2]}}
+            </p>
+            <p class="line-text-left mt-2"> <b class="reponse">Periode :</b><span class="reponse">{{pf?.share_code}}</span> </p>
+        </div>
+        <div class="col-md-12 mt-4 table-responsive">
+            <table BORDER=0 CELLSPACING=0 class="display my-table" style="width:100%">
+                <thead>
+                    <tr>
+                        <th class="mthead"></th>
+                        <th class="mthead"> </th>
+                        <th class="mthead"> </th>
+                        <th *ngFor="let c of cours; let ic= index" class="vertical-header" style="white-space: nowrap;">
+                            <span>{{c.name}}</span>
+                        </th>
+                        <th>Total</th>
+                        <th>Moy</th>
+                    </tr>
+                    <tr>
+                        <th class="mthead">Code</th>
+                        <th class="mthead">Nom </th>
+                        <th class="mthead">Prénom </th>
+                        <th *ngFor="let c of cours; let ic= index">
+                            <span> {{c.coef * c.note_total}}</span>
+                        </th>
+                        <th>{{tCoef}}</th>
+                        <th>{{promo?.moy_total}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let o of p; let i= index">
+                        <td>{{ o.code}}</td>
+                        <td>{{ o.nom }} </td>
+                        <td>{{ o.pnom }} </td>
+                        <td *ngFor="let c of o.results; let ic= index">
+                            <span *ngIf="!edit" style="font-size:12px;">{{ c.note*c.coef }}</span>
+                            <span *ngIf="edit">
+         <label class="text-success m-2 row" *ngIf="msg[c.idr]">{{msg[c.idr]}}</label>
+   <label class="text-danger m-2 row" *ngIf="err[c.idr]">{{err[c.idr]}}</label>
+ <label class="text-warning m-2 row" *ngIf="focus[c.idr]">{{c.nom}}</label>
+       <input [title]="c.nom" class="note-input"  min="0" [max]="c.note_total"  [id]="c.idr" [(ngModel)]="c.note"  class="form-control"
+         (blur)="editResults(c)" (focus)="focus[c.idr]=true"/>
+ </span>
+                        </td>
+                        <td>{{o.total.toFixed(2)}}</td>
+                        <td>{{((o.total/tCoef)*promo?.moy_total).toFixed(2)}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-12 mt-4" style="margin-top:6%;">
+            <div class="mention mt-4">
+                <div class="mt-2 signature prof mr-4">
+                    Date
+                </div>
+                <div class="mt-2 signature parent mr-4">
+                    Signature du titulaire
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="!rap.result && f_rap" class="text-center">
+        <h1 class="text-center mb-4">Svp, pour ajouter les resultats vous devez d'abord les synchronisés</h1>
+        <button class="btn btn-success" (click)="initResult()">Cliquer ici pour synchroniser les resultats des examens </button>
+    </div>
+
+    <div *ngIf="!rap.student && f_rap" class="text-center">
+        <h1 class="text-center mb-4">Svp, pour ajouter les resultats vous devez d'abord les synchronisés etudiants pour cette periode</h1>
+    </div>
+
+</div>

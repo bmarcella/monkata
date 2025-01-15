@@ -1,0 +1,159 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!-- ============ Body content start ============= -->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+
+        <!-- end of row-->
+        <div class="col-md-6" style="margin-left:25%;" *ngIf="!cniv">
+            <div class="row">
+
+                <div class="form-group col-md-12">
+                    <label for="recipient-name-1">Choisissez un niveau</label>
+                    <option></option>
+                    <select id="niv" class="form-control" [(ngModel)]="cniv">
+                      <option [ngValue]="n" *ngFor="let n of niv"> {{n.name}}
+                      </option>
+                    </select>
+                </div>
+            </div>
+            <a href="/app/etudiants" class="text-primary">Voir tout les etudiants </a>
+        </div>
+        <div class="col-md-10" style="margin-left:8%;" *ngIf="cniv">
+            <div *ngIf="response.active" class="alert alert-card alert-{{response.state}} text-center" role="alert">
+                {{response.message}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+            </div>
+            <h3 class="text-center">Ajouter etudiant a {{cniv.name}}</h3>
+            <h4 class="text-center text-danger"> <a (click)="prev()">retourner</a></h4>
+            <form [formGroup]="addForm" (ngSubmit)="add()">
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <label for="recipient-name-1" class="col-form-label">Nom</label>
+                        <input type="text" id="nom" formControlName="lastName" [ngClass]="{ 'is-invalid': this.submitted &&  f.lastName.errors }" class="form-control">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="recipient-name-1" class="col-form-label">Prénom</label>
+                        <input type="text" id="pnom" formControlName="pnom" [ngClass]="{ 'is-invalid': this.submitted &&  f.pnom.errors }" class="form-control">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="recipient-name-1" class="col-form-label">Sexe</label>
+                        <select id="sexe" class="form-control" formControlName="sexe" [ngClass]="{ 'is-invalid':this.submitted && f.sexe.errors }">
+                         <option value="M">Masculin</option>
+                         <option value="F">Féminin</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="form-group col-md-4">
+                        <label for="recipient-name-1" class="col-form-label">Date de naissane</label>
+                        <input id="date" type="date" [ngClass]="{ 'is-invalid': this.submitted && f.date_de_naiss.errors }" formControlName="date_de_naiss" class="form-control" id="recipient-name-1">
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <label for="recipient-name-1">Email</label>
+                                <input type="text" id="email" [ngClass]="{ 'is-invalid': this.submitted &&  f.username.errors }" class="form-control" formControlName="username" id="recipient-name-1">
+                            </div>
+                            <div class="col-md-2"> <a class="btn btn-primary ml-2  mt-4 text-light" (click)="genEmail()"><i class="i-Refresh"></i></a></div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="recipient-name-1">Lieu de naissance</label>
+                        <select id="lieu" formControlName="lieu" class="form-control" [ngClass]="{ 'is-invalid': this.submitted && f.lieu.errors }">
+     <option [value]="vil.id" *ngFor="let vil of villes">{{vil.name}}
+     </option>
+   </select>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="recipient-name-1" class="col-form-label">Nom Assurance</label>
+                        <input type="text" id="ns" formControlName="nom_ass" [ngClass]="{ 'is-invalid': this.submitted &&  f.nom_ass.errors }" class="form-control">
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label for="recipient-name-1" class="col-form-label">Téléphone Assurance</label>
+                        <input type="text" id="ps" formControlName="phone_ass" [ngClass]="{ 'is-invalid': this.submitted &&  f.phone_ass.errors }" class="form-control">
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label for="recipient-name-1" class="col-form-label">Adresse Assurance</label>
+                        <input type="text" id="as" formControlName="adresse_ass" [ngClass]="{ 'is-invalid': this.submitted &&  f.adresse_ass.errors }" class="form-control">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="recipient-name-1" class="col-form-label">Derniere Etablissement</label>
+                        <input type="text" id="last_etab" formControlName="last_etab" [ngClass]="{ 'is-invalid': this.submitted &&  f.last_etab.errors }" class="form-control">
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label for="recipient-name-1" class="col-form-label">Année depart</label>
+                        <input type="text" id="last_year" formControlName="last_year" [ngClass]="{ 'is-invalid': this.submitted &&  f.last_year.errors }" class="form-control">
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label for="recipient-name-1" class="col-form-label">Moyenne de sortie</label>
+                        <input type="text" id="last_moyen" formControlName="last_moyen" [ngClass]="{ 'is-invalid': this.submitted &&  f.last_moyen.errors }" class="form-control">
+                    </div>
+                </div>
+
+
+
+
+
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="recipient-name-1" class="col-form-label">A refaire</label>
+                        <select id="isDouble" formControlName="is_double" class="form-control" [ngClass]="{ 'is-invalid':this.submitted && f.is_double.errors }">
+        <option [value]="true">Oui</option>
+        <option [value]="false">Non</option>
+      </select>
+                    </div>
+
+
+                    <div class="form-group col-md-6">
+                        <label for="recipient-name-1" class="col-form-label">Référence</label>
+                        <input id="ref" type="text" [ngClass]="{ 'is-invalid': this.submitted &&  f.ref.errors }" class="form-control" formControlName="ref" id="recipient-name-1">
+                    </div>
+                </div>
+
+
+
+
+
+
+
+                <button style="float:right;" type="submit" id="btn" [disabled]="loading" class="btn btn-primary  btn-rounded mt-3">
+    <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+    ajouter
+  </button>
+
+                <a id="btn-reset" type="button" class="btn btn-warning btn-rounded mt-3 " (click)="reset()">
+    Réinitialiser
+  </a>
+
+            </form>
+            <br>
+            <a href="/app/etudiants" class="text-primary">Voir tout les etudiants </a>
+        </div>
+        <!-- end of row-->
+        <!-- Footer Start -->
+
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+    <!-- ============ Body content End ============= -->
+</div>
+<!--=============== End app-admin-wrap ================-->

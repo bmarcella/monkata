@@ -1,0 +1,130 @@
+<div class="app-admin-wrap">
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!-- ============ Body content start ============= -->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+        <div class="col-md-12">
+            <div class="col-md-12 ">
+                <div class="col-md-12">
+                    <div class="row p-4">
+                        <div class=" col-md-4  p-4">
+                            <div class="col-md-12 p-2 m-2 card ">
+                                <div class="col-md-12 mb-4">
+                                    <img *ngIf="logo" class="card" style="width: 80%; margin-left:10%;" [src]="logo" alt="">
+                                    <img *ngIf="!logo" class="card" style="width: 80%; margin-left:10%;" [src]="getLocalImg('default.png')" alt="">
+                                </div>
+                                <div class="col-md-12">
+                                    <h4 class="text-center mt-4">{{ USER?.lastName+' '+USER?.firstName }}</h4>
+                                    <h5 class="text-center mt-1">{{ USER?.code }}</h5>
+                                </div>
+                            </div>
+                            <div class="col-md-12 row p-2 m-2 card">
+                                <a routerLink="/app/fiche/{{ID}}" class="btn btn-primary btn-block">Imprimer fiche d'inscription</a>
+                                <a routerLink="/app/editProf/{{ID}}" class="btn btn-primary btn-block">Modifier profil</a>
+                            </div>
+                        </div>
+                        <div class="row col-md-8">
+                            <div class="card mb-4 mt-4 ">
+                                <div class="card-heading p-2 text-center" style="text-align: center;">
+                                    <h3 class="text-center">Informations sur {{USER?.lastName}} {{USER?.firstName}}</h3>
+                                </div>
+                                <div class="card-body row mb-4 ">
+                                    <div class=" row col-md-12 ">
+                                        <div class=" col-md-4 mb-4 ">
+                                            <p class="text-primary mb-1"><i class="i-Calendar text-16 mr-1"></i> Date de naissance
+                                            </p>
+                                            <span *ngIf="USER.date_de_naiss">{{USER?.date_de_naiss?.split("T")[0]}}</span>
+                                        </div>
+                                        <div class="col-md-4  mb-4 ">
+                                            <p class="text-primary mb-1"><i class="i-Edit-Map text-16 mr-1"></i> lieu de naissance
+                                            </p>
+                                            <span *ngIf="USER?.lieu_de_naiss?.name">{{USER?.lieu_de_naiss?.name}}</span>
+                                        </div>
+                                        <div class="col-md-4  mb-4 " ng>
+                                            <p class="text-primary mb-1"><i class="i-Calendar text-16 mr-1"></i>Date inscription </p>
+                                            <span *ngIf="USER.created_at">{{USER?.created_at?.split("T")[0]}}</span>
+                                        </div>
+
+                                        <div class="col-md-4  mb-4 ">
+                                            <p class="text-primary mb-1"><i class="i-MaleFemale text-16 mr-1"></i> Sexe</p>
+                                            <span>{{USER?.sexe}}</span>
+                                        </div>
+                                        <div class=" col-md-4 mb-4 ">
+                                            <p class="text-primary mb-1"><i class="i-MaleFemale text-16 mr-1"></i> Email</p>
+                                            <span>{{USER?.username}}</span>
+                                        </div>
+                                        <div class="col-md-4 mb-4 ">
+                                            <p class="text-primary mb-1"><i class="i-Cloud-Weather text-16 mr-1"></i> Etat
+                                            </p>
+                                            <span *ngIf="this.USER?.paiement_admission && this.USER.paiement_admission.pay; else other;">Admission
+         payé</span>
+                                            <ng-template #other>
+                                                <span>Admission non payé</span>
+
+                                            </ng-template>
+                                        </div>
+
+                                        <div class="col-md-4 mb-4 ">
+                                            <p class="text-primary mb-1"><i class="i-Face-Style-4 text-16 mr-1"></i> Reference
+                                            </p>
+                                            <span>{{USER?.reference}}</span>
+                                        </div>
+                                        <div class="col-md-4 mb-4 ">
+                                            <p class="text-primary mb-1"><i class="i-Professor text-16 mr-1"></i> Classe</p>
+                                            <span>{{USER?.current_class?.name}}</span>
+                                        </div>
+                                        <div class="col-md-4 mb-4">
+                                            <p class="text-primary mb-1"><i class="i-Home1 text-16 mr-1"></i> Derniere Etablissement </p>
+                                            <span>{{USER?.last_etab}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="accordion" id="accordionExample" style="width:100%;">
+                                <div class="card">
+                                    <div class="card-header" id="headingThree" style="width:100%;">
+                                        <h5 class="mb-0">
+                                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                       Autres
+                                     </button>
+                                        </h5>
+                                    </div>
+                                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                                        <div class="card-body">
+                                            <!-- end of row-->
+                                            <div class="col-md-12">
+                                                <b class="card-title mb-3">La liste des promotions</b>
+                                                <div class="col-md-12">
+                                                    <div class="col-md-4" *ngFor="let a of USER?.parcours" style="display:inline-block;">
+                                                        <div class="card card-icon mb-4 background-primary">
+                                                            <div class="card-body text-center">
+                                                                <span class="badge badge-success" *ngIf="a.actived">encours</span>
+                                                                <span class="badge badge-danger" *ngIf="!a.actived">passé</span>
+                                                                <p class="text-muted mt-2 mb-2" routerLink="/app/promoDetails/{{a.id_promo}}"> <b>{{a?.promo_name}}</b> <br>
+                                                                    <a class="btn btn-link text-break" routerLink="/app/payment/{{a?.id}}">Paiement</a>
+                                                                </p>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <!-- Footer Start -->
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+</div>

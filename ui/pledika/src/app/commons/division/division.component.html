@@ -1,0 +1,94 @@
+<div class="app-admin-wrap">
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!-- ============ Body content start ============= -->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+        <!-- end of row-->
+
+        <div class="col-md-12 mb-2">
+            <h4 class="mb-2  text-center"> Gestion des periodes</h4>
+            <h5 class="text-danger text-center mb-3">
+                <a class="text-warning" routerLink="/app/classe/1">Voir la liste des promotions</a> ,
+                <a class="text-danger" routerLink="/app/management">retourner</a>
+            </h5>
+            <div lass="row p-4">
+
+                <div class="table-responsive" *ngIf="divs">
+                    <table id="zero_configuration_table" class="display table table-striped table-bordered" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Base</th>
+                                <th>Reprise</th>
+                                <th>Final</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let o of divs;let i= index">
+                                <td>
+
+                                    <div class="col-md-12 p-2" *ngIf="!edit[i]"> {{o.name}} <button style="float:right;" (click)="edit[i]=true" class=" btn btn-sm btn-success">
+     <i class="nav-icon i-Pen-2 "></i> </button></div>
+                                    <div class="col-md-12" *ngIf="edit[i]">
+                                        <label class="alert alert-danger" *ngIf="msg[i]">{{msg[i]}}</label>
+                                        <label class="alert alert-success" *ngIf="note[i]">{{note[i]}}</label>
+                                        <i style="float:right;" (click)="edit[i]=false" class="nav-icon i-Close m-2 close text-danger"></i>
+                                        <input type="text" [(ngModel)]="o.name" class="form-control" />
+                                        <button style="float:right;" (click)="toggleDiv(o,{name:o.name},i)" class=" m-2 btn btn-sm btn-success"><i
+       class="nav-icon i-Pen-2 "></i></button>
+
+                                    </div>
+                                </td>
+                                <td>
+                                    <span *ngIf="o.base" class="badge badge-success">Oui</span>
+                                    <span *ngIf="!o.base" class="badge badge-danger">Non</span>
+                                </td>
+                                <td>
+                                    <span *ngIf="o.reprise" class="badge badge-success">Oui</span>
+                                    <span *ngIf="!o.reprise" class="badge badge-danger">Non</span>
+                                </td>
+                                <td>
+                                    <span *ngIf="o.final_frag" class="badge badge-success">Oui</span>
+                                    <span *ngIf="!o.final_frag" class="badge badge-danger">Non</span>
+                                </td>
+                                <td>
+                                    <button *ngIf="o.actived" class="btn btn-sm m-1 btn-danger " (click)="toggleDiv(o,{actived:false},i)">Deactiver</button>
+                                    <button *ngIf="!o.actived" class="btn btn-sm m-1 btn-success" (click)="toggleDiv(o,{actived:true},i)">Activer</button>
+
+                                    <button *ngIf="o.base && o.actived" class="btn btn-sm m-1 btn-danger" (click)="toggleDiv(o,{base:false},i)">Non
+            basique</button>
+                                    <button *ngIf="!o.base && o.actived " class="btn btn-sm m-1 btn-success" (click)="toggleDiv(o,{base:true},i)">Basique</button>
+
+                                    <button *ngIf="o.reprise && o.actived" class="btn btn-sm m-1 btn-danger" (click)="toggleDiv(o,{reprise:false},i)">Non
+            reprise</button>
+                                    <button *ngIf="!o.reprise && o.actived" class="btn btn-sm m-1 btn-success" (click)="toggleDiv(o,{reprise:true},i)">Reprise</button>
+
+                                    <button *ngIf="o.final_frag && o.actived" class="btn btn-sm m-1 btn-danger" (click)="toggleDiv(o,{final_frag:false},i)">Non
+                                                Final</button>
+                                    <button *ngIf="!o.final_frag && o.actived" class="btn btn-sm m-1 btn-success" (click)="toggleDiv(o,{final_frag:true},i)">Final</button>
+                                    <button class="btn btn-sm m-1 btn-danger" (click)="delDiv(o,i)">Efacer</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+
+            </div>
+        </div>
+        <!-- end of row-->
+        <div class="col-lg-12 col-md-12">
+
+        </div>
+        <!-- Footer Start -->
+
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+    <!-- ============ Body content End ============= -->
+</div>
+<!--=============== End app-admin-wrap ================-->

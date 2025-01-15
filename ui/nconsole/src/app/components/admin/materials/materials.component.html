@@ -1,0 +1,161 @@
+<div class="materials-container">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="mb-1">Materials Management</h2>
+      <p class="text-muted mb-0">Track and manage company materials and equipment</p>
+    </div>
+    <div>
+      <button class="btn btn-outline-primary me-2">
+        <i class="bi bi-download me-2"></i>Export
+      </button>
+      <button class="btn btn-primary">
+        <i class="bi bi-plus-lg me-2"></i>Add Material
+      </button>
+    </div>
+  </div>
+
+  <div class="row g-4 mb-4">
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="stats-icon bg-primary">
+              <i class="bi bi-box-seam"></i>
+            </div>
+            <div class="ms-3">
+              <p class="mb-1 text-muted">Total Items</p>
+              <h4 class="mb-0">225</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="stats-icon bg-success">
+              <i class="bi bi-check-circle"></i>
+            </div>
+            <div class="ms-3">
+              <p class="mb-1 text-muted">Available</p>
+              <h4 class="mb-0">20</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="stats-icon bg-warning">
+              <i class="bi bi-exclamation-triangle"></i>
+            </div>
+            <div class="ms-3">
+              <p class="mb-1 text-muted">Low Stock</p>
+              <h4 class="mb-0">5</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="stats-icon bg-danger">
+              <i class="bi bi-x-circle"></i>
+            </div>
+            <div class="ms-3">
+              <p class="mb-1 text-muted">Out of Stock</p>
+              <h4 class="mb-0">3</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ul class="nav nav-tabs mb-4">
+    <li class="nav-item" *ngFor="let tab of tabs">
+      <a class="nav-link" 
+         [ngClass]="{'active': activeTab === tab.id}"
+         (click)="setActiveTab(tab.id)">
+        <i class="bi {{tab.icon}} me-2"></i>
+        {{tab.name}}
+      </a>
+    </li>
+  </ul>
+
+  <div class="tab-content">
+    <!-- Inventory Tab -->
+    <div *ngIf="activeTab === 'inventory'" class="tab-pane fade show active">
+      <div class="card">
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Item Name</th>
+                  <th>Category</th>
+                  <th>Total Quantity</th>
+                  <th>Available</th>
+                  <th>Assigned To</th>
+                  <th>Status</th>
+                  <th>Last Updated</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of materials">
+                  <td>
+                    <div class="d-flex align-items-center">
+                      <i class="bi bi-box me-2 text-primary"></i>
+                      {{item.name}}
+                    </div>
+                  </td>
+                  <td>{{item.category}}</td>
+                  <td>{{item.totalQuantity}}</td>
+                  <td>{{item.availableQuantity}}</td>
+                  <td>{{item.assignedTo}}</td>
+                  <td>
+                    <span class="badge" 
+                          [ngClass]="{
+                            'bg-success': item.status === 'available',
+                            'bg-warning': item.status === 'low',
+                            'bg-danger': item.status === 'out'
+                          }">
+                      {{item.status}}
+                    </span>
+                  </td>
+                  <td>{{item.lastUpdated}}</td>
+                  <td>
+                    <div class="btn-group">
+                      <button class="btn btn-sm btn-outline-primary">
+                        <i class="bi bi-pencil"></i>
+                      </button>
+                      <button class="btn btn-sm btn-outline-success">
+                        <i class="bi bi-plus-circle"></i>
+                      </button>
+                      <button class="btn btn-sm btn-outline-danger">
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Placeholder content for other tabs -->
+    <div *ngIf="activeTab !== 'inventory'" class="card">
+      <div class="card-body">
+        <p class="text-muted">Content for {{activeTab}} view will be implemented here.</p>
+      </div>
+    </div>
+  </div>
+</div>

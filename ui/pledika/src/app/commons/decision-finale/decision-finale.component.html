@@ -1,0 +1,205 @@
+<div class="page-print p-1">
+    <div class="col-md-12 row p-2">
+        <button class="btn btn-primary m-1" [useExistingCss]="true" printSectionId="print-section" ngxPrint>print</button>
+        <button class="btn btn-primary m-1" (click)="edit=!edit"> <i *ngIf="edit"> close edit </i> <i *ngIf="!edit">
+       edit </i> </button>
+        <div class="row col-md-12 mb-1">
+            <div class="form-group col-md-4 ">
+                <label for="recipient-name-1" class="col-form-label">Année academique</label>
+                <select [(ngModel)]="cyear" class="form-control" (change)="getYear(cyear)">
+                         <option [ngValue]="a" *ngFor="let a of afs">  {{a?.date_debut?.split("T")[0].split("-")[0]}} - {{a?.date_fin?.split("T")[0].split("-")[0]}}</option>
+                       </select>
+            </div>
+            <div class="form-group col-md-4" *ngIf="promos">
+                <label for="recipient-name-1" class="col-form-label">Promotion</label>
+                <select [(ngModel)]="cpromo" class="form-control" (change)="getCPromo(cpromo)">
+                         <option [ngValue]="a" *ngFor="let a of promos"> {{a.code}}</option>
+                       </select>
+            </div>
+            <div class="form-group col-md-4" *ngIf="promos">
+                <label for="recipient-name-1" class="col-form-label">Classe</label>
+                <select [(ngModel)]="ca" class="form-control">
+                         <option [ngValue]="1" > Avant 9eme</option>
+                         <option [ngValue]="2" > Après 9eme </option>
+                          <!-- <option [ngValue]="3" > Rhet0</option>
+                           <option [ngValue]="4" > Philo</option>-->
+                       </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page">
+
+    <div class=WordSection1 id="print-section">
+        <table class=MsoTableGrid border=1 cellspacing=0 cellpadding=0 align=left width=1280 style='width:960.3pt;border-collapse:collapse;border:none;'>
+            <tr>
+                <td width=30 rowspan=2 valign=top style='width:22.5pt;border-top:none;
+  border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+                    <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%'>&nbsp;</span></p>
+                </td>
+                <td width=98 rowspan=2 valign=top style='width:73.15pt;border:solid windowtext 1.0pt;
+  border-left:none;padding:0in 5.4pt 0in 5.4pt'>
+                    <p class=MsoNormal align=center style='text-align:center'><span style='font-size:12.0pt;line-height:115%;font-family:"Times New Roman",serif'>Nom</span></p>
+                </td>
+                <td width=198 rowspan=2 valign=top style='width:148.85pt;border:solid windowtext 1.0pt;
+  border-left:none;padding:0in 5.4pt 0in 5.4pt'>
+                    <p class=MsoNormal align=center style='text-align:center'><span style='font-size:12.0pt;line-height:115%;font-family:"Times New Roman",serif'>Prénom</span></p>
+                </td>
+                <td width=170 rowspan=2 valign=top style='width:127.55pt;border:solid windowtext 1.0pt;
+  border-left:none;padding:0in 5.4pt 0in 5.4pt'>
+                    <p class=MsoNormal align=center style='text-align:center'><span style='font-size:12.0pt;line-height:115%;font-family:"Times New Roman",serif'>Prénom
+  de la mère</span></p>
+                </td>
+                <td width=38 rowspan=2 valign=top style='width:28.35pt;border:solid windowtext 1.0pt;
+  border-left:none;padding:0in 5.4pt 0in 5.4pt'>
+                    <p class=MsoNormal align=center style='text-align:center'><span style='font-size:12.0pt;line-height:115%;font-family:"Times New Roman",serif'>Sexe</span></p>
+                </td>
+                <td width=208 colspan=2 valign=top style='width:155.95pt;border:solid windowtext 1.0pt;
+  border-left:none;padding:0in 5.4pt 0in 5.4pt'>
+                    <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family: "Times New Roman",serif'>Date et lieu (commune) de naissance</span></p>
+                </td>
+                <td width=539 colspan=5 valign=top style='width:403.95pt;border:solid windowtext 1.0pt;
+  border-left:none;padding:0in 5.4pt 0in 5.4pt'>
+                    <p class=MsoNormal align=center style='text-align:center'><span style='font-size:12.0pt;line-height:115%;font-family:"Times New Roman",serif'> <!--Réussite en 9ème AF--> </span></p>
+                </td>
+            </tr>
+            <tr>
+                <td width=76 valign=top style='width:56.7pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+                    <p class=MsoNormal align=center style='text-align:center'><span style='font-size:12.0pt;line-height:115%;font-family:"Times New Roman",serif'>Date</span></p>
+                </td>
+                <td width=132 valign=top style='width:99.25pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+                    <p class=MsoNormal align=center style='text-align:center'><span style='font-size:12.0pt;line-height:115%;font-family:"Times New Roman",serif'>Lieu</span></p>
+                </td>
+                <td width=170 valign=top style='width:127.55pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+                    <p class=MsoNormal align=center style='text-align:center'><span style='font-size:12.0pt;line-height:115%;font-family:"Times New Roman",serif'>Identifiant</span></p>
+                </td>
+                <td width=85 valign=top style='width:63.8pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+                    <p class=MsoNormal align=center style='text-align:center'><span style='font-size:12.0pt;line-height:115%;font-family:"Times New Roman",serif'>Matricule</span></p>
+                </td>
+                <td width=94 valign=top style='width:70.85pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+                    <p class=MsoNormal align=center style='text-align:center'><span style='font-size:12.0pt;line-height:115%;font-family:"Times New Roman",serif'>Année</span></p>
+                </td>
+                <td width=76 valign=top style='width:56.7pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+                    <p class=MsoNormal align=center style='text-align:center'><span style='font-size:12.0pt;line-height:115%;font-family:"Times New Roman",serif'>Moyenne</span></p>
+                </td>
+                <td width=113 valign=top style='width:85.05pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+                    <p class=MsoNormal align=center style='text-align:center'><span style='font-size:12.0pt;line-height:115%;font-family:"Times New Roman",serif'>Mention</span></p>
+                </td>
+
+                <td width=113 valign=top style='width:85.05pt;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt' *ngIf="edit">
+                    <p class=MsoNormal align=center style='text-align:center'><span style='font-size:12.0pt;line-height:115%;font-family:"Times New Roman",serif'>Action</span></p>
+                </td>
+            </tr>
+            <tr *ngFor="let o of p; let i= index">
+                <td width=30 valign=top style='width:22.5pt;border:solid windowtext 1.0pt;
+  border-top:none;padding:0in 5.4pt 0in 5.4pt'>
+                    <p class=MsoNormal> {{i+1}}</p>
+                </td>
+                <td width=98 valign=top style='width:73.15pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+                    <p class=MsoNormal><span lang=EN-US style='font-size:10.0pt;line-height:115%'>{{o.lastName}}</span></p>
+                </td>
+                <td width=198 valign=top style='width:148.85pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+                    <p class=MsoNormal><span lang=EN-US style='font-size:10.0pt;line-height:115%'>{{o.firstName}}</span></p>
+                </td>
+                <td width=170 valign=top style='width:127.55pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+                    <p class=MsoNormal *ngIf="!edit">{{o.nom_mere}}</p>
+                    <input class="form-control" class="form-control" *ngIf="edit" type="text" [(ngModel)]="o.nom_mere">
+                </td>
+                <td width=38 valign=top style='width:28.35pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+                    <p class=MsoNormal><span lang=EN-US style='font-size:10.0pt;line-height:115%;
+  font-family:"Times New Roman",serif'>{{o.sexe}}</span></p>
+                </td>
+                <td width=76 valign=top style='width:56.7pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+                    <p class=MsoNormal><span lang=EN-US style='font-size:10.0pt;line-height:115%;
+  font-family:"Times New Roman",serif' *ngIf="!edit">{{ fDate(o.date_naiss) }}</span></p>
+                    <input type="date" *ngIf="edit" [(ngModel)]="o.date_naiss" class="form-control">
+                </td>
+                <td width=132 valign=top style='width:99.25pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+                    <p class=MsoNormal *ngIf="!edit"><span lang=EN-US style='font-size:10.0pt;line-height:115%;
+  font-family:"Times New Roman",serif'>{{o.lieu_de_naiss}}</span></p>
+                    <select [(ngModel)]="pob[i]" class="form-control" *ngIf="edit">
+                      <option [ngValue]="item" *ngFor="let item of villes" [selected]="item.name==getPOB(i)">
+                       {{item?.name}}
+                      </option>
+                   </select>
+                    <div class="form-group m-1" *ngIf="edit">
+                        <button (click)="editLN(o,pob[i],i)" class="btn btn-primary">
+                  Modifier</button>
+                    </div>
+                </td>
+                <td width=170 valign=top style='width:127.55pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+                    <p class=MsoNormal *ngIf="!edit">{{o.identifiant}}</p>
+                    <input class="form-control" class="form-control" *ngIf="edit" type="text" [(ngModel)]="o.identifiant">
+                </td>
+                <td width=85 valign=top style='width:63.8pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+                    <p class=MsoNormal *ngIf="!edit">{{o.matricule}}</p>
+                    <input class="form-control" class="form-control" *ngIf="edit" type="text" [(ngModel)]="o.matricule">
+                </td>
+                <td width=94 valign=top style='width:70.85pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+                    <p class=MsoNormal *ngIf="ca==1 && !edit">{{o.annee_six}}</p>
+                    <p class=MsoNormal *ngIf="ca==2 && !edit">{{o.annee_neuv}}</p>
+                    <label *ngIf="edit && ca==1">Annee 6eme AF</label>
+                    <input class="form-control" class="form-control" *ngIf="edit && ca==1" type="text" [(ngModel)]="o.annee_six">
+                    <label *ngIf="edit && ca==2">Annee 9eme</label>
+                    <input class="form-control" class="form-control" *ngIf="edit && ca==2" type="text" [(ngModel)]="o.annee_neuv">
+                </td>
+                <td width=76 valign=bottom style='width:56.7pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+                    <p class=MsoNormal>{{o.moy_pass}}</p>
+                </td>
+                <td width=113 valign=top style='width:85.05pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+                    <p class=MsoNormal *ngIf="o.moy_pass>=cpromo.moy_accept">Admis(e)</p>
+                    <p class=MsoNormal *ngIf="o.moy_pass<cpromo.moy_accept">Maintenu(e)</p>
+                </td>
+
+                <td *ngIf="edit" width=113 valign=top style='width:85.05pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+                    <button class="btn btn-primary m-1" (click)="editUser(o,i)"> <i class="i-Pen-2"> </i></button>
+
+                </td>
+            </tr>
+
+        </table>
+
+    </div>
+</div>

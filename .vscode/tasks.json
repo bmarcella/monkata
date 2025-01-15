@@ -1,0 +1,412 @@
+{
+   "version": "2.0.0",
+   "tasks": [
+      {
+         "label": "Monkata-UI-NConsole",
+         "type": "shell",
+         "hide": false,
+         "command": " npm run start",
+         "options": {
+            "cwd": "./ui/nconsole"
+         },
+         "presentation": {
+            "reveal": "always",
+            "panel": "new"
+         }
+      },
+      
+      {
+         "label": "Monkata-Eureka",
+         "type": "shell",
+         "hide": false,
+         "command": "mvn spring-boot:run",
+         "options": {
+            "cwd": "./api/eureka"
+         },
+         "presentation": {
+            "reveal": "always",
+            "panel": "new"
+         }
+      },
+      {
+         "label": "Monkata-Gateway",
+         "type": "shell",
+         "hide": false,
+         "command": " npm run dev",
+         "options": {
+            "cwd": "./api/gw"
+         },
+         "presentation": {
+            "reveal": "always",
+            "panel": "new"
+         }
+      },
+      {
+         "label": "Monkata-Users",
+         "type": "shell",
+         "hide": false,
+         "command": "npm cache clean --force  && npm run dev",
+         "options": {
+            "cwd": "./api/users"
+         },
+         "presentation": {
+            "reveal": "always",
+            "panel": "new"
+         }
+      },
+      {
+         "label": "Monkata-Pledika",
+         "type": "shell",
+         "hide": false,
+         "command": "npm run dev",
+         "options": {
+            "cwd": "./api/pledika"
+         },
+         "presentation": {
+            "reveal": "always",
+            "panel": "new"
+         }
+      },
+      {
+         "label": "Monkata-Admin",
+         "type": "shell",
+         "hide": false,
+         "command": " npm run dev",
+         "options": {
+            "cwd": "./api/admin"
+         },
+         "presentation": {
+            "reveal": "always",
+            "panel": "new"
+         }
+      },
+      {
+         "label": "Monkata-Memploi",
+         "type": "shell",
+         "hide": false,
+         "command": " npm run dev",
+         "options": {
+            "cwd": "./api/emploi"
+         },
+         "presentation": {
+            "reveal": "always",
+            "panel": "new"
+         }
+      },
+      {
+         "label": "Monkata-UI-Console",
+         "type": "shell",
+         "hide": false,
+         "command": " npm run start",
+         "options": {
+            "cwd": "./ui/console"
+         },
+         "presentation": {
+            "reveal": "always",
+            "panel": "new"
+         }
+      },
+      {
+         "label": "Monkata-UI-Auth",
+         "type": "shell",
+         "hide": false,
+         "command": " npm run start",
+         "options": {
+            "cwd": "./ui/auth"
+         },
+         "presentation": {
+            "reveal": "always",
+            "panel": "new"
+         }
+      },
+      {
+         "label": "Monkata-UI-Memploi",
+         "type": "shell",
+         "hide": false,
+         "command": " npm run start",
+         "options": {
+            "cwd": "./ui/memploi"
+         },
+         "presentation": {
+            "reveal": "always",
+            "panel": "new"
+         }
+      },
+      {
+         "label": "Monkata-UI-Admin",
+         "type": "shell",
+         "hide": false,
+         "command": " npm run start",
+         "options": {
+            "cwd": "./ui/admin"
+         },
+         "presentation": {
+            "reveal": "always",
+            "panel": "new"
+         }
+      },
+     
+      {
+         "label": "Monkata-UI-Qnote",
+         "type": "shell",
+         "hide": false,
+         "command": " npm run start",
+         "options": {
+            "cwd": "./ui/fe_qnote"
+         },
+         "presentation": {
+            "reveal": "always",
+            "panel": "new"
+         }
+      },
+      {
+         "label": "Monkata-UI-SAAS",
+         "dependsOn": [
+            "Monkata-Eureka",
+            "Monkata-UI-Admin",
+            "Monkata-UI-Auth",
+            "Monkata-UI-Memploi",
+            "Monkata-UI-Qnote",
+         ],
+         "presentation": {
+            "reveal": "always",
+            "revealProblems": "never",
+            "panel": "new"
+         },
+         "problemMatcher": [],
+         "group": {
+            "kind": "build",
+            "isDefault": true
+         }
+      },
+      {
+         "label": "Monkata-API-SAAS",
+         "dependsOn": [
+            "Monkata-Gateway",
+            "Monkata-Users",
+            "Monkata-Memploi",
+            "Monkata-Admin",
+            "Monkata-Qnote",
+         ],
+         "presentation": {
+            "reveal": "always",
+            "revealProblems": "never",
+            "panel": "new"
+         },
+         "problemMatcher": [],
+         "group": {
+            "kind": "build",
+            "isDefault": false
+         }
+      },
+
+      /*DOCKER*/
+      {
+         "label": "Monkata-Docker-Eureka",
+         "type": "shell",
+         "hide": false,
+         "command": " docker build -t pledika/mkt-eureka . ",
+         "options": {
+            "cwd": "./api/eureka"
+         },
+         "presentation": {
+            "reveal": "always",
+            "panel": "new"
+         }
+      },
+
+      {
+         "label": "Monkata-Docker-Users",
+         "type": "shell",
+         "hide": false,
+         "command": "npm run build && npm run docker",
+         "options": {
+            "cwd": "./api/users"
+         },
+         "presentation": {
+            "reveal": "always",
+            "panel": "new"
+         }
+      },
+
+      {
+         "label": "Monkata-Docker-Gateway",
+         "type": "shell",
+         "hide": false,
+         "command": "npm run build && npm run docker",
+         "options": {
+            "cwd": "./api/gw"
+         },
+         "presentation": {
+            "reveal": "always",
+            "panel": "new"
+         }
+      },
+      {
+         "label": "Monkata-Docker-Qnote",
+         "type": "shell",
+         "hide": false,
+         "command": "npm run build && npm run docker",
+         "options": {
+            "cwd": "./api/qnote"
+         },
+         "presentation": {
+            "reveal": "always",
+            "panel": "new"
+         }
+      },
+      {
+         "label": "Monkata-Docker-Emploi",
+         "type": "shell",
+         "hide": false,
+         "command": "npm run build && npm run docker",
+         "options": {
+            "cwd": "./api/emploi"
+         },
+         "presentation": {
+            "reveal": "always",
+            "panel": "new"
+         }
+      },
+      {
+         "label": "Monkata-Docker-Admin",
+         "type": "shell",
+         "hide": false,
+         "command": "npm run build && npm run docker",
+         "options": {
+            "cwd": "./api/admin"
+         },
+         "presentation": {
+            "reveal": "always",
+            "panel": "new"
+         }
+      },
+
+      {
+         "label": "Monkata-Deploy",
+         "dependsOn": [
+            "Monkata-Docker-Eureka",
+            "Monkata-Docker-Gateway",
+            "Monkata-Docker-Users",
+            "Monkata-Docker-Admin",
+            "Monkata-Docker-Emploi"
+         ],
+         "presentation": {
+            "reveal": "always",
+            "revealProblems": "never",
+            "panel": "new"
+         },
+         "problemMatcher": [],
+         "group": {
+            "kind": "build",
+            "isDefault": false
+         }
+      },
+
+
+      /*DOCKER PUSH*/
+      {
+         "label": "Monkata-PDocker-Eureka",
+         "type": "shell",
+         "hide": false,
+         "command": " docker push pledika/mkt-eureka ",
+         "options": {
+            "cwd": "./api/eureka"
+         },
+         "presentation": {
+            "reveal": "always",
+            "panel": "new"
+         }
+      },
+
+      {
+         "label": "Monkata-PDocker-Users",
+         "type": "shell",
+         "hide": false,
+         "command": "docker push pledika/mkt-users:lastest",
+         "options": {
+            "cwd": "./api/users"
+         },
+         "presentation": {
+            "reveal": "always",
+            "panel": "new"
+         }
+      },
+
+      {
+         "label": "Monkata-PDocker-Gateway",
+         "type": "shell",
+         "hide": false,
+         "command": "docker push pledika/mkt-gateway:lastest",
+         "options": {
+            "cwd": "./api/gw"
+         },
+         "presentation": {
+            "reveal": "always",
+            "panel": "new"
+         }
+      },
+      {
+         "label": "Monkata-PDocker-Qnote",
+         "type": "shell",
+         "hide": false,
+         "command": "docker push pledika/mkt-qnote:lastest",
+         "options": {
+            "cwd": "./api/qnote"
+         },
+         "presentation": {
+            "reveal": "always",
+            "panel": "new"
+         }
+      },
+      {
+         "label": "Monkata-PDocker-Emploi",
+         "type": "shell",
+         "hide": false,
+         "command": "docker push pledika/mkt-emploi:lastest",
+         "options": {
+            "cwd": "./api/emploi"
+         },
+         "presentation": {
+            "reveal": "always",
+            "panel": "new"
+         }
+      },
+      {
+         "label": "Monkata-PDocker-Admin",
+         "type": "shell",
+         "hide": false,
+         "command": "docker push pledika/mkt-admin:lastest",
+         "options": {
+            "cwd": "./api/admin"
+         },
+         "presentation": {
+            "reveal": "always",
+            "panel": "new"
+         }
+      },
+
+      {
+         "label": "Monkata-Push",
+         "dependsOn": [
+            "Monkata-PDocker-Eureka",
+            "Monkata-PDocker-Gateway",
+            "Monkata-PDocker-Users",
+            "Monkata-PDocker-Admin",
+            "Monkata-PDocker-Emploi"
+         ],
+         "presentation": {
+            "reveal": "always",
+            "revealProblems": "never",
+            "panel": "new"
+         },
+         "problemMatcher": [],
+         "group": {
+            "kind": "build",
+            "isDefault": false
+         }
+      },
+
+      
+   ]
+}

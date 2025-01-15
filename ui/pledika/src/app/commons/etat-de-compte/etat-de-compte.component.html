@@ -1,0 +1,137 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!-- ============ Body content start ============= -->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+        <div class="row mb-4">
+            <div class="col-md-12 mb-2">
+                <h4 class="mb-3  text-center"> Etat de compte</h4>
+                <h5 class="text-danger text-center">
+                    <a class="text-danger" routerLink="/app/statistique">Retourner</a> </h5>
+            </div>
+
+            <div class="col-md-12 row ">
+                <div class="col-md-4 mb-4">
+                    <div class="col-md-12">
+                        <div class="card card-icon-bg card-icon-bg-primary o-hidden mb-4">
+                            <div class="card-body text-center">
+                                <i class="i-Money-2"></i>
+                                <div class="content">
+                                    <p class="text-muted mt-2 mb-0">Possiblité de gain</p>
+                                    <p class="text-primary text-16 line-height-1 p-1 mb-2">
+                                        {{rapp?.max_gain?.toFixed(2) | currency: 'HTG' }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="card card-icon-bg card-icon-bg-primary o-hidden mb-4">
+                            <div class="card-body text-center">
+                                <i class="i-Money-2"></i>
+                                <div class="content">
+                                    <p class="text-muted mt-2 mb-0">Caisse</p>
+                                    <p class="text-primary text-16 line-height-1 mb-2 p-1">{{ rapp?.gain?.toFixed(2) | currency: 'HTG'}}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="card card-icon-bg card-icon-bg-primary o-hidden mb-4">
+                            <div class="card-body text-center">
+                                <i class="i-Money-2"></i>
+                                <div class="content">
+                                    <p class="text-muted mt-2 mb-0">A Gagné</p>
+                                    <p class="text-primary text-16 line-height-1 p-1 mb-2">
+                                        {{ rapp?.to_gain?.toFixed(2) | currency: 'HTG' }} </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <button class="btn btn-block btn-primary" [useExistingCss]="true" printSectionId="print-section" ngxPrint>print</button>
+                    </div>
+
+                </div>
+                <div class=" col-md-8 card text-left">
+                    <div class="card-body">
+                        <div class="col-md-12 row mb-4">
+
+                            <div class="col-md-4">
+                                <label for="recipient-name-1" class="col-form-label">Rechercher</label>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" autocomplete="off" (keyup)="onKeyUp($event)">
+                            </div>
+                        </div>
+                        <div *ngIf="!STUDS" class="text-center">
+                            <div class="spinner-bubble spinner-bubble-warning m-5"></div>
+                        </div>
+                        <div id="print-section">
+                            <div class="row mt-4 mb-4 p-0 text-center">
+                                <h4 class="mb-3 text-center">Etat de compte des etudiants de l'etablissement</h4>
+                            </div>
+
+                            <div class="table-responsive.mt-4" *ngFor="let user of STUDS; let s = index">
+                                <table class="display my-table table-bordered" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th> Etat de compte : <a routerLink="/app/configPaiementStudent/{{user.id}}">{{user.pnom}}
+                          {{user.nom}}</a>
+                                            </th>
+                                            <th>
+                                                <p class="pt-3" *ngIf="user.granted==0">Aucune bourse</p>
+                                                <p class="pt-3" *ngIf="user.granted==1">Boursier</p>
+                                                <p class="pt-3" *ngIf="user.granted==2">Demie bourse</p>
+                                            </th>
+                                            <th>{{user.promo_name.split("-")[0]}} </th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th>Code</th>
+                                            <th>A payer</th>
+                                            <th>Déjà Payé</th>
+                                            <th>Balance</th>
+                                            <th>Type</th>
+
+                                        </tr>
+                                        <tr *ngFor="let o of user.pversement; let i = index">
+                                            <td>{{o.name.split(" ")[0]}} {{o.name.split(" ")[1] }} - {{o.pos}}</td>
+                                            <td>{{o.montant_to_pay.toFixed(2)}} HTG </td>
+                                            <td [className]="o.montant_to_pay>o.montant_pay ? ' text-danger ' : 'text-success'">
+                                                {{o.montant_pay}} HTG</td>
+                                            <td> {{o.montant_to_pay - o.montant_pay}} HTG</td>
+                                            <td>
+                                                <p *ngIf="o.type_verse==1">Basique</p>
+                                                <p *ngIf="o.type_verse==3">Facultatif</p>
+                                                <p *ngIf="o.type_verse==2">Operationel</p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+                                <div class="separator-breadcrumb border-top m-2"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            <!-- end of col -->
+        </div>
+
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+    <!-- ============ Body content End ============= -->
+</div>
+<!--=============== End app-admin-wrap ================-->
+<!--=============== End app-admin-wrap ================-->

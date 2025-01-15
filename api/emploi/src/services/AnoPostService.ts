@@ -7,6 +7,7 @@ import {
 import FormData from 'form-data';
 import { Http } from '../../../../common/index/Http';
 
+import { MailData } from '../../../../common/mail/MailData';
 import { ApplicantAno } from '../entity/Anonimous/ApplicantAno';
 import { UserAno } from '../entity/Anonimous/UserAno';
 import { Jobs } from '../entity/Jobs';
@@ -14,12 +15,7 @@ import { MessageMailJob } from './JobMail';
 
 export const NPage = 5;
 
-export type MailData = {
-  receiver: string  ,
-  subject : string, 
-  body: string,
-  replyTo: string,
- }
+
 const services = {
   add : async  (req: Request, res: Response) => {
     const id_job = req.body.id_job;

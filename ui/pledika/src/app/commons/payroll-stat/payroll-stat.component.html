@@ -1,0 +1,93 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!-- ============ Body content start ============= -->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+        <div class="col-md-10 mb-4" style="margin-left:6%;">
+            <div class="col-md-12 mb-2">
+                <h3 class="mb-3  text-center"> Historique des payrolls </h3>
+                <h5 class="text-danger text-center">
+                    <a class="text-danger" routerLink="/app/payroll">Retournez</a> </h5>
+            </div>
+
+            <div class="card">
+                <div class="card-body" *ngIf="!mois">
+
+                    <h3 class="mb-3  text-center"> Choisissez le mois </h3>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <select class="form-control" (change)='onOptionsSelected()' [(ngModel)]="mois">
+                <option value="">Choisissez le mois pour le payroll</option>
+                <option [ngValue]="item" *ngFor="let item of payroll">{{item.code}}</option>
+              </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body" *ngIf="mois">
+                    <h3 class="mb-3  text-center"> Statistique Payroll mois : {{mois.code}} </h3>
+                    <h5 class="text-danger text-center"><a class="text-danger" (click)="mois=undefined">Changez de mois</a> </h5>
+                    <div class="col-md-12 mt-4">
+
+                        <div class="separator-breadcrumb border-top"></div>
+
+                        <div class="row">
+
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="card card-icon-bg card-icon-bg-primary o-hidden mb-4">
+                                    <div class="card-body text-center">
+                                        <i class="i-Money-2"></i>
+                                        <div class="content">
+                                            <p class="text-muted mt-2 mb-0">Total salaire net</p>
+                                            <p class="text-primary text-24 line-height-1 mb-2">{{nsold.toFixed(2)}} HTG
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="card card-icon-bg card-icon-bg-primary o-hidden mb-4">
+                                    <div class="card-body text-center">
+                                        <i class="i-Money-2"></i>
+                                        <div class="content">
+                                            <p class="text-muted mt-2 mb-0">Total salaire brut</p>
+                                            <p class="text-primary text-24 line-height-1 mb-2">{{bsold.toFixed(2)}} HTG
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="card card-icon-bg card-icon-bg-primary o-hidden mb-4">
+                                    <div class="card-body text-center">
+                                        <i class="i-Money-2"></i>
+                                        <div class="content">
+                                            <p class="text-muted mt-2 mb-0">Total Taxe</p>
+                                            <p class="text-primary text-24 line-height-1 mb-2">
+                                                {{ taxe.toFixed(2) }} HTG</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- end of col -->
+        </div>
+
+
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+    <!-- ============ Body content End ============= -->
+</div>
+<!--=============== End app-admin-wrap ================-->

@@ -1,0 +1,107 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!-- ============ Body content start ============= -->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+        <div class="col-md-12 mb-4">
+            <div class="col-md-12 mb-2">
+                <h3 class="mb-1  text-center">Ajouter les etudiants en reprise</h3>
+                <h5 class="mb-1  text-center"> {{PROMO?.code}} </h5>
+                <a class="text-primary" routerLink="/app/promoDetails/{{ID}}">Voir la promotion</a>
+            </div>
+
+            <div class="col-md-12  row pt-2 mt-2">
+
+                <div class="col-md-12 mb-4">
+
+                    <div class="card p-4 ">
+                        <div class="col-md-12 mb-4 ">
+                            <div *ngIf="response.active" class="alert alert-card alert-{{response.state}} text-center" role="alert">
+                                {{response.message}}
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="col-md-12 ">
+                                <h4 class="mb-1  text-center">{{PROMO?.code}}</h4>
+                                <h5 class="mb-1  text-center">Moyenne accepté:{{PROMO?.moy_accept}} </h5>
+                            </div>
+                            <div class="col-md-12 mt-4">
+                                <div class="row ">
+                                    <div class="col-md-12 row">
+                                        <div class="col-md-2 text-left">
+                                            <button class="btn btn-primary" [disabled]='mloading' (click)="push()"> <i class="i-Upload"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 row m-2">
+
+                                        <div class="col-md-4 text-right">
+                                            <label for="recipient-name-1" class="col-form-label">Rechercher</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" autocomplete="off" (keyup)="onKeyUp($event)">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table id="zero_configuration_table" class="display table table-striped table-bordered" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th><input type="checkbox" [(ngModel)]="all" id="all" (change)="onCheckboxChangeAll($event)" class="checkbox"> </th>
+                                            <th>Code</th>
+                                            <th>Nom et prénom</th>
+                                            <th>Moyenne Génerale</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let o of STUDS; let i = index">
+                                            <td><input id="{{ i }}" [value]="o.id" [(ngModel)]="o.isSelected" (change)="onCheckboxChange($event,i)" type="checkbox" class="checkbox">
+                                            </td>
+                                            <td>{{o.code}}</td>
+                                            <td>{{o.nom}} {{o.pnom}}</td>
+                                            <td [className]="((o.note/o.total)*o.moy_total).toFixed(2)>=o.moy_rep ? ' text-warning ' : 'text-danger'">
+                                                {{((o.note/o.total)*o.moy_total).toFixed(2)}} </td>
+                                            <td>
+                                                <button (click)="addSTP(o,i)" class="btn btn-primary">
+                                                    <i class="nav-icon i-Add"></i>
+                                                  </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th><input type="checkbox" [(ngModel)]="all" id="all" (change)="onCheckboxChangeAll($event)" class="checkbox"></th>
+                                            <th>Code</th>
+                                            <th>Nom et prénom</th>
+                                            <th>Moyenne Génerale</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- end of col-->
+        </div>
+        <!-- end of row-->
+
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+    <!-- ============ Body content End ============= -->
+</div>
+<!--=============== End app-admin-wrap ================-->
+
+<!-- ============ Search UI Start ============= -->
+<app-search></app-search>
+<!-- ============ Search UI End ============= -->

@@ -1,0 +1,528 @@
+<div class="app-admin-wrap">
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!-- ============ Body content start ============= -->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+        <!-- end of row-->
+
+        <div class="col-md-12 mb-2">
+            <h4 class="mb-3  text-center"> Configuration du système</h4>
+        </div>
+        <!-- end of row-->
+        <div class="col-lg-12 col-md-12">
+            <div class="row">
+                <div class="col-md-12 mb-4 text-center">
+                    <button [className]="info==1 ? 'btn btn-secondary m-2' : 'btn btn-primary m-2'" (click)="info=1">
+                     Etablissement</button>
+                    <button [className]="info==2 ? 'btn btn-secondary m-2' : 'btn btn-primary m-2'" (click)="info=2">
+                    Responsable</button>
+                    <button [className]="info==7 ? 'btn btn-secondary m-2' : 'btn btn-primary m-2'" (click)="info=7">Logo</button>
+                    <button [className]="info==3 ? 'btn btn-secondary m-2' : 'btn btn-primary m-2'" (click)="info=3"> salaire | Taxe | Autres  </button>
+                    <button [className]="info==4 ? 'btn btn-secondary m-2' : 'btn btn-primary m-2'" (click)="info=4"> Notifications </button>
+                    <button [className]="info==5 ? 'btn btn-secondary m-2' : 'btn btn-primary m-2'" (click)="info=5"> Social Media , Api & connection</button>
+                </div>
+                <div class="col-md-12 mb-4 text-center">
+                    <div *ngIf="response.active" class="alert alert-{{response.state}} mt-3 mb-0">{{response.message}}</div>
+                    <div *ngIf="!etab.over_config" class="alert alert-warning mt-3 mb-0">Svp vous devez configurer votre etablissement.</div>
+                </div>
+                <div class="col-md-6">
+                    <div *ngIf="info==1" class="row">
+                        <h4 class="mb-3  text-center">Informations sur l'etablissement</h4>
+                        <div class="row col-md-12">
+                            <div class="form-group col-md-6">
+                                <label for="recipient-name-1" class="col-form-label">Ecole</label>
+                                <input type="text" class="form-control" [(ngModel)]="etab.name" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="recipient-name-1" class="col-form-label">Type d'etablissement</label>
+                                <input type="text" class="form-control" [(ngModel)]="etab.cat_etab" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="recipient-name-1" class="col-form-label">Année de fondation</label>
+                                <input type="number" class="form-control" [(ngModel)]="etab.annee_fond" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="recipient-name-1" class="col-form-label">email</label>
+                                <input type="email" class="form-control" [(ngModel)]="etab.email" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="recipient-name-1" class="col-form-label">Moyenne acceptée</label>
+                                <input type="number" class="form-control" [(ngModel)]="etab.moy_accept" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="recipient-name-1" class="col-form-label">Moyenne Totale</label>
+                                <input type="email" class="form-control" [(ngModel)]="etab.moy_total" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="recipient-name-1" class="col-form-label">Moyenne reprise</label>
+                                <input type="number" class="form-control" [(ngModel)]="etab.moy_reprise" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="recipient-name-1" class="col-form-label">Moyenne d'excellence</label>
+                                <input type="number" class="form-control" [(ngModel)]="etab.moy_exc" />
+                            </div>
+
+
+                            <div class="form-group col-md-6">
+                                <label for="recipient-name-1" class="col-form-label">6 eme année</label>
+                                <select class="form-control" [(ngModel)]="etab.code_six">
+                                      <option [value]="item.code" *ngFor="let item of nivs" >{{item.name}}</option>
+                                    </select>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="recipient-name-1" class="col-form-label">9 eme année</label>
+                                <select class="form-control" [(ngModel)]="etab.code_neuv">
+                                      <option [value]="item.code" *ngFor="let item of nivs" >{{item.name}}</option>
+                                    </select>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="recipient-name-1" class="col-form-label">Rheto || NS 3</label>
+                                <select class="form-control" [(ngModel)]="etab.code_rheto">
+                                      <option [value]="item.code" *ngFor="let item of nivs" >{{item.name}}</option>
+                                    </select>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="recipient-name-1" class="col-form-label">Philo || NS 4</label>
+                                <select class="form-control" [(ngModel)]="etab.code_philo">
+                                      <option [value]="item.code" *ngFor="let item of nivs" >{{item.name}}</option>
+                                    </select>
+                            </div>
+
+
+                            <div class="form-group col-md-6">
+                                <label for="recipient-name-1" class="col-form-label">Heure du debut des cours</label>
+                                <input type="time" class="form-control" [(ngModel)]="etab.start_time" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="recipient-name-1" class="col-form-label">Heure de la fin des cours</label>
+                                <input type="time" class="form-control" [(ngModel)]="etab.end_time" />
+                            </div>
+
+
+
+
+                            <div class="form-group col-md-6">
+                                <label for="recipient-name-1" class="col-form-label">Téléphone Principal</label>
+                                <input type="text" class="form-control" [(ngModel)]="etab.phone_a" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="recipient-name-1" class="col-form-label">Téléphone econamat</label>
+                                <input type="text" class="form-control" [(ngModel)]="etab.phone_b" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="recipient-name-1" class="col-form-label">Téléphone administration</label>
+                                <input type="text" class="form-control" [(ngModel)]="etab.phone_c" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="recipient-name-1" class="col-form-label">Téléphone Autres</label>
+                                <input type="text" class="form-control" [(ngModel)]="etab.phone_d" />
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label for="recipient-name-1" class="col-form-label">Adresse</label>
+                                <input type="text" class="form-control" [(ngModel)]="etab.adresse" />
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label for="recipient-name-1" class="col-form-label">Description</label>
+                                <textarea [(ngModel)]="etab.description" class="form-control"></textarea>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label for="recipient-name-1" class="col-form-label">Mission</label>
+                                <textarea [(ngModel)]="etab.mission" class="form-control"></textarea>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label for="recipient-name-1" class="col-form-label">Vision</label>
+                                <textarea [(ngModel)]="etab.vision" class="form-control"></textarea>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label for="recipient-name-1" class="col-form-label">valeur</label>
+                                <textarea [(ngModel)]="etab.valeur" class="form-control"></textarea>
+                            </div>
+
+                            <div class="form-group mr-8" style="margin-top:3.5%;">
+                                <button class="btn btn-primary  btn-rounded mt-3" style="float:right;" (click)="config()" [disabled]='loading  '>
+                                  <span  class="spinner-border spinner-border-sm mr-1"></span>
+                                  Configurer
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div *ngIf="info==2" class="row">
+                        <h4 class="mb-3  text-center">Informations sur le responsable</h4>
+                        <div class="row col-md-12">
+                            <div class="form-group col-md-6">
+                                <label for="recipient-name-1" class="col-form-label">Nom du responsable</label>
+                                <input type="text" class="form-control" [(ngModel)]="etab.nom_resp" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="recipient-name-1" class="col-form-label">email</label>
+                                <input type="email" class="form-control" [(ngModel)]="etab.email_resp" />
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="recipient-name-1" class="col-form-label">Téléphone Portable </label>
+                                <input type="text" class="form-control" [(ngModel)]="etab.phone_e" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="recipient-name-1" class="col-form-label">Téléphone Domicile</label>
+                                <input type="text" class="form-control" [(ngModel)]="etab.phone_f" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="recipient-name-1" class="col-form-label">Téléphone bureau </label>
+                                <input type="text" class="form-control" [(ngModel)]="etab.phone_g" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="recipient-name-1" class="col-form-label">Téléphone urgence</label>
+                                <input type="text" class="form-control" [(ngModel)]="etab.phone_h" />
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label for="recipient-name-1" class="col-form-label">Adresse</label>
+                                <input type="text" class="form-control" [(ngModel)]="etab.adresse_resp" />
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label for="recipient-name-1" class="col-form-label">Description</label>
+                                <textarea [(ngModel)]="etab.desc_resp" class="form-control"></textarea>
+                            </div>
+                            <div class="form-group mr-8" style="margin-top:3.5%;">
+                                <button class="btn btn-primary  btn-rounded mt-3" style="float:right;" (click)="config()" [disabled]='loading  '>
+                                   <span class="spinner-border spinner-border-sm mr-1"></span>
+                                  Configurer
+                                 </button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div *ngIf="info==3" class="row">
+                        <div class="row col-md-12">
+                            <div class="form-group col-md-12">
+                                <label for="recipient-name-1" class="col-form-label">Monnaie</label>
+                                <select class="form-control" [(ngModel)]="etab.currency">
+                                      <option value="HTG">HTG</option>
+                                      <option value="USD">USD</option>
+                                      <option value="CAD">CAD</option>
+                                    </select>
+                            </div>
+                            <hr class="col-md-12 mt-2">
+                            <div class="col-md-12 mb-2">
+                                <div class="col-md-12">
+                                    <h4 class="mb-3  text-left">Admission </h4>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group col-md-12">
+                                        <label for="recipient-name-1" class="col-form-label">Prix admission</label>
+                                        <input type="text" class="form-control" [(ngModel)]="etab.prix_admis" />
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="col-md-12 mt-2">
+
+                            <div class="col-md-12 mt-2">
+                                <div class="col-md-12">
+                                    <h4 class="mb-3  text-left">Salaire </h4>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label for="recipient-name-1" class="col-form-label">Salaire Min</label>
+                                        <input type="text" class="form-control" [(ngModel)]="etab.salairy_min" />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="recipient-name-1" class="col-form-label">Salaire Max</label>
+                                        <input type="email" class="form-control" [(ngModel)]="etab.salairy_max" />
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <hr class="col-md-12 ">
+
+                            <div class="col-md-12 mt-2">
+                                <div class="col-md-12">
+                                    <h4 class="mb-3  text-left">Taxes</h4>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label for="recipient-name-1" class="col-form-label">ONA</label>
+                                        <input type="text" class="form-control" [(ngModel)]="etab.ona" />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="recipient-name-1" class="col-form-label">IRI (1G-60,000G)</label>
+                                        <input type="email" class="form-control" [(ngModel)]="etab.iri" />
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label for="recipient-name-1" class="col-form-label">IRI (60,001-240,000G)</label>
+                                        <input type="email" class="form-control" [(ngModel)]="etab.iri_1" />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="recipient-name-1" class="col-form-label">IRI (240,001-480,000G)</label>
+                                        <input type="email" class="form-control" [(ngModel)]="etab.iri_2" />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="recipient-name-1" class="col-form-label">IRI (480,001-1,000,000G)</label>
+                                        <input type="email" class="form-control" [(ngModel)]="etab.iri_3" />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="recipient-name-1" class="col-form-label">IRI (1,000,000G et plus)</label>
+                                        <input type="email" class="form-control" [(ngModel)]="etab.iri_4" />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="recipient-name-1" class="col-form-label">CFGDCT</label>
+                                        <input type="email" class="form-control" [(ngModel)]="etab.cfgdct" />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="recipient-name-1" class="col-form-label">Assurance</label>
+                                        <input type="email" class="form-control" [(ngModel)]="etab.assure_mal" />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="recipient-name-1" class="col-form-label">FDU </label>
+                                        <input type="text" class="form-control" [(ngModel)]="etab.fdu" />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="recipient-name-1" class="col-form-label">CAS</label>
+                                        <input type="text" class="form-control" [(ngModel)]="etab.cas" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group mr-8 col-md-12" style="margin-top:3.5%;">
+                                <button class="btn btn-primary  btn-rounded mt-3" style="float:right;" (click)="config()" [disabled]='loading  '>
+         <span class="spinner-border spinner-border-sm mr-1"></span>
+         Configurer
+       </button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div *ngIf="info==4" class="row">
+                        <div class="col-md-12">
+                            <h4 class="mb-3  text-left">Notifications </h4>
+                        </div>
+                        <div class="row col-md-12">
+
+                            <div class="form-group col-md-12">
+                                <label for="recipient-name-1" class="col-form-label">Type notificaiton</label>
+                                <select class="form-control" [(ngModel)]="type_not">
+                                <option value="1">Pledika</option>
+                                <option value="2">Sms Gateway</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label for="recipient-name-1" class="col-form-label">Cible</label>
+                                <select class="form-control" [(ngModel)]="not.cible">
+                                <option value="1">Tout le monde</option>
+                                <option value="2">Tous les enseignants</option>
+                                <option value="3">Tous les etudiants</option>
+                                 <option value="4">Tous les personnels</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-md-12" *ngIf="type_not==2">
+                                <label for="recipient-name-1" class="col-form-label">Liste Numeros</label>
+                                <textarea [(ngModel)]="numbers" class="form-control"></textarea>
+                            </div>
+
+                            <div class="form-group col-md-12" *ngIf="type_not!=2">
+                                <label for="recipient-name-1" class="col-form-label">Titre</label>
+                                <input type="text" class="form-control" [(ngModel)]="not.titre" />
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label for="recipient-name-1" class="col-form-label">Message</label>
+                                <textarea [(ngModel)]="not.message" class="form-control"></textarea>
+                            </div>
+
+                            <div class="form-group mr-8" style="margin-top:3.5%;">
+                                <button class="btn btn-primary  btn-rounded mt-3" style="float:right;" (click)="envoyer()" [disabled]='loading  '>
+                                  <span class="spinner-border spinner-border-sm mr-1"></span>
+                                  Envoyer
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div *ngIf="info==5" class="row">
+                        <div class="col-md-12">
+                            <h4 class="mb-3  text-left">Share media Api & Connection</h4>
+                        </div>
+                        <div class="row col-md-12">
+                            <div class="form-group col-md-12">
+                                <label for="recipient-name-1" class="col-form-label">Authorisez-vous les enseignants a se connecter?</label>
+                                <select class="form-control" [(ngModel)]="etab.teacher">
+                                <option [value]="true">Oui</option>
+                                <option [value]="false">Non</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label for="recipient-name-1" class="col-form-label">Authorisez-vous les etudiants a se connecter?</label>
+                                <select class="form-control" [(ngModel)]="etab.student">
+                                <option [value]="true">Oui</option>
+                                <option [value]="false">Non</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="recipient-name-1" class="col-form-label">Nbre de programmes</label>
+                                <input type="number" class="form-control" [(ngModel)]="etab.nprog" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="recipient-name-1" class="col-form-label">Nbre de categories de Matieres</label>
+                                <input type="number" class="form-control" [(ngModel)]="etab.ncmat" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="recipient-name-1" class="col-form-label">Nbre de  Matieres</label>
+                                <input type="number" class="form-control" [(ngModel)]="etab.nmat" />
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="recipient-name-1" class="col-form-label">Nbre de cours</label>
+                                <input type="number" class="form-control" [(ngModel)]="etab.ncours" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="recipient-name-1" class="col-form-label">Nbre de Fragment basique</label>
+                                <input type="number" class="form-control" [(ngModel)]="etab.nbre_ctrl" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="recipient-name-1" class="col-form-label">Nom des fragments basique</label>
+                                <input type="text" class="form-control" [(ngModel)]="etab.frag_name" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="recipient-name-1" class="col-form-label">Reprise</label>
+                                <select class="form-control" [(ngModel)]="etab.reprise">
+     <option value="1">Activé</option>
+     <option value="2"> De-activé</option>
+   </select>
+                            </div>
+                            <div class="form-group col-md-6" *ngIf="etab.reprise==1">
+                                <label for="recipient-name-1" class="col-form-label">Type reprise</label>
+                                <select class="form-control" [(ngModel)]="etab.type_reprise">
+                                 <option value="1">Globale</option>
+                                 <option value="2">Partiele</option>
+                               </select>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="recipient-name-1" class="col-form-label">Mode de paiement</label>
+                                <select class="form-control" [(ngModel)]="etab.mode_paiement">
+                                 <option value="1">Par Cycle</option>
+                                 <option value="2">Par Classe</option>
+                               </select>
+                            </div>
+
+
+                            <div class="form-group col-md-6">
+                                <label for="recipient-name-1" class="col-form-label">Titulaire</label>
+                                <select class="form-control" [(ngModel)]="etab.tuts">
+                                <option value="true">Activé</option>
+                                <option value="false"> De-activé</option>
+                              </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="recipient-name-1" class="col-form-label">Application</label>
+                                <select class="form-control" [(ngModel)]="etab.app">
+                                <option value="true">Activé</option>
+                                <option value="false"> De-activé</option>
+                              </select>
+                            </div>
+
+                            <div class="form-group col-md-12">
+                                <label for="recipient-name-1" class="col-form-label">Token Api</label>
+                                <textarea [(ngModel)]="etab.token" class="form-control"></textarea>
+                            </div>
+                            <div class="col-md-12 mb-2">
+                                <h4 class="mb-3  text-center"> SMS Gateway information</h4>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label for="recipient-name-1" class="col-form-label">Gateway Url</label>
+                                <input type="tet" class="form-control" [(ngModel)]="etab.smsGateway" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="recipient-name-1" class="col-form-label">Gateway nom d'utilisateur</label>
+                                <input type="text" class="form-control" [(ngModel)]="etab.usernameGateway" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="recipient-name-1" class="col-form-label">Gateway Mot de passe </label>
+                                <input type="text" class="form-control" [(ngModel)]="etab.passGateway" />
+                            </div>
+
+                            <div class="form-group col-md-12">
+                                <label for="recipient-name-1" class="col-form-label">Gateway Token</label>
+                                <textarea [(ngModel)]="etab.tokenGateway" class="form-control"></textarea>
+                            </div>
+
+
+                            <div class="form-group mr-8" style="margin-top:3.5%;">
+                                <button class="btn btn-primary  btn-rounded mt-3" style="float:right;" (click)="config()" [disabled]='loading  '>
+                                  <span class="spinner-border spinner-border-sm mr-1"></span>
+                                  enregistrer
+                                </button>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div *ngIf="info==7" class="row">
+                        <div class=" card  m-2 p-4 ">
+                            <h4 class="text-center">Modifier logo</h4>
+                            <div class="col-md-12 mb-4">
+                                <img *ngIf="logo" class="card" style="width: 80%; margin-left:10%;" [src]="logo" alt="">
+                                <img *ngIf="!logo" class="card" style="width: 80%; margin-left:10%;" [src]="getLocalImg('default.png')" alt="">
+                            </div>
+                            <div class="progress mb-3 mr-2" *ngIf="progress">
+                                <div class="progress-bar bg-success" role="progressbar" [style.width]="progress+'%'" attr.aria-valuenow="progress" aria-valuemin="0" aria-valuemax="100">
+                                </div>
+                            </div>
+                            <form (ngSubmit)="onSubmit()">
+                                <div class="row mb-2">
+                                    <input class="form-control" id="image" type="file" name="profile" (change)="onFileSelect($event)" />
+                                </div>
+                                <div class="row mb-2">
+                                    <button class="btn btn-primary btn-block push-right" type="submit">Modifier image</button>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-6 row">
+                    <h4 class="mb-3  text-center">Fond d'ecran en cours</h4>
+                    <div class="col-md-12 row">
+                        <div class="col-md-12" *ngIf="!etab?.background">
+                            <div class="card bg-dark text-white o-hidden mb-4">
+                                <img class="card-img" src="assets/bg/bg_{{imgs[0]}}.png" alt="Card image">
+                            </div>
+                        </div>
+                        <div class="col-md-12" *ngIf="etab?.background">
+                            <div class="card bg-dark text-white o-hidden mb-4">
+                                <img class="card-img" src="assets/bg/{{etab?.background}}" alt="Card image">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 row">
+                        <div class="col-md-12 row">
+                            <h4 class="mb-3  text-center">Séléctionnez un fond d'ecran</h4>
+                        </div>
+                        <div class="col-md-12 row">
+                            <div (click)="setImg(img)" class="col-md-4" *ngFor="let img of imgs">
+                                <div class="card bg-dark text-white o-hidden mb-4">
+                                    <img class="card-img" src="assets/bg/bg_{{img}}.png" alt="Card image">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- Footer Start -->
+
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+    <!-- ============ Body content End ============= -->
+</div>
+<!--=============== End app-admin-wrap ================-->

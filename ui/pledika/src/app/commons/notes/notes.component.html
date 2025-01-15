@@ -1,0 +1,299 @@
+<div class="app-admin-wrap">
+  <app-navbar></app-navbar>
+  <app-side></app-side>
+  <!--=============== Left side End ================-->
+  <!-- ============ Body content start ============= -->
+  <div class="main-content-wrap sidenav-open d-flex flex-column">
+    <app-breadcrumb></app-breadcrumb>
+    <div class="row mb-4">
+      <div class="col-md-12 mb-2">
+        <h4 class="mb-3 text-center">Actions rapides</h4>
+        <h5 class="mb-3 text-success text-center" *ngIf="ccours?.code">
+          {{ ccours?.code }}
+        </h5>
+      </div>
+      <div class="col-md-12 row">
+        <div class="col-md-4">
+          <div class="card p-2">
+            <h4 class="mb-2 mt-2 text-center">Rechercher</h4>
+            <div class="form-group col-md-12">
+              <label for="recipient-name-1" class="col-form-label">Cycle</label>
+              <select (change)="cchange()" class="form-control" [(ngModel)]="ccycle">
+                <option [ngValue]="item" *ngFor="let item of cycles; let i = index">
+                  {{ item.name }}
+                </option>
+              </select>
+            </div>
+            <div class="form-group col-md-12" *ngIf="nivs?.length > 0">
+              <label for="recipient-name-1" class="col-form-label">Classe</label>
+              <select (change)="change()" class="form-control" [(ngModel)]="cniv">
+                <option [ngValue]="item" *ngFor="let item of nivs; let i = index">
+                  {{ item.name }}
+                </option>
+              </select>
+            </div>
+            <div class="form-group col-md-12" *ngIf="rnivs?.length > 0">
+              <label for="recipient-name-1" class="col-form-label">Classe Relative</label>
+              <select (change)="changeRel()" class="form-control" [(ngModel)]="crniv">
+                <option [ngValue]="item" *ngFor="let item of rnivs; let i = index">
+                  {{ item.name }}
+                </option>
+              </select>
+            </div>
+            <div class="form-group col-md-12" *ngIf="promos?.length > 0">
+              <label for="recipient-name-1" class="col-form-label">Promotion</label>
+              <select (change)="changePromo()" class="form-control" [(ngModel)]="cpromo">
+                <option [ngValue]="item" *ngFor="let item of promos; let i = index">
+                  {{ item.code }}
+                </option>
+              </select>
+            </div>
+            <div class="form-group col-md-12" *ngIf="frags?.length > 0">
+              <label for="recipient-name-1" class="col-form-label">Controle | Trimestres</label>
+              <select (change)="changeFrag()" class="form-control" [(ngModel)]="cfrag">
+                <option [ngValue]="item" *ngFor="let item of frags; let i = index">
+                  {{ item.code.split("-")[3].split("(")[0] }}
+                </option>
+              </select>
+            </div>
+            <div class="form-group col-md-12" *ngIf="cours?.length > 0">
+              <label for="recipient-name-1" class="col-form-label">Cours</label>
+              <select (change)="changeCours()" class="form-control" [(ngModel)]="ccours">
+                <option [ngValue]="item" *ngFor="let item of cours; let i = index">
+                  {{ item.code }}
+                </option>
+              </select>
+            </div>
+
+            <div *ngIf="ccours" class="col-md-12 row mt-2 mb-4">
+              <p>Importer a partir excel</p>
+              <div *ngIf="response2.active" class=" m-2 col-md-12 alert alert-card alert-{{
+                  response2.state
+                }} text-center" role="alert">
+                {{ response2.message }}
+              </div>
+              <input type="file" name="files[]" multiple id="jsonFile" accept=".xlsx" (change)="onFileChange($event)" />
+              <button (click)="upload()" [disabled]="loading" class="btn btn-sm btn-primary mt-1 ml-1"
+                style="cursor: pointer">
+                <i class="i-Upload"></i>
+              </button>
+            </div>
+            <a *ngIf="cpromo" class="btn btn-block btn-warning" routerLink="/app/promoDetails/{{ cpromo.id }}">Voir
+              cette promotion</a>
+            <div *ngIf="response4.active" class=" m-2 col-md-12 alert alert-card alert-{{
+                response4.state
+              }} text-center" role="alert">
+              {{ response4.message }}
+            </div>
+
+            <button [disabled]="lpromo" class="btn btn-block btn-success mt-2" (click)="genPromo()">
+              Générer les promotions de cette année
+            </button>
+          </div>
+        </div>
+        <div class="col-md-8">
+          <div *ngIf="response.active" class="col-md-12 alert alert-card alert-{{
+              response.state
+            }} text-center" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <p [innerHTML]="response.message"></p>
+          </div>
+          <div class="card text-left">
+            <div class="card-body">
+              <h4 class="card-title mb-3 text-center" *ngIf="cpromo">
+                Les etudiants de {{ cpromo.code }}
+              </h4>
+              <div class="col-md-12 row" style="float: right" *ngIf="cpromo">
+                <div class="form-group col-md-12 row" *ngIf="cpromo && ccours">
+                  <div class="col-md-6" style="float: left">
+                    <label for="recipient-name-1" class="col-form-label">Rechercher</label>
+                    <input type="text" class="form-control" autocomplete="off" (keyup)="onKey($event)" />
+                  </div>
+                  <div class="col-md-4 pt-5" style="float: right">
+                    <button [disabled]="loading" class="btn btn-primary mt-1" (click)="initResults()">
+                      <i class="i-Refresh"></i>
+                    </button>
+                    <button class="btn btn-primary mt-1 ml-1" style="cursor: pointer" (click)="exportexcel()">
+                      <i class="i-Download"></i>
+                    </button>
+                    <button class="btn btn-success mt-1 ml-1" *ngIf="!bedit" style="cursor: pointer"
+                      (click)="editNote(true)">
+                      <i class="i-Pen-2"></i>
+                    </button>
+                    <button class="btn btn-danger mt-1 ml-1" *ngIf="bedit" style="cursor: pointer"
+                      (click)="editNote(false)">
+                      <i class="i-Pen-2"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="table-responsive" *ngIf="cpromo && ccours">
+                <table id="zero_configuration_table" class="display table table-striped table-bordered"
+                  style="width: 100%">
+                  <thead>
+                    <tr>
+                      <th>id</th>
+                      <th>code</th>
+                      <th>nom_complet</th>
+                      <th>note</th>
+                      <th>action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let o of results; let i = index">
+                      <td>{{ o.id }}</td>
+                      <td>{{ o.code_student }}</td>
+                      <td>{{ o.nom }} {{ o.pnom }}</td>
+                      <td>
+                        <div class="col-md-12 p-2" *ngIf="!edit[i] && !bedit">
+                          {{ o.note }}
+                          <button style="float: right" (click)="edit[i] = true" class="btn btn-sm btn-success">
+                            <i class="nav-icon i-Pen-2"></i>
+                          </button>
+                        </div>
+                        <div class="col-md-12" *ngIf="edit[i] || bedit">
+                          <label class="alert alert-danger" *ngIf="msg[i]">{{
+                            msg[i]
+                            }}</label>
+                          <label class="alert alert-success" *ngIf="note[i]">{{
+                            note[i]
+                            }}</label>
+                          <i style="float: right" (click)="edit[i] = false"
+                            class="nav-icon i-Close m-2 close text-danger"></i>
+                          <input type="text" [(ngModel)]="o.note" class="form-control" />
+                          <button style="float: right" (click)="setResults(o, i)" class="m-2 btn btn-sm btn-success">
+                            <i class="nav-icon i-File-Edit"></i>
+                          </button>
+                        </div>
+                      </td>
+                      <td>
+                        <button [disabled]="iloading" (click)="del(o.id, i)" class="m-2 btn btn-sm btn-danger">
+                          <i class="nav-icon i-Close"></i>
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>0</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <h4 class="card-title mb-3 text-center text-danger" *ngIf="!cpromo">
+                Aucun resultat disponible
+              </h4>
+            </div>
+          </div>
+          <div class="card text-left mt-2 p-4 text-center" *ngIf="cniv && ccycle && !crniv">
+            <button type="button" class="btn btn-primary m-4" data-toggle="modal" data-target="#inscription">
+              Inscription
+            </button>
+            <button class="btn btn-success" data-whatever="@mdo" type="button" data-toggle="modal"
+              attr.data-target="#modalRel-niv-{{ ccycle.code }}-1">
+              Ajouter classe relative
+            </button>
+            <div *ngIf="cniv" class="col-md-12 row mt-4 mb-4">
+              <h4 class="mb-3 text-center">Importer etudiant a partir excel</h4>
+              <div *ngIf="response3.active" class=" m-2 col-md-12 alert alert-card alert-{{
+                  response3.state
+                }} text-center" role="alert">
+                {{ response3.message }}
+              </div>
+              <div class="row">
+                <div class="form-group col-md-4">
+                  <label for="recipient-name-1" class="col-form-label">Index</label>
+                  <input type="text" class="form-control" [(ngModel)]="index" />
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="recipient-name-1" class="col-form-label">Fichier</label>
+                  <input type="file" #fileExcel name="filesUser[]" class="form-control" multiple id="jsonFile"
+                    accept=".xlsx" (change)="onFileChangeUser($event)" />
+                </div>
+                <div class="form-group col-md-2">
+                  <label for="recipient-name-1" class="col-form-label mt-4"></label>
+                  <button (click)="uploadUser()" [disabled]="loading" class="mt-4 btn btn-sm btn-primary mt-1 ml-1"
+                    style="cursor: pointer">
+                    <i class="i-Upload"></i>
+                  </button>
+                </div>
+              </div>
+              <app-modal-classe (addNewNR)="addNewNR($event)" [vacs]="vacs" [salles]="salles" [code_niv]="cniv.code"
+                [classe]="cniv.name" niveaux="" [niv]="cniv" [option]="ccycle.code" io="0" in="0" id="0" dom="EC"
+                idModal="modalRel-niv-{{ ccycle.code }}-1">
+              </app-modal-classe>
+            </div>
+            <div *ngIf="userRemain" class="col-md-12 row mt-4 mb-4">
+              <button class="btn btn-danger close" (click)="reset()">
+                <i class="i-Close"></i>
+              </button>
+              <div class="table-responsive">
+                <table id="zero_configuration_table" class="display table table-striped table-bordered"
+                  style="width: 100%">
+                  <thead>
+                    <tr>
+                      <th>code</th>
+                      <th>nom_complet</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let o of userRemain; let i = index">
+                      <td>{{ o.code }}</td>
+                      <td>{{ o.nom }} {{ o.prenom }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <app-modal-add-student [villes]="villes" [classe]="cniv.name" niveaux="niv" [niv]="cniv.code"
+              [option]="ccycle.code" [dom]="ccycle.code" idModal="inscription">
+            </app-modal-add-student>
+          </div>
+          <div class="card text-left mt-2 p-4" *ngIf="crniv && ccycle">
+            <h4 class="mb-3 text-center">Ajouter une nouvelle promotion</h4>
+            <h5 class="mb-3 text-center">{{ crniv?.name }}</h5>
+            <div class="row">
+              <div class="form-group col-md-6">
+                <label for="recipient-name-1">Année academique</label>
+                <select id="ac_input" class="form-control" [(ngModel)]="ac">
+                  <option [selected]="i == 0" [value]="a.id" *ngFor="let a of acs; let i = index">
+                    {{ a.date_debut.split("T")[0].split("-")[0] }} -
+                    {{ a.date_fin.split("T")[0].split("-")[0] }}
+                  </option>
+                </select>
+              </div>
+
+              <div class="form-group col-md-2" style="margin-top: 1%">
+                <button class="btn btn-primary btn-rounded mt-3" style="float: right" (click)="addPromo()"
+                  [disabled]="loading">
+                  <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                  Ajouter
+                </button>
+              </div>
+            </div>
+            <a class="btn btn-warning m-2" target="_blank" *ngIf="cfrag"
+              routerLink="/app/fpalmares/{{ cfrag?.id }}/{{ cpromo?.id }}">Palmares</a>
+          </div>
+        </div>
+      </div>
+      <!-- end of col-->
+    </div>
+    <!-- end of row-->
+
+    <app-footer></app-footer>
+
+    <!-- fotter end -->
+  </div>
+
+  <!-- ============ Body content End ============= -->
+</div>
+<!--=============== End app-admin-wrap ================-->
+
+<!-- ============ Search UI Start ============= -->
+<app-search></app-search>
+<!-- ============ Search UI End ============= -->

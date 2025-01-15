@@ -1,0 +1,142 @@
+<div class="col-md-12">
+    <div *ngIf="response.active" class="alert alert-card alert-{{response.state}} text-center" role="alert">
+        {{response.message}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+       <span aria-hidden="true">&times;</span>
+     </button>
+    </div>
+    <div class="row col-md-12" *ngIf="!edit">
+        <div class="card-body">
+            <b class="card-title mb-3"> <span *ngIf="option?.name">{{option?.name}} -</span> Ajouter matiere </b>
+        </div>
+        <div class="row col-md-12">
+            <div class="form-group col-md-4">
+                <label for="recipient-name-1">Cycle</label>
+                <option></option>
+                <select id="niv" (change)='change()' class="form-control" [(ngModel)]="option">
+                     <option [ngValue]="n" *ngFor="let n of options"> {{n.name}}
+                  </option>
+             </select>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="recipient-name-1" class="col-form-label">Sujet</label>
+                <input type="text" class="form-control" [(ngModel)]="mat.name" />
+            </div>
+            <div class="form-group col-md-4">
+                <label for="recipient-name-1" class="col-form-label">Matieres</label>
+                <select (ngModelChange)="onChange($event)" id="mat" [(ngModel)]="mat.mat" class="form-control">
+                     <option value="">  </option>
+                    <option [ngValue]="s" *ngFor="let s of mats"> {{s.name}}({{s.id}})
+                    </option>
+                   </select>
+            </div>
+            <div class="form-group col-md-2">
+                <label for="recipient-name-2" class="col-form-label">Coef</label>
+                <input type="number" class="form-control" [(ngModel)]="mat.coef" />
+            </div>
+            <div class="form-group col-md-2">
+                <label for="recipient-name-1" class="col-form-label">Note</label>
+                <input type="text" class="form-control" [(ngModel)]="mat.note_total" />
+            </div>
+            <div class="form-group col-md-2">
+                <label for="recipient-name-1" class="col-form-label">Moy. acc.</label>
+                <input type="text" class="form-control" [(ngModel)]="mat.note_pass" />
+            </div>
+            <div class="form-group col-md-2">
+                <label for="recipient-name-1" class="col-form-label">Moy. rep.</label>
+                <input type="text" class="form-control" [(ngModel)]="mat.note_rep" />
+            </div>
+            <div class="form-group col-md-2">
+                <label for="recipient-name-1" class="col-form-label">Moy. exc.</label>
+                <input type="text" class="form-control" [(ngModel)]="mat.note_excel" />
+            </div>
+            <div class="form-group col-md-2" style="margin-top:2%;">
+                <button class="btn btn-block btn-primary  btn-rounded mt-3" style="float:right;" (click)="addCourse()" [disabled]='loading || !mat.name || !mat.coef || !mat.note_total '>
+         <span *ngIf='loading' class="spinner-border spinner-border-sm mr-1"></span>
+         Ajouter
+       </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row col-md-12" *ngIf="edit">
+        <div class="card-body">
+            <b class="card-title mb-3"> <span *ngIf="option?.name">{{option?.name}} -</span> Modifier matiere </b>
+            <i class="i-Close close text-danger text-right" style="float:right;" (click)="edit=false"></i>
+        </div>
+        <div class="row col-md-12">
+
+            <div class="form-group col-md-4">
+                <label for="recipient-name-1" class="col-form-label">Code</label>
+                <input type="text" class="form-control" [(ngModel)]="smat.code" />
+            </div>
+            <div class="form-group col-md-4">
+                <label for="recipient-name-1" class="col-form-label">Sujet</label>
+                <input type="text" class="form-control" [(ngModel)]="smat.name" />
+            </div>
+            <div class="form-group col-md-2">
+                <label for="recipient-name-2" class="col-form-label">Coef</label>
+                <input type="number" class="form-control" [(ngModel)]="smat.coef" />
+            </div>
+            <div class="form-group col-md-2">
+                <label for="recipient-name-1" class="col-form-label">Note</label>
+                <input type="text" class="form-control" [(ngModel)]="smat.note_total" />
+            </div>
+            <div class="form-group col-md-2">
+                <label for="recipient-name-1" class="col-form-label">Moy. acc.</label>
+                <input type="text" class="form-control" [(ngModel)]="smat.note_pass" />
+            </div>
+            <div class="form-group col-md-2">
+                <label for="recipient-name-1" class="col-form-label">Moy. rep.</label>
+                <input type="text" class="form-control" [(ngModel)]="smat.note_rep" />
+            </div>
+            <div class="form-group col-md-2">
+                <label for="recipient-name-1" class="col-form-label">Moy. exc.</label>
+                <input type="text" class="form-control" [(ngModel)]="smat.note_excel" />
+            </div>
+            <div class="form-group col-md-2" style="margin-top:2%;">
+                <button class="btn btn-block btn-primary  btn-rounded mt-3" style="float:right;" (click)="editCourse()" [disabled]='loading || !smat.name || !smat.coef || !smat.note_total '>
+         <span *ngIf='loading' class="spinner-border spinner-border-sm mr-1"></span>
+         Modifier
+       </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- end of row-->
+
+
+<div class="col-md-12">
+
+    <b class="card-title mb-3">La liste des matieres</b>
+    <div class=" row mt-2 mb-2">
+        <div class="form-group col-md-12 row" style="float:right;">
+            <div class="col-md-4" style="float:right;">
+                <label for="recipient-name-1" class="col-form-label">Rechercher</label>
+            </div>
+            <div class="col-md-8">
+                <input type="text" class="form-control" (keyup)="onKey($event)">
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="col-md-2" *ngFor="let a of cours; let i = index" style="display:inline-block;">
+            <div class="card card-icon mb-4 p-2">
+                <div class="text-right">
+                    <i class="i-Close text-danger text-center" (click)="del(a,i)"></i>
+                </div>
+                <div class="card-body text-center">
+                    <i class="i-Book"></i>
+                    <p class="text-muted mt-2 mb-2"> <b>{{a?.code}}</b></p>
+                    <span class="badge badge-success">{{a?.note_total*a?.coef}}</span>
+                    <div class="col-md-12  ml-1  text-center">
+                        <i class="i-Pen-2 text-primary" *ngIf="!edit" (click)="onEdit(a,i)"></i>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>

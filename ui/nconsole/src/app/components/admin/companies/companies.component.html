@@ -1,0 +1,64 @@
+<div class="companies-container">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Companies</h2>
+    <button class="btn btn-primary">
+      <i class="bi bi-plus-lg me-2"></i>Add New Company
+    </button>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Entreprise</th>
+          <th>Categorie</th>
+          <th>Bureaux</th>
+          <th>Status</th>
+          <th>Date création</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let company of companies">
+          <td>
+            <div class="d-flex align-items-center">
+              <img
+                [src]="getLogo(company?.id)"
+                [alt]="company.name"
+                class="rounded-circle me-3"
+                width="50"
+                height="50"
+              />
+              <span>{{ company.name }}</span>
+            </div>
+          </td>
+          <td>{{ company.categorie }}</td>
+          <td>{{ company.adresses.length }}</td>
+          <td>
+            <span
+              class="badge"
+              [ngClass]="company.approuved ? 'bg-success' : 'bg-secondary'"
+            >
+              {{ company.approuved ? 'Approuvé' : 'Non approuvé' }}
+            </span>
+          </td>
+          <td>{{ company.created_at.split('T')[0] }}</td>
+          <td>
+            <div class="btn-group">
+              <button class="btn btn-sm btn-outline-secondary">
+                <i class="bi bi-pencil me-1"></i>Modifier
+              </button>
+              <button
+                (click)="setActiveCompany(company)"
+                class="btn btn-sm btn-outline-primary"
+                *ngIf="company.id != cEnt"
+              >
+                <i class="bi bi-check2-circle me-1"></i>Activé
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

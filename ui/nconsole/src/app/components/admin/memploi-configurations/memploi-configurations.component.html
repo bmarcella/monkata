@@ -1,0 +1,135 @@
+<div class="config-container">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="mb-1">HR Configurations</h2>
+      <p class="text-muted mb-0">Manage HR system settings and preferences</p>
+    </div>
+    <button class="btn btn-primary">
+      <i class="bi bi-save me-2"></i>Save Changes
+    </button>
+  </div>
+
+  <ul class="nav nav-tabs mb-4">
+    <li class="nav-item" *ngFor="let tab of tabs">
+      <a class="nav-link" 
+         [ngClass]="{'active': activeTab === tab.id}"
+         (click)="setActiveTab(tab.id)">
+        <i class="bi {{tab.icon}} me-2"></i>
+        {{tab.name}}
+      </a>
+    </li>
+  </ul>
+
+  <div class="tab-content">
+    <!-- General Settings -->
+    <div *ngIf="activeTab === 'general'" class="tab-pane fade show active">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title mb-4">Company Information</h5>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Company Name</label>
+              <input type="text" class="form-control" placeholder="Enter company name">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Industry</label>
+              <select class="form-select">
+                <option>Technology</option>
+                <option>Healthcare</option>
+                <option>Finance</option>
+                <option>Manufacturing</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Business Hours</label>
+              <input type="text" class="form-control" placeholder="e.g., 9:00 AM - 6:00 PM">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Time Zone</label>
+              <select class="form-select">
+                <option>UTC+01:00 Paris</option>
+                <option>UTC+00:00 London</option>
+                <option>UTC-05:00 New York</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HR Workflows -->
+    <div *ngIf="activeTab === 'workflow'" class="tab-pane fade show active">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title mb-4">HR Process Workflows</h5>
+          <div class="workflow-list">
+            <div class="workflow-item">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="mb-1">Employee Onboarding</h6>
+                  <p class="text-muted mb-0">Configure onboarding process steps</p>
+                </div>
+                <button class="btn btn-outline-primary btn-sm">Configure</button>
+              </div>
+            </div>
+            <div class="workflow-item">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="mb-1">Leave Management</h6>
+                  <p class="text-muted mb-0">Set up leave approval workflow</p>
+                </div>
+                <button class="btn btn-outline-primary btn-sm">Configure</button>
+              </div>
+            </div>
+            <div class="workflow-item">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="mb-1">Performance Review</h6>
+                  <p class="text-muted mb-0">Define review process steps</p>
+                </div>
+                <button class="btn btn-outline-primary btn-sm">Configure</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Other tabs with placeholder content -->
+    <div *ngIf="activeTab === 'templates'" class="tab-pane fade show active">
+      <div class="card">
+        <div class="card-body">
+          <h5>Document Templates</h5>
+          <p class="text-muted">Manage HR document templates.</p>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="activeTab === 'fields'" class="tab-pane fade show active">
+      <div class="card">
+        <div class="card-body">
+          <h5>Custom Fields</h5>
+          <p class="text-muted">Configure custom fields for HR forms.</p>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="activeTab === 'notifications'" class="tab-pane fade show active">
+      <div class="card">
+        <div class="card-body">
+          <h5>Notification Settings</h5>
+          <p class="text-muted">Configure HR notifications and alerts.</p>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="activeTab === 'integrations'" class="tab-pane fade show active">
+      <div class="card">
+        <div class="card-body">
+          <h5>System Integrations</h5>
+          <p class="text-muted">Manage third-party integrations.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

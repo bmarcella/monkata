@@ -3,7 +3,7 @@ import express from 'express';
 import * as jwt from 'jsonwebtoken';
 
 import { ReCaptcha } from '../../../../common/index/ReCaptcha';
-import { protect } from '../../../../common/keycloak/AuthMiddleware';
+import { free, protect } from '../../../../common/keycloak/AuthMiddleware';
 import { upload } from '../multer';
 import _serv from '../services/UserService';
 
@@ -53,6 +53,7 @@ userRoute.get('/dashboard', protect(jwt,process.env.PUBLIC_KEY+""),  _serv.dashb
 
 //ENTREPRISE
 userRoute.get('/entreprises', protect(jwt,process.env.PUBLIC_KEY+""),  _serv.entreprises);
+userRoute.get('/entreprise/:id', free(jwt,process.env.PUBLIC_KEY+""),  _serv.getEntrepriseById);
 userRoute.delete('/deleteEntreprise/:id', protect(jwt,process.env.PUBLIC_KEY+""),  _serv.delEntreprise);
 
 //ADRESSE
@@ -84,5 +85,7 @@ userRoute.get('/logo/:id', _serv.logo);
 userRoute.post('/changeLogo/:id', upload.single('file'), protect(jwt,process.env.PUBLIC_KEY+""), _serv.changeLogo);
 
 userRoute.post('/contact', ReCaptcha(axios) , _serv.contact);
+
+userRoute.get('/approveUser/:code', protect(jwt,process.env.PUBLIC_KEY+""), _serv.approveUser);
 
 

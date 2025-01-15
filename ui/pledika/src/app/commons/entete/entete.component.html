@@ -1,0 +1,9 @@
+<div class="head" style="padding: 2.5px;">
+    <div class="new-avatar">
+        <img *ngIf="etab?.id_img" [src]=" setLogo(etab?.id_img)" alt="">
+        <img *ngIf="!etab?.id_img" [src]="getLocalImg('default.png')" alt="">
+    </div>
+    <h1 class="ename" style="margin-bottom: -0.5%;">{{etab?.name}}</h1>
+    <h4> {{etab?.adresse}} <br /> <i *ngIf="etab?.phone_a"> {{etab?.phone_a}}</i> <i *ngIf="etab?.phone_b">/ {{etab?.phone_b}}</i> <i *ngIf="etab?.phone_c">/ {{etab?.phone_c}}</i></h4>
+    <hr>
+</div>

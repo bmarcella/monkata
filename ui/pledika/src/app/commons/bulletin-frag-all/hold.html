@@ -1,0 +1,152 @@
+<div class="page-user">
+    <div class=" row">
+        <div class="form-group col-md-12 row  ">
+            <div class="col-md-4" style="float:left;">
+                <label for="recipient-name-1" class="col-form-label">Rechercher</label>
+            </div>
+            <div class="col-md-8">
+                <input type="text" class="form-control" autocomplete="off" (keyup)="onKey($event)">
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table id="zero_configuration_table" class="display table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Nom et prénom</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr (click)="changePage(o.id,IDF,i)" *ngFor="let o of STUDS; let i = index" [style.background-color]="setBG(o.id)">
+                    <td [style.color]="setTC(o)"> <a pageScroll href="#USER-{{o.id}}"> {{o.nom}} {{o.pnom}}
+                        ({{o.code_student}})</a> </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="page-print">
+
+    <button class="btn btn-primary" [useExistingCss]="true" printSectionId="print-section" ngxPrint>print</button>
+    <button class="btn btn-sm btn-primary m-1" (click)="edit=!edit"> <i *ngIf="edit"> Fermer note </i> <i *ngIf="!edit">
+        Ouvrir note </i> </button>
+    <button class="btn btn-sm btn-success m-1 row" (click)="getMoyGen()"> Mise a jour de la moyenne de la classe </button>
+</div>
+
+<div class="book" id="print-section">
+    <div id="USER-{{user.id}}" class="page" *ngFor="let user of STUDS;let i = index">
+        <app-entete [etab]="etab"></app-entete>
+        <div class="col-md-12 ">
+            <div class="identity">
+                <p class="line-text"> <b class="reponse"> Bulletin {{user?.promofrag.code.split("(")[0].split("-")[3]}}
+                  </b></p>
+                <p class="line-text-a "> <b class="reponse">Nom et Prénom :</b><span class="reponse">{{user?.nom}} {{user?.pnom}}</span> </p>
+                <p class="line-text-b"> <b class="reponse">{{user?.code_student}}</b> </p>
+                <p class="line-text-a "> <b class="reponse">Classe :</b><span class="reponse">{{user?.promo_name.split("(")[0].split("-")[0]}}</span> </p>
+                <p class="line-text-b"> <b class="reponse">{{user?.promo_name.split("(")[0].split("-")[1]}}-{{user?.promo_name.split("(")[0].split("-")[2]}}</b>
+                </p>
+            </div>
+            <table class="display my-table  table-bordered " style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Matieres</th>
+                        <th>Coéfficient</th>
+                        <th>Note</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let o of user.results; let j = index">
+                        <td>{{ o.frag_cours.name}} </td>
+                        <td>
+                            {{ o.note_total * o.coef }}
+                        </td>
+                        <td>
+                            <span *ngIf="!edit" style="font-size:12px;">{{ o.note*o.coef }}</span>
+                            <span *ngIf="edit">
+ <label class="text-success m-2 row" *ngIf="msg[o.id]">{{msg[o.id]}}</label>
+ <label class="text-danger m-2 row" *ngIf="err[o.id]">{{err[o.id]}}</label>
+<input class="note-input" [(ngModel)]="o.note" class="form-control" (blur)="editNote(o)" />
+                            </span>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Total</b></td>
+                        <td>{{ getTotalCoef(user.results) }}</td>
+                        <td>{{ getTotalNote(user.results) }}</td>
+                    </tr>
+                    <tr>
+                        <td>Moyenne de l'élève</td>
+                        <td>{{promo?.moy_total}}</td>
+                        <td> <b>{{ getMoy(getTotalNote(user.results),getTotalCoef(user.results),promo?.moy_total).toFixed(2)}}
+                          </b></td>
+
+                    </tr>
+                    <tr>
+                        <td>Moyenne de la classe</td>
+                        <td>{{promo?.moy_total}}</td>
+                        <td> <b>{{ ( moy * promo?.moy_total).toFixed(2) }} </b></td>
+
+                    </tr>
+                </tbody>
+            </table>
+            <table class="display my-table  table-bordered " style="width:100%" *ngIf="etab.app">
+                <thead>
+                    <tr>
+                        <th style="font-weight:none;">Application</th>
+
+                        <th style="font-weight:none;">{{user?.note_1}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Démérites</td>
+                        <td>{{user.note_2}}</td>
+                    </tr>
+                    <tr>
+                        <td>Absences</td>
+                        <td>{{user.absence}}</td>
+                    </tr>
+                    <tr>
+                        <td>Retard</td>
+                        <td>{{user.retard}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-12">
+            <div class="mention">
+                <p class="text-left "> <b class="reponse">Decision:</b>
+                    <i class="reponse text-success" *ngIf="getMoy(getTotalNote(user.results),getTotalCoef(user.results),promo?.moy_total).toFixed(2)>=promo?.moy_accept">
+                      Réussit</i>
+                    <i class="reponse text-success" *ngIf="getMoy(getTotalNote(user.results),getTotalCoef(user.results),promo?.moy_total).toFixed(2)<promo?.moy_accept">
+                      Echoué</i>
+                </p>
+            </div>
+            <div class="mention" *ngIf="results[0]?.parcours_frag?.mention">
+                <p class="text-left "> <b class="reponse">Mention:</b><i class="reponse"> {{user?.mention}}</i> </p>
+            </div>
+            <div class="mention" *ngIf="etab.tuts">
+                <div class="ml-1 mt-2 signature prof">
+                    Signature du titulaire
+                </div>
+                <div class="mt-2 signature parent mr-4">
+                    Signature des parents
+                </div>
+            </div>
+            <div class="mention" *ngIf="!etab.tuts">
+                <div class="ml-1 mt-2 signature prof">
+                    Signature du directeur
+                </div>
+                <div class="mt-2 signature parent mr-4">
+                    Signature des parents
+                </div>
+            </div>
+            <div class="mt-4 signature direct" *ngIf="etab.tuts">
+                Signature du directeur
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,18 @@
+<form *ngIf="DForm">
+  <div *ngFor="let i of DForm.DFields">
+    <d-input
+      *ngIf="i.type!='textarea' && i.type!='select' && i.type!='radiogroup' && i.type!='oselect' "
+      [field]="i"
+    ></d-input>
+    <d-select *ngIf="i.type=='select' " [field]="i"></d-select>
+    <d-oselect *ngIf="i.type=='oselect' " [field]="i"></d-oselect>
+    <d-text-area *ngIf="i.type=='textarea' " [field]="i"></d-text-area>
+    <d-radio-group *ngIf="i.type=='radiogroup' " [field]="i"></d-radio-group>
+  </div>
+  <button
+    class="{{ DForm.formMetadata.submit.class || '' }}"
+    (click)="onSubmit($event)"
+  >
+    {{ DForm.formMetadata.submit.label || 'Submit' }}
+  </button>
+</form>

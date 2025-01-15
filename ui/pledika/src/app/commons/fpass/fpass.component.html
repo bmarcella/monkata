@@ -1,0 +1,33 @@
+<div *ngIf="etab" class="auth-layout-wrap" [style.background-image]="setBG()">
+    <div class="auth-content">
+        <div class="card o-hidden">
+            <div class="row">
+                <div class="col-md-8" style="margin-left: auto; margin-right:auto;">
+                    <div class="p-4">
+                        <div class="auth-logo text-center mb-4">
+                            <!-- <img src="assets/images/logo.png" alt=""> -->
+                        </div>
+                        <h3 class="mb-3  text-center">{{etab?.name}}</h3>
+                        <div class="separator-breadcrumb border-top"></div>
+                        <h1 class="mb-3 text-18 text-center">Récupération de compte </h1>
+                        <div *ngIf="response.active" class="alert alert-{{response.state}} mt-3 mb-0">{{response.message}}</div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="username">Email</label>
+                                <input class="form-control form-control-rounded" [(ngModel)]="email" type="email">
+                            </div>
+                            <button [disabled]="loading" class="btn btn-primary btn-block btn-rounded mt-2" (click)="fpass(email)">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                reinitialiser
+              </button>
+                        </div>
+                        <div class="mt-3 text-center">
+                            <a routerLink="/app/login" class="text-muted"><u>Se connecter?</u></a> ,
+                            <a routerLink="/app/register" class="text-muted"><u>Nouveau membre?</u></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

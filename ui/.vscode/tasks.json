@@ -1,0 +1,78 @@
+{
+   "version": "2.0.0",
+   "tasks": [
+      {
+         "label": "Monkata-UI-Auth",
+         "type": "shell",
+         "hide": false,
+         "command": " npm run start",
+         "options": {
+            "cwd": "./auth"
+         },
+         "presentation": {
+            "reveal": "always",
+            "panel": "new"
+         }
+      },
+      {
+         "label": "Monkata-UI-Memploi",
+         "type": "shell",
+         "hide": false,
+         "command": " npm run start",
+         "options": {
+            "cwd": "./memploi"
+         },
+         "presentation": {
+            "reveal": "always",
+            "panel": "new"
+         }
+      },
+      {
+         "label": "Monkata-UI-Admin",
+         "type": "shell",
+         "hide": false,
+         "command": " npm run start",
+         "options": {
+            "cwd": "./admin"
+         },
+         "presentation": {
+            "reveal": "always",
+            "panel": "new"
+         }
+      },
+      {
+         "label": "Monkata-UI-Qnote",
+         "type": "shell",
+         "hide": false,
+         "command": " npm run start",
+         "options": {
+            "cwd": "./qnote"
+         },
+         "presentation": {
+            "reveal": "always",
+            "panel": "new"
+         }
+      },
+      {
+         "label": "Monkata-UI-SAAS",
+         "dependsOn": [
+            "Monkata-Eureka",
+            "Monkata-UI-Admin",
+            "Monkata-UI-Auth",
+            "Monkata-UI-Memploi",
+            "Monkata-UI-Qnote",
+         ],
+         "presentation": {
+            "reveal": "always",
+            "revealProblems": "never",
+            "panel": "new"
+         },
+         "problemMatcher": [],
+         "group": {
+            "kind": "build",
+            "isDefault": true
+         }
+      },
+     
+   ]
+}

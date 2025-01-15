@@ -1,0 +1,61 @@
+<div class="modal fade" id="{{idModal}}" tabindex="-1" role="dialog" data-backdrop="false" attr.aria-labelledby="{{idModal}}" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"><i class="nav-icon i-refresh"></i></button>
+                <h5 class="modal-title" id="verifyModalContent2_title"> Classe relative pour {{classe}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                 <span aria-hidden="true">&times;</span>
+        </button>
+            </div>
+            <div class="modal-body">
+
+                <div *ngIf="response.active" class="alert alert-card alert-{{response.state}} text-center" role="alert">
+                    {{response.message}}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+                </div>
+                <form [formGroup]="addForm" (ngSubmit)="add()">
+                    <div class="row">
+                        <div class="form-group col-md-3">
+                            <label for="recipient-name-1">Code </label>
+                            <input type="text" id="csalle-{{idModal}}" formControlName="csalle" [ngClass]="{ 'is-invalid': this.submitted &&  f.csalle.errors }" class="form-control" />
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label for="recipient-name-1">Salle</label>
+                            <select id="salle-{{idModal}}" formControlName="salle" class="form-control" [ngClass]="{ 'is-invalid': this.submitted && f.salle.errors }">
+                             <option [value]="s.code" *ngFor="let s of salles">{{s.type_salle}} {{s.name}} -{{s.code}}
+                             </option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="recipient-name-1">Programme</label>
+                            <select id="salle-{{idModal}}" formControlName="prog_id" class="form-control" [ngClass]="{ 'is-invalid': this.submitted && f.prog_id.errors }">
+                            <option [value]="s.id" *ngFor="let s of prog">{{s.name}} </option> </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="recipient-name-1">Vacation</label>
+                            <select id="vacation-{{idModal}}" formControlName="vac" class="form-control" [ngClass]="{ 'is-invalid': this.submitted && f.vac.errors }">
+                            <option [value]="c.code" *ngFor="let c of vacs">{{c.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <button style="float:right;" type="submit" id="btn-{{idModal}}" [disabled]="loading" class="btn btn-primary  btn-rounded mt-3">
+                  <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                   Suivant
+                  </button>
+
+                    <a style="float:left;" id="btn-reset-{{idModal}}" type="button" class="btn btn-warning btn-rounded mt-3 pull-left push-left " (click)="reset()">
+            Réinitialiser
+          </a>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

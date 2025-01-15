@@ -1,0 +1,10 @@
+<div *ngFor="let act of actions">
+  <button
+    *ngIf="act.type == 'button'"
+    [id]="act?.id || ''"
+    [class]="act?.class || ''"
+    (click)="onAction(act, data, $event)"
+  >
+    <i class="act.icon" *ngIf="act.icon"></i> {{ act.label }}
+  </button>
+</div>

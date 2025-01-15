@@ -9,21 +9,12 @@ export enum Subject {
 
 
 export class SenderApi {
-http:  Http;
-endPoint: string;
+  http:  Http;
+  endPoint: string;
 
-constructor(axios: any, ep: string, private formData: any ) {
-    this.http = new Http(axios, "");
-    this.endPoint = ep;
-}
-  
+  constructor(axios: any, ep: string, private formData: any ) {
+      this.http = new Http(axios, "");
+      this.endPoint = ep;
+  }
 
-
-
-
-
-
-
-
-  
 }

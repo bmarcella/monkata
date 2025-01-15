@@ -1,0 +1,155 @@
+<div class="page-user">
+    <div class=" row">
+        <div class="form-group col-md-12 row  ">
+            <div class="col-md-4" style="float:left;">
+                <label for="recipient-name-1" class="col-form-label">Rechercher</label>
+            </div>
+            <div class="col-md-8">
+                <input type="text" class="form-control" autocomplete="off" (keyup)="onKey($event)">
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table id="zero_configuration_table" class="display table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Nom et prénom</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr (click)="changePage(o.id,IDF,i)" *ngFor="let o of STUDS; let i = index" [style.background-color]="setBG(o.id)">
+                    <td [style.color]="setTC(o)">({{o.code_student}})</td>
+                    <td [style.color]="setTC(o)">{{o.nom}} {{o.pnom}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="page-print">
+    <button class="btn btn-success m-4" (click)="initMoyGen()" *ngIf="results.length>=4">Initialisée moyenne
+   generale ({{etab.reprise}} - {{etab.type_reprise}} )</button>
+    <button class="btn btn-primary m-4" [useExistingCss]="true" printSectionId="print-section" ngxPrint>print</button>
+</div>
+<div class="page" id="print-section">
+    <div class="head">
+        <h1 class="ename">{{etab?.name}}</h1>
+        <h3>{{etab?.adresse}}</h3>
+        <h3>{{etab?.phone_a}}</h3>
+    </div>
+    <h4 class="title">Décision academique / Relevé de notes</h4>
+    <div class="col-md-12 ">
+        <div class="row col-md-12">
+            <div class="col-md-8">
+                <h4 class="text-left "> <b class="reponse">Nom et Prénom :</b><i class="reponse">{{cpars?.nom}} {{cpars?.pnom}}</i> </h4>
+            </div>
+            <div class="col-md-4">
+                <h4 class="text-left"> <b class="reponse">Code:</b> <i class="reponse">{{cpars?.code_student}}</i> </h4>
+            </div>
+        </div>
+        <div class=" ml-1 row col-md-10 mb-2">
+            <h4 class="text-left"> <b class="reponse">Classe:</b> <i class="reponse">{{cpars?.promo_name}}</i> </h4>
+        </div>
+
+        <div class="col-md-12">
+            <table class="display my-table table-bordered " style="width:100%">
+                <thead *ngIf="etab">
+                    <tr>
+                        <th> Matières</th>
+                        <th class="control">Coéf</th>
+                        <th class="control"> 1<sup>e</sup> {{etab?.frag_name}}</th>
+                        <th class="control "> 2<sup>e</sup>{{etab?.frag_name}}</th>
+                        <th class="control"> 3<sup>e</sup> {{etab?.frag_name}}</th>
+                        <th class="control"> 4<sup>e</sup> {{etab?.frag_name}}</th>
+                        <th class="control">Moy. Ann.</th>
+                        <th class="control" *ngIf="total.extra>0 && etab.reprise==1">Ex. Extra </th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="etab">
+                    <tr *ngFor="let o of newRes; let i = index">
+                        <td class="control">{{ o.frag_cours}}</td>
+                        <td>
+                            {{ o.coef * o.note_total }}
+                        </td>
+                        <td>
+                            {{ o.coef * o.ctrl_1 }}
+                        </td>
+                        <td>{{ o.coef * o.ctrl_2 }}</td>
+                        <td>
+                            {{ o.coef * o.ctrl_3 }}
+                        </td>
+                        <td>{{ o.coef * o.ctrl_4 }}</td>
+                        <td>
+                            {{ getMoyAnn(o,etab?.nbre_ctrl).toFixed(2) }}
+                        </td>
+                        <td *ngIf="total.extra>0 && etab.reprise==1">
+                            {{ o.coef * o.extra }}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><b>Total</b></td>
+                        <td>{{ total?.coef }}</td>
+                        <td>{{ total?.ctrl_1 }}</td>
+                        <td>{{ total?.ctrl_2 }}</td>
+                        <td>{{ total?.ctrl_3 }}</td>
+                        <td>{{ total?.ctrl_4 }}</td>
+                        <td>{{ total?.moy.toFixed(2) }}</td>
+                        <td *ngIf="total.extra>0 &&  etab.reprise==1">{{ total?.extra }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Moyenne de l'élève</b></td>
+                        <td>{{promo?.moy_total}}</td>
+                        <td> <b>{{((total.ctrl_1/total.coef) * promo?.moy_total).toFixed(2)}} </b></td>
+                        <td> <b>{{((total.ctrl_2/total.coef) * promo?.moy_total).toFixed(2)}} </b></td>
+                        <td> <b>{{((total.ctrl_3/total.coef) * promo?.moy_total).toFixed(2)}} </b></td>
+                        <td> <b>{{((total.ctrl_4/total.coef) * promo?.moy_total).toFixed(2)}} </b></td>
+                        <td> <b>{{((total.moy/total.coef)    * promo?.moy_total).toFixed(2)}}    </b></td>
+                        <td *ngIf="total.extra>0 && etab.reprise==1">
+                            <b>{{getRepMoy(total?.extra,promo?.moy_total,total.coef).toFixed(2)}}
+                            </b></td>
+                    </tr>
+                    <tr *ngIf="promo">
+                        <td><b>Moyenne de la classe</b></td>
+                        <td> {{promo?.moy_total}}</td>
+                        <td> <b>{{ ( moy[0] * promo?.moy_total).toFixed(2) }} </b></td>
+                        <td> <b>{{ ( moy[1] * promo?.moy_total).toFixed(2) }} </b></td>
+                        <td> <b>{{ ( moy[2] * promo?.moy_total).toFixed(2) }} </b></td>
+                        <td> <b>{{ ( moy[3] * promo?.moy_total).toFixed(2) }} </b></td>
+                        <td> <b>{{  getMoy(moy,etab.nbre_ctrl).toFixed(2) }} </b></td>
+                        <td *ngIf="total.extra>0  && etab.reprise==1"> <b>-</b></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="mention">
+            <h5 class="text-center" style="text-decoration:underline;">Décision de fin d'année</h5>
+            <span class="text-center ml-3">
+              {{ getDec(promo?.moy_accept, ((total.moy/total.coef) * promo?.moy_total).toFixed(2),((total.extra/total.coef) * promo?.moy_total).toFixed(2),etab?.reprise,etab?.type_reprise) }}</span>
+            <br>
+            <span class="text-left ml-3"> Remarques: <i class="reponse"> {{cpars?.mention}}</i> </span>
+        </div>
+        <div class="mention" *ngIf="etab.tuts">
+            <div class="ml-1 mt-2 signature prof">
+                Signature du titulaire
+            </div>
+            <div class="mt-2 signature parent mr-4">
+                Signature des parents
+            </div>
+        </div>
+        <div class="mention" *ngIf="!etab.tuts">
+            <div class="ml-1 mt-2 signature prof">
+                Signature du directeur
+            </div>
+            <div class="mt-2 signature parent mr-4">
+                Signature des parents
+            </div>
+        </div>
+        <div class="mt-4 signature direct" *ngIf="etab.tuts">
+            Signature du directeur
+        </div>
+    </div>
+</div>

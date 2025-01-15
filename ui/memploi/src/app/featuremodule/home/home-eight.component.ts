@@ -127,7 +127,7 @@ export class HomeEightComponent implements OnInit {
 
   ngOnInit(): void {
     AOS.init({ disable: 'mobile', duration: 1200, once: true });
-   this.getJobs();
+    this.getJobs();
   }
 
   public getJobs() {
@@ -139,7 +139,7 @@ export class HomeEightComponent implements OnInit {
        const ent = r.ents.find(obj => obj.id ==  job.entreprise_id );
        return {ent, job};
       } );
-      console.log(this.jobs);
+      console.log("HOME :"+this.jobs);
     }
     }).catch((e) => {
       const msg = e.error.error.message;

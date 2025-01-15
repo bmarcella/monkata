@@ -1,0 +1,106 @@
+<div class="employees-container">
+  <div class="d-flex justify-content-between align-items-center page-header">
+    <div>
+      <h2 class="mb-1">Employee Management</h2>
+      <p class="text-muted mb-0">Manage your workforce and HR operations</p>
+    </div>
+    <button class="btn btn-primary">
+      <i class="bi bi-plus-lg me-2"></i>Add Employee
+    </button>
+  </div>
+
+  <ul class="nav nav-tabs mb-4">
+    <li class="nav-item" *ngFor="let tab of tabs">
+      <a class="nav-link" 
+         [ngClass]="{'active': activeTab === tab.id}"
+         (click)="setActiveTab(tab.id)">
+        <i class="bi {{tab.icon}} me-2"></i>
+        {{tab.name}}
+      </a>
+    </li>
+  </ul>
+
+  <div class="tab-content">
+    <!-- Employees Tab -->
+    <div *ngIf="activeTab === 'employees'" class="tab-pane fade show active">
+      <div class="card">
+        <div class="card-body">
+          <div class="filters-row">
+            <div class="search-box">
+              <i class="bi bi-search"></i>
+              <input 
+                type="text" 
+                class="form-control" 
+                placeholder="Search employees..."
+                [(ngModel)]="searchTerm">
+            </div>
+            <div class="filters-group">
+              <select class="form-select" [(ngModel)]="selectedDepartment">
+                <option value="">All Departments</option>
+                <option *ngFor="let dept of departments" [value]="dept">{{dept}}</option>
+              </select>
+              <select class="form-select" [(ngModel)]="selectedStatus">
+                <option value="">All Status</option>
+                <option *ngFor="let status of statuses" [value]="status">{{status}}</option>
+              </select>
+              <button class="btn btn-outline-secondary" (click)="clearFilters()">
+                <i class="bi bi-x-circle me-2"></i>Clear Filters
+              </button>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Employee</th>
+                  <th>Position</th>
+                  <th>Department</th>
+                  <th>Email</th>
+                  <th>Join Date</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let emp of getFilteredEmployees()">
+                  <td>
+                    <div class="d-flex align-items-center">
+                      <div class="avatar me-2">{{emp.name[0]}}</div>
+                      {{emp.name}}
+                    </div>
+                  </td>
+                  <td>{{emp.position}}</td>
+                  <td>{{emp.department}}</td>
+                  <td>{{emp.email}}</td>
+                  <td>{{emp.joinDate}}</td>
+                  <td>
+                    <span class="badge" 
+                          [ngClass]="emp.status === 'active' ? 'bg-success' : 'bg-secondary'">
+                      {{emp.status}}
+                    </span>
+                  </td>
+                  <td>
+                    <div class="btn-group">
+                      <button class="btn btn-sm btn-outline-primary">
+                        <i class="bi bi-pencil"></i>
+                      </button>
+                      <button class="btn btn-sm btn-outline-secondary">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                      <button class="btn btn-sm btn-outline-danger">
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Other tabs remain unchanged -->
+  </div>
+</div>

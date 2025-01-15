@@ -1,0 +1,829 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!-- ============ Body content start ============= -->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+        <div class="col-md-12 mb-2">
+            <h3 class="mb-2  text-center"> Modifier profil : {{ nuser.firstName }} {{ nuser.lastName }} </h3>
+            <h6 class="text-center text-warning mb-3" *ngIf="nuser?.role?.name=='STUDENT' && !nuser?.current_promo">
+                <a routerLink="/app/affectation">Affecter cet (te) etudiant(e) a une salle</a></h6>
+            <h4 class="mb-3  text-center text-primary" *ngIf="nuser?.role?.name=='STUDENT' &&  nuser?.current_promo  ">{{ nuser?.current_promo }}</h4>
+            <h5 class="text-danger text-center"> <a class="text-danger" routerLink="/app/etudiants" *ngIf="nuser?.role?.name=='STUDENT'">Retournez</a> </h5>
+            <h5 class="text-danger text-center"> <a class="text-danger" routerLink="/app/prof" *ngIf="nuser?.role?.name=='PROF'">Retournez</a> </h5>
+            <h5 class="text-danger text-center"> <a class="text-danger" routerLink="/app/parents" *ngIf="nuser?.role?.name=='PARENT'">Retournez</a> </h5>
+            <h5 class="text-danger text-center"> <a class="text-danger" routerLink="/app/personnel" *ngIf="nuser?.role?.name!='PROF' && nuser?.role?.name!='STUDENT' && nuser?.role?.name!='PARENT' ">Retournez</a> </h5>
+        </div>
+
+        <div class="col-md-12 row">
+
+            <div class="col-md-4">
+                <div class=" card  m-2 p-4 ">
+                    <h4 class="text-center">Modifier photo profil</h4>
+                    <div class="col-md-12 mb-4">
+                        <img *ngIf="logo" class="card" style="width: 80%; margin-left:10%;" [src]="logo" alt="">
+                        <img *ngIf="!logo" class="card" style="width: 80%; margin-left:10%;" [src]="getLocalImg('default.png')" alt="">
+                    </div>
+                    <div class="progress mb-3 mr-2" *ngIf="progress">
+                        <div class="progress-bar bg-success" role="progressbar" [style.width]="progress+'%'" attr.aria-valuenow="progress" aria-valuemin="0" aria-valuemax="100">
+                        </div>
+                    </div>
+                    <h3 class="mb-1  text-center"> {{ nuser.firstName }} {{ nuser.lastName }} </h3>
+                    <h5 class="mb-2  text-center"> ({{ nuser.code }})</h5>
+                    <div class="m-1 p-1 " *ngIf="nuser?.role?.name!='STUDENT' && nuser?.role?.name!='PROF'">
+                        <h4 class="text-center">{{nuser.fonction}}</h4>
+                    </div>
+                    <form (ngSubmit)="onSubmit()">
+                        <div class="row mb-2">
+                            <input #myInput class="form-control" id="image" type="file" name="profile" (change)="onFileSelect($event)" />
+                        </div>
+                        <div class="row mb-2">
+                            <button class="btn btn-primary btn-block push-right" type="submit">Modifier image</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card m-2 p-4 ">
+                    <div *ngIf="response17.active" class="alert alert-card alert-{{response17.state}} text-center" role="alert">
+                        {{response17.message}}
+                    </div>
+                    <div class="form-group" *ngIf="nuser.enabled  && !nuser.exclude">
+                        <h5 class="text-success text-center mt-3">Activé</h5>
+                        <button (click)="editEtat(false)" class="btn btn-block btn-danger"> Desactiver</button>
+                    </div>
+                    <div class="form-group" *ngIf="!nuser.enabled && !nuser.exclude">
+                        <h5 class="text-danger text-center mt-3">Desactivé</h5>
+                        <button (click)="editEtat(true)" class="btn btn-block btn-success"> Activer</button>
+                    </div>
+                    <div class="col-md-12" *ngIf="nuser?.role?.name=='STUDENT'">
+                        <div class=" form-group " *ngIf="!nuser.exclude ">
+                            <h5 class="text-success text-center mt-3 ">Integré</h5>
+                            <button (click)="editExc(true) " class="btn btn-block btn-danger ">Exclure</button>
+                        </div>
+                        <div class="form-group " *ngIf="nuser.exclude ">
+                            <h5 class="text-danger text-center mt-3 ">Exclu</h5>
+                            <button (click)="editExc(false) " class="btn btn-block btn-success "> Ré-integrer</button>
+                        </div>
+                        <div class="form-group text-center ">
+                            <a routerLink="/app/poubelle " class="btn btn-link ">voir la liste des exclus</a>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card m-2 p-4 " *ngIf="nuser?.role?.name=='STUDENT' && nuser?.paiement_admission?.pay ">
+                    <h5 class="text-success text-center mt-3 ">Admission Payée</h5>
+                    <a target="_blank " class="btn btn-block btn-primary " routerLink="/app/admisFiche/{{nuser.paiement_admission.code}} "> Imprimmer réçu</a>
+                </div>
+                <div class=" card m-2 p-4 " *ngIf="nuser?.role?.name=='STUDENT' && !nuser?.paiement_admission?.pay ">
+                    <h4 class="text-center ">Paiement Admission</h4>
+                    <div *ngIf="response13.active " class="alert alert-card alert-{{response13.state}} text-center " role="alert ">
+                        {{response13.message}}
+                    </div>
+                    <button (click)="payAdmis() " [disabled]="aloading " class="btn btn-primary full btn-block btn-rounded mt-3 ">
+                      <span *ngIf="aloading " class="spinner-border spinner-border-sm mr-1 "></span>Payé</button>
+                </div>
+
+                <div class="card m-2 p-4 " *ngIf="nuser?.role?.name=='STUDENT' ">
+                    <h4 class="text-center ">Modifier bourse </h4>
+                    <div *ngIf="response16.active " class="alert alert-card alert-{{response16.state}} text-center " role="alert ">
+                        {{response16.message}}
+                    </div>
+                    <div class="form-group ">
+                        <label>Bourse</label>
+                        <select [(ngModel)]="nuser.granted " class="form-control ">
+                       <option value="0 " [selected]="nuser.granted==0 ">Aucune bourse</option>
+                       <option value="1 " [selected]="nuser.granted==1 ">Bourse</option>
+                       <option value="2 " [selected]="nuser.granted==2 ">Demi bourse</option>
+                     </select>
+                    </div>
+                    <div class="form-group ">
+                        <button (click)="editBourse() " class="btn btn-primary "> modifier</button>
+                    </div>
+                    <div class="form-group text-center ">
+                        <a routerLink="/app/boursier " class="btn btn-link ">voir la liste des boursiers</a>
+                    </div>
+                </div>
+                <div class="card p-4 m-2 " *ngIf="bname ">
+                    <div class="card-head ">
+                        <h5 class="text-left ">Modifier nom et prénom
+                            <button class="btn btn-link close " (click)="bname=false ">
+                <i class="i-Close "></i>
+              </button>
+                        </h5>
+                    </div>
+                    <div *ngIf="response18.active " class="alert alert-card alert-{{response18.state}} text-center " role="alert ">
+                        {{response18.message}}
+                    </div>
+                    <div class="card-body ">
+                        <div class="form-group ">
+                            <label>Prénom</label>
+                            <input type="text " [(ngModel)]="fName " class="form-control ">
+                        </div>
+                        <div class="form-group ">
+                            <label>Nom</label>
+                            <input type="text " [(ngModel)]="lName " class="form-control ">
+                        </div>
+                        <div class="form-group ">
+                            <button (click)="editName(fName,lName) " class="btn btn-primary "> Modifier</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card p-4 m-2 mb-2 " *ngIf="bemail ">
+                    <div class="card-head ">
+                        <h5 class="text-left ">Modifier email
+                            <button class="btn btn-link close " (click)="bemail=false ">
+                <i class="i-Close "></i>
+              </button>
+                        </h5>
+
+                    </div>
+                    <div *ngIf="response2.active " class="alert alert-card alert-{{response2.state}} text-center " role="alert ">
+                        {{response2.message}}
+                        <button type="button " class="close " data-dismiss="alert " aria-label="Close "><span
+                aria-hidden="true ">&times;</span>
+            </button>
+                    </div>
+                    <div class="card-body ">
+                        <div class="form-group ">
+                            <label>Email</label>
+                            <input type="email " [(ngModel)]="email " class="form-control ">
+                        </div>
+                        <div class="form-group ">
+                            <button (click)="editEmail(email) " class="btn btn-primary "> Modifier</button>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-primary btn-block " (click)="bemail=true " *ngIf="!bemail "> Modifier email</button>
+                <button class="btn btn-primary btn-block " (click)="bname=true " *ngIf="!bname "> Modifier nom et prénom</button>
+                <button class="btn btn-primary btn-block " (click)="bpob=true " *ngIf="!bpob "> Modifier lieu de Naissance</button>
+                <button class="btn btn-primary btn-block " (click)="bsal=true " *ngIf="!bsal && nuser?.role?.name!='STUDENT' && nuser?.id!=user?.id "> Modifier Salaire </button>
+                <div class="card p-4 m-2 " *ngIf="bsal ">
+                    <div class=" col-md-12 p-2 ">
+                        <div class="card-head pl-4 ">
+                            <h5 class="text-left ">Modifier salaire en HTG
+                                <button class="btn btn-link close " (click)="bsal=false "> <i class="i-Close "></i></button>
+                            </h5>
+                        </div>
+                        <div *ngIf="response10.active " class="alert alert-card alert-{{response10.state}} text-center " role="alert ">
+                            {{response10.message}}
+                        </div>
+                        <div class="card-body ">
+                            <div class="form-group ">
+                                <label>Salaire</label>
+                                <input type="number " [(ngModel)]="sal " class="form-control ">
+                            </div>
+                            <div class="form-group ">
+                                <button (click)="editSal(sal) " class="btn btn-primary ">Modifier</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card p-4 m-2 mb-2 " *ngIf="bpob ">
+                    <div class="card-head ">
+                        <h5 class="text-left ">Modifier lieu de naissance
+                            <button class="btn btn-link close " (click)="bpob=false ">
+                <i class="i-Close "></i>
+              </button>
+                        </h5>
+                    </div>
+                    <div *ngIf="response6.active " class="alert alert-card alert-{{response6.state}} text-center " role="alert ">
+                        {{response6.message}}
+                    </div>
+                    <div class=" col-md-12 p-2 ">
+                        <div class="card-body ">
+                            <div class="form-group "><label>Lieu de naissance</label>
+                                <select [(ngModel)]="pob " class="form-control ">
+                  <option [ngValue]="item " *ngFor="let item of villes " [selected]="item.id==pob ">
+                    {{item?.name}}
+                  </option>
+                </select>
+                            </div>
+                            <div class="form-group ">
+                                <button (click)="editLN(pob) " class="btn btn-primary ">
+                  Modifier</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-primary btn-block " (click)="bnif=true " *ngIf="!bnif "> Modifier Nif</button>
+                <div class="card p-4 m-2 " *ngIf="bnif ">
+                    <div class=" col-md-12 p-2 ">
+                        <div class="card-head pl-4 ">
+                            <h5 class="text-left ">Modifier nif
+                                <button class="btn btn-link close " (click)="bnif=false "> <i class="i-Close "></i></button>
+                            </h5>
+                        </div>
+                        <div *ngIf="response7.active " class="alert alert-card alert-{{response7.state}} text-center " role="alert ">
+                            {{response7.message}}
+                        </div>
+                        <div class="card-body ">
+                            <div class="form-group ">
+                                <label>Nif</label>
+                                <input type="text " [(ngModel)]="nif " class="form-control ">
+                            </div>
+                            <div class="form-group ">
+                                <button (click)="editNif(nif) " class="btn btn-primary ">
+                  Modifier</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-primary btn-block " (click)="bcin=true " *ngIf="!bcin ">Modifier Cin</button>
+                <div class="card p-4 mt-2 " *ngIf="bcin ">
+                    <div class="col-md-12 p-2 ">
+                        <div class="card-head ml-4 ">
+                            <h5 class="text-left ">Modifier cin
+                                <button class="btn btn-link close " (click)="bcin=false ">
+                  <i class="i-Close "></i>
+                </button>
+                            </h5>
+
+                        </div>
+                        <div *ngIf="response8.active " class="alert alert-card alert-{{response8.state}} text-center " role="alert ">
+                            {{response8.message}}
+                        </div>
+
+                        <div class="card-body ">
+                            <div class="form-group ">
+                                <label>Cin</label>
+                                <input type="text " [(ngModel)]="cin " class="form-control ">
+                            </div>
+                            <div class="form-group ">
+                                <button (click)="editCin(cin) " class="btn btn-primary ">
+                  Modifier</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-2 p-3" *ngIf="nuser?.role?.name!='PARENT'">
+                    <a class="btn btn-success btn-block " *ngIf="nuser?.role?.name=='STUDENT' " routerLink="/app/detailsEtudiant/{{nuser.id}} ">modifier plus</a>
+                    <a class="btn btn-success btn-block " *ngIf="nuser?.role?.name!='STUDENT' " routerLink="/app/detailsProf/{{nuser.id}} ">modifier plus</a>
+                </div>
+            </div>
+
+            <div class="col-md-8 ">
+
+                <div class="card p-4 ">
+                    <div class="col-md-12 ">
+                        <h4 class="mb-3 text-center ">Informations personnelles</h4>
+                    </div>
+                    <div *ngIf="response3.active " class="alert alert-card alert-{{response3.state}} text-center " role="alert ">
+                        {{response3.message}}
+                    </div>
+                    <div class="col-md-12 ">
+                        <div class="row ">
+                            <div class="form-group col-md-6 ">
+                                <label>Sexe</label>
+                                <select [(ngModel)]="nuser.sexe " class="form-control ">
+                  <option value="M">Masculin </option>
+                  <option value="F">Feminin</option>
+                </select>
+                            </div>
+                            <div class="form-group col-md-6 ">
+                                <label>Date de naissance</label>
+                                <input type="date" [(ngModel)]="nuser.date_de_naiss " class="form-control ">
+                            </div>
+                        </div>
+                        <div class="row ">
+                            <div class="form-group col-md-6 ">
+                                <label>Identifiant</label>
+                                <input type="text " [(ngModel)]="nuser.identifiant " class="form-control ">
+                            </div>
+                            <div class="form-group col-md-6 ">
+                                <label>Matricule</label>
+                                <input type="text " [(ngModel)]="nuser.matricule " class="form-control ">
+                            </div>
+                        </div>
+                        <div class="row ">
+                            <div class="form-group col-md-6 ">
+                                <label>No Compte HTG</label>
+                                <input type="text " [(ngModel)]="nuser.bank_account_HTG " class="form-control ">
+                            </div>
+                            <div class="form-group col-md-6 ">
+                                <label>No Compte USD</label>
+                                <input type="text " [(ngModel)]="nuser.bank_account_USD " class="form-control ">
+                            </div>
+                        </div>
+                        <div class="row ">
+                            <div class="form-group col-md-6 ">
+                                <label>Orphelin</label>
+                                <select [(ngModel)]="nuser.orphelin " class="form-control ">
+                                    <option value="De pere " [selected]="nuser.orphelin=='De pere' ">De pere</option>
+                                    <option value="De mere " [selected]="nuser.orphelin=='De mere' ">De mere</option>
+                                    <option value="Des deux " [selected]="nuser.orphelin=='Des deux' ">Des deux</option>
+                                    <option value="Non " [selected]="nuser.orphelin=='Non' ">Non</option>
+                                  </select>
+                            </div>
+                            <div class="form-group col-md-6 ">
+                                <label>Réligion</label>
+                                <select [(ngModel)]="nuser.religion " class="form-control ">
+                                   <option value="Judaisme " [selected]="nuser.religion=='Judaisme' ">Judaisme</option>
+                                   <option value="Christianisme " [selected]="nuser.religion=='Catholique' ">Christianisme</option>
+                                   <option value="Islam " [selected]="nuser.religion=='Islam' ">Islam</option>
+                                   <option value="Hindouisme " [selected]="nuser.religion=='Hindouisme' ">Hindouisme</option>
+                                  <option value="Bouddhisme " [selected]="nuser.religion=='Bouddhisme' ">Bouddhisme </option>
+                                  <option value="Autre" [selected]="nuser.religion=='Autre' ">Autre </option>
+ </select>
+                            </div>
+                        </div>
+                        <div class="row ">
+                            <div class="form-group col-md-6 ">
+                                <label>Nom du pere</label>
+                                <input type="text " [(ngModel)]="nuser.nom_pere " class="form-control ">
+                            </div>
+                            <div class="form-group col-md-6 ">
+                                <label>Nom de la mere</label>
+                                <input type="text " [(ngModel)]="nuser.nom_mere " class="form-control ">
+                            </div>
+                        </div>
+                        <div class="row ">
+                            <div class="form-group col-md-6 ">
+                                <label>Etat civil</label>
+                                <select [(ngModel)]="nuser.etat_civil " class="form-control ">
+                  <option value="Celibataire "> Celibataire </option>
+                  <option value="Marié(e) "> Marié(e) </option>
+                  <option value="Veuf(ve) "> Veuf(ve) </option>
+                  <option value="Conjoint de fait "> Conjoint de fait </option>
+                </select>
+                            </div>
+                            <div class="form-group col-md-6 ">
+                                <label>Nationalité</label>
+                                <input type="text " [(ngModel)]="nuser.nationalite " class="form-control ">
+                            </div>
+                        </div>
+                        <div class="row ">
+                            <div class="form-group col-md-6 ">
+                                <label>Portable</label>
+                                <input type="text " [(ngModel)]="nuser.phone " class="form-control ">
+                            </div>
+                            <div class="form-group col-md-6 ">
+                                <label>Domicile</label>
+                                <input type="text " [(ngModel)]="nuser.hphone " class="form-control ">
+                            </div>
+                        </div>
+                        <div class="row ">
+                            <div class="form-group col-md-6 ">
+                                <label>Référence</label>
+                                <input type="text " [(ngModel)]="nuser.reference " class="form-control ">
+                            </div>
+                            <div class="form-group col-md-6 ">
+                                <label>Fonction</label>
+                                <input type="text " [(ngModel)]="nuser.fonction " class="form-control ">
+                            </div>
+                            <div class="form-group col-md-6 ">
+                                <label>Pin</label>
+                                <input type="text " [(ngModel)]="nuser.pin" class="form-control ">
+                            </div>
+                            <div class="form-group col-md-6 ">
+                                <label>Adresse</label>
+                                <input type="text " [(ngModel)]="nuser.adresse " class="form-control ">
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <button (click)="editIP(nuser) " class="btn btn-primary "> Modifier</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card p-4 mt-4 " *ngIf="nuser?.role?.name!='PARENT' ">
+                    <div class="col-md-12 ">
+                        <h4 class="mb-3 text-center "> Information sur l'assurance maladie</h4>
+                    </div>
+                    <div *ngIf="response9.active " class="alert alert-card alert-{{response9.state}} text-center " role="alert ">
+                        {{response9.message}}
+                    </div>
+                    <div class="col-md-12 ">
+                        <div class="row ">
+                            <div class="form-group col-md-6 ">
+                                <label>Nom assurance</label>
+                                <input type="text " [(ngModel)]="nuser.nom_ass " class="form-control ">
+                            </div>
+                            <div class="form-group col-md-6 ">
+                                <label>Email</label>
+                                <input type="email " [(ngModel)]="nuser.email_ass " class="form-control ">
+                            </div>
+                            <div class="form-group col-md-6 ">
+                                <label>Téléphone</label>
+                                <input type="text " [(ngModel)]="nuser.phone_ass " class="form-control ">
+                            </div>
+                            <div class="form-group col-md-6 ">
+                                <label>Adresse</label>
+                                <input type="text " [(ngModel)]="nuser.adresse_ass " class="form-control ">
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <button (click)="editIA(nuser) " class="btn btn-primary "> Modifier</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card p-4 mt-4 " *ngIf="nuser?.role?.name==='STUDENT'">
+                    <div class="col-md-12 ">
+                        <h4 class="mb-3 text-center "> Information sur le dernier établissement fréquenté</h4>
+                    </div>
+                    <div *ngIf="response11.active " class="alert alert-card alert-{{response11.state}} text-center " role="alert ">
+                        {{response11.message}}
+                    </div>
+                    <div class="col-md-12 ">
+                        <div class="row ">
+                            <div class="form-group col-md-6 ">
+                                <label>Nom etablissement</label>
+                                <input type="text " [(ngModel)]="nuser.last_etab " class="form-control ">
+                            </div>
+                            <div class="form-group col-md-3 ">
+                                <label>Année de sortie</label>
+                                <input type="number " [(ngModel)]="nuser.last_year " class="form-control ">
+                            </div>
+                            <div class="form-group col-md-3 ">
+                                <label>Moyenne de sortie</label>
+                                <input type="text " [(ngModel)]="nuser.last_moyen " class="form-control ">
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <button (click)="editILE(nuser) " class="btn btn-primary "> Modifier</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card p-4 mt-4 " *ngIf="nuser?.role?.name!=='PARENT'">
+                    <div class="card-body ">
+
+                        <div class="row " style="width:100%; ">
+                            <div *ngIf="response.active " class="alert alert-card alert-{{response.state}} text-center " role="alert ">
+                                {{response.message}}
+                                <button type="button " class="close " data-dismiss="alert " aria-label="Close "> <span aria-hidden="true ">&times;</span> </button>
+                            </div>
+                            <div class="ml-4 col-md-12 " *ngIf="cparent ">
+
+                                <h6 class="card-title ">Modifier Parent / Personne responsable / Contact <a (click)="closeEditParent() " class="close ">fermer</a> </h6>
+                                <div class="row ">
+                                    <div class="col-md-4 form-group mb-3 ">
+                                        <label for="picker1 ">Relation</label>
+                                        <select (change)="mupdate() " [(ngModel)]="cparent.who_is " class="form-control form-control-rounded ">
+                                                  <option value="Mère ">Mère</option>
+                                                  <option value="Père ">Père</option>
+                                                  <option value="Frère ">Frère</option>
+                                                  <option value="Soeur ">Soeur</option>
+                                                  <option value="Tante ">Tante</option>
+                                                  <option value="Oncle ">Oncle</option>
+                                                  <option value="Parrain ">Parrain</option>
+                                                  <option value="Marraine ">Maraine</option>
+                                                  <option value="Autre ">Autre</option>
+                                              </select>
+                                    </div>
+
+                                    <div class="col-md-4 form-group mb-3 ">
+                                        <label for="firstName2 ">Nom complet</label>
+                                        <input type="text " [(ngModel)]="cparent.nom " class="form-control form-control-rounded " id="firstName2 " placeholder="Entrez le nom ">
+                                    </div>
+
+                                    <div class="col-md-4 form-group mb-3 ">
+                                        <label for="lastName2 ">Profession</label>
+                                        <input type="text " [(ngModel)]="cparent.prof " class="form-control form-control-rounded " id="lastName2 " placeholder="Entrez la profession ">
+                                    </div>
+
+
+
+                                    <div class="col-md-4 form-group mb-3 ">
+                                        <label for="phone1 ">Téléphone</label>
+                                        <input class="form-control form-control-rounded " [(ngModel)]="cparent.phone " placeholder="Numero de téléphone ">
+                                    </div>
+                                    <div class="col-md-4 form-group mb-3 ">
+                                        <label for="phone1 ">Adresse</label>
+                                        <input [(ngModel)]="cparent.adresse " class="form-control form-control-rounded " id="phone1 " placeholder="Adresse ">
+                                    </div>
+
+
+                                    <div class="col-md-4 form-group mb-3 ">
+                                        <label for="picker1 ">Responsable</label>
+                                        <select [(ngModel)]="cparent.resp " class="form-control form-control-rounded ">
+                  <option [value]="true ">Oui</option>
+                  <option [value]="false ">Non</option>
+                </select>
+                                    </div>
+
+                                    <div class="col-md-12 mb-4 push-right ">
+                                        <button class="btn btn-primary " (click)="saveParent() ">Modifier</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class=" ml-4 col-md-12 " *ngIf="!cparent ">
+
+                                <h6 class="card-title ">Ajouter Parent / Personne responsable / Contact </h6>
+                                <div class="row ">
+                                    <div class="col-md-4 form-group mb-3 ">
+                                        <label for="picker1 ">Relation</label>
+                                        <select (change)="update() " [(ngModel)]="parent.who_is " class="form-control form-control-rounded ">
+                                                <option value="Mère ">Mère</option>
+                                                <option value="Père ">Père</option>
+                                                <option value="Frère ">Frère</option>
+                                                <option value="Soeur ">Soeur</option>
+                                                <option value="Tante ">Tante</option>
+                                                <option value="Oncle ">Oncle</option>
+                                                <option value="Parrain ">Parrain</option>
+                                                <option value="Marraine ">Maraine</option>
+                                                <option value="Autre ">Autre</option>
+                                              </select>
+                                    </div>
+                                    <div class="col-md-4 form-group mb-3 ">
+                                        <label for="firstName2 ">Nom complet</label>
+                                        <input type="text " [(ngModel)]="parent.nom " class="form-control form-control-rounded " id="firstName2 " placeholder="Entrez le nom ">
+                                    </div>
+
+                                    <div class="col-md-4 form-group mb-3 ">
+                                        <label for="lastName2 ">Profession</label>
+                                        <input type="text " [(ngModel)]="parent.prof " class="form-control form-control-rounded " id="lastName2 " placeholder="Entrez la profession ">
+                                    </div>
+
+
+
+                                    <div class="col-md-4 form-group mb-3 ">
+                                        <label for="phone1 ">Téléphone</label>
+                                        <input class="form-control form-control-rounded " [(ngModel)]="parent.phone " placeholder="Numero de téléphone ">
+                                    </div>
+                                    <div class="col-md-4 form-group mb-3 ">
+                                        <label for="phone1 ">Adresse</label>
+                                        <input [(ngModel)]="parent.adresse " class="form-control form-control-rounded " id="phone1 " placeholder="Adresse ">
+                                    </div>
+
+
+                                    <div class="col-md-4 form-group mb-3 ">
+                                        <label for="picker1 ">Responsable</label>
+                                        <select [(ngModel)]="parent.resp " class="form-control form-control-rounded ">
+                  <option [value]="true ">Oui</option>
+                  <option [value]="false ">Non</option>
+                </select>
+                                    </div>
+
+                                    <div class="col-md-12 mb-4 push-right ">
+                                        <button class="btn btn-primary " (click)="addParent() ">Ajouter</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div *ngIf="nuser?.parent?.length>0" class="ml-4 table-responsive" style="width:100%;">
+
+                                <table class="table table-bordered ">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Nom complet</th>
+                                            <th scope="col">Profession</th>
+                                            <th scope="col">Relation</th>
+                                            <th scope="col">Téléphone</th>
+                                            <th scope="col">Adresse</th>
+                                            <th scope="col">Responsable</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let o of nuser.parent; let i=index">
+                                            <th scope="row">{{o.nom}}</th>
+                                            <td>{{o.prof}}</td>
+                                            <td>{{o.who_is}}</td>
+                                            <td>
+                                                {{o.phone}}
+                                            </td>
+
+                                            <td>{{o.adresse}}</td>
+                                            <td>
+                                                <span *ngIf="o.resp" class="badge badge-success">Oui</span>
+                                                <span *ngIf="!o.resp" class="badge badge-danger">Non</span>
+                                            </td>
+                                            <td>
+
+                                                <button class="btn btn-sm btn-success mr-1 ">
+       <i (click)="editParent(o,i)"  class="nav-icon i-Pen-2 "></i>
+     </button>
+                                                <button (click)="delParent(o.id,i)" class="btn btn-sm  btn-danger pull-right">
+       <i class="nav-icon i-Close-Window"></i>
+     </button>
+
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- end of col-->
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="card p-4 mt-4 " *ngIf="nuser?.role?.name!='PARENT'">
+                    <div class="card-body">
+                        <div *ngIf="response.active" class="alert alert-card alert-{{response.state}} text-center" role="alert">
+                            {{response.message}}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+                        </div>
+                        <div class="row" *ngIf="cmaladie">
+                            <div class="col-md-12 mb-2">
+                                <h6 class="card-title">Modifier Maladie / Handicap <a (click)="closeEditMaladie()" class="close">fermer</a>
+                                </h6>
+                            </div>
+
+
+                            <div class="col-md-4 form-group mb-3">
+                                <label for="firstName2">Maladie / Handicap</label>
+                                <input type="text" [(ngModel)]="cmaladie.name" class="form-control  form-control-rounded" id="firstName2" placeholder="Maladie / Handicap">
+                            </div>
+
+                            <div class="col-md-4 form-group mb-3">
+                                <label for="lastName2">Nom medecin</label>
+                                <input type="text" [(ngModel)]="cmaladie.nom_medecin" class="form-control form-control-rounded" id="lastName2" placeholder="Entrez la profession">
+                            </div>
+                            <div class="col-md-4 form-group mb-3">
+                                <label for="phone1">Hopital</label>
+                                <input class="form-control form-control-rounded" [(ngModel)]="cmaladie.hopital" placeholder="Numero de téléphone">
+                            </div>
+
+
+                            <div class="col-md-4 form-group mb-3">
+                                <label for="phone1">Téléphone</label>
+                                <input class="form-control form-control-rounded" [(ngModel)]="cmaladie.tel" placeholder="Numero de téléphone">
+                            </div>
+                            <div class="col-md-4 form-group mb-3">
+                                <label for="phone1">Adresse</label>
+                                <input [(ngModel)]="cmaladie.adresse" class="form-control form-control-rounded" id="phone1" placeholder="Adresse">
+                            </div>
+                            <div class="col-md-4 form-group mb-3">
+                                <label for="picker1">Chronicle</label>
+                                <select [(ngModel)]="cmaladie.gen" class="form-control form-control-rounded">
+              <option [value]="true">Oui</option>
+              <option [value]="false">Non</option>
+            </select>
+                            </div>
+
+                            <div class="col-md-12 mb-4 push-right">
+                                <button class="btn btn-primary" (click)="saveMal()">Modifier</button>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="!cmaladie">
+                            <div class="col-md-12 mb-2">
+                                <h6 class="card-title">Ajouter Maladie / Handicap
+                                </h6>
+                            </div>
+
+
+                            <div class="col-md-4 form-group mb-3">
+                                <label for="firstName2">Maladie / Handicap</label>
+                                <input type="text" [(ngModel)]="maladie.name" class="form-control  form-control-rounded" id="firstName2" placeholder="Maladie / Handicap">
+                            </div>
+
+                            <div class="col-md-4 form-group mb-3">
+                                <label for="lastName2">Nom medecin</label>
+                                <input type="text" [(ngModel)]="maladie.nom_medecin" class="form-control form-control-rounded" id="lastName2" placeholder="Entrez la profession">
+                            </div>
+                            <div class="col-md-4 form-group mb-3">
+                                <label for="phone1">Hopital</label>
+                                <input class="form-control form-control-rounded" [(ngModel)]="maladie.hopital" placeholder="Numero de téléphone">
+                            </div>
+
+
+                            <div class="col-md-4 form-group mb-3">
+                                <label for="phone1">Téléphone</label>
+                                <input class="form-control form-control-rounded" [(ngModel)]="maladie.tel" placeholder="Numero de téléphone">
+                            </div>
+                            <div class="col-md-4 form-group mb-3">
+                                <label for="phone1">Adresse</label>
+                                <input [(ngModel)]="maladie.adresse" class="form-control form-control-rounded" id="phone1" placeholder="Adresse">
+                            </div>
+                            <div class="col-md-4 form-group mb-3">
+                                <label for="picker1">Chronicle</label>
+                                <select [(ngModel)]="maladie.gen" class="form-control form-control-rounded">
+              <option [value]="true">Oui</option>
+              <option [value]="false">Non</option>
+            </select>
+                            </div>
+
+                            <div class="col-md-12 mb-4 push-right">
+                                <button class="btn btn-primary" (click)="addMal()">Ajouter</button>
+                            </div>
+                        </div>
+
+                        <div *ngIf="nuser?.maladies?.length>0" class="table-responsive" style="width:100%;">
+
+                            <table class="table table-bordered ">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Maladie / Handicap</th>
+                                        <th scope="col">Medecin</th>
+                                        <th scope="col">Hopital</th>
+                                        <th scope="col">Telephone</th>
+                                        <th scope="col">Adresse</th>
+                                        <th scope="col">Chronicle</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let o of nuser.maladies; let i = index">
+                                        <th scope="row">{{o.name}}</th>
+                                        <td>{{o.nom_medecin}}</td>
+                                        <td>{{o.hopital}}</td>
+                                        <td>
+                                            {{o.tel}}
+                                        </td>
+
+                                        <td>{{o.adresse}}</td>
+                                        <td>
+                                            <span *ngIf="o.gen" class="badge badge-success">Oui</span>
+                                            <span *ngIf="!o.gen" class="badge badge-danger">Non</span>
+                                        </td>
+                                        <td>
+                                            <button (click)="editMaladie(o,i)" type="button" class="btn btn-sm btn-success mr-1">
+                    <i class="nav-icon i-Pen-2"></i>
+                  </button>
+                                            <button (click)="delMaladie(o.id,i)" type="button" class="btn btn-sm  btn-danger pull-right">
+                    <i class="nav-icon i-Close-Window"></i>
+                  </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card p-4 mt-4 col-md-12" *ngIf="nuser?.role?.name==='PARENT'">
+                    <div class="card-body">
+                        <h4 class="text-center">Lien parental</h4>
+                    </div>
+                    <div *ngIf="response20.active" class="alert alert-card alert-{{response20.state}} text-center" role="alert">
+                        {{response20.message}}
+                    </div>
+
+
+                    <div class="row col-md-12">
+                        <div class="col-md-12 m-2">
+                            <h4 class="text-center">La liste de ses enfants</h4>
+                        </div>
+
+                        <div class="col-md-12 mb-4">
+                            <div class="card text-left" *ngIf="child">
+                                <div class="card-body">
+                                    <div class="row " *ngIf="nuser?.sexe">
+                                        <div class="form-group col-md-6 ">
+                                            <label>Code etudiant</label>
+                                            <input type="text " [(ngModel)]="code" class="form-control ">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <button (click)="addChild(code)" class="btn btn-primary mt-4">Ajouter</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 text-center" *ngIf="!nuser?.sexe">
+                                        <h4 class="text-danger" style="text-align: center;">Sexe non configurer</h4>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table id="zero_configuration_table" class="display table table-striped table-bordered" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Code</th>
+                                                    <th>Nom & Prénom</th>
+                                                    <th>Classe</th>
+                                                    <th>Sexe</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let o of child; let i = index">
+                                                    <td>{{o.code}}</td>
+                                                    <td>{{o.lastName}} {{o.firstName}}</td>
+                                                    <td>{{o.classe}}</td>
+                                                    <td>{{o.sexe}}</td>
+                                                    <td>
+                                                        <button (click)="delChild(o.id,i)" class="m-2 btn btn-danger">
+                                           <i class="nav-icon i-Close"></i>
+                                          </button>
+                                                        <button class="m-2 btn btn-primary">
+                                           <i class="nav-icon i-Eye"></i>
+                                          </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- end of col -->
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+    <!-- ============ Body content End ============= -->
+</div>
+<!--=============== End app-admin-wrap ================-->

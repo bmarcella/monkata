@@ -1,0 +1,30 @@
+<div class="col-md-12">
+    <b class="card-title mb-3">La liste des promotions en cours </b>
+    <div class="col-md-12">
+        <div routerLink="/app/promoDetails/{{a.id}}" class="col-md-2" *ngFor="let a of PROMO" style="display:inline-block;">
+            <div class="card card-icon mb-4">
+                <i class=""></i>
+                <div class="card-body text-center">
+                    <p class="text-muted mt-2 mb-2">Promotion</p>
+                    <p class="text-muted mt-2 mb-2">{{a.code}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-12">
+    <b class="card-title mb-3">La liste des promotions déactivées</b>
+    <div class="col-md-12">
+        <div routerLink="/app/promoDetails/{{a.id}}" class="col-md-2" *ngFor="let a of HPROMO" style="display:inline-block;">
+            <div class="card card-icon mb-4">
+                <i class=""></i>
+                <div class="card-body text-center">
+                    <p class="text-muted mt-2 mb-2">Promotion</p>
+                    <p class="text-muted mt-2 mb-2">{{a.code}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

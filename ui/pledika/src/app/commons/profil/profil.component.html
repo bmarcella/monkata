@@ -1,0 +1,34 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!-- ============ Body content start ============= -->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+        <!-- end of row-->
+        <div class="col-md-6 " style="margin-left:25%;">
+            <div class="card card-profile-1 mb-4">
+                <div class="card-body text-center">
+                    <div class="avatar box-shadow-2 mb-3">
+                        <img *ngIf="logo" [src]="logo" id="userDropdown" alt="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img *ngIf="!logo" [src]="getLocalImg('default.png')" id="userDropdown" alt="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    </div>
+                    <h5 class="m-0">{{user.firstName}} {{user.lastName}}</h5>
+                    <p class="mt-0">{{user.role.name}}</p>
+                    <a routerLink="/app/editProf" *ngIf="user.role.name=='ADMIN' || user.role.name=='MASTER'" class="btn btn-success btn-rounded text-white">Modifier profil</a>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- end of row-->
+        <!-- Footer Start -->
+
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+    <!-- ============ Body content End ============= -->
+</div>
+<!--=============== End app-admin-wrap ================-->

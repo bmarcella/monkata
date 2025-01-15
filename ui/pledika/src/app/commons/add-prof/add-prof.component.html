@@ -1,0 +1,109 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!-- ============ Body content start ============= -->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+        <!-- end of row-->
+        <div class="col-md-12 mb-2">
+            <h4 class="mb-3  text-center"> Ajouter enseignant</h4>
+            <h5 class="text-danger text-center">
+                <a class="text-danger" routerLink="/app/prof">Retournez a la liste des enseignants</a> </h5>
+      
+
+  </div>
+
+ <div class="col-md-12 mb-2">
+<div *ngIf="response.active" class="alert alert-card alert-{{response.state}} text-center" role="alert">
+                {{response.message}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+            </div>
+</div>
+ 
+
+         
+        <form [formGroup]="addForm" (ngSubmit)="add()">
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="recipient-name-1" class="col-form-label">Nom</label>
+                    <input type="text" id="nom" formControlName="lastName" [ngClass]="{ 'is-invalid': this.submitted &&  f.lastName.errors }" class="form-control">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="recipient-name-1" class="col-form-label">Prénom</label>
+                    <input type="text" id="pnom" formControlName="pnom" [ngClass]="{ 'is-invalid': this.submitted &&  f.pnom.errors }" class="form-control">
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="recipient-name-1" class="col-form-label">Sexe</label>
+                    <select id="sexe" class="form-control" formControlName="sexe" [ngClass]="{ 'is-invalid':this.submitted && f.sexe.errors }">
+         <option value="M">Masculin</option>
+         <option value="F">Féminin</option>
+       </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="recipient-name-1" class="col-form-label">Date de naissane</label>
+                    <input id="date" type="date" [ngClass]="{ 'is-invalid': this.submitted && f.date_de_naiss.errors }" formControlName="date_de_naiss" class="form-control" id="recipient-name-1">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <label for="recipient-name-1">Email</label>
+                            <input type="text" id="email" [ngClass]="{ 'is-invalid': this.submitted &&  f.username.errors }" class="form-control" formControlName="username" id="recipient-name-1">
+                        </div>
+                        <div class="col-md-2"> <a class="btn btn-primary ml-2  mt-4 text-light" (click)="genEmail()"><i
+                             class="i-Refresh"></i></a></div>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="recipient-name-1">Téléphone</label>
+                    <input type="text" id="phone" [ngClass]="{ 'is-invalid': this.submitted &&  f.phone.errors }" class="form-control" formControlName="phone" id="recipient-name-1">
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="recipient-name-1">Adresse</label>
+                    <input type="text" id="adresse" [ngClass]="{ 'is-invalid': this.submitted &&  f.adresse.errors }" class="form-control" formControlName="adresse" id="recipient-name-1">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="recipient-name-1">Salaire</label>
+                    <input type="number" id="salaire" [ngClass]="{ 'is-invalid': this.submitted &&  f.salary.errors }" class="form-control" formControlName="salary" id="recipient-name-1">
+                </div>
+            </div>
+
+
+
+
+
+
+
+            <button style="float:right;" type="submit" id="btn" [disabled]="loading" class="btn btn-primary  btn-rounded mt-3">
+     <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+     Suivant
+   </button>
+
+            <a id="btn-reset" type="button" class="btn btn-warning btn-rounded mt-3 " (click)="reset()">
+     Réinitialiser
+   </a>
+
+        </form>
+
+        <!-- end of row-->
+        <!-- Footer Start -->
+
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+    <!-- ============ Body content End ============= -->
+</div>
+<!--=============== End app-admin-wrap ================-->

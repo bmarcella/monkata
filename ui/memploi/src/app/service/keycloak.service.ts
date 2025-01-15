@@ -102,6 +102,12 @@ export class KeycloakService {
   }
 
 
+  approveUser() {
+    const _user = this.store.getJson("_profil");
+    _user.approuved= true;
+    this.store.setJson("_profil", _user);
+  }
+
 
 
   register(body: UserReg): Promise<any> {

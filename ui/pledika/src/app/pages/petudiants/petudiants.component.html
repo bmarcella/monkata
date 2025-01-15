@@ -1,0 +1,256 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!-- ============ Body content start ============= -->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+
+        <div class="row ">
+
+            <div class="col-md-12">
+                <h3 class="text-center mb2 ">Année Académique </h3>
+                <h5 class=" text-center mb-2">
+                    {{user?.current_promo.split("-")[1] }}-{{user?.current_promo.split("-")[2] }}
+                </h5>
+                <h5 class="text-center mb2 "> {{user?.lastName}} {{user?.firstName}} </h5>
+                <h6 class=" text-center mb-2 text-primary ">{{user?.current_promo.split("-")[0]}}</h6>
+                <h6 class=" text-center mb-2 text-primary ">
+                    <a class="text-danger text-center" routerLink="/app/home">Retourner</a>
+                </h6>
+            </div>
+
+            <div class="separator-breadcrumb border-top "></div>
+
+            <div class="col-md-12 row ">
+
+
+                <div class="col-md-12" *ngIf="nfrags">
+                    <div class="card  m-1">
+                        <div class="card-body">
+                            <div class="col-md-12 mb-4">
+                                <ul class="nav nav-tabs" id="myIconTab" role="tablist">
+
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="p-basic-tab" data-toggle="tab" href="#pBasic" role="tab" aria-controls="pBasic" aria-selected="true">Periodes</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="home-basic-tab" data-toggle="tab" href="#homeBasic" role="tab" aria-controls="homeBasic" aria-selected="true">Tableau</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="profile-basic-tab" data-toggle="tab" href="#profileBasic" role="tab" aria-controls="profileBasic" aria-selected="false">Cours</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="grade-basic-tab" data-toggle="tab" href="#gradeBasic" role="tab" aria-controls="gradeBasic" aria-selected="true">Fournitures scolaires</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="pay-basic-tab" data-toggle="tab" href="#payBasic" role="tab" aria-controls="payBasic" aria-selected="true">Paiement</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="myIconTabContent">
+
+                                    <div class="tab-pane fade show active" id="pBasic" role="tabpanel" aria-labelledby="p-basic-tab">
+                                        <div class="col-md-12 mb-4">
+                                            <ul class="nav nav-tabs" id="myIconTab" role="tablist">
+                                                <li class="nav-item" *ngFor="let item of nfrags; let ci = index">
+                                                    <a class="nav-link {{(ci==0)? 'active' : ''}}" id="{{'tab-'+item.id}}-icon-tab" data-toggle="tab" href="{{'#tab-'+item.id}}" role="tab" aria-selected="true">{{ item.code.split('-')[3].split('(')[0] }}</a>
+                                                </li>
+                                            </ul>
+                                            <div class="tab-content" id="myIconTabContent">
+
+                                                <div *ngFor="let item of  nfrags; let ci = index" class="tab-pane fade show {{(ci==0)? 'active' : ''}}" id="{{'tab-'+item.id}}" role="tabpanel" attr.aria-labelledby="{{'tab-'+item.id+'-icon-tab'}}">
+                                                    <div class="col-md-12 ">
+                                                        <h3> Dates</h3>
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+
+                                                                <p> <b>Date debut {{item.code.split("-")[3]}} :</b> {{item.date_debut}} </p>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <p> <b>Date fin {{item.code.split("-")[3]}} :</b> {{item.date_fin}} </p>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <p> <b>Date debut des examens {{item.code.split("-")[3]}} :</b> {{item.date_debut_ex}} </p>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <p> <b>Date fin des examens {{item.code.split("-")[3]}} :</b> {{item.date_fin_ex}} </p>
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                    <a class="btn  btn-warning m-2 " *ngIf="item" target="_blank" routerLink="/app/bulletinEtudiants/{{item.id}}/{{user.id}}">Bulletin pour cette période </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="tab-pane fade " id="homeBasic" role="tabpanel" aria-labelledby="home-basic-tab">
+                                        <div class="row">
+                                            <div class="form-group" *ngIf="PROMO">
+                                                <angular-editor #userinput style=" min-height:600px;" [placeholder]="'Enter text here...'" [config]="editorConfig" style="height:400px;" [(ngModel)]="PROMO.board"></angular-editor>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="tab-pane fade" id="gradeBasic" role="tabpanel" aria-labelledby="grade-basic-tab">
+                                        <div class="row">
+                                            <div class="col-md-12" *ngIf="fours">
+                                                <div class="col-md-4" *ngFor="let obj of fours; let i = index" style="display:inline-block;">
+                                                    <div class="card card-icon mb-4">
+                                                        <i class=""></i>
+                                                        <div class="card-body text-center">
+                                                            <p class="text-muted mt-2 mb-2">
+
+                                                                <b> <i class="i-Shop-4" *ngIf="obj.sell_at"></i> <br>  <i *ngIf="obj.qt" >{{obj.qt}}</i> <span
+                                                                    class="badge badge-primary m-1" *ngIf="obj.type_fn==1">{{obj.unity}}(s)</span>     {{ obj.name}}(s) </b><br />
+                                                                <span class="badge badge-warning m-1" *ngIf="obj.type_fn==1">Materiel</span>
+                                                                <span class="badge badge-warning m-1" *ngIf="obj.type_fn==2">Livre</span>
+                                                            </p>
+                                                            <p class="text-muted mt-2 mb-2">
+                                                                <b> {{ obj.desc}}</b>
+                                                            </p>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="profileBasic" role="tabpanel" aria-labelledby="outil-basic-tab">
+                                        <div class="row">
+
+                                            <div class="col-md-12 row" *ngIf="cours">
+
+                                                <div class="col-md-2" *ngFor="let a of cours; let i = index" style="display:inline-block;">
+                                                    <div class="card card-icon mb-4 p-2">
+                                                        <div class="card-body text-center">
+                                                            <i class="i-Book"></i>
+                                                            <p class="text-muted mt-2 mb-2"> <b>{{a?.code.split("-")[0]}}</b></p>
+                                                            <span class="badge badge-success mr-1">{{a?.note_total*a?.coef}} points</span>
+                                                            <span class="badge badge-primary mr-1">{{a?.livre}}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="tab-pane fade " id="payBasic" role="tabpanel" aria-labelledby="pay-basic-tab">
+                                        <div class="row card">
+                                            <div class="col-md-12 text-center mt-4">
+                                                <div class="card-body">
+                                                    <h4 class="card-title text-center">Information sur les versements </h4>
+
+                                                    <div class="table-responsive ">
+                                                        <table class="table  table-bordered">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th scope="col">Nom</th>
+                                                                    <th scope="col">Montant</th>
+                                                                    <th scope="col">Payé</th>
+                                                                    <th scope="col">Balance</th>
+                                                                    <th scope="col">Type</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr *ngFor="let vac of verses, let i = index">
+                                                                    <td scope="row"> {{vac?.name?.split(" ")[0]}} {{vac.pos}}
+                                                                    </td>
+
+                                                                    <td>{{ vac.montant_to_pay}} G </td>
+                                                                    <td>
+                                                                        {{ vac.montant_pay }} G
+                                                                    </td>
+                                                                    <td>
+                                                                        {{ vac.montant_to_pay-vac.montant_pay }} G
+                                                                    </td>
+                                                                    <td>
+                                                                        <p *ngIf="vac.type_verse==1">Basique</p>
+                                                                        <p *ngIf="vac.type_verse==3">Facultatif</p>
+                                                                        <p *ngIf="vac.type_verse==2">Operationel</p>
+                                                                        <p class="text-danger" *ngIf="vac.montant_to_pay>vac.montant_pay">Non completé</p>
+                                                                        <p class="text-success" *ngIf="vac.montant_to_pay==vac.montant_pay">Completé</p>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+
+
+                                                </div>
+
+                                            </div>
+                                            <div class="col-md-12 text-center mt-4">
+                                                <h4 class="card-title mb-3">Vos paiements</h4>
+                                                <div class="table-responsive">
+                                                    <table id="zero_configuration_table" class="display table table-striped table-bordered" style="width:100%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Code</th>
+                                                                <th>Montant Versé</th>
+                                                                <th>Montant Accepté</th>
+                                                                <th>Rémise</th>
+                                                                <th>Date paiement </th>
+                                                                <th>Type paiement </th>
+                                                                <th>Code Trans. </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr *ngFor="let o of pay; let i = index">
+                                                                <td>{{o.code_etudiant}}</td>
+                                                                <td>{{o.pay_money}}G</td>
+                                                                <td>{{o.montant}}G</td>
+                                                                <td>{{o.remain}}G</td>
+                                                                <td>{{o.created_at.split("T")[0]}}</td>
+                                                                <td>{{o.type_paiement}}</td>
+                                                                <td>{{o.serie}}</td>
+                                                            </tr>
+
+
+                                                        </tbody>
+                                                        <tfoot>
+                                                            <tr>
+                                                                <th>Code</th>
+                                                                <th>Montant Versé</th>
+                                                                <th>Montant Accepté</th>
+                                                                <th>Rémise</th>
+                                                                <th>Date paiement </th>
+                                                                <th>Type paiement </th>
+                                                                <th>Code Trans. </th>
+                                                            </tr>
+                                                        </tfoot>
+                                                    </table>
+                                                </div>
+
+                                            </div>
+                                            <!-- end of col -->
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- Footer Start -->
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+    <!-- ============ Body content End ============= -->
+</div>
+<!--=============== End app-admin-wrap ================-->

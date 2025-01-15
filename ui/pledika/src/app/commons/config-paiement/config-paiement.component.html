@@ -1,0 +1,303 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!-- ============ Body content start ============= -->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+        <div class="col-md-12 mb-4">
+
+            <div class="col-md-12 mb-2" *ngIf="!coption">
+                <div class="col-md-12 mb-2">
+                    <h3 class="mb-3  text-center"> Configuration paiement</h3>
+                    <h5 class="text-danger text-center"> <a class="text-danger" routerLink="/app/paiement">Retournez</a> </h5>
+                </div>
+                <div class="separator-breadcrumb border-top"></div>
+                <div class="row">
+                    <b class="card-title mb-3">Les cycles</b>
+                    <div class="col-md-12">
+                        <div (click)="setOption(a)" class="col-md-2" *ngFor="let a of options" style="display:inline-block;">
+                            <div class="card card-icon mb-4">
+                                <div class="card-body text-center">
+                                    <p class="text-muted mt-2 mb-2">{{a.name}} </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 mb-2" *ngIf="coption && !co">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3 class="text-center">Configuration paiement {{coption.name.split("-")[1]}}</h3>
+                        <h5 class="text-danger text-center"> <a class="text-danger" (click)="setOption(null)">changer de cycle</a> </h5>
+                        <h5 class="text-danger text-center"> <a class="text-danger" routerLink="/app/paiement">Retournez</a> </h5>
+                    </div>
+                    <div *ngIf="response.active && response.view==1" class="col-md-12 alert alert-card alert-{{response.state}} text-center" role="alert">
+                        {{response.message}}
+                    </div>
+
+                    <div class="col-md-12 row mb-2">
+
+                        <div class="col-md-6 p-4">
+                            <div class="card p-4">
+                                <h3 class="text-center">Prix admission</h3>
+                                <div class="form-group col-md-12">
+                                    <label for="recipient-name-1" class="col-form-label">Modifier prix admission</label>
+                                    <input type="text" class="form-control" [(ngModel)]="coption.montant_admis" />
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <button (click)="setAdmis(coption.montant_admis)" class="btn btn-primary">Configurer</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 p-4">
+                            <div class=" card p-4 col-md-12">
+                                <h3 class="text-center">Les options de paiements</h3>
+                                <div class=" col-md-12" *ngIf="!eoption">
+                                    <h5 class="text-center">Ajouter option paiement</h5>
+                                </div>
+                                <div class=" col-md-12" *ngIf="eoption">
+                                    <h5 class="text-center">Modifier option paiement</h5>
+                                    <i (click)="editOptionToggle(false,-1)" class="i-Close close text-danger"></i>
+                                </div>
+
+                                <div *ngIf="response.active && response.view==2" class="alert alert-card alert-{{response.state}} text-center" role="alert">
+                                    {{response.message}}
+                                </div>
+                                <div class="row" *ngIf="!eoption">
+                                    <div class="form-group col-md-6">
+                                        <label for="recipient-name-1" class="col-form-label">Code</label>
+                                        <input type="text" class="form-control" [(ngModel)]="opt.code" />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="recipient-name-1" class="col-form-label">Nom</label>
+                                        <input type="text" class="form-control" [(ngModel)]="opt.name" />
+                                    </div>
+                                    <div class="form-group col-md-12 text-right">
+                                        <button (click)="addOpt(opt)" class="btn btn-primary">ajouter</button>
+                                    </div>
+                                </div>
+                                <div class="row" *ngIf="eoption">
+
+                                    <div class="form-group col-md-6">
+                                        <label for="recipient-name-1" class="col-form-label">Code</label>
+                                        <input type="text" [disabled]="true" class="form-control" [(ngModel)]="eopt.code" />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="recipient-name-1" class="col-form-label">Nom</label>
+                                        <input type="text" class="form-control" [(ngModel)]="eopt.name" />
+                                    </div>
+                                    <div class="form-group col-md-12 text-right">
+                                        <button (click)="editOpt(eopt)" class="btn btn-primary">Modifer</button>
+                                    </div>
+                                </div>
+                                <table class="table table-bordered table-hover" style="width:100%;">
+                                    <thead>
+                                        <tr>
+                                            <th>Id</th>
+                                            <th>Code</th>
+                                            <th>Nom</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="col-md-2" *ngFor="let a of copaie; let i = index">
+                                            <td>{{a.id}} </td>
+                                            <td>{{a.code}} </td>
+                                            <td>{{a.name}} </td>
+                                            <td>
+                                                <button *ngIf="a.actived" class="btn btn-sm btn-primary m-1" (click)="setCopaie(a)" style="display:inline-block;"> <i
+                                                  class="i-Eye"></i></button>
+                                                <button class="btn btn-sm btn-success m-1" (click)="editOptionToggle(a,i)" style="display:inline-block;"> <i
+                                                  class="i-Pen-2"></i></button>
+                                                <button class="btn btn-sm btn-danger m-1" (click)="delOpt(a,i)" style="display:inline-block;"> <i
+                                                  class="i-Close"></i></button>
+                                                <button *ngIf="a.actived" class="btn btn-sm btn-danger m-1" (click)="toggleOpt(false,i,a)" style="display:inline-block;">
+       De-activé</button>
+                                                <button *ngIf="!a.actived" class="btn btn-sm btn-success m-1" (click)="toggleOpt(true,i,a)" style="display:inline-block;">
+                                                  Activé</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <h5 class="m-3 text-danger text-left"> <a class="text-danger" (click)="setOption(null)">changer de cycle</a> </h5>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-12 mb-2" *ngIf="coption && co">
+                <div class="col-md-12">
+                    <h3 class="text-center">Configuration versement {{co.name}}</h3>
+                    <h5 class="text-danger text-center"> <a class="text-danger" (click)="setCopaie(null)">changer d'option</a> </h5>
+                    <h5 class="text-danger text-center"> <a class="text-danger" routerLink="/app/paiement">Retournez</a> </h5>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="row">
+                            <div class="m-1 card m-2">
+                                <h5 class="text-center p-2">Changer de option</h5>
+                                <div (click)="setCopaie(a)" style="cursor:pointer;" class="card m-2 text-center p-2" *ngFor="let a of copaie" style="display:inline-block;">
+                                    <p [className]="a.id==co.id ? 'text-success' : ''" class="text-muted mt-2 mb-2">
+                                        {{a.name}} </p>
+                                </div>
+                                <h5 class="text-center p-2">Changer de cycle</h5>
+                                <div (click)="setOption(o)" style="cursor:pointer;" class="card m-2 text-center p-2" *ngFor="let o of options" style="display:inline-block;">
+                                    <p [className]="o.code==coption.code ? 'text-success' : '' " class="text-muted mt-2 mb-2">{{o.name}} </p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-10 card p-4">
+                        <div class="col-md-12 row">
+                            <div class=" col-md-12 p-2" *ngIf="!everse">
+                                <h3 class="text-center">Ajouter versement </h3>
+                            </div>
+                            <div class=" col-md-12 p-2" *ngIf="everse">
+                                <h3 class="text-center">Modifier versement</h3>
+                                <i (click)="editVerseToggle(false,-1)" class="i-Close close text-danger"></i>
+                            </div>
+                            <div *ngIf="response.active && response.view==3" class="alert alert-card alert-{{response.state}} text-center" role="alert">
+                                {{response.message}}
+                            </div>
+                            <div class="row" *ngIf="!everse">
+                                <div class="form-group col-md-2">
+                                    <label for="recipient-name-1" class="col-form-label">Code</label>
+                                    <input type="text" class="form-control" [(ngModel)]="verse.code" />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="recipient-name-1" class="col-form-label">Nom</label>
+                                    <input type="text" class="form-control" [(ngModel)]="verse.name" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="recipient-name-1" class="col-form-label">montant</label>
+                                    <input type="text" class="form-control" [(ngModel)]="verse.montant" />
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="recipient-name-1" class="col-form-label">Jour</label>
+                                    <input type="text" class="form-control" [(ngModel)]="verse.jour_limit" />
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="recipient-name-1" class="col-form-label">Mois</label>
+                                    <input type="text" class="form-control" [(ngModel)]="verse.mois_limit" />
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="recipient-name-1" class="col-form-label">Position</label>
+                                    <input type="number" class="form-control" [(ngModel)]="verse.pos" />
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="recipient-name-1" class="col-form-label">Type Versement</label>
+                                    <select [(ngModel)]="verse.type_verse" class="form-control">
+      <option value="1">Basique</option>
+      <option value="2">Operationnel</option>
+      <option value="3">Facultatif</option>
+    </select>
+                                </div>
+                                <div class="form-group col-md-12 text-right">
+                                    <button (click)="addVerse(verse)" class="btn btn-primary pull-right">ajouter</button>
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="everse">
+                                <div class="form-group col-md-2">
+                                    <label for="recipient-name-1" class="col-form-label">Code</label>
+                                    <input type="text" [disabled]="true" class="form-control" [(ngModel)]="ever.code" />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="recipient-name-1" class="col-form-label">Nom</label>
+                                    <input type="text" class="form-control" [(ngModel)]="ever.name" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="recipient-name-1" class="col-form-label">montant</label>
+                                    <input type="text" class="form-control" [(ngModel)]="ever.montant" />
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="recipient-name-1" class="col-form-label">Jour</label>
+                                    <input type="text" class="form-control" [(ngModel)]="ever.jour_limit" />
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="recipient-name-1" class="col-form-label">Mois</label>
+                                    <input type="text" class="form-control" [(ngModel)]="ever.mois_limit" />
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="recipient-name-1" class="col-form-label">Position</label>
+                                    <input type="number" class="form-control" [(ngModel)]="ever.pos" />
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="recipient-name-1" class="col-form-label">Type Versement</label>
+                                    <select [(ngModel)]="ever.type_verse" class="form-control">
+      <option value="1" [selected]="ever.type_verse==1">Basique</option>
+      <option value="2" [selected]="ever.type_verse==2">Operationnel</option>
+      <option value="3" [selected]="ever.type_verse==3">Facultatif</option>
+    </select>
+                                </div>
+                                <div class="form-group col-md-12 text-right">
+                                    <button (click)="editVerse(ever)" class="btn btn-primary pull-right">Modifer</button>
+                                </div>
+                            </div>
+                            <table class="table table-bordered table-hover" style="width:100%;">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Code</th>
+                                        <th>Name</th>
+                                        <th>Montant</th>
+                                        <th>Date Limite</th>
+                                        <th>Position</th>
+                                        <th>Type</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="col-md-2" *ngFor="let a of verses;let i = index">
+                                        <td>{{a.id}} </td>
+                                        <td>{{a.code}} </td>
+                                        <td>{{a.name}} </td>
+                                        <td>{{a.montant}} HTG </td>
+                                        <td>{{a.jour_limit}}/{{a.mois_limit}}</td>
+                                        <td>{{a.pos}}</td>
+                                        <td>
+                                            <p *ngIf="a.type_verse==1">Basique</p>
+                                            <p *ngIf="a.type_verse==3">Facultatif</p>
+                                            <p *ngIf="a.type_verse==2">Operationel</p>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-sm btn-success m-1" (click)="editVerseToggle(a,i)" style="display:inline-block;"> <i
+            class="i-Pen-2"></i></button>
+                                            <button class="btn btn-sm btn-danger m-1" (click)="delVerse(a,i)" style="display:inline-block;"> <i
+            class="i-Close"></i></button>
+                                            <button *ngIf="a.actived" class="btn btn-sm btn-danger m-1" (click)="toggleVerse(false,i,a)" style="display:inline-block;">
+          De-activé</button>
+                                            <button *ngIf="!a.actived" class="btn btn-sm btn-success m-1" (click)="toggleVerse(true,i,a)" style="display:inline-block;">
+          Activé</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- end of col-->
+        </div>
+        <!-- end of row-->
+
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+    <!-- ============ Body content End ============= -->
+</div>
+<!--=============== End app-admin-wrap ================-->
+
+<!-- ============ Search UI Start ============= -->
+<app-search></app-search>
+<!-- ============ Search UI End ============= -->

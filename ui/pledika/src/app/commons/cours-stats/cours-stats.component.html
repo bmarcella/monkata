@@ -1,0 +1,140 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!-- ============ Body content start ============= -->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+        <div class="row ">
+            <div class="separator-breadcrumb border-top "></div>
+            <div class=" col-md-12">
+                <h3 class="mb-2 text-center">Statistique Cours <br/><b class="text-success" *ngIf="frag">{{frag?.code}} </b> </h3>
+            </div>
+
+            <div class="form-group col-md-8 p-2 card" style="margin-left:18%;" *ngIf="apromo?.length>0">
+                <label for="recipient-name-1" class="col-form-label">Selectionnez une Promotion</label>
+                <select [(ngModel)]="cpromo" class="form-control" (change)="getCPromo()">
+                         <option [ngValue]="a" *ngFor="let a of apromo; let i = index"> {{a.code}}</option>
+                       </select>
+            </div>
+
+            <div class=" col-md-12 row p-4">
+                <button class="btn btn-primary" [useExistingCss]="true" printSectionId="print-section" ngxPrint>print</button>
+                <div class="form-group m-2">
+                    <input type="text" class="form-control" [(ngModel)]="ncc">
+                </div>
+                <div class="form-group m-2">
+                    <input type="text" class="form-control" [(ngModel)]="nmc">
+                </div>
+
+                <div class="form-group m-2">
+                    <input type="checkbox" class="form-control" [(ngModel)]="tit">
+                </div>
+            </div>
+            <div class=" col-md-8 ">
+
+                <div class="card text-left" id="print-section" *ngIf="frag && stats.length>0">
+                    <app-entete [etab]="etab"></app-entete>
+                    <div class=" col-md-12" *ngIf="frag">
+                        <br>
+                        <h4 class="mb-2 text-center" style="text-align: center; padding:1%; border: 1px solid gray;">
+                            Rapport {{ frag?.code.split("(")[0].split("-")[3] }} {{ frag?.code.split("(")[0].split("-")[1] }}-{{ frag?.code.split("(")[0].split("-")[2] }}<br/>
+                            <b> {{ frag?.code.split("(")[0].split("-")[0] }} </b> </h4>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="col-md-12 mb-4">
+                            <div class="box col-md-3 col-xs-6 col-sm-12">
+                                <b>Total elèves</b> <br/>
+                                <span>{{ rapg?.totalE }}</span>
+                            </div>
+                            <div class="box col-md-3 col-xs-6 col-sm-12">
+                                <b>Total cours</b> <br/>
+                                <span>{{ rapg?.totalC }}</span>
+                            </div>
+                            <div class="box col-md-3 col-xs-6 col-sm-12">
+                                <b>Pourcentage réussite</b> <br/>
+                                <span>{{ ((rapg?.ress/rapg?.totalE)*100).toFixed(2) }}%</span>
+                            </div>
+                            <div class="box col-md-3 col-xs-6 col-sm-12">
+                                <b>Pourcentage echèc</b> <br/>
+                                <span>{{ ((rapg?.echec/rapg?.totalE)*100).toFixed(2) }}%</span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 mb-4">
+                            <div class="box-2 col-md-6 col-xs-6 col-sm-12">
+                                <b>{{nmc}}</b> <br/>
+                                <b>{{ rapg?.maxr?.cours.split("-")[0] }}</b>
+                                <br>
+                                <i>
+                                 Réussite:  {{rapg?.maxr?.reussit}}<br>
+                                 Echèc:  {{rapg?.maxr?.echec}}
+                                </i>
+                            </div>
+                            <div class="box-2 col-md-6 col-xs-6 col-sm-12">
+                                <b>{{ncc}}</b> <br/>
+                                <b>{{ rapg?.maxe?.cours.split("-")[0] }}</b>
+                                <br>
+                                <i>
+                                 Réussite:  {{rapg?.maxe?.reussit}}<br>
+                                 Echèc:  {{rapg?.maxe?.echec}}
+                                </i>
+
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="display my-table  table-bordered " style="width:100%;   border: solid gray !important;
+                                   border-width: 1px 0 0 1px !important;">
+                                <thead>
+                                    <tr style="text-align: left; border: 1px solid gray;">
+                                        <th>Cours</th>
+                                        <th>Réussite</th>
+                                        <th>% Réussite</th>
+                                        <th>Echèc</th>
+                                        <th>% echèc</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="text-align: left;" *ngFor="let o of stats;let i = index">
+                                        <td target="_blank" routerLink="/app/detailsProf/{{ getProfId(o.cours) }}">
+                                            {{o.cours}}
+                                        </td>
+                                        <td>{{o.reussit}} </td>
+                                        <td>{{((o.reussit/o.total)*100).toFixed(0)}}%</td>
+                                        <td>{{o.echec}}</td>
+                                        <td>{{((o.echec/o.total)*100).toFixed(0)}}%</td>
+                                        <td>{{o.total}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="mention">
+                            <div class="ml-1 mt-2 signature prof" *ngIf="tit">
+                                Signature du titulaire
+                            </div>
+                            <div class="ml-1 mt-2 signature parent">
+                                Date
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class=" col-md-4 " *ngIf="frags.length>0">
+                <div class=" col-md-12">
+                    <h5 class="mb-2 text-center">Periodes</h5>
+                </div>
+                <div *ngFor="let o of frags;let i = index" class="card text-center m-2">
+                    <a [ngClass]="{'text-success': ID == o.id}" routerLink="/app/statCours/{{o.id}}/{{IDP}}">
+                       {{o.code.split("-")[3] }}  - {{o.id}}
+                   </a>
+                </div>
+            </div>
+        </div>
+        <!-- Footer Start -->
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+</div>

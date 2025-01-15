@@ -1,0 +1,132 @@
+<div class="app-admin-wrap">
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!-- ============ Body content start ============= -->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+        <!-- end of row-->
+        <div class="card user-profile o-hidden mb-4">
+            <div class="card-body">
+                <ul class="nav nav-tabs profile-nav mb-4" id="profileTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="timeline-tab" data-toggle="tab" href="#timeline" role="tab" aria-controls="timeline" aria-selected="false">Nouveau paiement</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="about-tab" data-toggle="tab" href="#about" role="tab" aria-controls="about" aria-selected="true">Vos paiements</a>
+                    </li>
+
+                </ul>
+
+                <div class="tab-content" id="profileTabContent">
+                    <div class="tab-pane fade active show" id="timeline" role="tabpanel" aria-labelledby="timeline-tab">
+                        <div class="row">
+                            <div class="col-md-6 col-6">
+
+                                <div class="row">
+                                    <div class="form-group col-md-8">
+                                        <label for="recipient-name-1" class="col-form-label">Rechercher postulant par code</label>
+                                        <input value="jm-1003" [(ngModel)]="CODE" type="text" class="form-control" />
+                                    </div>
+                                    <div class="form-group col-md-4" style="margin-top:4%;" *ngIf="CODE">
+                                        <button (click)="getUserByCode(CODE)" style="float:right;" [disabled]="loading" class="btn btn-primary  btn-rounded mt-3">
+                                               <span *ngIf="loading"   class="spinner-border spinner-border-sm mr-1"></span> Rechercher
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-6" style="margin-left:8%;">
+                                <div *ngIf="response.active" class="alert alert-{{response.state}} mt-3 mb-0 text-center">
+                                    {{response.message}}</div>
+                                <div class="row" *ngIf="USER?.code">
+                                    <div class="col-md-6">
+                                        <h6 class="text-primary mb-1 ">Code</h6>
+                                        <span>{{USER?.code}}</span>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <h6 class=" text-primary mb-1"> Nom complet
+                                        </h6>
+                                        <span>{{USER?.firstName}} {{USER?.lastName}}</span>
+                                    </div>
+                                    <div class="col-md-6  mb-4 ">
+                                        <p class="text-primary mb-1"> lieu de naissance
+                                        </p>
+                                        <span *ngIf="USER?.lieu_de_naiss?.name">{{USER?.lieu_de_naiss?.name}}</span>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <h6 class="text-primary mb-1"> Date de naissance</h6>
+                                        <span>{{ getDate(USER?.date_de_naiss) }}</span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h6 class="text-primary mb-1"> Nom du pere
+                                        </h6>
+                                        <span>{{USER?.nom_pere}}</span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h6 class=" text-primary mb-1"> Nom de la mere</h6>
+                                        <span>{{USER?.nom_mere}}</span>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <h6 class="text-primary mb-1"> Classe admise
+                                        </h6>
+                                        <span>{{USER?.current_class.name}}</span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h6 class=" text-primary mb-1"> Reference</h6>
+                                        <span>{{USER.reference}}</span>
+                                    </div>
+                                    <div class="form-group col-md-6" *ngIf="!USER.paiement_admission.pay">
+                                        <button (click)="payAdmis(USER.id)" [disabled]="aloading" class="btn btn-primary full btn-block  btn-rounded mt-3">
+                                        <span *ngIf="aloading" class="spinner-border spinner-border-sm mr-1"></span>
+                                          Paiement inscription
+                                      </button>
+                                    </div>
+                                    <button *ngIf="USER.paiement_admission.pay" [disabled]="true" class="btn full btn-success mt-3 mb-0 text-center">
+                                        Paiement déja effectué
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="about" role="tabpanel" aria-labelledby="about-tab">
+
+                        <div class="row">
+                            <div class="col-md-12 mt-4">
+                                <table class="display table  table-bordered" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Code</th>
+                                            <th>Date paiement </th>
+                                            <th>Classe</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let o of pay; let i = index">
+                                            <td>{{ o?.code}}</td>
+                                            <td>{{ o?.pay_date.split("T")[0] }} </td>
+                                            <td>
+                                                {{ o?.niveau.name }}
+                                            </td>
+                                            <td>
+                                                <a target="_blank" class="btn btn-block btn-primary" routerLink="/app/admisFiche/{{o.code}}"> Imprimmer reçu</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+    <!-- ============ Body content End ============= -->
+
+</div>

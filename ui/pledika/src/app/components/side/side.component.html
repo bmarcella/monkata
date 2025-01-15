@@ -1,0 +1,42 @@
+<div class="side-content-wrap">
+    <div class="sidebar-left open" data-perfect-scrollbar data-suppress-scroll-x="true">
+        <ul class="navigation-left">
+            <li class="nav-item ">
+                <a class="nav-item-hold" routerLink="/app/home">
+                    <i class="nav-icon i-Bar-Chart"></i>
+                    <span class="nav-text">Dashboard</span>
+                </a>
+                <div class="triangle"></div>
+            </li>
+            <li class="nav-item" *ngIf="user.role.name=='MASTER' || user.role.name=='ADMIN'  || user.role.name=='MANAGER' ">
+                <a class="nav-item-hold" routerLink="/app/management">
+                    <i class="nav-icon i-Home1 fa-pull-right"></i>
+                    <span class="nav-text">Etablissement</span>
+                </a>
+                <div class="triangle"></div>
+            </li>
+            <li class="nav-item " *ngIf="user.role.name=='MASTER' || user.role.name=='ADMIN'">
+                <a class="nav-item-hold" routerLink="/app/domaine">
+                    <i class="nav-icon i-Data-Upload"></i>
+                    <span class="nav-text">Domaine</span>
+                </a>
+                <div class="triangle"></div>
+            </li>
+            <li class="nav-item " *ngIf="user.role.name=='MASTER' || user.role.name=='ACCOUNTING'  ">
+                <a class="nav-item-hold" routerLink="/app/paiement">
+                    <i class="nav-icon i-Money-2"></i>
+                    <span class="nav-text">Finance</span>
+                </a>
+                <div class="triangle"></div>
+            </li>
+            <li class="nav-item " *ngIf="user.role.name=='MASTER' || user.role.name=='ADMIN' ">
+                <a class="nav-item-hold" routerLink="/app/statistique">
+                    <i class="nav-icon i-Bar-Chart-2"></i>
+                    <span class="nav-text">Rapport</span>
+                </a>
+                <div class="triangle"></div>
+            </li>
+        </ul>
+    </div>
+    <div class="sidebar-overlay"></div>
+</div>

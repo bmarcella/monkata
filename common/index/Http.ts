@@ -140,5 +140,6 @@ export const  SERV_EP = {
   editEntreprise : "/entreprise/edit/",
   countEntreprise : "/entreprise/count",
   countAdresse : "/entreprise/adresse/count/",
-  editPassword : "/auth/editPassword"
+  editPassword : "/auth/editPassword",
+  approveUser : "/auth/approveUser/"
 }

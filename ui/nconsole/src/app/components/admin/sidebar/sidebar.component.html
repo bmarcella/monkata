@@ -1,0 +1,30 @@
+<div class="sidebar bg-white">
+  <div class="sidebar-header p-3">
+    <h5 class="mb-0 text-white">Monkata</h5>
+  </div>
+  <div class="sidebar-menu">
+    <ul class="nav flex-column">
+      <li class="nav-item" *ngFor="let item of menuItems">
+        <a class="nav-link" (click)="toggleSubmenu(item)">
+          <i class="bi {{ item.icon }} me-2"></i>
+          {{ item.name }}
+          <i
+            class="bi float-end"
+            [class]="item.isOpen ? 'bi-chevron-down' : 'bi-chevron-right'"
+          ></i>
+        </a>
+        <ul class="submenu" [class.show]="item.isOpen">
+          <li *ngFor="let submenu of item.submenus">
+            <a
+              class="nav-link"
+              [routerLink]="submenu.route"
+              routerLinkActive="active"
+            >
+              {{ submenu.name }}
+            </a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>

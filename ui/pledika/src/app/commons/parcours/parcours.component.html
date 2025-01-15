@@ -1,0 +1,89 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!-- ============ Body content start ============= -->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+        <div class="col-md-12 mb-2">
+            <h4 class="mb-3  text-center"> La liste des etudiants </h4>
+            <h5 class="text-danger text-center">
+                <a class="text-danger" routerLink="/app/paiement">Retournez</a> </h5>
+        </div>
+        <div class="col-md-12 mt-4">
+            <div class="card text-left">
+                <div class="card-body">
+                    <div class="col-md-12 row" style="float:right;">
+                        <div class="form-group col-md-4 pt-4">
+                            <label for="recipient-name-1">({{STUDS.length}}) etudiant(s) trouvé(s)</label>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="recipient-name-1">Classe</label>
+                            <select [(ngModel)]="cniv" (change)='change($event)' id="salle" class="form-control">
+                            <option [selected]="s.code == cniv" [value]="s.code" *ngFor="let s of nivs">{{s.name}}
+                           </option>
+                          </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="recipient-name-1">Rechercher</label>
+                            <input type="text" class="form-control" autocomplete="off" (keyup)="onKeyUp($event)">
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="zero_configuration_table" class="display table table-striped table-bordered" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Nom et prénom</th>
+                                    <th>Sexe</th>
+                                    <th>Promotion</th>
+                                    <th>Bourse</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let o of STUDS; let i = index">
+                                    <td>{{o.code}}</td>
+                                    <td>{{o.lastName}} {{o.firstName}}</td>
+                                    <td>{{o.sexe}}</td>
+                                    <td>{{o.classe}}</td>
+                                    <td>
+                                        <p *ngIf="o.bourse==1">Bourse</p>
+                                        <p *ngIf="o.bourse==2">Demi Bourse</p>
+                                        <p *ngIf="o.bourse==0">Aucune Bourse</p>
+                                    </td>
+                                    <td>
+                                        <a *ngIf="o.bourse!=1" class="btn btn-sm m-1 btn-primary" routerLink="/app/payment/{{o.id}}">
+                                            <i class="i-Money-2"></i></a>
+                                        <button routerLink="/app/detailsEtudiant/{{o.idu}}" class="btn btn-sm btn-primary m-1">
+                                             <i class="nav-icon i-Eye"></i> </button>
+                                        <button routerLink="/app/editProf/{{o.idu}}" class="m-1 btn btn-sm btn-primary"><i class="nav-icon i-Edit"></i></button>
+                                    </td>
+                                </tr>
+
+
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Nom et prénom</th>
+                                    <th>Sexe</th>
+                                    <th>Promotion</th>
+                                    <th>Bourse</th>
+                                    <th>Action</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- end of col -->
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+    <!-- ============ Body content End ============= -->
+</div>
+<!--=============== End app-admin-wrap ================-->

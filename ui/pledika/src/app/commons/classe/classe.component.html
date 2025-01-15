@@ -1,0 +1,88 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!-- ============ Body content start ============= -->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+        <div class="col-md-12 mb-2">
+            <h4 class="mb-3  text-center"> Les classes de l'etablissement</h4>
+        </div>
+        <div class="col-md-12 text-center text-light m-2 p-2">
+            <a (click)="page=0" [className]="page==0 || page==undefined || page==null ? 'btn btn-secondary m-2' : 'btn btn-primary m-2'">
+            Classes rélatives</a>
+            <a (click)="page=1" [className]="page==1 ? 'btn btn-secondary m-2' : 'btn btn-primary m-2'"> Promotions</a>
+
+        </div>
+        <div class="col-md-12" *ngIf="page==0 || page==undefined || page==null">
+            <div class="col-md-12" *ngIf="!CNIV">
+                <b class="card-title mb-3">La liste des classes relatives</b>
+                <div class="col-md-12" *ngIf="!cdel">
+                    <div class="col-md-2" *ngFor="let a of NIV; let i = index;" style="display:inline-block;">
+                        <div class="card card-icon mb-4">
+                            <i class=""></i>
+                            <div class="card-body text-center">
+                                <a class="text-muted mt-2 mb-2" (click)="setNiv(a)">{{a.name}} </a>
+                                <br/>
+                                <a class="btn btn-danger mt-4 text-center" (click)="rdel(a,i)"> <i class="Icon i-Close"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 text-center" *ngIf="cdel">
+                    <h3 class="card-title mb-1 text-center">Voulez-vous vraiment cette classe?</h3>
+                    <h4 class="card-title mb-3 text-center">{{cdel.name}}</h4>
+                    <a class="btn btn-danger m-4 text-center" (click)="del()"> OUI</a>
+                    <a class="btn btn-success m-4 text-center" (click)="xdel()"> NON</a>
+                    <p class="text-danger">Si vous supprimez cette classe relative, tous les promotions seront supprimées aussi avec les resultats d'examen etc..</p>
+                </div>
+            </div>
+
+            <div class="col-md-12" *ngIf="CNIV">
+
+                <div class="col-md-12">
+                    <b class="card-title mb-3">La liste des promotions en cours </b>
+                    <button class="close" (click)="close()">Fermer</button>
+                    <div class="col-md-12">
+                        <div routerLink="/app/promoDetails/{{a.id}}" class="col-md-2" *ngFor="let a of PROMO" style="display:inline-block;">
+                            <div class="card card-icon mb-4">
+                                <i class=""></i>
+                                <div class="card-body text-center">
+                                    <p class="text-muted mt-2 mb-2">Promotion</p>
+                                    <p class="text-muted mt-2 mb-2">{{a.code}}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <b class="card-title mb-3">La liste des promotions déactivées</b>
+                    <div class="col-md-12">
+                        <div routerLink="/app/promoDetails/{{a.id}}" class="col-md-2" *ngFor="let a of HPROMO" style="display:inline-block;">
+                            <div class="card card-icon mb-4">
+                                <i class=""></i>
+                                <div class="card-body text-center">
+                                    <p class="text-muted mt-2 mb-2">Promotion</p>
+                                    <p class="text-muted mt-2 mb-2">{{a.code}}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-12" *ngIf="page==1">
+            <app-promo></app-promo>
+        </div>
+
+
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+    <!-- ============ Body content End ============= -->
+</div>
+<!--=============== End app-admin-wrap ================-->

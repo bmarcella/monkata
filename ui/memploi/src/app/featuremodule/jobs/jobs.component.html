@@ -181,31 +181,12 @@
     </div>
     <div class="row mt-4" *ngIf="paginations">
       <div class="blog-pagination">
-        <nav>
-          <ul class="pagination">
-            <li class="justify-content-center pagination-center">
-              <div class="pagelink">
-                <ul>
-                  <li
-                    [ngClass]="[paginations?.currentPage == p ? 'active' : '']"
-                    class="page-item"
-                    *ngFor="let p of paginations?.pages"
-                  >
-                    <a *ngIf="paginations.currentPage == p" class="page-link"
-                      >{{ p }} <span class="visually-hidden">(current)</span></a
-                    >
-                    <a
-                      *ngIf="paginations.currentPage != p"
-                      (click)="changePage(p, $event)"
-                      class="page-link"
-                      >{{ p }}
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </li>
-          </ul>
-        </nav>
+        <app-my-pagination
+          [totalPages]="totalPages"
+          [currentPage]="paginations?.currentPage"
+          (pageChange)="onPageChange($event)"
+        >
+        </app-my-pagination>
       </div>
     </div>
   </div>

@@ -1,0 +1,103 @@
+<div class="page-user">
+    <div class=" row">
+        <div class="form-group col-md-12 row  ">
+            <div class="col-md-4" style="float:left;">
+                <label for="recipient-name-1" class="col-form-label">Rechercher</label>
+            </div>
+            <div class="col-md-8">
+                <input type="text" class="form-control" autocomplete="off" (keyup)="onKey($event)">
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table id="zero_configuration_table" class="display table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Periode
+                        <div class="form-group">
+                            <input type="checkbox" class="form-control m-1" [(ngModel)]="period">
+                        </div>
+                    </th>
+                </tr>
+                <tr>
+                    <th>Control
+                        <div class="form-group">
+                            <input type="text" class="form-control m-1" [(ngModel)]="words">
+                        </div>
+                    </th>
+                </tr>
+                <tr>
+                    <th>Marges : {{hgt}} pixels
+                        <div class="form-group">
+                            <input type="range" min="2" max="2000" class="form-control m-1" [(ngModel)]="hgt">
+                            <input type="number" class="form-control m-1" [(ngModel)]="hgt">
+                            <input type="checkbox" class="form-control m-1" [(ngModel)]="see">
+                        </div>
+                    </th>
+                </tr>
+                <tr>
+                    <th>Matieres</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let o of cours; let i = index" [style.background-color]="setBG(o.id)">
+                    <td (click)="changePage(o.id,ID,i)" [style.color]="setTC(o)"> <a pageScroll href="#USER-{{o.id}}"> {{o.name}}</a> </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="page-print">
+    <button class="btn btn-primary" [useExistingCss]="true" printSectionId="print-section" ngxPrint>print</button>
+</div>
+
+<div class="book" id="print-section">
+    <div id="USER-{{user.id}}" class="page" *ngFor="let user of cours;let i = index">
+        <app-entete [etab]="etab"></app-entete>
+        <div class="col-md-12 ">
+            <div class="identity">
+                <p class="line-text line"> <b class="reponse">Palmares</b></p>
+                <p class="line-text-left line ">
+                    <b class="reponse">Classe :</b> <span>{{pf?.code.split("(")[0].split("-")[0]}}</span>
+                    <b class="side-b">{{pf?.code.split("(")[0].split("-")[1]}}-{{pf?.code.split("(")[0].split("-")[2]}}</b>
+                </p>
+                <p class="line-text-left line " *ngIf="period"> <b class="reponse">Période :</b><span class="reponse">{{pf?.code.split("(")[0].split("-")[3]}}</span> </p>
+                <p class="line-text-left line "> <b class="reponse">Matiere :</b><span class="reponse">{{user?.name}}</span> </p>
+                <p class="line-text-left line"> <b class="reponse">Nombre d'élèves :</b><span class="reponse">{{p?.length}}</span> </p>
+            </div>
+            <table BORDER=0 CELLSPACING=0 class="display my-table  table-bordered " style="width:100%; margin-top:5px;">
+                <thead>
+                    <tr>
+                        <th>Nom </th>
+                        <th>Prénom</th>
+                        <th *ngFor="let item of words.split('/');let i = index"> {{item}} </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let o of p; let j = index">
+                        <td>{{ o?.nom }} </td>
+                        <td>
+                            {{ o?.pnom }}
+                        </td>
+                        <td *ngFor="let item of words.split('/');">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-12 " style="margin-top:50px;">
+            <div class="mention">
+                <div class="ml-1 mt-2 signature prof">
+                    Date
+                </div>
+                <div class="mt-2 signature parent mr-4">
+                    Signature du titulaire
+                </div>
+            </div>
+        </div>
+        <div class="end-page" [ngStyle]="{'height': hgt+'px', 'border':(see)? '1px solid black':'none'}">
+            <h3 [ngStyle]="{'margin-top': hgt/2+'px'}" *ngIf="see" class="text-center" style="margin:auto;">{{hgt}} pixels</h3>
+        </div>
+    </div>
+</div>

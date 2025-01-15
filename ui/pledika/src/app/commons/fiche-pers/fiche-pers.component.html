@@ -1,0 +1,95 @@
+<div class="page-print">
+    <button class="btn btn-primary" [useExistingCss]="true" printSectionId="print-section" ngxPrint>print</button>
+</div>
+<div class="page" id="print-section">
+    <div class="head">
+        <h1>{{etab?.name}}</h1>
+        <h3>{{etab?.adresse}}</h3>
+        <h3>{{etab?.phone_a}}</h3>
+    </div>
+    <h3 class="title">Dossier du personnel</h3>
+
+    <div class="col-md-12">
+        <div class="block-a">
+
+            <h5><b>Informations Personelles</b></h5>
+            <hr class="m-1 mb-2">
+            <div class="avatar">
+                <img *ngIf="USER?.avatar" src="http://127.0.0.1:82/assets/imgs/{{USER?.avatar}}" alt="">
+                <img *ngIf="!USER?.avatar" src="http://127.0.0.1:82/assets/imgs/default.png" alt="">
+            </div>
+            <div class="b-8">
+                <p class="att">
+                    <b>Nom : </b> <i> {{USER?.lastName}} </i>
+                </p>
+
+                <p class="att">
+                    <b>prénom : </b> <i> {{USER?.firstName}} </i>
+                </p>
+                <p class="att">
+                    <b>Sexe: </b> <i> {{USER?.sexe}} </i>
+                </p>
+
+                <p class="att">
+                    <b>Code: </b> <i> {{USER?.code}} </i>
+                </p>
+                <p class="att">
+                    <b>Email: </b> <i> {{USER?.pseudo}} </i>
+                </p>
+                <p class="att">
+                    <b>Téléphone: </b> <i> {{USER?.phone}} </i>
+                </p>
+            </div>
+        </div>
+        <div class="block-a">
+            <p class="att">
+                <b>Date de Naiss. : </b> <i> {{USER?.date_de_naiss.split("T")[0]}} </i>
+            </p>
+            <p class="att">
+                <b>Lieu de Naiss. : </b> <i> {{USER?.lieu_de_naiss?.name}} </i>
+            </p>
+        </div>
+        <div class="col-md-12 row mb-4" *ngIf="USER.courses">
+            <div class="col-md-12 row">
+                <h5>La listes des cours</h5>
+            </div>
+            <div class="col-md-3 border p-1 " *ngFor="let p of USER?.courses">
+                <b>{{p?.code}} </b>
+            </div>
+        </div>
+
+        <div class="col-md-12 row" *ngIf="USER.promotion">
+            <div class="col-md-12 row">
+                <h5>La listes des promotion</h5>
+            </div>
+            <div class="col-md-3 border p-1 " *ngFor="let p of USER?.promotion">
+                <b>{{p?.code}} </b>
+            </div>
+        </div>
+
+        <div class="block-a" *ngFor="let p of USER?.parent">
+            <div class="col-md-12" *ngIf="p.resp">
+                <h5><b>Personne responsable</b></h5>
+                <hr class="m-1">
+                <p class="att">
+                    <b>Nom Complet : </b> <i> {{p?.nom}} </i>
+                </p>
+                <p class="att">
+                    <b>Profession: </b> <i> {{p?.prof}} </i>
+                </p>
+
+                <p class="att">
+                    <b>relation : </b> <i> {{p?.who_is}} </i>
+                </p>
+                <p class="att">
+                    <b>Téléphone: </b> <i> {{p?.phone}} </i>
+                </p>
+
+                <p class="att">
+                    <b>Adresse: </b> <i> {{p?.adresse}} </i>
+                </p>
+            </div>
+        </div>
+    </div>
+
+</div>

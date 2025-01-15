@@ -1,0 +1,186 @@
+<div class="payroll-container">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="mb-1">Payroll Management</h2>
+      <p class="text-muted mb-0">Manage employee compensation and benefits</p>
+    </div>
+    <button class="btn btn-primary">
+      <i class="bi bi-play-fill me-2"></i>Run Payroll
+    </button>
+  </div>
+
+  <ul class="nav nav-tabs mb-4">
+    <li class="nav-item" *ngFor="let tab of tabs">
+      <a class="nav-link" 
+         [ngClass]="{'active': activeTab === tab.id}"
+         (click)="setActiveTab(tab.id)">
+        <i class="bi {{tab.icon}} me-2"></i>
+        {{tab.name}}
+      </a>
+    </li>
+  </ul>
+
+  <div class="tab-content">
+    <!-- Payroll Overview Tab -->
+    <div *ngIf="activeTab === 'payroll'" class="tab-pane fade show active">
+      <div class="row g-4 mb-4">
+        <div class="col-md-3">
+          <div class="card">
+            <div class="card-body">
+              <div class="d-flex align-items-center">
+                <div class="stats-icon bg-primary">
+                  <i class="bi bi-currency-dollar"></i>
+                </div>
+                <div class="ms-3">
+                  <p class="mb-1 text-muted">Total Payroll</p>
+                  <h4 class="mb-0">$245,500</h4>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card">
+            <div class="card-body">
+              <div class="d-flex align-items-center">
+                <div class="stats-icon bg-success">
+                  <i class="bi bi-people"></i>
+                </div>
+                <div class="ms-3">
+                  <p class="mb-1 text-muted">Employees</p>
+                  <h4 class="mb-0">156</h4>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card">
+            <div class="card-body">
+              <div class="d-flex align-items-center">
+                <div class="stats-icon bg-info">
+                  <i class="bi bi-calendar-check"></i>
+                </div>
+                <div class="ms-3">
+                  <p class="mb-1 text-muted">Next Payroll</p>
+                  <h4 class="mb-0">Jan 31</h4>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card">
+            <div class="card-body">
+              <div class="d-flex align-items-center">
+                <div class="stats-icon bg-warning">
+                  <i class="bi bi-clock-history"></i>
+                </div>
+                <div class="ms-3">
+                  <p class="mb-1 text-muted">Processing</p>
+                  <h4 class="mb-0">2 Days</h4>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header bg-transparent">
+          <h5 class="mb-0">Recent Payroll Activities</h5>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Description</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Jan 15, 2024</td>
+                  <td>Regular Payroll</td>
+                  <td>$125,300</td>
+                  <td><span class="badge bg-success">Completed</span></td>
+                  <td>
+                    <button class="btn btn-sm btn-outline-primary">View Details</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Dec 31, 2023</td>
+                  <td>Year-End Bonus</td>
+                  <td>$45,000</td>
+                  <td><span class="badge bg-success">Completed</span></td>
+                  <td>
+                    <button class="btn btn-sm btn-outline-primary">View Details</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Other tabs with placeholder content -->
+    <div *ngIf="activeTab === 'payslips'" class="tab-pane fade show active">
+      <div class="card">
+        <div class="card-body">
+          <h5>Employee Payslips</h5>
+          <p class="text-muted">Generate and manage employee payslips.</p>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="activeTab === 'deductions'" class="tab-pane fade show active">
+      <div class="card">
+        <div class="card-body">
+          <h5>Salary Deductions</h5>
+          <p class="text-muted">Manage employee salary deductions and taxes.</p>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="activeTab === 'benefits'" class="tab-pane fade show active">
+      <div class="card">
+        <div class="card-body">
+          <h5>Employee Benefits</h5>
+          <p class="text-muted">Configure and track employee benefits.</p>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="activeTab === 'extraPay'" class="tab-pane fade show active">
+      <div class="card">
+        <div class="card-body">
+          <h5>Additional Payments</h5>
+          <p class="text-muted">Manage bonuses and overtime payments.</p>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="activeTab === 'reports'" class="tab-pane fade show active">
+      <div class="card">
+        <div class="card-body">
+          <h5>Payroll Reports</h5>
+          <p class="text-muted">Generate and view payroll reports.</p>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="activeTab === 'payments'" class="tab-pane fade show active">
+      <div class="card">
+        <div class="card-body">
+          <h5>Payment History</h5>
+          <p class="text-muted">View and track all payment transactions.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

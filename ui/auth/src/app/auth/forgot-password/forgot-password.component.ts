@@ -22,9 +22,9 @@ export class ForgotPasswordComponent {
     email: ""
   }
   constructor(public router: Router,  private kc: KeycloakService,  private aUI:  AlertService,){ }
-  resetPassword() {
+  resetPassword(e?: any) {
     if(!this.email) return ;
-    this.kc.resetPass(this.email).then((r) => {
+    this.kc.resetPass(this.email, e).then((r) => {
        this.user = r;
        console.log(r);
     }).catch((e) => {

@@ -1,0 +1,185 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!-- ============ Body content start ============= -->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+
+        <!-- end of row-->
+        <div class="col-md-12 mb-2">
+            <h3 class="mb-3  text-center"> Paiment - {{parcours?.nom}} {{parcours?.pnom}} <br> {{parcours?.code_student}}
+            </h3>
+            <h5 class="mb-3  text-center"> {{parcours?.promo_name}}</h5>
+        </div>
+        <!-- end of row-->
+        <div class="row">
+            <div class="col-md-4 card">
+                <div class="col-md-12 p-4" *ngIf="!conf">
+                    <h3 class="mb-3  text-center">Paiement</h3>
+                    <div *ngIf="response.active" class="alert alert-card alert-{{response.state}} text-center" role="alert">
+                        {{response.message}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+     <span aria-hidden="true">&times;</span>
+   </button>
+                    </div>
+                    <div class="form-group ">
+                        <label for="recipient-name-1">Versement</label>
+                        <select [(ngModel)]="cverse" id="salle" class="form-control">
+                        <option [value]="0" >Auto </option>
+                        <option [value]="s.id" *ngFor="let s of verses">{{s.name}}</option>
+                      </select>
+                    </div>
+                    <div class="form-group ">
+                        <label for="recipient-name-1">Type Paiement</label>
+                        <select [(ngModel)]="tp" id="salle-tp" class="form-control">
+                        <option [value]="0" >CASH</option>
+                        <option [value]="1" >DEPOT BANCAIRE </option>
+                        <option [value]="2" >MONCASH</option>
+                        <option [value]="3" >NATCASH </option>
+                        <option [value]="4" >AUTRES </option>
+                      </select>
+                    </div>
+                    <div class="form-group" *ngIf="tp && tp!=0">
+                        <label for="recipient-name-1" class="col-form-label">Code transaction </label>
+                        <input type="number" [(ngModel)]="serie" type="text" autocomplete="off" class="form-control" id="recipient-name-1">
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name-1" class="col-form-label">Entrez le montant en gourde </label>
+                        <input type="number" [(ngModel)]="montant" type="text" autocomplete="off" class="form-control" id="recipient-name-1">
+                    </div>
+                    <button (click)="check(true)" [disabled]="!montant" class="btn btn-block btn-primary  mt-3">
+      Payer
+    </button>
+                    <a *ngIf="id_pay" target="_blank" class="btn btn-block btn-warning mt-3" routerLink="/app/fichePay/{{id_pay}}/{{ID}}">
+                  Voir la fiche du dernier paiment
+     </a>
+                    <h5 class="text-danger text-center mt-4">
+                        <a class="text-danger" routerLink="/app/parcours">Voir la liste des etudiants</a> </h5>
+                </div>
+                <div class="col-md-12 p-4" *ngIf="conf">
+                    <h3 class="mb-3  text-center">Confirmez-vous ce montant ? <br>
+                        <b class="mb-3  text-center"> {{montant}} G</b></h3>
+                    <div *ngIf="response.active" class="alert alert-card alert-{{response.state}} text-center" role="alert">
+                        {{response.message}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+     <span aria-hidden="true">&times;</span>
+   </button>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name-1" class="col-form-label">Re-entrez le montant en gourde </label>
+                        <input type="number" [(ngModel)]="montant_2" type="text" autocomplete="off" class="form-control" id="recipient-name-1">
+                    </div>
+
+                    <button type="submit" (click)="pay()" [disabled]="loading" class="col-md-12 btn  btn-success  mt-3">
+   Oui
+ </button>
+                    <button type="submit" (click)="check(false)" class=" col-md-12 btn  btn-danger  mt-3 ">
+                     Non
+                    </button>
+
+                </div>
+
+            </div>
+            <div class="col-md-8">
+                <div class="card text-left">
+                    <div class="card-body" *ngIf="!remain">
+                        <h4 class="card-title text-center">Information sur les versements </h4>
+                        <div class="col-md-12 row" *ngIf="PROMO">
+                            <div class="form-group col-md-4">
+                                <select id="OP" [(ngModel)]="option" class="form-control">
+                                                      <option  [selected]="iop===0" [ngValue]="s.id" *ngFor="let s of OP; let iop = index">
+                                                        {{s.name}}
+                                                      </option>
+                               </select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <button (click)="initVerse(option)" [disabled]="!option" class="btn  btn-primary">
+                                             Initialiser les versements
+                                         </button>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Nom</th>
+                                        <th scope="col">Montant</th>
+                                        <th scope="col">Payé</th>
+                                        <th scope="col">Balance</th>
+                                        <th scope="col">Type</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let vac of verses, let i = index">
+                                        <td scope="row" *ngIf="!edit[i]"> {{vac?.name?.split(" ")[0]}} {{vac.pos}}
+                                            <i (click)="edit[i]=true" class="btn btn-primary btn-sm m-2 i-Pen-2"></i></td>
+                                        <td scope="row" *ngIf="edit[i]">
+                                            <i (click)="edit[i]=false" class="m-2 btn btn-danger btn-sm i-Close"></i>
+                                            <div class="form-group col-md-12">
+                                                <label for="recipient-name-1" class="col-form-label">Position</label>
+                                                <input type="number" min="0" max="20" class="form-control" [(ngModel)]="pos[i]" [value]="vac.pos" />
+                                            </div>
+                                            <div class="form-group col-md-12 text-right">
+                                                <button (click)="editVersePos(vac.id,pos[i],i)" class="btn btn-primary pull-right">Modifer</button>
+                                            </div>
+                                        </td>
+                                        <td>{{ vac.montant_to_pay}} G </td>
+                                        <td>
+                                            {{ vac.montant_pay }} G
+                                        </td>
+                                        <td>
+                                            {{ vac.montant_to_pay-vac.montant_pay }} G
+                                        </td>
+                                        <td *ngIf="vac.type_verse!='' ">
+                                            <p *ngIf="vac.type_verse==1">Basique</p>
+                                            <p *ngIf="vac.type_verse==3">Facultatif</p>
+                                            <p *ngIf="vac.type_verse==2">Operationel</p>
+                                            <p class="text-danger" *ngIf="vac.montant_to_pay>vac.montant_pay">Non completé</p>
+                                            <p class="text-success" *ngIf="vac.montant_to_pay==vac.montant_pay">Completé</p>
+                                        </td>
+                                        <td *ngIf="vac.type_verse=='' ">
+                                            <div class="form-group col-md-12">
+                                                <label for="recipient-name-1" class="col-form-label">Type Versement</label>
+                                                <select [(ngModel)]="tv[i]" class="form-control">
+      <option value="1" [selected]="tv[i]==1">Basique</option>
+      <option value="2" [selected]="tv[i]==2">Operationnel</option>
+      <option value="3" [selected]="tv[i]==3">Facultatif</option>
+    </select>
+                                            </div>
+                                            <div class="form-group col-md-12 text-right">
+                                                <button (click)="editVerse(vac.id,tv[i],i)" class="btn btn-primary pull-right">Modifer</button>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-danger btn-sm p-2 m-1" *ngIf="!vac.actived" (click)="delVerse(vac.id,i)">Effacer</button>
+                                            <button class="btn btn-danger btn-sm p-2 m-1" *ngIf="vac.actived" (click)="editVerseAct(vac.id,false,i)">Deactivé</button>
+                                            <button class="btn btn-success btn-sm p-2 m-1" *ngIf="!vac.actived" (click)="editVerseAct(vac.id,true,i)">Activé</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                    </div>
+                    <div class="card-body" *ngIf="remain">
+                        <h2 class="card-title text-center">Remise</h2>
+                        <h3 class="text-center">{{remain}}G</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Footer Start -->
+
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+    <!-- ============ Body content End ============= -->
+</div>
+<!--=============== End app-admin-wrap ================-->

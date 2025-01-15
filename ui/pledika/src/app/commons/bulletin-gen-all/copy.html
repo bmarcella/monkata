@@ -1,0 +1,152 @@
+<div class="page-user">
+    <div class="col-md-12 m-2">
+        <label>Marge</label>
+        <input class="form-control" type="number" min="1" [(ngModel)]="coef" />
+        <button class="btn btn-primary m-2" (click)="editCP(coef)">Modifier</button>
+    </div>
+    <div class=" row">
+        <div class="form-group col-md-12 row  ">
+            <div class="col-md-4" style="float:left;">
+                <label for="recipient-name-1" class="col-form-label">Rechercher</label>
+            </div>
+            <div class="col-md-8">
+                <input type="text" class="form-control" autocomplete="off" (keyup)="onKey($event)">
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table id="zero_configuration_table" class="display table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Nom et prénom</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr (click)="changePage(o.id,i)" *ngFor="let o of STUDS; let i = index" [style.background-color]="setBG(o.id)">
+                    <td [style.color]="setTC(o)"> <a pageScroll href="#USER-{{o.id}}"> {{o.nom}} {{o.pnom}}
+              ({{o.code_student}})</a> </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="page-print">
+
+    <button class="btn btn-primary" [useExistingCss]="true" printSectionId="print-section" ngxPrint>print</button>
+    <button [disabled]="initb" class="btn btn-sm btn-success m-1 row "> Lancer le constructeur de bulletin</button>
+</div>
+
+<div class="book" id="print-section" *ngIf="!parcours">
+    <h3 class="text-center">Attendez un instant SVP...</h3>
+</div>
+
+<div class="book" id="print-section" *ngIf="parcours">
+    <div id="USER-{{user?.cpars?.id}}" class="page" *ngFor="let user of parcours; let i = index">
+        <app-entete [etab]="etab"></app-entete>
+        <div class="col-md-12 ">
+            <div class="row col-md-12">
+                <div class="col-md-8">
+                    <h4 class="text-left "> <b class="reponse">Nom et Prénom :</b><i class="reponse">{{user.cpars?.nom}} {{user.cpars?.pnom}}</i>
+                    </h4>
+                </div>
+                <div class="col-md-4">
+                    <h4 class="text-left"> <b class="reponse">Code:</b> <i class="reponse">{{user.cpars?.code_student}}</i> </h4>
+                </div>
+            </div>
+            <div class=" ml-1 row col-md-10 mb-2">
+                <h4 class="text-left"> <b class="reponse">Classe:</b> <i class="reponse">{{user.cpars?.promo_name}}</i> </h4>
+            </div>
+
+            <div class="col-md-12">
+                <table class="display my-table table-bordered " style="width:100%">
+                    <thead *ngIf="etab">
+                        <tr>
+                            <th> Matières</th>
+                            <th class="control">Coéf</th>
+                            <th class="control" *ngFor="let p of nper;">
+                                {{setText(p)}}
+                                <hr style="margin-top:-1%;margin-bottom:-1%;"> {{ user?.total[p+"_coef"] }}
+                            </th>
+                            <th class="control">Moy. Ann.
+                                <hr style="margin-top:-1%;margin-bottom:-1%;"> {{ user.total.coef_total }}
+                            </th>
+                            <th class="control" *ngIf="total.extra>0 && etab.reprise==1">Ex. Extra </th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="etab">
+                        <tr *ngFor="let o of user.results; let i = index">
+                            <td class="control">{{ o.frag_cours}}</td>
+                            <td>
+                                {{ o.coef * o.note_total }}
+                            </td>
+                            <td *ngFor="let p of nper;">
+                                {{ o.coef * (o[p]) ? o[p] : 0 }}
+                            </td>
+                            <td>
+                                {{ o.coef * o.moy_ann }}
+                            </td>
+                            <td *ngIf="total.extra>0 && etab.reprise==1">
+                                {{ o.coef * o.extra }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>Total</b></td>
+                            <td>{{ promo?.promo_coef }}</td>
+                            <td *ngFor="let p of nper;">{{ user?.total[p] }}</td>
+                            <td>{{ user.total?.moy.toFixed(2) }}</td>
+                            <td *ngIf="user.total.extra>0 &&  etab.reprise==1">{{ total?.extra }}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Moyenne de l'élève</b></td>
+                            <td>{{promo?.moy_total}}</td>
+                            <td *ngFor="let p of nper;"><b>{{ ((user.total[p]/user?.total[p+"_coef"]) * promo?.moy_total).toFixed(2) }} </b></td>
+                            <td> <b>{{user.total['moy_gen']}} </b></td>
+                            <td *ngIf="total.extra>0 && etab.reprise==1">
+                                <b>{{getRepMoy(total?.extra,promo?.moy_total,total.coef).toFixed(2)}}</b></td>
+                        </tr>
+
+                        <tr *ngIf="promo && mg">
+                            <td><b>Moyenne de la classe</b></td>
+                            <td> {{promo?.moy_total}}</td>
+                            <td *ngFor="let p of rper;"> <b>{{ ( moy[p.id] * promo?.moy_total).toFixed(2) }} </b></td>
+                            <td> <b>{{  getMoy(moy,promo,nper,periods).toFixed(2) }} </b></td>
+                            <td *ngIf="total.extra>0  && etab.reprise==1"> <b>-</b></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-md-12">
+                <div class="mention">
+                    <h5 class="text-center" style="text-decoration:underline;">Décision de fin d'année</h5>
+                    <b class="text-center ml-3">
+                        {{ getDec(promo?.moy_accept, ((user.total.moy/user.total.coef) * promo?.moy_total).toFixed(2),((user.total.extra/user.total.coef) * promo?.moy_total).toFixed(2),etab?.reprise,etab?.type_reprise) }}</b>
+                    <br>
+                    <span class="text-left ml-3"> Remarques: <i class="reponse"> {{user.cpars?.mention}}</i> </span>
+                </div>
+                <div class="mention" *ngIf="etab.tuts">
+                    <div class="ml-1 mt-2 signature prof">
+                        Signature du titulaire
+                    </div>
+                    <div class="mt-2 signature parent mr-4">
+                        Signature des parents
+                    </div>
+                </div>
+                <div class="mention" *ngIf="!etab.tuts">
+                    <div class="ml-1 mt-2 signature prof">
+                        Signature du directeur
+                    </div>
+                    <div class="mt-2 signature parent mr-4">
+                        Signature des parents
+                    </div>
+                </div>
+                <div class="mt-4 signature direct" *ngIf="etab.tuts">
+                    Signature du directeur
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>

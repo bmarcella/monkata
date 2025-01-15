@@ -1,0 +1,193 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!--============== Body content start ===============-->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+        <div class="ml-4 col-md-12 mb-1">
+            <h3 class="mb-2  text-center">Affectation</h3>
+            <h4 class="mb-2  text-center" *ngIf="promo">{{promo.code}} <b *ngIf="cpromo[promo.id]">({{cpromo[promo.id]}}/{{promo.max_student}})</b></h4>
+            <h5 class="mb-2  text-center text-danger" *ngIf="promo" (click)="close()">Changer de promotion</h5>
+        </div>
+
+
+        <div class="col-md-12">
+            <div class="col-md-12" *ngIf="!promo">
+                <div class="col-md-12 mb-4">
+                    <b class="card-title ">Selectionnez une promotion </b>
+                </div>
+                <div (click)="setActived(a)" class="col-md-2" *ngFor="let a of apromo; let i = index" style="display:inline-block;">
+                    <div class="card card-icon mb-4 p-2">
+                        <div class="card-body text-center">
+                            <p class="text-muted mt-2 mb-2">
+                                <b>{{a?.code}}</b></p>
+                        </div>
+                    </div>
+                    <!-- [className]="a.id==promo.id ? 'text-success' : '' " -->
+                </div>
+                <div class="col-md-12 mt-2 ml-4">
+                    <a class="btn btn-warning m-1" routerLink="/app/afrap"> Affectation rapide</a>
+                </div>
+            </div>
+            <div class="col-md-12" *ngIf="promo">
+                <div class="col-md-12 text-center text-light">
+                    <a (click)="mpage=0" [className]="mpage==0 || mpage==undefined || mpage==null ? 'btn btn-secondary m-2' : 'btn btn-primary m-2'">
+     Etudiants disponibles</a>
+                    <a (click)="getUC()" [className]="mpage==1 ? 'btn btn-secondary m-2' : 'btn btn-primary m-2'">
+     Etudiants de cette promotion</a>
+
+
+
+                </div>
+                <div *ngIf="response.active" class="alert alert-card alert-{{response.state}} text-center" role="alert">
+                    {{response.message}}
+                </div>
+                <a href="/app/asop/{{promo.id}}" target="_blank" class="btn btn-sm btn-primary m-2">
+   Imprimer la liste des etudiants </a>
+                <a class="btn btn-sm btn-warning m-2 " target="_blank" routerLink="/app/promoDetails/{{promo.id}}">Voir
+                  cette
+          promotion</a> <a class="btn btn-sm btn-warning m-2 " target="_blank" routerLink="/app/configPromo">
+            Configuration promotion</a>
+                <div class="card text-left" *ngIf="mpage==0">
+                    <div class="card-body" *ngIf="!isLoad">
+                        <div class="col-md-12 text-center">
+                            <div class="loader-bubble loader-bubble-dark m-5"></div>
+                        </div>
+                    </div>
+                    <div class="card-body" *ngIf="isLoad">
+                        <h4 class="card-title mb-3">Les étudiants disponibles ({{users?.length}})</h4>
+                        <div class=" row" style="float:right;">
+                            <div class="form-group col-md-12 row">
+                                <div class="col-md-4" style="float:left;">
+                                    <label for="recipient-name-1" class="col-form-label">Rechercher</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" (keyup)="onKeyV2($event)">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table id="zero_configuration_table" class="display table table-striped table-bordered" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Code</th>
+                                        <th>Nom et prénom</th>
+                                        <th>Classe</th>
+                                        <th>Promo</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let o of users; let i = index">
+                                        <td>{{o.code}}</td>
+                                        <td>
+                                            {{o.lastName}} {{o.firstName}}</td>
+                                        <td>{{o.current_class?.name}}</td>
+                                        <td>{{o.current_promo}}</td>
+                                        <td>
+
+
+                                            <div class="row">
+                                                <div class="form-group col-md-8">
+
+                                                    <select id="OP" [(ngModel)]="option[i]" class="form-control">
+                                                <option [selected]="false" [ngValue]="s.id" *ngFor="let s of OP; let iop = index">
+                                                  {{s.name}}
+                                                </option>
+                                              </select>
+                                                </div>
+                                                <div class=" form-group col-md-4">
+                                                    <button [disabled]='loading[i] || !option[i]  ' (click)="addSTP(o,option[i],i)" class="btn btn-primary">
+                     <span *ngIf='loading[i]' class="spinner-border spinner-border-sm mr-1"></span>
+                     <i class="nav-icon i-Add"></i>
+                   </button>
+
+                                                </div>
+
+                                            </div>
+
+
+                                        </td>
+                                    </tr>
+
+
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Code</th>
+                                        <th>Nom et prénom</th>
+                                        <th>Classe</th>
+                                        <th>Promo</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 mb-4" *ngIf="mpage==1">
+                    <div class="card text-left">
+                        <div class="card-body">
+                            <h4 class="card-title mb-3">Les étudiants de cette promotion ({{STUDS?.length}})</h4>
+                            <div class=" row" style="float:right;">
+                                <div class="form-group col-md-12 row">
+                                    <div class="col-md-4" style="float:left;">
+                                        <label for="recipient-name-1" class="col-form-label">Rechercher</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" autocomplete="off" (keyup)="onKeyUp($event)">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table id="zero_configuration_table" class="display table table-striped table-bordered" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Code</th>
+                                            <th>Nom et prénom</th>
+                                            <th>Sexe</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let po of STUDS; let i = index">
+                                            <td>{{po.code_student}}</td>
+                                            <td [className]="!po.actived ? ' text-danger ' : 'text-success'">{{po.nom}} {{po.pnom}}
+                                            </td>
+                                            <td>{{po.sexe}}</td>
+                                            <td>
+                                                <button *ngIf="!promo.setup_over" [disabled]='dloading[i]' (click)="remSTP(po,i)" class="mr-2 btn btn-sm btn-danger">
+                   <span *ngIf='dloading[i]' class="spinner-border spinner-border-sm mr-1"></span>
+                   <i class="nav-icon i-Close"></i>
+                 </button>
+
+                                            </td>
+                                        </tr>
+
+
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Code</th>
+                                            <th>Nom et prénom</th>
+                                            <th>Sexe</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+    <!-- ============ Body content End ============= -->
+</div>
+<!--=============== End app-admin-wrap ================-->

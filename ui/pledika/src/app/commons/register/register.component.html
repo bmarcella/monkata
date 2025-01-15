@@ -1,0 +1,60 @@
+<div *ngIf="etab" class="auth-layout-wrap" [style.background-image]="setBG()">
+    <div class="auth-content">
+        <div class="card o-hidden">
+            <div class="row">
+
+
+                <div class="col-md-8 " style="margin-left: auto; margin-right:auto;">
+                    <div class="p-4">
+                       <!-- <div class="auth-logo text-center mb-4">
+                            <img src="assets/images/logo.png" alt="">
+                        </div> -->
+                        <div *ngIf="response.active" class="alert alert-{{response.state}} mt-3 mb-0">{{response.message}}</div>
+                        <h5 class="mb-3 text-center">Créer un nouveau compte</h5>
+                        <form [formGroup]="regForm" (ngSubmit)="onSubmit()">
+                            <div class="form-group">
+                                <label for="fname">Prénom</label>
+                                <input formControlName="fname" [ngClass]="{ 'is-invalid': submitted && f.fname.errors }" class="form-control form-control-rounded" type="text">
+                                <div *ngIf="submitted && f.fname.errors" class="invalid-feedback">
+                                    <div *ngIf="f.fname.errors.required">Vous devez ajouter le prénom</div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="fname">Nom</label>
+                                <input formControlName="lname" [ngClass]="{ 'is-invalid': submitted && f.lname.errors }" class="form-control form-control-rounded" type="text">
+                                <div *ngIf="submitted && f.lname.errors" class="invalid-feedback">
+                                    <div *ngIf="f.lname.errors.required">Vous devez ajouter le nom</div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="username">Email</label>
+                                <input formControlName="username" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" class="form-control form-control-rounded" type="email">
+                                <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                                    <div *ngIf="f.username.errors.required">Vous devez ajouter un email</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="username">Mot de passe</label>
+                                <input formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" class="form-control form-control-rounded" type="password">
+                                <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                                    <div *ngIf="f.password.errors.required">Vous devez ajouter un mot de passe</div>
+                                </div>
+                            </div>
+
+                            <button [disabled]="loading" class="btn btn-primary btn-block btn-rounded mt-3">
+                               <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                               Créer compte
+                             </button>
+                        </form>
+                        <div class="mt-3 text-center">
+                            <a routerLink="/app/fpass" class="text-muted"><u>Mot de passe oublié?</u></a> ,
+                            <a routerLink="/app/login" class="text-muted"><u>Se connecter</u></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

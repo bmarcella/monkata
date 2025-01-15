@@ -1,0 +1,98 @@
+<div class="page-print">
+    <button class="btn btn-primary" [useExistingCss]="true" printSectionId="print-section" ngxPrint>print</button>
+</div>
+<div class="page" id="print-section">
+    <div class="head">
+        <h1>{{etab?.name}}</h1>
+        <h3>{{etab?.adresse}}</h3>
+        <h3>{{etab?.phone_a}}</h3>
+    </div>
+    <h3 class="title ">
+        <p class="mb-2">Fiche de payroll</p>
+    </h3>
+    <div class="title ">
+        <h4 class="text-center  mt-1 mb-1"> <b class="reponse"> Date payroll:</b><i class="reponse">
+       {{pay?.date_rec.split("T")[0]}} </i> <br /> <b class="reponse"> code : </b> {{pay?.code}} </h4>
+    </div>
+    <div class="col-md-12 ">
+        <div class="row">
+            <div class="col-md-12 ">
+                <h3 class="text-left  mt-1 mb-1"> <b class="reponse">Nom et Prénom :</b> <i class="reponse"> {{pay?.nom}}
+            {{pay?.pnom}} </i></h3>
+            </div>
+            <div class="col-md-12 att ">
+                <h3 class="text-left  mt-1 mb-1"> <b class="reponse">Code :</b> <i class="reponse">
+                    {{pay?.code_user}}</i> </h3>
+            </div>
+        </div>
+
+        <h3 class="title">Information sur le salaire </h3>
+        <div class="row">
+            <div class="col-md-12  text-left  ">
+                <h4 class="text-left  mt-1 mb-1"> <b class="reponse"> Salaire brut : </b><i class="reponse">
+            {{pay?.salaire_brut}} {{etab?.currency}} </i> </h4>
+            </div>
+            <div class="col-md-12  text-left  ">
+                <h4 class="text-left  mt-1 mb-1"> <b class="reponse"> Salaire net :</b><i class="reponse">
+      {{pay?.salaire_net}} {{etab?.currency}} </i> </h4>
+            </div>
+            <div class="col-md-12  text-left  ">
+                <h4 class="text-left  mt-1 mb-1"> <b class="reponse"> Mois :</b><i class="reponse">
+        {{payroll?.code}} </i> </h4>
+            </div>
+
+        </div>
+        <h3 class="title">Information sur les taxes </h3>
+        <table class="display my-table " style="width:100%" class="" cellspacing="0">
+            <thead>
+                <tr class="ligne">
+                    <th>Taxes</th>
+                    <th>Pourcentage</th>
+                    <th>montant</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="ligne">
+                    <td>ONA</td>
+                    <td>{{ etab?.ona}} %</td>
+                    <td>
+                        {{ pay?.salaire_brut * (etab?.ona/100) }} G
+                    </td>
+                </tr>
+                <tr class="ligne">
+                    <td>IRI</td>
+                    <td>{{ etab?.iri}}%</td>
+                    <td>
+                        {{ pay?.salaire_brut * (etab?.iri/100) }} G
+                    </td>
+                </tr>
+                <tr class="ligne">
+                    <td>FDU</td>
+                    <td>{{ etab?.ona}}%</td>
+                    <td>
+                        {{ pay?.salaire_brut * (etab?.fdu/100) }} G
+                    </td>
+                </tr>
+                <tr class="ligne">
+                    <td>CAS</td>
+                    <td>{{ etab?.iri}}%</td>
+                    <td>
+                        {{ pay?.salaire_brut * (etab?.cas/100) }} G
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="foot">
+        <div class="col-md-12  mt-4">
+            <div class="mention">
+                <div class="ml-1 mt-2 signature parent">
+                    Signature de l'employé
+                </div>
+                <div class="ml-1 mt-2 signature prof">
+                    Signature du Responsable
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -24,7 +24,7 @@ userRoute.post('/resetPassword', serv.resetPassword);
 userRoute.post('/resetNowPassword', serv.resetNowPassword);
 userRoute.get('/getCrossToken/:token', serv.getCrossTokenForAdmin);
 userRoute.get('/getCrossFreeToken/:token', serv.getCrossToken);
-
+userRoute.get('/approveUser/:code', protect(jwt, process.env.PUBLIC_KEY + ""), serv.approveUser);
 
 // PAGINATION
 

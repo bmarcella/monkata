@@ -1,0 +1,38 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!-- ============ Body content start ============= -->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+        <!-- end of row-->
+
+        <!-- end of row-->
+        <div class="col-md-12">
+
+
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    <b class="card-title mb-3">La liste de vos cours</b>
+                </div>
+                <div routerLink="/app/prof_results/{{a.id_promo}}/{{a.promofrag.id}}/{{a.id}}" class="col-md-3" *ngFor="let a of cours; let i = index" style="display:inline-block;">
+                    <div class="card card-icon mb-4 p-2">
+                        <div class="card-body text-center">
+                            <i class="i-Book"></i>
+                            <p class="text-muted mt-2 mb-2"> <b>{{a?.name}}</b></p>
+                            <p class="text-muted mt-2 mb-2"> <b>{{a?.promofrag.code}}</b></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- Footer Start -->
+
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+    <!-- ============ Body content End ============= -->
+</div>
+<!--=============== End app-admin-wrap ================-->

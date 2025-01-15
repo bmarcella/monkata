@@ -27,8 +27,10 @@ import { FooterComponent } from 'src/app/featuremodule/footer/footer-eight.compo
 import { HeaderComponent } from 'src/app/featuremodule/header/header-eight.component';
 import { ListMapComponent } from 'src/app/jobsmodule/listings/list-map/list-map.component';
 import { BreadcrumbComponent } from '../components/breadcrumb/breadcrumb.component';
+import { MyPaginationComponent } from '../components/my-pagination/my-pagination.component';
+
 @NgModule({
-  declarations: [HeaderComponent, FooterComponent, ListMapComponent, BreadcrumbComponent, HomeJobItemComponent, EntItemComponent, ItemCandComponent, CvComponent, FormAnoComponent],
+  declarations: [HeaderComponent, FooterComponent, ListMapComponent, BreadcrumbComponent, HomeJobItemComponent, EntItemComponent, ItemCandComponent, CvComponent, FormAnoComponent,  MyPaginationComponent],
   imports: [
     CommonModule,
     CarouselModule,
@@ -119,7 +121,8 @@ import { BreadcrumbComponent } from '../components/breadcrumb/breadcrumb.compone
     MatSliderModule,
     NgxDropzoneModule,
     NgxEditorModule,
-    AngularEditorModule
+    AngularEditorModule,
+    MyPaginationComponent,
   ],
 })
 export class SharedModule { }

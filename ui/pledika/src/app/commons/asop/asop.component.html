@@ -1,0 +1,34 @@
+<div class="page-print">
+    <button class="btn btn-primary" [useExistingCss]="true" printSectionId="print-section" ngxPrint>print</button>
+</div>
+<div class="page" id="print-section">
+    <div class="head">
+        <h1>{{etab?.name}}</h1>
+        <h3>{{etab?.adresse}}</h3>
+        <h3>{{etab?.phone_a}}</h3>
+    </div>
+    <h3 class="title ">La liste des etudiants <br> {{promo?.code}}</h3>
+    <div class="col-md-12 mt-4">
+        <table class="display my-table  table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Nom Et Prénom </th>
+                    <th>Sexe</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let o of users; let i = index">
+                    <td>{{ o.code_student}}</td>
+                    <td>{{ o.nom }} {{ o.pnom }} </td>
+                    <td>
+                        {{ o.sexe }}
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

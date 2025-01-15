@@ -1,0 +1,87 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!-- ============ Body content start ============= -->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+        <div class="row ">
+            <div class="separator-breadcrumb border-top "></div>
+            <div class=" col-md-12">
+                <h3 class="mb-2 text-center">Statistique Cours <br/>
+                    <b class="text-success">{{frag?.code}} </b>
+                    <br>
+                    <button *ngIf="stats.length>0" (click)="exportexcel()" class="btn btn-primary">Exporter excel</button>
+                </h3>
+            </div>
+            <div class=" col-md-8 ">
+                <div class="card text-left">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="rapport_global_cours" class="display table table-striped table-bordered" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Statistique Générale</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let c of stats;let i = index">
+                                        <div class="col-md-12">
+                                            <table id="sheet_0" class="display table table-striped table-bordered" style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-center text-primary">{{c.control.split("-")[3]}}</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <table id="sheet_{{c.id_frag}}" class="display table table-striped table-bordered" style="width:100%">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Cours</th>
+                                                                    <th>Reussite</th>
+                                                                    <th>Echec</th>
+                                                                    <th>Total</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr *ngFor="let o of c.sc;let i = index">
+                                                                    <td target="_blank" routerLink="/app/detailsProf/{{ getProfId(o.cours) }}">
+                                                                        {{o.cours}}
+                                                                    </td>
+                                                                    <td>{{o.reussit}} </td>
+                                                                    <td>{{o.echec}}</td>
+                                                                    <td>{{o.total}}</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class=" col-md-4 ">
+                <div class=" col-md-12">
+                    <h5 class="mb-2 text-center">Promotions</h5>
+                </div>
+                <div *ngFor="let o of frags;let i = index" class="card text-center m-2">
+                    <a [ngClass]="{'text-success': ID == o.id}" routerLink="/app/statCoursGlobal/{{o.id}}">
+                       {{o.code.split("-")[0]}}
+                   </a>
+                </div>
+            </div>
+
+        </div>
+        <!-- Footer Start -->
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+</div>

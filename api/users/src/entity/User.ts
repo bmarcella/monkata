@@ -36,8 +36,11 @@ export class User extends BaseEntity {
   @Column()
   keycloakId?: string;
 
-  @Column({ nullable: true, default: true })
+  @Column({ nullable: true, default: false })
   approuved?: boolean;
+
+  @Column({ nullable: true, default: 123456 })
+  approved_code?: number;
 
 
   @Column({ nullable: true })

@@ -1,0 +1,319 @@
+@font-face {
+    font-family: "Cambria Math";
+    panose-1: 2 4 5 3 5 4 6 3 2 4;
+}
+
+@font-face {
+    font-family: Calibri;
+    panose-1: 2 15 5 2 2 2 4 3 2 4;
+}
+
+
+/* Style Definitions */
+
+p.MsoNormal,
+li.MsoNormal,
+div.MsoNormal {
+    margin-top: 0in;
+    margin-right: 0in;
+    margin-bottom: 10.0pt;
+    margin-left: 0in;
+    line-height: 115%;
+    font-size: 11.0pt;
+    font-family: "Calibri", sans-serif;
+}
+
+.MsoChpDefault {
+    font-family: "Calibri", sans-serif;
+}
+
+.MsoPapDefault {
+    margin-bottom: 8.0pt;
+    line-height: 107%;
+}
+
+@page WordSection1 {
+    size: 14.0in 8.5in;
+    margin: 0.5in 0.5in 0.5in 0.5in;
+    padding: 0.5in 0.5in 0.5in 0.5in;
+}
+
+div.WordSection1 {
+    page: WordSection1;
+}
+
+.page-print {
+    position: relative;
+    min-width: 100%;
+    height: 130px;
+    margin-bottom: 10px;
+    margin-left: 1%;
+    margin-top: 10px;
+    border: 1px solid black;
+    padding: 2%;
+}
+
+.block-a {
+    width: 90%;
+    margin-left: 5%;
+    display: inline-block;
+}
+
+.b-8 {
+    width: 72.5%;
+    margin: 1%;
+    text-align: left;
+    display: inline-block;
+    float: left;
+}
+
+.att {
+    display: inline-block;
+    width: 48%;
+    margin: 0.2%;
+}
+
+.att-8 {
+    display: inline-block;
+    width: 68%;
+    margin: 1%;
+}
+
+.att-3 {
+    display: inline-block;
+    width: 31%;
+    margin: 1%;
+}
+
+b {
+    font-size: 12px;
+}
+
+i {
+    font-size: 10px;
+}
+
+.foot {
+    position: relative;
+    width: 80%;
+    margin-left: 10%;
+    height: 40px;
+    text-align: center;
+    padding: 10px;
+}
+
+img {
+    width: 90%;
+    height: 80%;
+    margin: 5%;
+}
+
+.foot h3 {
+    font-size: 12px;
+}
+
+.head {
+    position: relative;
+    top: 0%;
+    width: 90%;
+    margin-left: 5%;
+    height: 70px;
+    text-align: center;
+    padding: 2.5px;
+    border-bottom: 1px solid black;
+}
+
+.new-avatar {
+    position: absolute;
+    top: 1%;
+    float: left;
+    width: 60px;
+    height: 60px;
+}
+
+.new-avatar img {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    float: left;
+}
+
+.identity {
+    position: relative;
+    top: 1%;
+    width: 100%;
+    text-align: left;
+    text-align: left;
+    padding: 2px;
+    display: inline-block;
+    margin-bottom: 0.5%;
+    height: auto;
+    max-height: 200px;
+}
+
+.line-text {
+    position: relative;
+    top: 1%;
+    width: 100%;
+    text-align: center;
+    height: auto;
+    padding: 2px;
+    border: 1px solid gray;
+    display: inline-block;
+    margin-bottom: -0.05%;
+}
+
+.line-text-left {
+    position: relative;
+    top: 1%;
+    width: 100%;
+    text-align: left;
+    height: auto;
+    padding: 2px;
+    border: 1px solid gray;
+    display: inline-block;
+    margin-bottom: -0.05%;
+}
+
+.line-text-a {
+    position: relative;
+    top: 1%;
+    width: 74%;
+    text-align: left;
+    height: auto;
+    text-align: left;
+    padding: 2px;
+    border: 1px solid gray;
+    display: inline-block;
+    float: left;
+    margin-bottom: -1%;
+}
+
+.line-text-b {
+    position: relative;
+    top: 0%;
+    width: 24%;
+    text-align: center;
+    height: auto;
+    line-height: 100%;
+    padding: 2px;
+    font-weight: bold;
+    background-color: grey;
+    display: inline-block;
+    color: black;
+    float: right;
+    margin-bottom: -0.5%;
+}
+
+.line-text-b:last-child {
+    border-top: 2px solid white;
+}
+
+.head h1 {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.head h3 {
+    font-size: 12px;
+}
+
+.row {
+    text-align: center;
+}
+
+.title {
+    font-size: 13px;
+    text-align: center;
+    padding: 1%;
+    font-weight: bold;
+    border-bottom: 1px solid black;
+    width: 80%;
+    margin-left: 10%;
+}
+
+.my-table tr {
+    height: 8px;
+    border: 1px solid black;
+    padding: 0px;
+    margin: 0px;
+}
+
+.my-table tr td {
+    border: 1px solid black;
+    padding: 2px;
+    margin: 0px;
+    font-size: 12px;
+}
+
+.my-table tr th {
+    padding: 0.1%;
+    font-weight: bold;
+    border: 1px solid black;
+    padding: 2px;
+    margin: 0px;
+    font-size: 13px;
+    text-align: left;
+}
+
+.reponse {
+    font-size: 13px;
+}
+
+.signature {
+    border-top: 1px black solid;
+}
+
+.prof {
+    width: 30%;
+    float: left;
+    text-align: center;
+}
+
+.parent {
+    position: relative;
+    right: 0%;
+    width: 30%;
+    float: right;
+    text-align: center;
+}
+
+.direct {
+    display: inline-block;
+    margin-left: 35%;
+    width: 30%;
+    margin-top: 5%;
+    text-align: center;
+}
+
+.ename {
+    font-size: 3rem;
+}
+
+.mention {
+    width: 100%;
+    text-align: left;
+    display: inline-block;
+    font-size: 12px;
+    margin-top: 1%;
+}
+
+.control {
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+
+.vertical-header {
+    padding: 2%;
+}
+
+.vertical-header span {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    text-align: left;
+    max-height: 150px;
+    white-space: nowrap;
+}

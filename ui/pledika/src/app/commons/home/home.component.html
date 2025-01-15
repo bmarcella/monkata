@@ -1,0 +1,361 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!-- ============ Body content start ============= -->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+
+        <div class="row ">
+            <div class="col-md-12">
+                <h3 class="text-center mb2 ">Année Académique </h3>
+                <h4 class=" text-center mb-2" routerLink="/app/acad" *ngIf="user.role.name!='STUDENT'">
+                    {{af?.date_debut?.split("T")[0].split("-")[0]}} - {{af?.date_fin?.split("T")[0].split("-")[0]}}
+                </h4>
+                <h4 class=" text-center mb-2 " *ngIf="user.role.name==='STUDENT' ">
+                    {{user?.current_promo.split("-")[1] }}-{{user?.current_promo.split("-")[2] }}
+                </h4>
+                <h4 class=" text-center mb-2 text-primary " *ngIf="user.role.name==='STUDENT' ">{{user?.current_promo.split("-")[0]}}</h4>
+            </div>
+
+            <div class="separator-breadcrumb border-top "></div>
+
+            <div class="row " *ngIf="user.role.name=='ADMIN' || user.role.name=='MASTER' ">
+                <!-- ICON BG -->
+                <div class="col-lg-6 col-md-6 col-sm-6 ">
+                    <div class="card card-icon-bg card-icon-bg-primary o-hidden mb-4 ">
+                        <div class="card-body text-center ">
+                            <i class="i-Add-User "></i>
+                            <div class="content ">
+                                <p class="text-muted mt-2 mb-0 ">Etudiants</p>
+                                <p class="text-primary text-24 line-height-1 mb-2 ">{{ts}}</p>
+                            </div>
+                            <div class="content ">
+                                <p class="text-muted mt-2 mb-0 ">F</p>
+                                <p class="text-primary text-24 line-height-1 mb-2 ">{{tf}}</p>
+                            </div>
+                            <div class="content ">
+                                <p class="text-muted mt-2 mb-0 ">M</p>
+                                <p class="text-primary text-24 line-height-1 mb-2 ">{{tg}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 ">
+                    <div class="card card-icon-bg card-icon-bg-primary o-hidden mb-4 ">
+                        <div class="card-body text-center ">
+                            <i class="i-Add-User "></i>
+                            <div class="content ">
+                                <p class="text-muted mt-2 mb-0 ">Enseignants</p>
+                                <p class="text-primary text-24 line-height-1 mb-2 ">{{tp}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 ">
+                    <div class="card card-icon-bg card-icon-bg-primary o-hidden mb-4 ">
+                        <div class="card-body text-center ">
+                            <i class="i-Add-User "></i>
+                            <div class="content ">
+                                <p class="text-muted mt-2 mb-0 ">Personnels</p>
+                                <p class="text-primary text-24 line-height-1 mb-2 ">{{tpp}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="display: block " class="col-lg-6 col-md-6 col-sm-6 ">
+                    <canvas baseChart [data]="doughnutChartData " [labels]="doughnutChartLabels " [chartType]="doughnutChartType "></canvas>
+                </div>
+                <div style="display: block " class="col-lg-6 col-md-6 col-sm-6 ">
+                    <canvas baseChart [data]="doughnutChartData2 " [labels]="doughnutChartLabels2 " [chartType]="doughnutChartType "> </canvas>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 mt-2 ">
+                    <div class="card card-icon-bg card-icon-bg-primary o-hidden mb-4 ">
+                        <div class="card-body text-center ">
+                            <i class="i-Book "></i>
+                            <div class="content ">
+                                <p class="text-muted mt-2 mb-0 ">Cours</p>
+                                <p class="text-primary text-24 line-height-1 mb-2 ">{{tc}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 mt-2 ">
+                    <div class="card card-icon-bg card-icon-bg-primary o-hidden mb-4 " routerLink="/app/contact ">
+                        <div class="card-body text-center ">
+                            <i class="i-Envelope "></i>
+                            <div class="content ">
+                                <p class="text-muted mt-2 mb-0 ">Message</p>
+                                <p class="text-primary text-24 line-height-1 mb-2 ">{{cc}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 ">
+                    <div class="card card-icon-bg card-icon-bg-primary o-hidden mb-4 " routerLink="/app/parents">
+                        <div class="card-body text-center ">
+                            <i class="i-Add-User "></i>
+                            <div class="content ">
+                                <p class="text-muted mt-2 mb-0 ">Parents</p>
+                                <p class="text-primary text-24 line-height-1 mb-2 ">{{tpa}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 " *ngIf="apromo?.length>0 && (user?.role.name=='ADMIN' || user?.role.name=='MASTER') ">
+                <div class="col-md-12 mb-4">
+                    <b class="card-title ">La liste des promotions de cette année</b>
+                </div>
+                <div routerLink="/app/promoDetails/{{a.id}}" class="col-md-2" *ngFor="let a of apromo; let i = index" style="display:inline-block;">
+                    <div class="card card-icon mb-4 p-2">
+                        <div class="card-body text-center">
+                            <i class="i-Cap"></i>
+                            <p class="text-muted mt-2 mb-2"> <b>{{a?.code}}</b></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12" *ngIf="user.role.name==='PROF'">
+                <div class="col-md-12" *ngIf="promo?.length>0">
+                    <div class="col-md-12 mb-4">
+                        <b class="card-title ">La liste de vos promotions</b>
+                    </div>
+                    <div routerLink="/app/promoDetails/{{a.id}}" class="col-md-2" *ngFor="let a of promo; let i = index" style="display:inline-block;">
+                        <div class="card card-icon mb-4 p-2">
+                            <div class="card-body text-center">
+                                <i class="i-Cap"></i>
+                                <p class="text-muted mt-2 mb-2"> <b>{{a?.code}}</b></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12" *ngIf="cours?.length>0">
+                    <div class="col-md-12 mb-4">
+                        <b class="card-title ">La liste de vos cours</b>
+                    </div>
+                    <div routerLink="/app/profCours/{{a.id}}" class="col-md-2" *ngFor="let a of cours; let i = index" style="display:inline-block;">
+                        <div class="card card-icon mb-4 p-2">
+                            <div class="card-body text-center">
+                                <i class="i-Book"></i>
+                                <p class="text-muted mt-2 mb-2"> <b>{{a?.name}}</b></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="row col-md-12" *ngIf="user.role.name=='ADMIN' || user.role.name=='MASTER'">
+                <div class="col-md-6 card p-2" [ngSwitch]="view">
+                    <div class="col-md-12">
+                        <h4 class="text-center mb2 ">{{viewDate}}</h4>
+                    </div>
+                    <mwl-calendar-month-view *ngSwitchCase="'month'" [viewDate]="viewDate" [events]="events" [locale]="locale" [weekStartsOn]="weekStartsOn" [weekendDays]="weekendDays" [activeDayIsOpen]="true"></mwl-calendar-month-view>
+                </div>
+            </div> -->
+            <div class="col-md-12 row " *ngIf="user.role.name==='STUDENT'">
+
+
+                <div class="col-md-12" *ngIf="nfrags">
+                    <div class="card  m-1">
+                        <div class="card-body">
+                            <div class="col-md-12 mb-4">
+                                <ul class="nav nav-tabs" id="myIconTab" role="tablist">
+
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="p-basic-tab" data-toggle="tab" href="#pBasic" role="tab" aria-controls="pBasic" aria-selected="true">Periodes</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="home-basic-tab" data-toggle="tab" href="#homeBasic" role="tab" aria-controls="homeBasic" aria-selected="true">Tableau</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="profile-basic-tab" data-toggle="tab" href="#profileBasic" role="tab" aria-controls="profileBasic" aria-selected="false">Cours</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="grade-basic-tab" data-toggle="tab" href="#gradeBasic" role="tab" aria-controls="gradeBasic" aria-selected="true">Fournitures scolaires</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="myIconTabContent">
+
+                                    <div class="tab-pane fade show active" id="pBasic" role="tabpanel" aria-labelledby="p-basic-tab">
+                                        <div class="col-md-12 mb-4">
+                                            <ul class="nav nav-tabs" id="myIconTab" role="tablist">
+                                                <li class="nav-item" *ngFor="let item of nfrags; let ci = index">
+                                                    <a class="nav-link {{(ci==0)? 'active' : ''}}" id="{{'tab-'+item.id}}-icon-tab" data-toggle="tab" href="{{'#tab-'+item.id}}" role="tab" aria-selected="true">{{ item.code.split('-')[3].split('(')[0] }}</a>
+                                                </li>
+                                            </ul>
+                                            <div class="tab-content" id="myIconTabContent">
+
+                                                <div *ngFor="let item of  nfrags; let ci = index" class="tab-pane fade show {{(ci==0)? 'active' : ''}}" id="{{'tab-'+item.id}}" role="tabpanel" attr.aria-labelledby="{{'tab-'+item.id+'-icon-tab'}}">
+                                                    <div class="col-md-12 ">
+                                                        <h3> Dates</h3>
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+
+                                                                <p> <b>Date debut {{item.code.split("-")[3]}} :</b> {{item.date_debut}} </p>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <p> <b>Date fin {{item.code.split("-")[3]}} :</b> {{item.date_fin}} </p>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <p> <b>Date debut des examens {{item.code.split("-")[3]}} :</b> {{item.date_debut_ex}} </p>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <p> <b>Date fin des examens {{item.code.split("-")[3]}} :</b> {{item.date_fin_ex}} </p>
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                    <a class="btn  btn-warning m-2 " *ngIf="item" target="_blank" routerLink="/app/bulletinEtudiants/{{item.id}}/{{user.id}}">Bulletin pour cette période </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="tab-pane fade " id="homeBasic" role="tabpanel" aria-labelledby="home-basic-tab">
+                                        <div class="row">
+                                            <div class="form-group" *ngIf="PROMO">
+                                                <angular-editor #userinput style=" min-height:600px;" [placeholder]="'Enter text here...'" [config]="editorConfig" style="height:400px;" [(ngModel)]="PROMO.board"></angular-editor>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="tab-pane fade" id="gradeBasic" role="tabpanel" aria-labelledby="grade-basic-tab">
+                                        <div class="row">
+                                            <div class="col-md-12" *ngIf="fours">
+                                                <div class="col-md-4" *ngFor="let obj of fours; let i = index" style="display:inline-block;">
+                                                    <div class="card card-icon mb-4">
+                                                        <i class=""></i>
+                                                        <div class="card-body text-center">
+                                                            <p class="text-muted mt-2 mb-2">
+
+                                                                <b> <i class="i-Shop-4" *ngIf="obj.sell_at"></i> <br>  <i *ngIf="obj.qt" >{{obj.qt}}</i> <span
+                                            class="badge badge-primary m-1" *ngIf="obj.type_fn==1">{{obj.unity}}(s)</span>
+                                          {{ obj.name}}(s) </b><br />
+                                                                <span class="badge badge-warning m-1" *ngIf="obj.type_fn==1">Materiel</span>
+                                                                <span class="badge badge-warning m-1" *ngIf="obj.type_fn==2">Livre</span>
+
+
+                                                            </p>
+                                                            <p class="text-muted mt-2 mb-2">
+                                                                <b> {{ obj.desc}}</b>
+                                                            </p>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="profileBasic" role="tabpanel" aria-labelledby="outil-basic-tab">
+                                        <div class="row">
+
+                                            <div class="col-md-12 row" *ngIf="cours">
+
+                                                <div class="col-md-2" *ngFor="let a of cours; let i = index" style="display:inline-block;">
+                                                    <div class="card card-icon mb-4 p-2">
+                                                        <div class="card-body text-center">
+                                                            <i class="i-Book"></i>
+                                                            <p class="text-muted mt-2 mb-2"> <b>{{a?.code.split("-")[0]}}</b></p>
+                                                            <span class="badge badge-success mr-1">{{a?.note_total*a?.coef}} points</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 p-4 mt-4 " *ngIf="user?.role?.name==='PARENT'">
+                <div class="card-body">
+                    <h4 class="text-center">La liste de vos enfants</h4>
+                </div>
+                <div *ngIf="response20.active" class="alert alert-card alert-{{response20.state}} text-center" role="alert">
+                    {{response20.message}}
+                </div>
+
+
+                <div class="row col-md-12">
+                    <div class="col-md-12 mb-4">
+                        <div class="card text-left" *ngIf="child">
+                            <div class="card-body">
+                                <h4 class="text-center">Ajouter un enfant</h4>
+                                <div class="row " *ngIf="user?.sexe">
+                                    <div class="form-group col-md-5 ">
+                                        <label>Code etudiant</label>
+                                        <input type="text " [(ngModel)]="code" autocomplete="off" autocomplete="disabled" class="form-control ">
+                                    </div>
+                                    <div class="form-group col-md-5 ">
+                                        <label>PIN etudiant</label>
+                                        <input type="password" [(ngModel)]="pin" autocomplete="off" autocomplete="disabled" class="form-control ">
+                                        <label class="label-warning text-warning">Contactez l'etablissement pour avoir le pin de votre enfant </label>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <button (click)="addChild(code, pin)" class="btn btn-primary mt-4">Ajouter</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 text-center" *ngIf="!user?.sexe">
+                                    <h4 class="text-danger" style="text-align: center;">Demandez a l'administrateur d'ajouter votre sexe au systeme. </h4>
+                                </div>
+                                <div class="table-responsive">
+                                    <table id="zero_configuration_table" class="display table table-striped table-bordered" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Code</th>
+                                                <th>Nom & Prénom</th>
+                                                <th>Classe</th>
+                                                <th>Sexe</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let o of child; let i = index">
+                                                <td>{{o.code}}</td>
+                                                <td>{{o.lastName}} {{o.firstName}}</td>
+                                                <td>{{o.classe}}</td>
+                                                <td>{{o.sexe}}</td>
+                                                <td>
+                                                    <button (click)="delChild(o.id,i)" class="m-2 btn btn-danger">
+                                                <i class="nav-icon i-Close"></i>
+                                                </button>
+
+                                                    <a class="m-2 btn btn-primary" routerLink="/app/pEtudiants/{{o.id}}">
+                                                        <i class="nav-icon i-Eye"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- end of col -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- Footer Start -->
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+    <!-- ============ Body content End ============= -->
+</div>
+<!--=============== End app-admin-wrap ================-->

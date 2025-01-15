@@ -503,6 +503,20 @@ const services = {
     }
   },
 
+  getEntrepriseById : async (req: Request, res: Response) => {
+    try {
+      const { GATEWAY_URL } = process.env;
+      const http = new Http(axios, req.token+'');
+      const path = getService("users").path;
+      const URL = GATEWAY_URL+path+SERV_EP.getEntById+req.params.id;
+      const data = await http.getSec(URL);
+      res.send(data);
+    } catch (error) {
+      console.log(error);
+      res.status(500).send(error);
+    }
+  },
+
   editAdresse : async (req: Request, res: Response) => {
     try {
       const id = Number(req.params.id);
@@ -527,6 +541,21 @@ const services = {
       const data = await http.postSec(URL, req.body);
       
      return  res.send(data);
+    } catch (error) {
+      console.log(error);
+      res.status(500).send(error);
+    }
+  },
+
+  approveUser : async (req: Request, res: Response) => {
+    try {
+      const code = Number(req.params.code);
+      const { GATEWAY_URL } = process.env;
+      const http = new Http(axios, req.token+'');
+      const path = getService("users").path;
+      const URL = GATEWAY_URL+path+SERV_EP.approveUser+code;
+      const data = await http.getSec(URL);
+      return  res.send(data);
     } catch (error) {
       console.log(error);
       res.status(500).send(error);

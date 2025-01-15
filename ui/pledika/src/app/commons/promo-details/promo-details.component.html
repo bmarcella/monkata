@@ -1,0 +1,509 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!--============== Body content start ===============-->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+        <div *ngIf="PROMO" class="row">
+            <div class="col-md-12 mb-2">
+                <h4 class="mb-3  text-center"> Gestion de promotion </h4>
+                <h5 class="mb-3  text-center"> {{PROMO?.code}} </h5>
+                <h5 class="text-danger text-center" *ngIf="(user?.role.name=='ADMIN' || user?.role.name=='MASTER')">
+                    <a class="text-warning" routerLink="/app/classe/1">Voir la liste des promotions</a> , <a class="text-warning" routerLink="/app/configPromo">Configuration promotion</a>
+                </h5>
+            </div>
+            <div class="col-md-12 mb-4 ">
+                <div *ngIf="response.active" class="alert alert-card alert-{{response.state}} text-center" role="alert">
+                    {{response.message}}
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    <div class="col-md-12" *ngIf="PROMO?.promofrag">
+                        <div class="accordion" id="accordionExample">
+                            <div class="card">
+                                <div class="card-header" id="headingOne">
+                                    <h5 class="mb-0">
+                                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+        Informations generales
+      </button>
+                                    </h5>
+                                </div>
+
+                                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <div class="pl-4 col-md-12 mb-4" *ngIf="PROMO">
+
+                                            <button [disabled]='loading' *ngIf="!PROMO.setup_over" class="m-2 btn btn-primary" (click)="initPromo()">Gérer période</button>
+                                            <button *ngIf="!cconfig && !PROMO.setup_over" class="btn btn-primary m-2" (click)="cconfig=true;  "> Gérer les cours
+                                            </button>
+                                            <button [disabled]='loading' class="m-2 btn btn-primary" (click)="initCours()">Iniatiliser les cours</button>
+                                            <button [disabled]='loading || iloading' class="m-2 btn btn-primary" (click)="initStudent()">Iniatiliser les etudiants</button>
+                                            <button *ngIf="!moy && !PROMO.setup_over" class="btn btn-primary m-2" (click)="moy=true;  ">
+                                              Gérer les moyennes </button>
+                                            <button *ngIf="!tut && !PROMO.setup_over" class="btn btn-primary m-2" (click)="tut=true;  ">
+                                              Gérer le titulaire  </button>
+
+                                            <a routerLink="/app/addStudentToPromo/{{ID}}" class="btn btn-primary  m-2">
+                                            Gérer les etudiants </a>
+                                            <button *ngIf="PROMO.setup_over && !PROMO?.completed" class="btn btn-success m-2" (click)="completedPromo(true)"> Année
+   Terminée </button>
+                                            <a *ngIf="PROMO?.completed" routerLink="/app/upgrade/{{ID}}" class="btn btn-success m-2">upgrade etudiants </a>
+                                            <button *ngIf="!PROMO.setup_over && PROMO.enabled" class="btn btn-success m-2" (click)="overSetupPromo(true)">
+                                    Terminer la configuration
+                                  </button>
+                                            <button *ngIf="PROMO.enabled &&  !PROMO.setup_over" class="btn btn-danger m-2" (click)="actPromo(false)">
+                                              Désactiver
+                                            </button>
+                                            <button *ngIf="!PROMO.enabled && !PROMO.setup_over" class="btn btn-success m-2" (click)="actPromo(true)">
+                                             Activer
+                                            </button>
+                                            <button *ngIf="PROMO.setup_over && PROMO?.completed" class="btn btn-danger m-2" (click)="completedPromo(false)">redemarrer année
+   </button>
+
+                                            <button *ngIf="PROMO.setup_over" class="btn btn-danger m-2" (click)="overSetupPromo(false)"> reconfigurer la promotion </button>
+
+                                            <a *ngIf="!PROMO.setup_over && !PROMO?.completed" routerLink="/app/delPromo/{{ID}}" class="btn btn-danger m-2">Supprimer
+                                              promotion </a>
+
+                                        </div>
+                                        <div class="row col-md-12 ml-2 pb-4" *ngIf="tut">
+                                            <div class="col-md-12 row mb-4">
+                                                <div class="col-md-8">
+                                                    <h3 style="float:left;">Gestion du titulaire de cette promotion</h3>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <button style="float:right;" class="close" (click)=" tut = false ">fermer</button>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="col-md-6">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="recipient-name-1" class="col-form-label">Selectionnez le titulaire</label>
+                                                        <select [(ngModel)]="cprof" class="form-control">
+                                                            <option value=""></option>
+                                                            <option [selected]=" PROMO?.titulaire?.id && p?.id==PROMO?.titulaire?.id" [value]="p.id"
+                                                              *ngFor="let p of profs;let i = index">
+                                                              {{p?.firstName}} {{p?.lastName}} ({{p?.id}}) </option>
+                                                          </select>
+                                                    </div>
+                                                    <div class="col-md-4 p-2">
+                                                        <label for="recipient-name-1" class="col-form-label"></label>
+                                                        <button class="btn btn-primary mt-4 " (click)="setTut(cprof)"> modifier </button>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <div class="row col-md-12 ml-2 pb-4" *ngIf="moy">
+                                            <div class="col-md-12 row mb-4">
+                                                <div class="col-md-8">
+                                                    <h3 style="float:left;">Gestion des moyennes de cette promotion</h3>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <button style="float:right;" class="close" (click)=" moy = false ">fermer</button>
+                                                </div>
+                                            </div>
+                                            <div *ngIf="response.active" class="col-md-12 alert alert-card alert-{{response.state}} text-center" role="alert">
+                                                {{response.message}}
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+                                            </div>
+                                            <div class="form-group col-md-2">
+                                                <label for="recipient-name-1" class="col-form-label">Moyenne acceptée</label>
+                                                <input type="number" class="form-control" [(ngModel)]="PROMO.moy_accept" />
+                                            </div>
+                                            <div class="form-group col-md-2">
+                                                <label for="recipient-name-1" class="col-form-label">Moyenne totale</label>
+                                                <input type="email" class="form-control" [(ngModel)]="PROMO.moy_total" />
+                                            </div>
+                                            <div class="form-group col-md-2">
+                                                <label for="recipient-name-1" class="col-form-label">Moyenne reprise</label>
+                                                <input type="number" class="form-control" [(ngModel)]="PROMO.moy_reprise" />
+                                            </div>
+                                            <div class="form-group col-md-2">
+                                                <label for="recipient-name-1" class="col-form-label">Moyenne d'excellence</label>
+                                                <input type="number" class="form-control" [(ngModel)]="PROMO.moy_exc" />
+                                            </div>
+                                            <div class="form-group col-md-2" style="padding-top:3.8%">
+                                                <label for="recipient-name-1" class="col-form-label"></label>
+                                                <button (click)="editMoy()" class=" btn btn-primary">modifier</button>
+                                            </div>
+                                        </div>
+
+                                        <div class=" col-md-12 mb-2 mt-2" *ngIf="cconfig">
+                                            <div class="col-md-12 row mb-4">
+                                                <div class="col-md-8">
+                                                    <h3 style="float:left;">Gestion des cours de cette promotion</h3>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <button style="float:right;" *ngIf="cconfig" class="close" (click)=" cconfig = false ">fermer</button>
+                                                </div>
+                                            </div>
+                                            <div class="row col-md-12 row mt-4">
+                                                <div class="col-md-6 col-sm-6 " style="float:left;">
+                                                    <h4>Liste des programmes disponibles</h4>
+                                                    <div class="card col-md-12 mb-2" style="display:inline-block;" *ngFor="let item of newCours; let i = index">
+
+                                                        <div class="row">
+                                                            <div class="col-md-10 pt-1">
+                                                                <h4> {{ item.name }} </h4>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-12 p-1" style="float:right;">
+                                                                <button class="btn btn-success " (click)="addNewCours(item)">
+                                                                 synchroniser </button>
+                                                                <a routerLink="/app/progDetails/{{item.id}}" class="btn btn-primary ml-2">
+  modifier ce programme</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <h4 style="float:left;">Liste des cours de cette promotion ({{PROMO?.promo_cours?.length}})</h4>
+                                                    <div class="col-md-12 mb-2">
+                                                        <input placeholder="rechercher un cours" type="text" class="form-control" autocomplete="off" (keyup)="onKey($event)">
+                                                    </div>
+
+                                                    <div class="card col-md-12 mb-2" *ngFor="let item of PROMO.promo_cours; let i = index">
+                                                        <button type="button" style="float:right;" class="close text-right" (click)="delCours(item,i)" aria-label="Close">
+           <span aria-hidden="true">&times;</span>
+         </button>
+                                                        <div class="row col-md-12">
+
+                                                            <div class="col-md-12 p-2">
+                                                                <h4>{{item.code }} </h4>
+                                                                <b>Note sur {{ item.note_total }} points </b> <br />
+                                                                <b>{{item.jours }} {{item.heure_cours}} </b>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="form-group col-md-3">
+                                                                    <label for="recipient-name-1" class="col-form-label">Jour</label>
+                                                                    <select id="jours-{{i}}" [(ngModel)]="jours[i]" class="form-control">
+                                                                      <option value="Dimanche">Dimanche</option>
+                                                                      <option value="Lundi" selected>Lundi </option>
+                                                                      <option value="Mardi">Mardi</option>
+                                                                      <option value="Mercredi">Mercredi </option>
+                                                                      <option value="Jeudi">Jeudi</option>
+                                                                      <option value="Vendredi">Vendredi</option>
+                                                                      <option value="Samedi">Samedi</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="form-group col-md-3">
+                                                                    <label for="recipient-name-1" class="col-form-label">HDC</label>
+                                                                    <input id="heure-{{i}}" [(ngModel)]="heure[i]" value="{{item?.heure_cours?.split('-')[0]}}" type="time" class="form-control" id="recipient-name-1">
+                                                                </div>
+                                                                <div class="form-group col-md-3">
+                                                                    <label for="recipient-name-1" class="col-form-label">HFC</label>
+                                                                    <input id="heure-{{i}}" [(ngModel)]="fcheure[i]" value="{{item?.heure_cours?.split('-')[1]}}" type="time" class="form-control" id="recipient-name-1">
+                                                                </div>
+
+                                                                <div class="col-md-3 p-2">
+                                                                    <label for="recipient-name-1" class="col-form-label"></label>
+                                                                    <button class="btn btn-primary mt-4 " (click)="editCours(item,i,jours[i], heure[i], fcheure[i])">
+                 modifier </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 mb-2 mt-2" *ngIf="nfrags">
+                                            <div class="col-md-12 row mb-4">
+                                                <div class="row col-md-12">
+                                                    <div class="col-md-10">
+                                                        <h3 style="float:left;">Gestion des controles</h3>
+
+                                                    </div>
+                                                    <div class="col-md-2"> <i style="float:right;" class="close text-danger icon i-Close" (click)=" nfrags=null "></i></div>
+                                                </div>
+                                                <div class="row col-md-12 mb-2 mt-2" *ngFor="let f of nfrags; let i = index">
+                                                    <div class="col-md-10">
+                                                        {{f.name}}
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <button style="float:right;" class="btn btn-sm btn-primary" (click)="setFragment(f,i)">Synchroniser</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-12 pl-4 mt-2">
+                                            <div class="col-md-12">
+                                                <div class="card mb-4">
+                                                    <div class="card-body">
+                                                        <h6 class="mb-2 text-muted">Usage</h6>
+                                                        <p class="mb-1 text-22 font-weight-light">{{((PROMO?.parcours?.length/PROMO.max_student)*100).toFixed(0)+'%'}}</p>
+                                                        <div class="progress mb-1" style="height: 4px">
+                                                            <div class="progress-bar bg-success" attr.style="width: {{((PROMO?.parcours?.length/PROMO.max_student)*100).toFixed(0)+'%'}} " role="progressbar" aria-valuenow="0" aria-valuemin="0" attr.aria-valuemax="{{PROMO.max_student}}">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3" style="display:inline-block; float:left;">
+
+                                                <div class="card card-icon mb-4">
+                                                    <i class=""></i>
+                                                    <div class="card-body text-center">
+                                                        <p class="text-muted mt-2 mb-2"> <b>Nombre d'etudiants Total</b></p>
+                                                        <p class="text-muted mt-2 mb-2"> {{PROMO?.parcours?.length}} </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3" style="display:inline-block; float:left;">
+                                                <div class="card card-icon mb-4">
+                                                    <i class=""></i>
+                                                    <div class="card-body text-center">
+                                                        <p class="text-muted mt-2 mb-2"> <b>Nombre de garçons</b></p>
+                                                        <p class="text-muted mt-2 mb-2"> {{sexe.m}} </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3" style="display:inline-block; float:left;">
+                                                <div class="card card-icon mb-4">
+                                                    <i class=""></i>
+                                                    <div class="card-body text-center">
+                                                        <p class="text-muted mt-2 mb-2"> <b>Nombre de filles</b></p>
+                                                        <p class="text-muted mt-2 mb-2"> {{sexe.f}} </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3" style="display:inline-block; float:left;">
+                                                <div class="card card-icon mb-4">
+                                                    <i class=""></i>
+                                                    <div class="card-body text-center">
+                                                        <p class="text-muted mt-2 mb-2"> <b>Nombre de cours</b></p>
+                                                        <p class="text-muted mt-2 mb-2"> {{PROMO?.promo_cours?.length}} </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header" id="headingOne">
+                                        <h5 class="mb-0">
+                                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse3" aria-expanded="true" aria-controls="collapseOne"> Tableau et Notification </button>
+                                        </h5>
+                                    </div>
+                                    <div id="collapse3" class="collapse " aria-labelledby="headingOne" data-parent="#accordionExample">
+                                        <div class="card-body">
+                                            <div class="col-md-12 mb-4 text-center">
+                                                <button [className]="info==0 ? 'btn btn-secondary mr-2' : 'btn btn-primary mr-2'" (click)="info=0">
+      Tableau</button>
+                                                <button [className]="info==1 ? 'btn btn-secondary mr-2' : 'btn btn-primary mr-2'" (click)="info=1">
+      Notifications</button>
+                                            </div>
+                                            <div class="row" *ngIf="info==0">
+                                                <div class="col-md-3">
+                                                    <h4 class="mb-3"> Raccouci clavier </h4>
+                                                    <ul type="none">
+                                                        <li> Alt+130 = é</li>
+                                                        <li> Alt+133 = à</li>
+
+                                                    </ul>
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <h4 class="mb-3  text-center"> Tableau </h4>
+                                                    <div *ngIf="response1.active" class="alert alert-card alert-{{response1.state}} text-center" role="alert">
+                                                        {{response1.message}}
+                                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+     <span aria-hidden="true">&times;</span>
+   </button>
+                                                    </div>
+                                                    <div class="form-group">
+
+                                                        <angular-editor #userinput style=" height:400px;" [placeholder]="'Enter text here...'" [config]="editorConfig" style="height:400px;" [(ngModel)]="PROMO.board"></angular-editor>
+                                                    </div>
+                                                    <button class="btn btn-success m-2" (click)="copyInputMessage(userinput)"> Copy</button>
+                                                    <button class="btn btn-primary m-2" (click)="setBoard()"> Modifier</button>
+                                                </div>
+
+                                            </div>
+                                            <div *ngIf="info==1" class="row col-md-8" style="margin-left:16%;">
+                                                <div class="col-md-12">
+                                                    <h4 class="mb-3  text-left">Notifications </h4>
+                                                </div>
+                                                <div *ngIf="response2.active" class="col-md-12 alert alert-card alert-{{response2.state}} text-center" role="alert">
+                                                    {{response2.message}}
+                                                </div>
+                                                <div class="row col-md-12">
+
+                                                    <div class="form-group col-md-12">
+                                                        <label for="recipient-name-1" class="col-form-label">Cible</label>
+                                                        <select class="form-control" [(ngModel)]="not.cible">
+                                                          <option value="1" selected>Tout le monde</option>
+                                                          <option value="2">Tous les enseignants</option>
+                                                          <option value="3">Tous les etudiants</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group col-md-12">
+                                                        <label for="recipient-name-1" class="col-form-label">Titre</label>
+                                                        <input type="text" class="form-control" [(ngModel)]="not.titre" />
+                                                    </div>
+                                                    <div class="form-group col-md-12">
+                                                        <label for="recipient-name-1" class="col-form-label">Message</label>
+                                                        <textarea [(ngModel)]="not.message" class="form-control"></textarea>
+                                                    </div>
+
+                                                    <div class="form-group mr-8" style="margin-top:3.5%;">
+                                                        <button class="btn btn-primary  btn-rounded mt-3" style="float:right;" (click)="envoyer()" [disabled]='loading  '>
+          <span class="spinner-border spinner-border-sm mr-1"></span>
+          Envoyer
+        </button>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card" *ngFor="let f of PROMO.promofrag; let i = index ">
+                                    <div class="card-header" id="headingOne-{{f.id}}">
+                                        <h5 class="mb-0">
+                                            <button class="btn btn-link" type="button" data-toggle="collapse" attr.data-target="#collapseOne-{{f.id}}" aria-expanded="true" attr.aria-controls="collapseOne-{{f.id}}">
+                 {{f?.share_code || f?.code.split("-")[3].split("(")[0] }}
+               </button>
+                                        </h5>
+                                    </div>
+                                    <div id="collapseOne-{{f.id}}" class="collapse" attr.aria-labelledby="headingOne-{{f.id}}" data-parent="#accordionExample">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-12 " *ngIf="!gdate[i]">
+                                                    <h3> Gestion des dates</h3>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+
+                                                            <p> <b>Date debut {{f.code.split("-")[3]}} :</b> {{f.date_debut}} </p>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <p> <b>Date fin {{f.code.split("-")[3]}} :</b> {{f.date_fin}} </p>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <p> <b>Date debut des examens {{f.code.split("-")[3]}} :</b> {{f.date_debut_ex}} </p>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <p> <b>Date fin des examens {{f.code.split("-")[3]}} :</b> {{f.date_fin_ex}} </p>
+                                                        </div>
+
+                                                    </div>
+                                                    <button class="btn btn-link" (click)="gdate[i]=true">Modifier les dates</button>
+                                                    <button routerLink="/app/promoStudent/{{ID}}/{{f.id}}" class="btn btn-link">
+                     Voir les etudiants </button>
+                                                </div>
+                                                <div class="col-md-12" *ngIf="gdate[i]">
+                                                    <button class="btn btn-link text-danger" style="float:right;" (click)="gdate[i]=false">Fermer</button>
+                                                    <br>
+                                                    <div *ngIf="response.active" class="alert alert-card alert-{{response.state}} text-center" role="alert">
+                                                        {{response.message}}
+                                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                     </button>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label> Date debut des examens {{f.code.split("-")[3]}}</label>
+                                                                <input type="date" attr.data-date-format="yyyy/MM/dd" [(ngModel)]="f.date_debut_ex" class="form-control" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label> Date fin des examens {{f.code.split("-")[3]}}</label>
+                                                                <input type="date" attr.data-date-format="yyyy/MM/dd" [(ngModel)]="dfe[i]" class="form-control" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label> Date debut {{f.code.split("-")[3]}} </label>
+                                                                <input type="date" attr.data-date-format="yyyy/MM/dd" [(ngModel)]="dd[i]" class="form-control" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label> Date fin {{f.code.split("-")[3]}} </label>
+                                                                <input type="date" attr.data-date-format="yyyy/MM/dd" [(ngModel)]="df[i]" class="form-control" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <button class="btn btn-primary" (click)="editDF(f,i,dd[i],df[i],dde[i],dfe[i])">modifier</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12" style="padding-top:2.5%;" *ngIf="!f.cours_setup">
+                                                    <a *ngIf=" f.reprise" class="alert alert-warning m-2">Reprise</a>
+                                                    <button *ngIf="!PROMO.setup_over && !f.setup_over" class="btn  btn-success m-2" [disabled]='floading[i]' (click)="addCoursToFrag(f,i)">
+                                                    Initialisée Cours </button>
+
+                                                    <button class="btn btn-success" (click)="initResult(f.id)">Synchroniser les resultats des examens </button>
+
+                                                    <button *ngIf="!f.setup_over" class="btn  btn-primary m-2" [disabled]='floading[i]' (click)="overSetup(f, i)">
+                                                    Terminé </button>
+                                                    <button *ngIf="f.base && !f.reprise" class="btn btn-danger m-2" (click)="baseFrag(false,f.id,i)">
+                                                Désactiver comme periode de base
+                                              </button>
+                                                    <button *ngIf="!f.base  && !f.reprise" class="btn btn-success m-2" (click)="baseFrag(true,f.id,i)">
+                                                Activer comme periode de base
+                                              </button>
+                                                    <button *ngIf="!PROMO.setup_over" (click)="delFrag(f.id,i)" class="btn btn-danger m-2">Supprimer </button>
+
+                                                    <button *ngIf="f.actived" class="btn  btn-danger m-2" (click)="actFrag(false,f.id,i)">
+                                                  Désactiver periode
+                                                </button>
+
+                                                    <button *ngIf="!f.actived" class="btn  btn-success m-2" (click)="actFrag(true,f.id,i)">
+                                                    Activer periode
+                                                  </button>
+                                                    <a class="btn  btn-warning m-2 " target="_blank" routerLink="/app/fpalmares/{{f.id}}/{{ID}}">Palmares rempli</a>
+                                                    <a class="btn  btn-warning m-2 " target="_blank" routerLink="/app/palmares/{{f.id}}/{{ID}}">Palmares vierge</a>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="card mb-4 mt-2 p-2 " style="float:left; margin-right:1.5%; width:30%" *ngFor="let item of f.frag_cours; let ci = index">
+                                                <p class="col-md-12 mb-2">
+                                                    <a routerLink="/app/results/{{ID}}/{{f.id}}/{{item.id}}" class="btn btn-sm text-primary">
+                                                        <i class="nav-icon i-Gears"></i></a>
+                                                    <a *ngIf="!f.cours_setupn && !PROMO.setup_over && !f.setup_over" (click)="delFragCours(item.id,i,ci)" class="btn btn-sm  close text-danger">
+                                                        <i class="nav-icon i-Close-Window"></i>
+                                                    </a>
+                                                </p>
+                                                <a routerLink="/app/results/{{ID}}/{{f.id}}/{{item.id}}" class="col-md-12">
+                                              {{ item.code }}
+                                            </a>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <app-footer></app-footer>
+        <!-- footer end -->
+        <!-- ============ Body content End ============= -->
+    </div>
+    <!--=============== End app-admin-wrap ================-->

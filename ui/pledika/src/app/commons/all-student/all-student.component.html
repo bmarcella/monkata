@@ -1,0 +1,59 @@
+<div class="page-print">
+    <div class="col-md-12 row">
+        Role
+        <input type="text" class="input" [(ngModel)]="role">
+    </div>
+    <div class="col-md-12 row">
+        Terme
+        <input type="text" class="input" [(ngModel)]="terme">
+    </div>
+    <div class="col-md-12 row ">
+        <tr>
+            <th>Marges : {{hgt}} pixels
+                <div class="form-group">
+                    <input type="range" min="2" max="2000" class="form-control m-1" [(ngModel)]="hgt">
+                    <input type="number" class="form-control m-1" [(ngModel)]="hgt">
+                    <input type="checkbox" class="form-control m-1" [(ngModel)]="see">
+                </div>
+            </th>
+        </tr>
+        <button class="btn btn-primary" [useExistingCss]="true" printSectionId="print-section" ngxPrint>print</button>
+    </div>
+</div>
+
+<div class="page" id="print-section">
+    <div *ngFor="let p of vpromos; let i = index ">
+        <div *ngIf="p" class="mpage page-{{i}}" [ngStyle]="{'margin-bottom': getMarge('page-',i) }">
+            <app-entete [etab]="etab"></app-entete>
+            <h3 class="ptitle ">La liste des etudiants </h3>
+            <h4 class="stitle ">{{p[0]?.classe}}</h4>
+            <h4 class="stitle " *ngIf="role">{{role}}</h4>
+            <div class="col-md-12 mt-4">
+                <table class="display my-table  table-bordered" style="width:100%" BORDER=0 CELLSPACING=0>
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Nom Et Prénom </th>
+                            <th>Sexe</th>
+                            <th *ngIf="terme">{{terme}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let o of p; let p= index">
+                            <td>{{ o.code}}</td>
+                            <td>{{ o.lastName }} {{ o.firstName }} </td>
+                            <td>
+                                {{ o.sexe }}
+                            </td>
+                            <td *ngIf="terme">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="end-page" [ngStyle]="{'height': hgt+'px', 'border':(see)? '1px solid black':'none'}">
+                <h3 [ngStyle]="{'margin-top': hgt/2+'px'}" *ngIf="see" class="text-center" style="margin:auto;">{{hgt}} pixels</h3>
+            </div>
+        </div>
+    </div>
+</div>

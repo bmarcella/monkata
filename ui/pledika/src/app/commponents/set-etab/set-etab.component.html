@@ -1,0 +1,65 @@
+<div class="auth-layout-wrap" [style.background-image]="setBG()">
+    <div class="auth-content">
+        <div class="card o-hidden">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="auth-logo text-center mb-4">
+                        <!-- <img src="assets/images/logo.png" alt=""> -->
+                    </div>
+                    <h3 class="mb-3  text-center">Pledika Portal</h3>
+                    <div class="separator-breadcrumb border-top"></div>
+                </div>
+                <!-- <div class="col-md-6 p-4 mb-4" style="border-right: 1px solid #dee2e6!important;">
+                    <h2 class="mb-3  text-center">Bulletin rapide</h2>
+                    <h3 class="mb-3 text-12 text-center">Créez vos bulletin en ligne avec notre outils QNote</h3>
+                    <button routerLink="/app/tools" class="btn btn-primary btn-block btn-rounded mt-2">
+                               Commencer maintenant
+                             </button>
+                </div> -->
+                <div class="col-md-12  mb-4">
+
+                    <div class="p-4" *ngIf="!login && !start">
+
+                        <h1 class="mb-3 text-16 text-center">Gestion Système</h1>
+                        <div *ngIf="response1.active" class="alert alert-{{response1.state}} mt-3 mb-4">{{response1.message}}</div>
+                        <div class="form-group mt-4">
+                            <input [(ngModel)]="name" class="form-control form-control-rounded" placeholder="Code etablissement" type="text">
+                        </div>
+                        <button [disabled]="loading" (click)="onSubmitCode()" class="btn btn-primary btn-block btn-rounded mt-2">
+                               <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                                Suivant
+                             </button>
+
+                    </div>
+
+                    <div class="p-4 text-center" *ngIf="!login && start">
+                        <h1 class="mb-3 text-16 text-center">Attendez un instant svp...</h1>
+                        <div class="spinner spinner-primary mr-3"></div>
+                        <h2 class="mb-3 text-14 text-center">Tentative restante</h2>
+                        <h3 class="mb-3 text-12 text-center">{{attemp}}</h3>
+                        <a (click)="clean()" class=" text-center btn btn-danger btn-block btn-rounded mt-4">
+                               Anuller
+                         </a>
+                    </div>
+
+                    <div class="p-4" *ngIf="login">
+                        <h2 class="mb-3 text-center text-success">Bienvenue</h2>
+
+                        <h2 class="mb-3  text-center "> {{etab?.name}} </h2>
+                        <div *ngIf="response1.active" class="alert alert-{{response1.state}} mt-4 mb-4  mb-0">{{response1.message}}</div>
+                        <a routerLink="/app/login" class="btn btn-primary btn-block btn-rounded mt-4">
+                            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>Connexion
+                        </a>
+
+                        <a (click)="clean()" class=" text-center btn btn-danger btn-block btn-rounded mt-4">
+                              Ce n'est pas votre etablissement
+                         </a>
+
+                    </div>
+                    <p class="text-danger text-center" *ngIf="!prod">Mode Test
+                        <p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

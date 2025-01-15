@@ -1,0 +1,167 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!-- ============ Body content start ============= -->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+        <div class="col-md-12 mb-4">
+            <div class="col-md-12 mb-2">
+                <h3 class="mb-3  text-center">Upgrade etudiants</h3>
+                <h5 class="mb-3  text-center"> {{PROMO?.code}} </h5>
+                <h5 class="text-danger text-center">
+                    <a class="text-danger" routerLink="/app/classe/1">Voir la liste des promotions</a> </h5>
+                <h5 class="text-danger text-center"> <a class="text-danger" routerLink="/app/promoDetails/{{ID}}">Retournez</a> </h5>
+            </div>
+
+            <div class="col-md-12  row pt-2 mt-2">
+
+                <div class="col-md-12 mb-4">
+                    <div class="card p-4" *ngIf="!PROMO?.next_promo">
+
+                        <div class="row" *ngIf="NPROMO ">
+                            <div class="col-md-12 ">
+                                <h4 class="mb-2  text-center"> Sélectionnez la promotion suivante</h4>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <select id="niv" (change)='change()' class="form-control" [(ngModel)]="cpromo">
+           <option [ngValue]="n" *ngFor="let n of NPROMO;let i = index"> {{n.code}} </option>
+         </select>
+                            </div>
+                            <div class="form-group col-md-12 text-right">
+                                <button (click)='save()' class="btn btn-primary pull-right"> valider</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card p-4 " *ngIf="PROMO?.next_promo">
+                        <div class="col-md-12 mb-4 ">
+                            <div *ngIf="response.active" class="alert alert-card alert-{{response.state}} text-center" role="alert">
+                                {{response.message}}
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="col-md-12 ">
+                                <h4 class="mb-1  text-center">Admission {{PROMO?.next_promo_name}}</h4>
+                                <h5 class="mb-1  text-center">Moyenne accepté:{{PROMO?.moy_accept}} </h5>
+                            </div>
+                            <div class="col-md-12 mt-4">
+                                <div class="row ">
+                                    <div class="col-md-12 row">
+                                        <div class="form-group col-md-6">
+                                            <select id="OP" [(ngModel)]="moption" class="form-control">
+                                            <option [selected]="iop===0" [ngValue]="s.id" *ngFor="let s of OP; let iop = index">
+                                              {{s.name}}
+                                            </option>
+                                          </select>
+                                        </div>
+                                        <div class="col-md-2 text-left">
+                                            <button class="btn btn-primary" [disabled]='mloading' (click)="push()"> <i class="i-Upload"></i></button>
+                                        </div>
+                                        <div class="col-md-2 text-left">
+                                            <button class="btn btn-primary mr-1" [disabled]='mloading' (click)="close()"> Fermer tout</button>
+                                        </div>
+                                        <div class="col-md-2 text-right">
+                                            <button class="btn btn-primary ml-2 mr-2" (click)="setMoyGen()"> Valider resultats </button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 row m-2">
+
+                                        <div class="col-md-4 text-right">
+                                            <label for="recipient-name-1" class="col-form-label">Rechercher</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" autocomplete="off" (keyup)="onKeyUp($event)">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table id="zero_configuration_table" class="display table table-striped table-bordered" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th><input type="checkbox" [(ngModel)]="all" id="all" (change)="onCheckboxChangeAll($event)" class="checkbox"> </th>
+                                            <th>Code</th>
+                                            <th>Nom et prénom</th>
+                                            <th>Moyenne</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let o of STUDS; let i = index">
+                                            <td><input id="{{ i }}" [value]="o.id" [(ngModel)]="o.isSelected" (change)="onCheckboxChange($event,i)" type="checkbox" class="checkbox">
+                                            </td>
+                                            <td>{{o.code}}</td>
+                                            <td>{{o.nom}} {{o.pnom}}</td>
+                                            <td [className]="setMoy(o.note, o.total, PROMO.moy_total)>=PROMO.moy_accept ? ' text-success ' : 'text-danger'">
+
+                                                {{ setMoy(o.note, o.total, PROMO.moy_total) }}
+                                                <br/>
+                                                <b>
+                                                       {{o.note}} / {{o.total}}
+                                               </b>
+                                            </td>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="form-group col-md-8">
+
+                                                        <select id="OP" [(ngModel)]="option[i]" class="form-control">
+                                                    <option [selected]="iop===0" [ngValue]="s.id"
+                                                      *ngFor="let s of OP; let iop = index">
+                                                      {{s.name}}
+                                                    </option>
+                                                  </select>
+                                                    </div>
+                                                    <div class=" form-group col-md-4">
+                                                        <button [disabled]='loading[i] || !option[i] ' (click)="addSTP(o,option[i],i)" class="btn btn-sx btn-primary">
+                                                    <span *ngIf='loading[i]'
+                                                      class="spinner-border spinner-border-sm mr-1"></span>
+                                                    <i class="nav-icon i-Add"></i>
+                                                  </button>
+
+                                                        <button [disabled]='dloading[i] || !option[i]' (click)="reAdd(o,option[i],i)" class="m-2 btn btn-sx  btn-secondary">
+                   <span *ngIf='dloading[i]' class="spinner-border spinner-border-sm mr-1"></span>
+                  A refaire
+                 </button>
+
+                                                    </div>
+
+                                                </div>
+
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th><input type="checkbox" [(ngModel)]="all" id="all" (change)="onCheckboxChangeAll($event)" class="checkbox"></th>
+                                            <th>Code</th>
+                                            <th>Nom et prénom</th>
+                                            <th>Moyenne Génerale</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- end of col-->
+        </div>
+        <!-- end of row-->
+
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+    <!-- ============ Body content End ============= -->
+</div>
+<!--=============== End app-admin-wrap ================-->
+
+<!-- ============ Search UI Start ============= -->
+<app-search></app-search>
+<!-- ============ Search UI End ============= -->

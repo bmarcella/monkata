@@ -14,7 +14,9 @@
         <a *ngIf="!showApply"> {{ job.job.titre_job }}</a>
       </h4>
       <div class="popular-location">
-        <p>{{ job?.ent?.name }}</p>
+        <p routerLink="entreprise/details/{{ job?.ent?.id }}">
+          {{ job?.ent?.name }}
+        </p>
         <p class="light-color" *ngIf="job.job.ville">|</p>
         <p *ngIf="job.job.ville">
           <i class="fas fa-light fa-location-dot"></i> {{ job.job.ville }}

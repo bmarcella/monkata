@@ -1,0 +1,158 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!-- ============ Body content start ============= -->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+        <div class="col-md-12 mb-2">
+            <h4 class="mb-3  text-center"> {{ cfrag?.code }}</h4>
+            <h4 class="mb-3  text-center" *ngIf="!cCtrl"> Resultats des examens : {{ fcours?.code }}</h4>
+            <h5 class="text-danger text-center">
+                <a class="text-danger" routerLink="/app/promoDetails/{{IDP}}">Retournez a la promotion</a> </h5>
+        </div>
+        <!-- end of row-->
+        <div class="col-md-12 text-center">
+            <a class="btn btn-sm btn-danger m-2" *ngIf="fcours?.base" (click)="closeBase(false)">Désactiver
+   matiere de base
+ </a>
+            <a class="btn btn-sm btn-success m-2" *ngIf="!fcours?.base" (click)="closeBase(true)">Activer
+    matiere de base
+ </a>
+            <a class="btn btn-sm btn-danger m-2" *ngIf="fcours?.examen" (click)="closeExamen(false)">Déaactiver examen
+                </a>
+            <a class="btn btn-sm btn-success m-2" *ngIf="!fcours?.examen" (click)="closeExamen(true)">Activer examen
+                </a>
+            <button class="btn btn-sm btn-danger m-2" *ngIf="!fcours?.examen" (click)="rr()">Effacer resultat
+                </button>
+            <a class="text-danger" class="btn btn-sm btn-primary m-2" routerLink="/app/promoStudent/{{IDP}}/{{IDF}}"> Ajouter etudiants  </a>
+            <a class="btn  btn-warning m-2 " target="_blank" routerLink="/app/fpalmares/{{IDF}}/{{IDP}}">Palmares</a>
+        </div>
+        <div class="row mt-2">
+            <div class="col-md-12 mt-2 mb-2">
+                <h5 class="text-primary text-center">Périodes disponibles</h5>
+            </div>
+            <div (click)="changeCtrl(item)" class="card m-1 p-1 col-md-2 text-center" *ngFor="let item of frags; let ci = index">
+                <p [className]="item.id==IDF ? 'text-success' : '' " class="text-muted mt-1 mb-1">
+                    {{ item.code.split('-')[3].split('(')[0] }} </p>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-md-12 mt-2 mb-2">
+                <h5 class="text-primary text-center">Cours disponibles</h5>
+                <h6 *ngIf="cCtrl" class="text-center">Selectionnez un cours</h6>
+            </div>
+            <div (click)="changePage(item.id)" class="card m-1 p-1 col-md-2 text-center" *ngFor="let item of frag_cours; let ci = index">
+                <p [className]="item.id==IDC ? 'text-success' : '' " class="text-muted mt-1 mb-1">
+                    {{ item.code.split('-')[0] }} </p>
+            </div>
+        </div>
+
+        <div class="row mb-4 mt-4" *ngIf="!cCtrl">
+            <div class="card col-md-4">
+                <div class="row">
+                    <div class="col-md-12 p-4">
+                        <h4 class=" card-title text-center">Ajouter les heures de cours</h4>
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <label for="recipient-name-1" class="col-form-label">Jour du cours</label>
+                                <select id="jours" [(ngModel)]="fhjour" class="form-control">
+                                  <option value="Dimanche">Dimanche</option>
+                                  <option value="Lundi">Lundi </option>
+                                  <option value="Mardi">Mardi</option>
+                                  <option value="Mercredi">Mercredi </option>
+                                  <option value="Jeudi">Jeudi</option>
+                                  <option value="Vendredi">Vendredi</option>
+                                  <option value="Samedi">Samedi</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="recipient-name-1" class="col-form-label">HDC</label>
+                                <input id="heure" [(ngModel)]="fhheure" type="time" class="form-control" id="recipient-name-1">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="recipient-name-1" class="col-form-label">HFC</label>
+                                <input id="heure" [(ngModel)]="chheure" type="time" class="form-control" id="recipient-name-1">
+                            </div>
+                            <div class="form-group col-md-12 mt-2">
+                                <button style="vertical-align:center; " [disabled]='hloading || !fhjour || !fhheure ' class="btn btn-primary mt-4" (click)="addHCours(fhjour, fhheure, chheure)"> +</button>
+                            </div>
+                        </div>
+                        <h5 class="p-2">Les horaires de ce cours : </h5>
+                        <div class="card col-md-6 p-2" style="float:left;" *ngFor="let h of hcours, let hi = index">
+                            {{h.jours}} {{ h.heure_cours}}
+                            <button [disabled]='hloading' class="btn btn-sm btn-danger mt-2" (click)="delHCours(h.id, hi)">X</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="card text-left">
+                    <div class="card-body">
+                        <h4 class="card-title mb-3 text-center">Les élèves \ etudiants de cette promotion</h4>
+                        <div class=" row" style="float:right;">
+                            <div class="form-group col-md-12 row">
+                                <div class="col-md-4" style="float:left;">
+                                    <label for="recipient-name-1" class="col-form-label">Rechercher</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" autocomplete="off" (keyup)="onKey($event)">
+                                </div>
+                                <div class="col-md-2" style="float:right;">
+                                    <button [disabled]='loading' class="btn btn-sm btn-primary mt-1" *ngIf="fcours?.examen" (click)="initResults()"> <i class="i-Refresh"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table id="zero_configuration_table" class="display table table-striped table-bordered" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Code</th>
+                                        <th>Nom et prénom </th>
+                                        <th>Note</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let o of results ;  let i = index ">
+                                        <td>{{o.code_student}}</td>
+                                        <td>{{o.nom}} {{o.pnom}}</td>
+                                        <td>
+                                            <label class="alert alert-danger" *ngIf="msg[i]">{{msg[i]}}</label>
+                                            <label class="alert alert-success" *ngIf="note[i]">{{ note[i] }}</label>
+                                            <input type="text" [(ngModel)]="o.note" class="form-control" />
+                                        </td>
+                                        <td> <button (click)="setResults(o,i)" class=" m-2 btn btn-sm btn-success">
+<i class="nav-icon i-File-Edit "></i></button>
+
+                                            <button [disabled]='iloading' (click)="del(o.id,i)" class=" m-2  btn btn-sm btn-danger">
+<i class="nav-icon i-Close "></i> </button></td>
+                                    </tr>
+
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Code</th>
+                                        <th>Nom et prénom </th>
+                                        <th>Note</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end of row-->
+        <!-- Footer Start -->
+
+        <app-footer></app-footer>
+        <!-- fotter end -->
+
+        <!-- ============ Body content End ============= -->
+    </div>
+    <!--=============== End app-admin-wrap ================-->

@@ -1,0 +1,283 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!-- ============ Body content start ============= -->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+        <div class="row mb-4">
+            <div class="col-md-12 mb-2">
+                <h3 class="mb-3  text-center"> Gestion des etudiants par periode </h3>
+                <h4 class="mb-3  text-center" *ngIf="frag?.code"> {{frag?.code}} </h4>
+                <div class="form-group col-md-8 p-2 card" style="margin-left:18%;" *ngIf="apromo?.length>0">
+                    <label for="recipient-name-1" class="col-form-label">Selectionnez une Promotion</label>
+                    <select [(ngModel)]="cpromo" class="form-control" (change)="getCPromo()">
+                         <option [ngValue]="a" *ngFor="let a of apromo; let i = index"> {{a.code}}</option>
+                       </select>
+                </div>
+                <div class="form-group col-md-8 card p-2" *ngIf="cpromo" style="margin-left:18%;">
+                    <label for="recipient-name-1" class="col-form-label">Selectionnez une option de paiement</label>
+                    <select id="OP" [(ngModel)]="moption" class="form-control">
+                                 <option [selected]="iop===0" [ngValue]="s.id"
+                                            *ngFor="let s of OP; let iop = index">
+                                            {{s.name}}
+                                          </option>
+                       </select>
+                </div>
+                <div class="pl-4 col-md-8 mb-4" *ngIf="cpromo" style="margin-left:18%;">
+                    <a class="btn btn-primary m-2" target="_blank" routerLink="/app/statCoursGlobal/{{cpromo.id}}">Statistique Cours Global</a>
+                    <a class="btn btn-success m-2" target="_blank" routerLink="/app/upgrade/{{cpromo.id}}">Upgrade</a>
+                    <a class="btn btn-primary m-2" target="_blank" routerLink="/app/statMoys/{{cpromo.id}}">Statistique Moyenne</a>
+
+                    <a (click)="initCours()" *ngIf="cpromo" class="btn text-light btn-primary m-2">Initialiser les cours  </a>
+                    <a routerLink="/app/delPromo/{{ID}}" *ngIf="cpromo" class="btn btn-danger m-2">Supprimer promotion </a>
+                    <a class="btn btn-warning m-2 " *ngIf="cpromo" target="_blank" routerLink="/app/bulletinGenAll/{{ID}}">Bulletin general</a>
+                    <a class="btn btn-warning m-2 " target="_blank" routerLink="/app/promoDetails/{{cpromo.id}}">Voir cette  promotion </a>
+                    <a class="btn btn-warning m-2 " target="_blank" routerLink="/app/configPromo">Configuration promotion </a>
+                    <a class="btn btn-warning m-2 " *ngIf="cpromo.next_promo" target="_blank" routerLink="/app/promoDetails/{{cpromo.next_promo}}">Voir la promotion suivante</a>
+                </div>
+            </div>
+            <!-- end of col -->
+            <div class="col-md-12 mb-4 ">
+                <div *ngIf="response.active" class="alert alert-card alert-{{response.state}} text-center" role="alert">
+                    {{response.message}}
+                </div>
+            </div>
+
+            <div class="col-md-12 mb-4" *ngIf="cpromo && frags">
+                <div class="row mt-2">
+                    <div class="col-md-12 mt-2 mb-2">
+                        <h5 class="text-center">Periode : {{cpromo?.code}} </h5>
+                    </div>
+                    <div (click)="changeAll()" class="card m-1 pt-2 col-md-2 text-center">
+                        <p [className]="!frag ? 'text-success' : '' " class="text-muted m-auto  p-auto">
+                            Etudiants disponibles </p>
+                    </div>
+                    <div (click)="changePage(item)" class="card m-1 pt-2 col-md-2 text-center" *ngFor="let item of frags; let ci = index">
+                        <p [className]="item.id==IDF ? 'text-success' : '' " class="text-muted m-auto  p-auto">
+                            {{ item.code.split('-')[3].split('(')[0] }} </p>
+                    </div>
+                </div>
+
+
+                <div class="card text-left" *ngIf="!frag && cpromo">
+                    <div class="card-body">
+                        <h4 class="card-title mb-3">Les étudiants de cette promotion ({{PSTUDS?.length}})</h4>
+                        <div class=" row">
+                            <div class="form-group col-md-12 row">
+                                <div class="col-md-4" style="float:left;">
+                                    <button [disabled]='mloading' (click)="close()" class="mr-2 btn btn-sm btn-danger">
+                   <span *ngIf='mloading' class="spinner-border spinner-border-sm mr-1"></span>
+                 Fermer tout les dossiers
+                 </button>
+                                </div>
+                                <div class="col-md-4" style="float:right;">
+                                    <label for="recipient-name-1" class="col-form-label">Rechercher</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" autocomplete="off" (keyup)="onKeyUp($event)">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table id="zero_configuration_table" class="display table table-striped table-bordered" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Code</th>
+                                        <th>Nom</th>
+                                        <th>Prénom</th>
+                                        <th>Sexe</th>
+                                        <th>Moyenne Générale</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let po of PSTUDS; let i = index">
+                                        <td [className]="!po.actived ? ' text-danger' : 'text-success'">
+                                            {{po.code}}</td>
+
+                                        <td>
+                                            <input class="form-control" type="text" [(ngModel)]="po.lastName">
+                                        </td>
+                                        <td>
+                                            <input class="form-control" type="text" [(ngModel)]="po.firstName">
+                                        </td>
+                                        <td>{{po.sexe}}</td>
+                                        <td>{{po.moy_pass}}</td>
+                                        <td>
+
+                                            <button *ngIf="!cpromo.setup_over" [disabled]='dloading[i]' (click)="remSTPV2(po,i)" class="mr-2 btn btn-sm btn-danger">
+                   <span *ngIf='dloading[i]' class="spinner-border spinner-border-sm mr-1"></span>
+                   <i class="nav-icon i-Close"></i>
+                 </button>
+
+                                            <button *ngIf="po.actived" [disabled]='dloading[i]' (click)="closeDoc(po.id,false,i)" class="mr-2 btn btn-sm btn-danger">
+                   <span *ngIf='dloading[i]' class="spinner-border spinner-border-sm mr-1"></span>
+                 Fermer
+                 </button>
+
+                                            <button *ngIf="!cpromo.setup_over" [disabled]='dloading[i]' (click)="remSTP(po,i)" class="mr-2 btn btn-sm btn-danger">
+                    Degrader
+                 </button>
+
+                                            <button *ngIf="!po.actived" [disabled]='dloading[i]' (click)="closeDoc(po.id,true,i)" class="mr-2 btn btn-sm btn-success">
+                   <span *ngIf='dloading[i]' class="spinner-border spinner-border-sm mr-1"></span>
+                 ouvrir
+                 </button>
+                                            <button *ngIf="moption" [disabled]='dloading[i]' (click)="reAdd(po,i)" class="mr-2 btn btn-sm btn-secondary">
+                   <span *ngIf='dloading[i]' class="spinner-border spinner-border-sm mr-1"></span>
+                  A refaire
+                 </button>
+
+                                            <button [disabled]='dloading[i]' (click)="saveName(po,i)" class="mr-2 btn btn-sm btn-success">
+                   <span *ngIf='dloading[i]' class="spinner-border spinner-border-sm mr-1"></span>
+                   <i class="nav-icon i-Save-Window"></i>
+                 </button>
+
+
+
+                                        </td>
+                                    </tr>
+
+
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Code</th>
+                                        <th>Nom </th>
+                                        <th>Prénom</th>
+                                        <th>Moyenne Générale</th>
+                                        <th>Sexe</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card text-left" *ngIf="frag">
+                    <div class="card-body">
+                        <h5 class="text-center ">Etudiants ({{STUDS?.length}}) - {{frag?.code}} </h5>
+                        <div class=" col-md-12 row">
+                            <div class="form-group col-md-12 row">
+                                <div class="col-md-3 mb-2" *ngIf="!frag?.reprise" style="float:left;">
+                                    <button [disabled]='iloading' class="btn btn-sm btn-primary m-2" (click)="initResults()">Synchronisé</button>
+
+                                    <button [disabled]='iloading' class="btn btn-sm btn-danger m-2" (click)="reset()">Reinitialisé</button>
+                                    <a class="btn btn-primary text-light m-2" target="_blank" routerLink="/app/statCours/{{frag.id}}/{{cpromo.id}}">Statistique Cours</a>
+                                </div>
+                                <div *ngIf="frag?.reprise" class="col-md-3 mb-2" style="float:left;">
+                                    <a class="btn btn-sm btn-primary" target="_blank" routerLink="/app/AEReprise/{{ID}}/{{IDF}}">Ajouter les etudiants en reprise</a>
+                                </div>
+                                <div class="col-md-3 text-right">
+                                    <label for="recipient-name-1" class="col-form-label">Rechercher</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" autocomplete="off" (keyup)="onKey($event)">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table id="zero_configuration_table" class="display table table-striped table-bordered" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Code</th>
+                                        <th>Nom </th>
+                                        <th>Prénom</th>
+                                        <th>Sexe</th>
+                                        <th>Discipline</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let o of STUDS; let i = index">
+                                        <td>{{o.code}}</td>
+                                        <td>
+                                            <input class="form-control" type="text" [(ngModel)]="o.nom">
+                                        </td>
+                                        <td>
+                                            <input class="form-control" type="text" [(ngModel)]="o.pnom">
+                                        </td>
+                                        <td>{{o.sexe}}</td>
+                                        <td>
+                                            <label class="alert alert-info" *ngIf="msg[i]">{{msg[i]}}</label>
+                                            <div class="row col-md-12">
+                                                <div class="form-group col-md-2">
+                                                    <label for="recipient-name-1" class="col-form-label">Absences</label>
+                                                    <input type="number" class="form-control" [(ngModel)]="o.absence" />
+                                                </div>
+                                                <div class="form-group col-md-2">
+                                                    <label for="recipient-name-1" class="col-form-label">Retard</label>
+                                                    <input type="number" class="form-control" [(ngModel)]="o.retard" />
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="recipient-name-1" class="col-form-label">Application</label>
+                                                    <input type="test" class="form-control" [(ngModel)]="o.note_1" />
+                                                </div>
+
+                                                <div class="form-group col-md-4">
+                                                    <label for="recipient-name-1" class="col-form-label">Démérites</label>
+                                                    <input type="text" class="form-control" [(ngModel)]="o.note_2" />
+                                                </div>
+                                                <div class="form-group col-md-12">
+                                                    <label for="recipient-name-1" class="col-form-label">Mention</label>
+                                                    <input type="text" class="form-control" [(ngModel)]="o.mention" />
+                                                </div>
+                                                <div class="form-group col-md-2">
+                                                    <button class="btn btn-primary  btn-rounded mt-3" style="float:right;" (click)="setDisc(o,i)" [disabled]='loading[i]'>
+      <span *ngIf='loading[i]' class="spinner-border spinner-border-sm mr-1"></span>
+      modifier
+    </button>
+                                                </div>
+                                            </div>
+
+                                        </td>
+                                        <td>
+                                            <button [disabled]='iloading' (click)="del(o.id,i)" class="btn btn-sm btn-danger m-2">
+                                       <i class="nav-icon i-Close "></i>
+                                           </button>
+                                            <a target="_blank" routerLink="/app/bulletinFrag/{{o.id}}/{{IDF}}/{{ID}}" class="btn btn-sm btn-primary m-2">
+                                              bulletin
+                                            </a>
+                                            <button [disabled]='dloading[i]' (click)="saveNameF(o,i)" class="mr-2 btn btn-sm btn-success">
+                   <span *ngIf='dloading[i]' class="spinner-border spinner-border-sm mr-1"></span>
+                   <i class="nav-icon i-Save-Window"></i>
+                 </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Code</th>
+                                        <th>Nom </th>
+                                        <th>Prénom</th>
+                                        <th>Sexe</th>
+                                        <th>Discipline</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+
+
+
+        </div>
+
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+
+    <!-- ============ Body content End ============= -->
+</div>
+<!--=============== End app-admin-wrap ================-->
+<!--=============== End app-admin-wrap ================-->

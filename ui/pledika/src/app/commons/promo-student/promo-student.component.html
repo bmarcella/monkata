@@ -1,0 +1,130 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!-- ============ Body content start ============= -->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+        <div class="row mb-4">
+            <div class="col-md-12 mb-2">
+                <h4 class="mb-3  text-center"> Liste des etudiants (elèves) dans la promotion
+                    <br/> {{frag?.code}}</h4>
+                <h5 class="text-danger text-center">
+                    <a class="text-danger" routerLink="/app/promoDetails/{{ID}}">Retournez a la promotion</a> </h5>
+            </div>
+            <div class="col-md-12 mb-4">
+                <div class="row mt-2">
+                    <div class="col-md-12 mt-2 mb-2">
+                        <h5 class="text-primary text-center">Autres controles</h5>
+                    </div>
+                    <div (click)="changePage(item.id)" class="card m-1 p-1 col-md-2 text-center" *ngFor="let item of frags; let ci = index">
+                        <p [className]="item.id==IDF ? 'text-success' : '' " class="text-muted mt-1 mb-1">
+                            {{ item.code.split('-')[3].split('(')[0] }} </p>
+                    </div>
+                </div>
+
+                <div class="card text-left">
+                    <div class="card-body">
+                        <h4 class="card-title mb-3">Les élèves \ etudiants de cette promotion ({{STUDS?.length}})</h4>
+                        <div class=" col-md-12 row">
+                            <div class="form-group col-md-12 row">
+                                <div class="col-md-3 mb-2" *ngIf="!frag?.reprise" style="float:left;">
+                                    <button [disabled]='iloading' class="btn btn-sm btn-primary" (click)="initResults()">Synchronisé</button>
+                                </div>
+                                <div *ngIf="frag?.reprise" class="col-md-3 mb-2" style="float:left;">
+                                    <a class="btn btn-sm btn-primary" target="_blank" routerLink="/app/AEReprise/{{ID}}/{{IDF}}">Ajouter les etudiants en reprise</a>
+                                </div>
+                                <div class="col-md-3 text-right">
+                                    <label for="recipient-name-1" class="col-form-label">Rechercher</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" autocomplete="off" (keyup)="onKey($event)">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table id="zero_configuration_table" class="display table table-striped table-bordered" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Code</th>
+                                        <th>Nom et prénom</th>
+                                        <th>Sexe</th>
+                                        <th>Discipline</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let o of STUDS; let i = index">
+                                        <td>{{o.code}}</td>
+                                        <td>{{o.nom}} {{o.pnom}}</td>
+                                        <td>{{o.sexe}}</td>
+                                        <td>
+                                            <label class="alert alert-info" *ngIf="msg[i]">{{msg[i]}}</label>
+                                            <div class="row col-md-12">
+                                                <div class="form-group col-md-2">
+                                                    <label for="recipient-name-1" class="col-form-label">Absences</label>
+                                                    <input type="number" class="form-control" [(ngModel)]="o.absence" />
+                                                </div>
+                                                <div class="form-group col-md-2">
+                                                    <label for="recipient-name-1" class="col-form-label">Retard</label>
+                                                    <input type="number" class="form-control" [(ngModel)]="o.retard" />
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="recipient-name-1" class="col-form-label">Application</label>
+                                                    <input type="test" class="form-control" [(ngModel)]="o.note_1" />
+                                                </div>
+
+                                                <div class="form-group col-md-4">
+                                                    <label for="recipient-name-1" class="col-form-label">Démérites</label>
+                                                    <input type="text" class="form-control" [(ngModel)]="o.note_2" />
+                                                </div>
+                                                <div class="form-group col-md-12">
+                                                    <label for="recipient-name-1" class="col-form-label">Mention</label>
+                                                    <input type="text" class="form-control" [(ngModel)]="o.mention" />
+                                                </div>
+                                                <div class="form-group col-md-2">
+                                                    <button class="btn btn-primary  btn-rounded mt-3" style="float:right;" (click)="setDisc(o,i)" [disabled]='loading[i]'>
+      <span *ngIf='loading[i]' class="spinner-border spinner-border-sm mr-1"></span>
+      modifier
+    </button>
+                                                </div>
+                                            </div>
+
+                                        </td>
+                                        <td>
+                                            <button [disabled]='iloading' (click)="del(o.id,i)" class="btn btn-sm btn-danger m-2">
+                                       <i class="nav-icon i-Close "></i>
+                                           </button>
+                                            <a target="_blank" routerLink="/app/bulletinFrag/{{o.id}}/{{IDF}}/{{ID}}" class="btn btn-sm btn-primary m-2">
+                                              bulletin
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Code</th>
+                                        <th>Nom et prénom</th>
+                                        <th>Sexe</th>
+                                        <th>Discipline</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- end of col -->
+        </div>
+
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+
+    <!-- ============ Body content End ============= -->
+</div>
+<!--=============== End app-admin-wrap ================-->

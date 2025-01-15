@@ -30,7 +30,9 @@
           <ul>
             <li *ngIf="ent?.website">
               <a [href]="ent?.website" target="_blank"
-                ><img src="assets/img/website.svg" alt="website" />Website</a
+                ><img src="assets/img/website.svg" alt="website" />{{
+                  ent?.website
+                }}</a
               >
             </li>
 
@@ -62,7 +64,7 @@
                 (click)="anchor('form-poste')"
                 *ngIf="job.app_Reception == 'Email'"
               >
-               Postuler</a
+                Postuler</a
               >
 
               <a
@@ -113,6 +115,7 @@
           id="form-poste"
           *ngIf="job && job.app_Reception == 'Email'"
           [job]="job"
+          [type_cv]="true"
         ></app-form-ano>
       </div>
       <div class="col-lg-3 theiaStickySidebar">

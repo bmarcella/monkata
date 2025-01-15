@@ -1,6 +1,8 @@
 name: Build_Users
 on:
-  pull_request:
+ push:
+    branches:
+      - dev
     paths:
       - 'api/users/**'
 jobs:

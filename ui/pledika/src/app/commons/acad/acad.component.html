@@ -1,0 +1,101 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!-- ============ Body content start ============= -->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+        <!-- end of row-->
+        <div class="col-md-12 mb-2">
+            <h4 class="mb-3  text-center"> Gestion des années academiques</h4>
+            <h5 class="text-danger text-center">
+                <a class="text-danger" routerLink="/app/management">Page d'acceuil</a> </h5>
+        </div>
+
+        <div class="col-md-12">
+            <div class="col-md-12" *ngIf="user.role.name=='MASTER'">
+                <div *ngIf="!del">
+                    <b class="card-title mb-3">Ajouter une année academique</b>
+                    <div class="row">
+                        <div class="col-md-12 row" *ngIf="!add">
+                            <div class="form-group col-md-4">
+                                <label for="recipient-name-1" class="col-form-label">Date début</label>
+                                <input type="date" class="form-control" [(ngModel)]="a.date_debut" />
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="recipient-name-1" class="col-form-label">Date fin</label>
+                                <input type="date" class="form-control" [(ngModel)]="a.date_fin" />
+                            </div>
+                            <div class="form-group col-md-2" style="margin-top:1.8%;">
+                                <button class="btn btn-primary  btn-rounded mt-3" style="float:right;" (click)="preAddAcad(a)" [disabled]='loading || a.date_fin == "" || a.date_debut == "" '>
+                                <span *ngIf='loading' class="spinner-border spinner-border-sm mr-1"></span>
+                                Ajouter
+                              </button>
+                            </div>
+                        </div>
+                        <div class="col-md-12" *ngIf="add">
+                            <div class="col-md-12 p-4">
+                                <h3 class="mb-3  text-center">Voulez-vous vraiment ajouter cette année academique ? </h3>
+                                <h4 class="mb-3  text-center">{{a.date_debut}}-{{a.date_fin}}</h4>
+                                <div style=" width:auto; margin-left:25%;">
+                                    <button type="submit" (click)="addAcad()" [disabled]="loading" class=" col-md-4 btn-sm  btn  btn-success mr-8  mt-3">
+                                          Oui </button>
+                                    <button type="submit" (click)="checka(false)" class=" col-md-4 btn btn-sm ml-4 btn-danger  mt-3 ">  Non </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="del">
+                    <div class="col-md-12 pt-2">
+                        <h3 class="mb-3  text-center">Voulez-vous vraiment supprimer cette année academique ? </h3>
+                        <button type="submit" (click)="delNow()" [disabled]="loading" class=" col-md-12 btn  btn-success  mt-3">
+      Oui
+    </button>
+                        <button type="submit" (click)="check(false)" class=" col-md-12 btn  btn-danger  mt-3 ">
+      Non
+    </button>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row mt-4">
+                <b class="card-title mb-3">Liste des années académiques</b>
+                <div *ngIf="!af" class="text-center">
+                    <div class="spinner-bubble spinner-bubble-warning m-5"></div>
+                </div>
+                <div class="col-md-12" *ngIf="af">
+                    <div class="col-md-2" *ngFor="let a of af; let i = index; " style="display:inline-block;">
+
+                        <div class="card card-icon mb-4 p-2">
+                            <div class="text-right">
+                                <i class="i-Close text-danger" *ngIf="!a.actived" (click)="delAcad(a,i)"></i>
+                            </div>
+                            <div class="card-body text-center">
+                                <p class="text-muted  mb-2">Année academique</p>
+                                <p class=" text-center mt-2 mb-2">{{a.date_debut.split("T")[0].split("-")[0]}} - {{a.date_fin.split("T")[0].split("-")[0]}}
+                                </p>
+                                <a class="btn btn-link text-success" *ngIf="!a.actived" (click)="state(a,i)">
+                                  Activer</a>
+                                <a class="btn btn-link text-primary" routerLink="/app/anneeDetails/{{a.id}}">voir</a>
+                                <span *ngIf="a.actived" class="badge badge-success">encours</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- end of row-->
+        <!-- Footer Start -->
+
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+    <!-- ============ Body content End ============= -->
+</div>
+<!--=============== End app-admin-wrap ================-->

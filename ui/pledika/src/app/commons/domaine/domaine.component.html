@@ -1,0 +1,381 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!-- ============ Body content start ============= -->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+
+        <div class="col-md-12 mb-2">
+            <h4 class="mb-3  text-center"> Gestion des domaines</h4>
+            <h5 class="text-danger text-center">
+                <a class="text-danger" routerLink="/app/management">Retournez a la page d'acceuil</a> </h5>
+        </div>
+        <div *ngIf="!render" class="text-center">
+            <div class="spinner-bubble spinner-bubble-warning m-5"></div>
+        </div>
+        <!-- end of row-->
+        <div *ngIf="doms && render" class="row">
+            <div class="col-md-12">
+                <div class="accordion" id="domaine">
+                    <div class="card" *ngFor="let dom of doms;let id = index">
+                        <div class="card-header" id="headingOne">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse" attr.data-target="#dom-{{id}}" aria-expanded="true" attr.aria-controls="dom-{{id}}">
+{{dom.name}}
+</button>
+                            </h5>
+                        </div>
+
+                        <div id="dom-{{id}}" class="collapse" aria-labelledby="headingOne" data-parent="#domaine">
+                            <div class="card-body">
+
+                                <div class="accordion" id="option">
+                                    <div class="card" *ngFor="let o of dom.option;let io = index">
+                                        <div class="card-header" id="{{o.code}}">
+                                            <h5 class="mb-0">
+                                                <button class="btn btn-link" type="button" data-toggle="collapse" attr.data-target="#opt-{{io}}" aria-expanded="true" attr.aria-controls="opt-{{io}}">
+                                                  {{o.name.split("-")[1]}}
+                                                  </button>
+                                            </h5>
+                                        </div>
+
+                                        <div id="opt-{{io}}" class="collapse" attr.aria-labelledby="{{o.code}}" data-parent="#option">
+                                            <div class="card-body">
+  <div class="col-md-12 mb-2">
+                            <div class="col-md-4 push-right">
+                               <button *ngIf="!dverse[id][io]" class="btn btn-primary" (click)="dverse[id][io]=true">Configuration paiement </button>
+                            </div>
+                             <div class="col-md-4 push-right">
+                                    <div class="row">
+                                        <div class="form-group col-md-12">
+                                            <label for="recipient-name-1" class="col-form-label">Selectionnez le titulaire</label>
+                                            <select [(ngModel)]="cprof" class="form-control">
+                                            <option value=""></option>
+                                            <option  [value]="p.id" [selected] = "p.id == o.id_resp"
+                                              *ngFor="let p of profs;let i = index">
+                                              {{p?.firstName}} {{p?.lastName}} ({{p?.id}}) </option>
+                                          </select>
+                                        </div>
+                                        <div class="col-md-12 ">
+                                            <button class="btn btn-primary mt-1"  (click)="setTut(cprof, o.id)"> modifier </button>
+                                        </div>
+                                    </div>
+                            </div>
+
+ </div>
+
+                                                <div class="row mt-4" *ngIf="dverse[id][io]">
+
+                                                    <div class="col-md-12 mb-2">
+                                                        <button class=" close" (click)="dverse[id][io]=false">Fermer</button>
+                                                    </div>
+                                                    <div class="col-md-12 mb-2">
+                                                        <div *ngIf="vresponse[id].active" class="alert alert-card alert-{{vresponse[id].state}} text-center" role="alert">
+                                                            {{vresponse[id].message}}
+                                                            <button type="button" class="close" (click)="vresponse[id].active=false">
+                                                              <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 mb-2">
+                                                        <h4 class="text-muted  mb-2"><b>Configuration paiement admission </b></h4>
+                                                        <div class="row mb-2">
+                                                            <div class="form-group  col-md-8 mt-2">
+                                                                <input type="number" class="form-control" [(ngModel)]="o.montant_admis">
+                                                            </div>
+                                                            <div class="form-group col-md-4 mt-2">
+                                                                <button class="btn btn-primary" (click)="editAM(o.montant_admis,o.code,id,io)"> Modifier</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-12" *ngFor="let co of o.copaie let iop = index">
+                                                        <div class="col-md-12 mb-2">
+                                                            <h4 class="text-muted  mb-2"><b>Configuration paiement :{{co.id}}-{{co.name}} </b></h4>
+                                                        </div>
+
+                                                        <div class="col-md-12">
+                                                            <table class="table">
+                                                                <thead>
+                                                                    <td> <b>Code</b></td>
+                                                                    <td> <b>Versement</b></td>
+                                                                    <td><b>Montant</b></td>
+                                                                    <td><b>Action</b></td>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr *ngFor="let v of co.cversement; let ivp = index">
+                                                                        <td>{{v.code}}</td>
+                                                                        <td>{{v.id}}-{{v.name}} - <i>{{v.montant}}G</i></td>
+                                                                        <td>
+                                                                            <input class="form-control" [(ngModel)]="v.montant" [value]="v.montant">
+                                                                        </td>
+                                                                        <td>
+                                                                            <button class="btn btn-primary" (click)="updateVersement(v, id, io, iop, ivp)">modifier</button>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="accordion" id="niveau">
+                                                    <div class="card" *ngFor="let n of o.niveau;let in = index">
+                                                        <div class="card-header" id="headingNiv">
+                                                            <h5 class="mb-0">
+                                                                <button class="btn btn-link" type="button" data-toggle="collapse" attr.data-target="#niv-{{o.code}}-{{in}}" aria-expanded="true" attr.aria-controls="niv-{{o.code}}-{{in}}">{{n.name}}</button>
+                                                            </h5>
+                                                        </div>
+                                                        <div id="niv-{{o.code}}-{{in}}" class="collapse" aria-labelledby="headingNiv" data-parent="#niveau">
+                                                            <div class="col-md-12 row m-2">
+                                                                <button *ngIf="n.reprise" class="btn btn-sm m-1 btn-danger" (click)="toggleDiv(n,{reprise:false},id,io,in,false)">De-activée reprise</button>
+                                                                <button *ngIf="!n.examen_etat" class="btn btn-sm m-1 btn-success" (click)="toggleDivEE(n,{examen_etat:true},id,io,in,true)">Activée reprise</button>
+                                                                <button *ngIf="n.examen_etat" class="btn btn-sm m-1 btn-danger" (click)="toggleDivEE(n,{examen_etat:false},id,io,in,false)">De-activée examen d'etat</button>
+                                                                <button class=" btn btn-primary m-1 btn-sm " (click)="initPaiement(n.code,in,io,id)" *ngIf="etab?.mode_paiement==2">Initialisé Paiement</button>
+                                                            </div>
+
+                                                            <div class="col-md-12 row m-2">
+                                                                <p class="badge badge-warning p-1 m-2">{{n.prev}}</p>
+                                                                <p class="badge badge-secondary p-1 m-2">{{n.next}}</p>
+                                                                <p *ngIf="n.next || n.prev" class="badge badge-danger p-1 m-2" (click)="n.next=null; n.prev=null;"> <i class="i-Close"></i></p>
+                                                            </div>
+                                                            <div class="card-body">
+                                                                <div class="col-md-12 " *ngIf="!n.next && !n.prev">
+                                                                    <p class="text-muted mt-2 mb-2">Configuration du niveau</p>
+
+                                                                    <div class="row mb-4">
+
+                                                                        <div class="col-md-10 row">
+
+                                                                            <div class="form-group col-md-5">
+                                                                                <label for="recipient-name-1">Niveau Precedent</label>
+                                                                                <select id="prev_niv-{{in}}" [(ngModel)]="config.prev" class="form-control">
+                                                                                  <option value=""></option>
+                                                                                  <option [value]="niv.code" *ngFor="let niv of nivs"> {{niv.name}} </option>
+                                                                                </select>
+                                                                            </div>
+                                                                            <div class="form-group col-md-5">
+                                                                                <label for="recipient-name-1">Niveau Suivant</label>
+                                                                                <select id="prev_niv-{{in}}" [(ngModel)]="config.next" class="form-control">
+                                                                                    <option value=""></option>
+                                                                                    <option [value]="niv.code" *ngFor="let niv of nivs">
+                                                                                      {{niv.name}}
+                                                                                    </option>
+                                                                                  </select>
+                                                                            </div>
+                                                                            <div class="form-group col-md-2">
+                                                                                <button class="btn btn-primary  btn-rounded mt-4" style="float:right;" (click)="updateNiv(n, config,id,io,in)" [disabled]='cloading || (config.prev === "" && config.next === "") '>
+                                                                                  <span *ngIf='loading' class="spinner-border spinner-border-sm mr-1"></span>
+                                                                                  enregistrer
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                                <div style="margin-bottom:2%;" class="col-md-12" *ngIf="n.niv_doc.length==0">
+                                                                    <p class="text-muted  mb-2">Configuration document pour {{n.name}}</p>
+                                                                    <div class="row">
+                                                                        <div class="form-group col-md-6">
+                                                                            <label for="recipient-name-1"> <b>Documents</b></label>
+                                                                        </div>
+                                                                        <div class="form-group col-md-6">
+                                                                            <label for="recipient-name-1"><b>Exigé</b></label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row" *ngFor="let doc of docs, let i = index ">
+                                                                        <div class="form-group col-md-6">
+                                                                            <label for="recipient-name-1">{{doc.name}}</label>
+                                                                        </div>
+                                                                        <div class="form-group col-md-6">
+                                                                            <input [(ngModel)]="ldocs[i]" id="{{io}}-is-config" type="checkbox">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-12 mt-4 mb-4">
+                                                                        <div class="form-group col-md-2">
+                                                                            <button class="btn btn-primary  mt-4 mb-4" style="float:right;" (click)="updateNivDoc(n, ldocs, id,io,in)" [disabled]='dloading'>
+                                                                      <span *ngIf='dloading' class="spinner-border spinner-border-sm mr-1"></span>
+                                                                          Configurer document
+                                                                      </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-12 mb-2">
+                                                                    <div class="form-group col-md-2">
+                                                                        <button *ngIf="!sverse[id][io][in]" class="btn btn-primary" (click)="sverse[id][io][in]=true">Configuration paiement </button>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-12 mt-4" *ngIf="sverse[id][io][in]">
+
+                                                                    <div class="col-md-12 mb-2">
+                                                                        <button class=" close" (click)="sverse[id][io][in]=false">Fermer</button>
+                                                                    </div>
+                                                                    <div class="col-md-12 m-2">
+                                                                        <div *ngIf="vresponse[id].active" class="alert alert-card alert-{{vresponse[id].state}} text-center" role="alert">
+                                                                            {{vresponse[id].message}}
+                                                                            <button type="button" class="close" (click)="vresponse[id].active=false">
+                                                              <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-12 mb-2">
+                                                                        <h4 class="text-muted  mb-2"><b>Configuration paiement admission </b></h4>
+                                                                        <div class="row mb-2">
+                                                                            <div class="form-group  col-md-8 mt-2">
+                                                                                <input type="number" class="form-control" [(ngModel)]="n.montant_admis_classe">
+                                                                            </div>
+                                                                            <div class="form-group col-md-4 mt-2">
+                                                                                <button class="btn btn-primary" (click)="editAMC(n.montant_admis_classe, n.code, id, io, in)"> Modifier</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-md-12" *ngFor="let co of n.copaie let iop = index">
+                                                                        <div class="col-md-12 mb-2">
+                                                                            <h4 class="text-muted  mb-2"><b>Configuration paiement : {{co.name}} </b></h4>
+                                                                        </div>
+
+                                                                        <div class="col-md-12">
+                                                                            <table class="table">
+                                                                                <thead>
+                                                                                    <td> <b>Code</b></td>
+                                                                                    <td> <b>Versement</b></td>
+                                                                                    <td><b>Montant</b></td>
+                                                                                    <td><b>Action</b></td>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    <tr *ngFor="let v of co.cversement; let ivp = index">
+                                                                                        <td>{{v.code}}</td>
+                                                                                        <td> {{v.name}} - <i>{{v.montant}}G</i></td>
+                                                                                        <td>
+                                                                                            <input class="form-control" [(ngModel)]="v.montant" [value]="v.montant">
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <button class="btn btn-primary m-2" (click)="updateVersementClasse(v, id, io, iop, ivp, in)">  <i class="i-Pen-2"></i>  </button>
+                                                                                            <button class="btn btn-danger m-2" (click)="delVersementClasse(v, id, io, iop, ivp, in)"> <i class="i-Close"></i>  </button>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row" style="margin-top:2%;">
+                                                                    <div class="col-md-2">
+                                                                        <div class="card card-icon mb-4" data-whatever="@mdo" type="button" data-toggle="modal" attr.data-target="#modal-niv-{{o.code}}-{{in}}">
+                                                                            <div class="card-body text-center">
+                                                                                <i class="i-Add-User"></i>
+                                                                                <p class="text-muted mt-2 mb-2">Inscription</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-2">
+                                                                        <div class="card card-icon mb-4" data-whatever="@mdo" type="button" data-toggle="modal" attr.data-target="#modalRel-niv-{{o.code}}-{{in}}">
+                                                                            <div class="card-body text-center">
+                                                                                <i class="i-Add-User"></i>
+                                                                                <p class="text-muted mt-2 mb-2">Classe Relative</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!--**********************NIVEAU_REL************************-->
+                                                                <div class="accordion" id="niveauRel">
+                                                                    <div class="card" *ngFor="let nr of n.niveau_rel; let inr = index">
+                                                                        <div class="card-header" id="headingNiv">
+                                                                            <h5 class="mb-0">
+                                                                                <button class="btn btn-link" type="button" data-toggle="collapse" attr.data-target="#nivrel-{{o.code}}-{{inr}}" aria-expanded="true" attr.aria-controls="nivrel-{{o.code}}-{{inr}}">{{nr.name}}
+                                                                                  <b *ngIf="nr?.vacation?.name">
+                                                                                  {{nr?.vacation?.name}} </b> <b
+                                                                                  *ngIf="nr?.salle?.code"> , Salle
+                                                                                  :
+                                                                                  {{nr?.salle?.code}} </b></button>
+                                                                            </h5>
+                                                                        </div>
+                                                                        <div id="nivrel-{{o.code}}-{{inr}}" class="collapse" aria-labelledby="headingNiv" data-parent="#niveauRel">
+                                                                            <div class="card-body">
+                                                                                <div class="row">
+                                                                                    <div class="col-md-12 row m-2">
+                                                                                        <button *ngIf="nr.reprise" class="btn btn-sm m-1 btn-danger" (click)="toggleRDiv(nr,{reprise:false},id,io,in,inr,false)">De-activée reprise</button>
+                                                                                        <button *ngIf="!nr.reprise " class="btn btn-sm m-1 btn-success" (click)="toggleRDiv(nr,{reprise:true},id,io,in,inr,true)">Activée reprise</button>
+                                                                                    </div>
+                                                                                    <div class="col-md-12">
+                                                                                        <b class="card-title mb-3">Ajouter promotion</b>
+                                                                                        <div class="row">
+                                                                                            <div class="form-group col-md-6">
+                                                                                                <label for="recipient-name-1">Année academique</label>
+                                                                                                <select id="ac_input" class="form-control" [(ngModel)]="promo.ac">
+<option [selected]="i==0" [value]="a.id" *ngFor="let a of acs; let i = index ">
+  {{ a.date_debut.split("T")[0].split("-")[0]}} - {{a.date_fin.split("T")[0].split("-")[0] }}
+</option>
+</select>
+                                                                                            </div>
+
+                                                                                            <div class="form-group col-md-2" style="margin-top:1%;">
+                                                                                                <button class="btn btn-primary  btn-rounded mt-3" style="float:right;" (click)="addPromo(nr,io,id,in,inr, n.code,o.code,n.reprise)" [disabled]='loading || promo.date_fin === ""  '>
+<span *ngIf='loading' class="spinner-border spinner-border-sm mr-1"></span>
+Ajouter
+</button>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <b class="card-title mb-3">Liste des promotions</b>
+                                                                                        <div class="col-md-12">
+                                                                                            <div class="col-md-2" *ngFor="let pm of nr.promotion" style="display:inline-block;">
+
+                                                                                                <div routerLink="/app/promoDetails/{{pm.id}}" class="card card-icon mb-4">
+
+                                                                                                    <div class="card-body text-center">
+
+
+                                                                                                        <p class="text-muted mt-2 mb-2">
+                                                                                                            {{ pm?.code}}
+                                                                                                        </p>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!--***********************NIVEAU_REL_END****************-->
+
+                                                                <app-modal-add-student [villes]="villes" [classe]="n.name" niveaux="" [niv]="n.code" [option]="o.code" [dom]="dom.code" idModal="modal-niv-{{o.code}}-{{in}}">
+                                                                </app-modal-add-student>
+                                                                <app-modal-classe (addNewNR)='addNewNR($event)' [vacs]="vacs" [salles]="salles" [code_niv]="n.code" [classe]="n.name" niveaux="" [niv]="n" [option]="o.code" [io]="io" [in]="in" [id]="id" [dom]="dom.code" idModal="modalRel-niv-{{o.code}}-{{in}}">
+                                                                </app-modal-classe>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- end of row-->
+        <!-- Footer Start -->
+
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+    <!-- ============ Body content End ============= -->
+</div>
+<!--=============== End app-admin-wrap ================-->

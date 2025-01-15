@@ -7,7 +7,8 @@ import {
 } from 'express';
 import * as jwt from 'jsonwebtoken';
 
-import { ILike } from 'typeorm';
+import { ILike, MoreThan } from 'typeorm';
+import { DeployType } from '../../../../common/deploy';
 import {
   Http,
   SERV_EP,
@@ -20,15 +21,21 @@ import { Postulants } from '../entity/Postulants';
 import { User_Cv } from '../entity/User_Cv';
 import { ViewJob } from '../entity/ViewJob';
 
-export const NPage = 5;
+export const NPage =  DeployType.NPage;
 const services = {
   getJobForHomePage : async (req: Request, res: Response) => {
     try {
+      const currentDate = new Date();
       const jobsRepository = req.DB.getRepository(Jobs);
       const objs: Jobs [] = await jobsRepository.find({
         order: { created_at : "DESC" },
-        select: ['id','titre_job', 'categorie', 'ville','type_contrat', 'entreprise_id'],
-        where : { publish : true}, // Specify the fields you want to select
+        select: ['id','titre_job', 'categorie', 'ville','type_contrat', 'entreprise_id', 'date_echeance'],
+        where : [
+          { date_echeance: null },
+          { date_echeance: MoreThan(currentDate) }
+         ],
+         andWhere :  { publish : true },
+          // Specify the fields you want to select// Specify the fields you want to select
         take: 18
     });
 
@@ -39,7 +46,6 @@ const services = {
       const path = getService("users").path;
       const URL = GATEWAY_URL+path+SERV_EP.getListEntById;
       const ids = objs.map(jobs => jobs.entreprise_id);
-      console.log(ids);
       ents = await http.post(URL, { ids : ids } ,false);
     }
     res.send({ objs, ents});
@@ -74,7 +80,7 @@ const services = {
       return res.status(500).send(error);
     }
   },
-getJobById : async (req: Request, res: Response) => {
+  getJobById : async (req: Request, res: Response) => {
   try {
     const jobsRepository = req.DB.getRepository(Jobs);
     const id = req.params.id;
@@ -91,10 +97,10 @@ getJobById : async (req: Request, res: Response) => {
     console.log(error)
     return res.status(500).send(error);
   }
-},
- home : (req: Request, res: Response) => {
+  },
+  home : (req: Request, res: Response) => {
   return res.send({ message: "Home entreprises" });
-},
+  },
   add : async (req: Request, res: Response) => {
  
     try {
@@ -140,9 +146,17 @@ getJobById : async (req: Request, res: Response) => {
   },
   getJobs : async (req: Request, res: Response) => {
     try {
+      const currentDate = new Date();
       const jobsRepository = req.DB.getRepository(Jobs);
       const objs: Jobs [] = await jobsRepository.find({
         order: { created_at : "DESC" },
+        where: [
+          { date_echeance: null },
+          { 
+            date_echeance: MoreThan(currentDate) 
+          }
+        ],
+        andWhere :  { publish : true },
         // Specify the fields you want to select
         take: NPage // Limit the result to 6 rows
     });
@@ -157,13 +171,19 @@ getJobById : async (req: Request, res: Response) => {
       ents = await http.post(URL, { ids : ids } ,false);
     }
 
-    const objs2 = await jobsRepository.count();
+    const objs2 = await jobsRepository.count({
+      where: [
+        { date_echeance: null },
+        { date_echeance: MoreThan(currentDate) }
+      ],
+      andWhere :  { publish : true }
+    });
     const totalPage =  Math.ceil(objs2/NPage);
     const pages = [];
     for(let i = 1; i<= totalPage; i++) {
       pages.push(i);
     }
-    const pagination = { numberJobs : objs2,totalPage, pages,currentPage: 1 };
+    const pagination = { numberJobs : objs2,totalPage, pages, currentPage: 1 };
     res.send({ objs, ents, pagination});
     } catch (error) {
       console.log(error)
@@ -185,6 +205,7 @@ getJobById : async (req: Request, res: Response) => {
       const page = Number(req.params.page);
       const jobsRepository = req.DB.getRepository(Jobs);
       const queryBuilder = jobsRepository.createQueryBuilder('job');
+
       if (query ) {
         queryBuilder.orWhere( {titre_job: ILike(`%${query}%`)  });
         queryBuilder.orWhere( {description : ILike(`%${query}%`) });
@@ -206,6 +227,16 @@ getJobById : async (req: Request, res: Response) => {
        if(horaire){
           queryBuilder.andWhere( { horaire_de_travail: horaire });
        }
+
+      const currentDate = new Date();
+
+      queryBuilder.andWhere(  [
+        { date_echeance: null },
+        { date_echeance: MoreThan(currentDate) }
+      ]);
+
+      queryBuilder.andWhere( { publish : true } );
+
       const skip = (page - 1) * NPage;
       const objs: Jobs [] = await queryBuilder
       .orderBy("job.created_at", "DESC")
@@ -263,7 +294,12 @@ getJobById : async (req: Request, res: Response) => {
         if(horaire){
           queryBuilder.andWhere( { horaire_de_travail: horaire });
         }
-    
+        const currentDate = new Date();
+        queryBuilder.andWhere(  [
+          { date_echeance: null },
+          { date_echeance: MoreThan(currentDate) }
+        ]);
+        queryBuilder.andWhere( { publish : true } );
     const objs2 = await queryBuilder.getCount();
 
     const objs: Jobs [] = await queryBuilder
@@ -519,39 +555,37 @@ getJobById : async (req: Request, res: Response) => {
     const data = await http.get(URL, false);
     return res.status(200).send({ job, post, ad: data.post });
   },
-
   mail : async (req: any, res: Response) => {
      const data = MailService.test(req);
      return res.status(200).send({ data });
   },
-
   report : async (req: any, res: Response) => {
     try {
       const id = req.params.id;
       const keycloakId = req.payload?.sub;
-
+  
       const contRepository = req.DB.getRepository(Contact);
       const cont: Contact = await contRepository.findOne({
         where: { id_job: id, keycloakId  }
       });
-
+  
       if (cont) return res.status(409).send({ error: true, message : "Vous avez déjà signalé ce poste." });
-
+  
       const jobsRepository = req.DB.getRepository(Jobs);
       const job: Jobs = await jobsRepository.findOne({
         where: { id: id }
       });
-
+  
       if (!job) return res.status(404).send({ error: true, message : "Job non trouvé" });
-
+  
       const userRepository = req.DB.getRepository(User_Cv);
       const user: User_Cv = await userRepository.findOne({
         where: { keycloakId }
       });
-
+  
       if (!user) return res.status(404).send({ error: true, message : "Utilisateur non trouvé" });
-
-     
+  
+      
       const pay = { id, keycloakId,  timestamp: new Date().getTime() };
       const token = services.generateToken(pay, "REPORT_KEY");
       let c: Contact = new Contact();
@@ -568,8 +602,8 @@ getJobById : async (req: Request, res: Response) => {
       console.log(error)
       return res.status(500).send(error);
     }
- },
- generateToken: (data: any , key: any) => {
+  },
+  generateToken: (data: any , key: any) => {
     const token = jwt.sign(data, key);
     return token;
   },

@@ -7,7 +7,7 @@ import { ReCaptchaV3Service } from 'ng-recaptcha';
 import { KeycloakService } from 'src/app/service/keycloak.service';
 import { Jobs } from 'src/app/shared/models/Jobs';
 import { getURL } from 'src/environments/environment.prod';
-
+import { EmploymentDomains, HaitiCities } from '../../../../../../../common/index/HaitiCities';
 @Component({
   selector: 'app-form-ano',
   templateUrl: './component.html',
@@ -17,13 +17,30 @@ export class FormAnoComponent {
 
   @Input()
   job: Jobs;
-   fmime = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+
+  @Input()
+  type_cv: boolean;
+  cities: string [] = HaitiCities;
+  domaines:string [] =  EmploymentDomains;
+  fmime = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
   user: any;
   uInfo: any = {
     lastName: "",
     firstName: "",
     email: "",
     phone: "",
+    city: "",
+    relocate: true,
+    benevolat: true,
+    domaine_1: "",
+    exp_1: 0,
+
+    domaine_2: "",
+    exp_2: 0,
+
+    domaine_3: "",
+    exp_3: 0,
+    stage: true,
     tokenRC:""
   }
   constructor(
@@ -117,7 +134,8 @@ export class FormAnoComponent {
           console.log(event);
           this.progress = undefined;
           this.message = event.body.message;
-          this.aUI.show({ active: true, message: 'Vous avez postuler a ce poste avec succès!', type: "success", pos: 'top-right' });
+          const msg = 'Vous avez postuler a ce poste avec succès!';
+          this.aUI.show({ active: true, message: msg , type: "success", pos: 'top-right' });
         }
       },
       (err: any) => {

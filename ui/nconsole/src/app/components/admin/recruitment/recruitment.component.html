@@ -1,0 +1,134 @@
+<!-- Previous content remains unchanged until the professionals tab -->
+
+<!-- Professionals Tab -->
+<div *ngIf="activeTab === 'professionals'" class="tab-pane fade show active">
+  <div class="card">
+    <div class="card-body">
+      <div class="row mb-4">
+        <div class="col-md-3">
+          <div class="search-box">
+            <i class="bi bi-search"></i>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Search professionals..."
+              [(ngModel)]="searchTerm"
+            />
+          </div>
+        </div>
+        <div class="col-md-7">
+          <div class="d-flex gap-3">
+            <select class="form-select" [(ngModel)]="selectedSkill">
+              <option value="">All Skills</option>
+              <option *ngFor="let skill of skills" [value]="skill">
+                {{ skill }}
+              </option>
+            </select>
+            <select class="form-select" [(ngModel)]="selectedExperience">
+              <option value="">All Experience</option>
+              <option *ngFor="let exp of experienceLevels" [value]="exp">
+                {{ exp }}
+              </option>
+            </select>
+            <select class="form-select" [(ngModel)]="selectedStatus">
+              <option value="">All Status</option>
+              <option *ngFor="let status of statuses" [value]="status">
+                {{ status }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-2 text-end">
+          <button class="btn btn-outline-secondary" (click)="clearFilters()">
+            <i class="bi bi-x-circle me-2"></i>Clear Filters
+          </button>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Professional</th>
+              <th>Skills</th>
+              <th>Experience</th>
+              <th>Location</th>
+              <th>Availability</th>
+              <th>Rating</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let prof of getFilteredProfessionals()">
+              <td>
+                <div class="d-flex align-items-center">
+                  <div class="avatar me-2">{{ prof.name[0] }}</div>
+                  <div>
+                    <div class="fw-medium">{{ prof.name }}</div>
+                    <div class="text-muted small">{{ prof.title }}</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="skills-wrapper">
+                  <span
+                    *ngFor="let skill of prof.skills"
+                    class="badge bg-light text-dark me-1"
+                  >
+                    {{ skill }}
+                  </span>
+                </div>
+              </td>
+              <td>{{ prof.experience }}</td>
+              <td>{{ prof.location }}</td>
+              <td>{{ prof.availability }}</td>
+              <td>
+                <div class="rating">
+                  <i class="bi bi-star-fill text-warning"></i>
+                  <span class="ms-1">{{ prof.rating }}</span>
+                </div>
+              </td>
+              <td>
+                <span
+                  class="badge"
+                  [ngClass]="{
+                    'bg-success': prof.status === 'available',
+                    'bg-warning': prof.status === 'interviewing',
+                    'bg-info': prof.status === 'hired'
+                  }"
+                >
+                  {{ prof.status }}
+                </span>
+              </td>
+              <td>
+                <div class="btn-group">
+                  <button class="btn btn-sm btn-outline-primary">
+                    <i class="bi bi-person-lines-fill"></i>
+                  </button>
+                  <button class="btn btn-sm btn-outline-success">
+                    <i class="bi bi-calendar-plus"></i>
+                  </button>
+                  <button class="btn btn-sm btn-outline-secondary">
+                    <i class="bi bi-envelope"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-4">
+    <ng-template dForm></ng-template>
+  </div>
+  <div class="col-md-8">
+    <ng-template dTable></ng-template>
+  </div>
+</div>
+
+<!-- Rest of the tabs remain unchanged -->

@@ -1,0 +1,142 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!-- ============ Body content start ============= -->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+        <div class="col-md-12 mb-2">
+            <h4 class="mb-3  text-center">Contact</h4>
+        </div>
+
+        <div class="modal-content " *ngIf="msg">
+            <div class="modal-header ">
+                <h5 class="modal-title " id="exampleModalLongTitle ">{{msg.name}}</h5>
+                <button type="button " (click)="close() " class="close " data-dismiss="modal " aria-label="Close ">
+        <span aria-hidden="true ">&times;</span>
+        </button>
+            </div>
+            <div class="modal-body ">
+                <p class="m-2">{{msg?.message}}</p>
+                <p> <a class="m-2 btn btn-primary " href="tel:{{msg?.phone}}">{{msg?.phone}}</a> <a href="mailto:{{msg?.email}}" class="m-2 btn btn-secondary">{{msg?.email}}</a> </p>
+            </div>
+            <div class="modal-footer ">
+                <button type="button " class="btn btn-secondary " (click)="close() " data-dismiss="modal ">Close</button>
+                <button type="button " *ngIf="!msg.read " (click)="read(msg,pos) " class="btn btn-primary ">Marqué comme lu</button>
+            </div>
+        </div>
+
+        <div class="col-md-12 mb-2" *ngIf="!msg">
+            <div class="card text-left">
+                <div class="card-body">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="home-basic-tab" data-toggle="tab" href="#homeBasic" role="tab" aria-controls="homeBasic" aria-selected="true">Lu Non</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" id="grade-basic-tab" data-toggle="tab" href="#gradeBasic" role="tab" aria-controls="gradeBasic" aria-selected="true">Lu</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="homeBasic" role="tabpanel" aria-labelledby="home-basic-tab">
+                            <div class="row ">
+                                <div class="table-responsive " *ngIf="nlu ">
+                                    <table id="zero_configuration_table " class="display table table-striped table-bordered " style="width:100% ">
+                                        <thead>
+                                            <tr>
+                                                <th>Nom complet</th>
+                                                <th>Email</th>
+                                                <th>Phone</th>
+                                                <th>Date</th>
+                                                <th>Message</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let o of nlu;let i=i ndex ">
+                                                <td>{{o.name}}</td>
+                                                <td>{{o.email}} </td>
+                                                <td>{{o.phone}}</td>
+                                                <td>{{o.created_at.split("T")[0]}} {{o.created_at.split("T")[1].split("+")[0]}}</td>
+                                                <td>{{o.message.substr(0,20) }}...</td>
+                                                <td>
+                                                    <button (click)="pread(o,i) " class="btn btn-sm btn-primary m-1 ">
+                                             <i class="nav-icon i-Eye "></i> </button>
+                                                </td>
+                                            </tr>
+
+
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Nom complet</th>
+                                                <th>Email</th>
+                                                <th>Phone</th>
+                                                <th>Message</th>
+                                                <th>Date</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="gradeBasic" role="tabpanel" aria-labelledby="grade-basic-tab">
+                            <div class="row ">
+
+                                <div class="table-responsive " *ngIf="lu ">
+                                    <table id="zero_configuration_table " class="display table table-striped table-bordered " style="width:100% ">
+                                        <thead>
+                                            <tr>
+                                                <th>Nom complet</th>
+                                                <th>Email</th>
+                                                <th>Phone</th>
+                                                <th>Date</th>
+                                                <th>Message</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let o of lu;let i=i ndex ">
+                                                <td>{{o.name}}</td>
+                                                <td>{{o.email}} </td>
+                                                <td>{{o.phone}}</td>
+                                                <td>{{o.created_at.split("T")[0]}} {{o.created_at.split("T")[1].split("+")[0].split(".")[0]}}</td>
+                                                <td>{{o.message.substr(0,20) }}...</td>
+                                                <td>
+                                                    <button (click)="pread(o,i) " class="btn btn-sm btn-primary m-1 ">
+                                             <i class="nav-icon i-Eye "></i> </button>
+                                                </td>
+                                            </tr>
+
+
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Nom complet</th>
+                                                <th>Email</th>
+                                                <th>Phone</th>
+                                                <th>Date</th>
+                                                <th>Message</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end of col -->
+        <!-- Footer Start -->
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+    <!-- ============ Body content End ============= -->
+</div>
+<!--=============== End app-admin-wrap ================-->

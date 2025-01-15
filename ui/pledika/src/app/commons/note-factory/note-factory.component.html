@@ -1,0 +1,111 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!--============== Body content start ===============-->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+        <div class="ml-4 col-md-12 mb-2 text-center">
+            <h4 class="mb-3  text-center">{{ PROMO?.code}}-({{PROMO?.id}})</h4>
+            <h5 class="text-warning text-center"> {{index}}/{{tpromo}} </h5>
+            <a href="/app/asop/{{ID}}" *ngIf="cpromo" target="_blank" class="btn btn-sm btn-primary m-2">
+        Imprimer la liste des etudiants </a>
+            <a class="btn btn-sm btn-warning m-2 " *ngIf="cpromo" target="_blank" routerLink="/app/promoDetails/{{ID}}">Voir
+        cette
+        promotion</a>
+            <a class="btn btn-sm btn-warning m-2 " *ngIf="cpromo" target="_blank" routerLink="/app/bulletinGenAll/{{ID}}">Bulletin general</a>
+        </div>
+        <div class="col-md-12">
+
+            <div *ngIf="response.active" class="alert alert-card alert-{{response.state}} text-center" role="alert">
+                {{response.message}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+            </div>
+            <div class="col-md-12  pt-2 mt-2" *ngIf="!option">
+                <div class="col-md-8 card pt-2 mt-2" style="margin-left:20%;">
+                    <div class="col-md-12 ">
+                        <h4 class="mb-2  text-center"> Selectionnez un controle | trimestres </h4>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <label for="recipient-name-1">Choisissez un controle </label>
+                            <option></option>
+                            <select id="niv" (change)='change()' class="form-control" [(ngModel)]="option">
+         <option [ngValue]="f" *ngFor="let f of frags">{{f?.share_code || f?.code.split("-")[3].split("(")[0] }}
+         </option>
+       </select>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="col-md-12 pt-2 mt-2" *ngIf="option">
+                <div class="col-md-12 text-center">
+                    <h4 class="mb-2  text-center"> Resultats des examens des etudiants : {{option.code}}</h4>
+                    <h5 class="mb-2  text-center"> ({{pars?.length}}) etudiant(s)</h5>
+                    <a class="text-center text-danger" (click)="init()">Changer de controle | trimestre</a>
+                </div>
+
+                <div class="col-md-12 pt-2 mt-2" *ngIf="pars[0]">
+                    <div class="col-md-12 pt-2 mt-2 text-center">
+                        <a class="btn btn-success" (click)="initResult()">Synchroniser les resultats des examens </a>
+                        <a class="btn  btn-warning m-2 " target="_blank" routerLink="/app/bulletinFragAll/{{option.id}}/{{ID}}">Bulletin pour cette période </a>
+                        <a class="btn  btn-warning m-2 " target="_blank" routerLink="/app/vbulletinFragAll/{{option.id}}/{{ID}}">Bulletin vierge pour cette période </a>
+                        <a class="btn  btn-warning m-2 " target="_blank" routerLink="/app/fpalmares/{{option.id}}/{{cpromo.id}}">Palmares rempli</a>
+                        <a class="btn  btn-warning m-2 " target="_blank" routerLink="/app/palmares/{{option.id}}/{{cpromo.id}}">Palmares vierge</a>
+                        <a class="btn  btn-warning m-2 " target="_blank" routerLink="/app/noteForMat/{{option.id}}/{{cpromo.id}}">Note par matiere</a>
+                    </div>
+                    <div class="col-md-12 card pt-2 mt-2" *ngFor="let p of pars;let i =index">
+                        <div class="col-md-12">
+                            <h4 class="mb-2  text-center"> <b (click)="see[i]=!see[i]">{{p.nom}} {{p.pnom}}
+                                ({{p.code}})</b>
+                                <i class="close i-Eye-Visible text-success text-right" *ngIf="!see[i]" (click)="see[i]=!see[i]"></i>
+                                <i class="close i-Eyebrow text-danger text-right" *ngIf="see[i]" (click)="see[i]=!see[i]"></i>
+                            </h4>
+                            <h5 class="mb-2  text-center"> ({{p.results?.length}}) cours</h5>
+                        </div>
+                        <div class="row pt-2 mt-2" *ngIf="see[i]">
+                            <div class="form-group col-md-4" *ngFor="let item of p.results">
+                                <label for="recipient-name-1" class="col-form-label"><b>{{item.nom}}</b></label>
+                                <input type="number" max="item.note_total" class="form-control" [(ngModel)]="item.note" />
+                                <label class="text-success" *ngIf="msg[item.idr]">{{msg[item.idr]}}</label>
+                                <label class="text-danger" *ngIf="err[item.idr]">{{err[item.idr]}}</label>
+                            </div>
+                            <div class="form-group pt-2 mt-2">
+                                <button (click)="save(p.results)" class="m-4 btn btn-primary">Modifier notes</button>
+                                <a class="btn  btn-warning m-2 " target="_blank" routerLink="/app/bulletinFrag/{{p.id}}/{{option.id}}/{{ID}}">Voir bulletin </a>
+                                <a class="btn  btn-warning m-2 " target="_blank" routerLink="/app/bulletinGen/{{ID}}/{{p.id}}">Voir bulletin General</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-12 pt-2 mt-2 text-center" *ngIf="!pars[0]">
+                    <a class="btn btn-success" (click)="initStudent()">Synchroniser les etudiants :
+                      {{option?.share_code || option?.code.split("-")[3].split("(")[0] }} </a>
+                </div>
+            </div>
+
+
+
+        </div>
+
+        <div class="col-md-12 p-2">
+            <button class="btn btn-danger" (click)="prev()" *ngIf="index>1" style="float:left;">Précedent</button>
+            <a class="btn  btn-warning ml-2 mr-2 " *ngIf="cpromo" target="_blank" routerLink="/app/promoDetails/{{ID}}">Voir
+        cette
+        promotion</a>
+            <button class="btn btn-success" (click)="next()" *ngIf="index<tpromo" style="float:right;">Suivant</button>
+        </div>
+
+
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+    <!-- ============ Body content End ============= -->
+</div>

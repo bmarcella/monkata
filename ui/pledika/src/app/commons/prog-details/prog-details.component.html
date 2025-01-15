@@ -1,0 +1,200 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!--============== Body content start ===============-->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+        <div class="ml-4 col-md-12 mb-2">
+            <h4 class="mb-3  text-center">{{ progs?.name}}-{{progs?.id}} </h4>
+            <h5 class="text-danger text-center">
+                <a class="text-danger" routerLink="/app/programme/">Retournez a la liste des  programmes</a> </h5>
+        </div>
+        <div class="col-md-12 card">
+            <div *ngIf="response.active" class="alert alert-card alert-{{response.state}} text-center" role="alert">
+                {{response.message}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+            </div>
+            <div class="card-body">
+                <b class="card-title mb-3"> Modifier ce programme </b>
+            </div>
+            <div class="row col-md-12" *ngIf="progs">
+                <div class="form-grou p col-md-2">
+                    <label for="recipient-name-1" class="col-form-label">Index</label>
+                    <input type="number" class="form-control" [(ngModel)]="progs.pos" />
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="recipient-name-1" class="col-form-label">Programme</label>
+                    <input type="text" class="form-control" [(ngModel)]="progs.name" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="recipient-name-1" class="col-form-label">max cours</label>
+                    <input type="text" class="form-control" [(ngModel)]="progs.max_cours" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="recipient-name-1" class="col-form-label">max fourniture</label>
+                    <input type="text" class="form-control" [(ngModel)]="progs.max_four" />
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="recipient-name-1" class="col-form-label">Descriptions</label>
+                    <input type="text" class="form-control" [(ngModel)]="progs.description" />
+                </div>
+                <div class="form-group col-md-2" style="margin-top:1.8%;">
+                    <button class="btn btn-block btn-primary  btn-rounded mt-3" style="float:right;" (click)="editProg()" [disabled]='loading '>
+        <span *ngIf='loading' class="spinner-border spinner-border-sm mr-1"></span>
+        Modifier
+      </button>
+                </div>
+            </div>
+        </div>
+        <div class="card mt-2">
+            <div class="col-md-12 text-center text-light m-2 p-2">
+                <a (click)="setPage(0)" [className]="page==0 || page==undefined || page==null ? 'btn btn-secondary m-2' : 'btn btn-primary m-2'">
+     Cours</a>
+                <a (click)="setPage(1)" [className]="page==1 ? 'btn btn-secondary m-2' : 'btn btn-primary m-2'"> Fournitures scolaires</a>
+            </div>
+            <div class="alert alert-danger m-2 text-center" *ngIf="msg">{{msg}}</div>
+            <div class=" col-md-12 mb-2 mt-2" *ngIf="page==0">
+                <div class="row col-md-12 row mt-4">
+                    <div class="col-md-6 col-sm-6 " style="float:left;">
+                        <h5>Liste des cours disponibles</h5>
+
+                        <div class="col-md-12 mb-2">
+                            <input placeholder="rechercher un cours" type="text" class="form-control" [(ngModel)]="query" autocomplete="off" (keyup)="onKey(query)">
+                        </div>
+
+
+                        <div>
+                            <div class="card col-md-12 mb-2" style="display:inline-block;" *ngFor="let item of cours; let i = index">
+                                <div class="col-md-12">
+                                    <div class="row p-2">
+                                        <div class="col-md-12">{{item.code }} <button style="float:right; position:relative;right:0.5%;top:1%;" class="btn btn-sm btn-success" (click)="addCours(item,i)">
+                                        <i class="i-Add"></i>
+                                      </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-12 text-center ">
+                            <a class="btn btn-primary m-4" routerLink="/app/programme/2">
+     Ajouter un nouveau cours a ce niveau
+       </a>
+                            <a class="btn btn-primary m-4" routerLink="/app/fourniture">
+     Ajouter une fourniture
+       </a>
+                            <a class="btn btn-primary m-4 " routerLink="/app/classe">
+                        Voir les promotions et classes
+                        </a>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        <h5 style="float:left;">Liste des cours de ce programmes ({{pcours?.length}})</h5>
+                        <div class="col-md-12 row">
+                            <div class="col-md-12 mb-2">
+                                <input placeholder="rechercher un cours" type="text" class="form-control" autocomplete="off" (keyup)="onKeyUp($event)">
+
+                            </div>
+                            <div class="row">
+                                <div *ngIf="hides" class="col-md-12   m-1">
+                                    <input (change)="tchange($event)" type="checkbox" class="m-2" [(ngModel)]="all" /> effacer tout
+                                    <button style="float:right; position:relative;right:0.5%;top:1%;" class="btn btn-sm btn-danger m-1" (click)="delAll()">
+                                <i class="i-Close"></i>
+                              </button>
+                                    <label> ({{listToDel?.length}}) cours selectionnés</label>
+                                </div>
+
+                                <div class="col-md-12 card mb-2" *ngFor="let item of pcours; let i = index">
+                                    <div class="row">
+
+                                        <div class="col-md-12   m-1">
+                                            <input type="checkbox" *ngIf="hides" [(ngModel)]="el[i]" (change)="changetatus(item.id,$event,i)" S class="m-2" /> {{item?.code }}
+                                            <button style="float:right; position:relative;right:0.5%;top:1%;" class="btn btn-sm btn-danger m-1" (click)="delCours(item,i)">
+                <i class="i-Close"></i>
+              </button></div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class=" col-md-12 mb-2 mt-2" *ngIf="page==1">
+                <div class="row col-md-12 row mt-4">
+                    <div class="col-md-6 col-sm-6 " style="float:left;">
+                        <h5>Liste des fournitures disponibles</h5>
+
+                        <div class="col-md-12 mb-2">
+                            <input placeholder="rechercher un cours" type="text" class="form-control" autocomplete="off" (keyup)="fOnKey($event)">
+                        </div>
+                        <div>
+                            <div class="card col-md-12 mb-2" style="display:inline-block;" *ngFor="let item of fours; let i = index">
+                                <div class="col-md-12">
+                                    <div class="row p-2">
+                                        <div class="col-md-12" *ngIf="item.type_fn==1"> {{item.unity}} {{item.name }} <input type="number" min="1" max="100" *ngIf="item.type_fn==1 " [(ngModel)]="qt[i]" style="display:inline-block;" class="ml-5 form-control col-md-2">
+                                            <button [disabled]="!qt[i]" style="float:right; position:relative;right:0.5%;top:1%;" class="btn btn-sm btn-success" (click)="addFours(item,i,qt[i])">
+                                        <i class="i-Add"></i>
+                                        </button>
+                                        </div>
+                                        <div class="col-md-12" *ngIf="item.type_fn==2"> {{item.name }}
+                                            <button style="float:right; position:relative;right:0.5%;top:1%;" class="btn btn-sm btn-success" (click)="addFours(item,i,1)">
+                                      <i class="i-Add"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-12 text-center ">
+                            <a class="btn btn-primary m-4" routerLink="/app/fourniture"> Ajouter ou voir  les fournitures scolaires       </a>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        <h5 style="float:left;">Liste des fournitures de ce programmes</h5>
+                        <div class="col-md-12 row">
+                            <div class="col-md-12 mb-2">
+                                <input placeholder="rechercher un cours" type="text" class="form-control" autocomplete="off" (keyup)="pfOnKey($event)">
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 card mb-2 ml-3" *ngFor="let item of pfours; let i = index">
+                                    <div class="row " *ngIf="item.type_fn==1">
+                                        <div class="col-md-12   m-1"> {{item?.qt }} {{item?.unity }}(s) {{item?.name }}
+                                            <button style="float:right; position:relative;right:0.5%;top:1%;" class="btn btn-sm btn-danger m-1" (click)="delFours(item,i)">
+                   <i class="i-Close"></i>
+                 </button></div>
+                                    </div>
+                                    <div class="row " *ngIf="item.type_fn==2">
+                                        <div class="col-md-12   m-1">Livre : {{item?.name }}
+                                            <button style="float:right; position:relative;right:0.5%;top:1%;" class="btn btn-sm btn-danger m-1" (click)="delFours(item,i)"> <i class="i-Close"></i> </button></div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+    <!-- ============ Body content End ============= -->
+</div>
+<!--=============== End app-admin-wrap ================-->

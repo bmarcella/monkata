@@ -1,0 +1,87 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!-- ============ Body content start ============= -->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+        <div class="col-md-8 mb-4" style="margin-left:12%;">
+            <div class="col-md-12 mb-2">
+                <h3 class="mb-3  text-center"> Nouveau payroll
+                </h3>
+                <h5 class="text-danger text-center">
+                    <a class="text-danger" routerLink="/app/payroll">Retournez</a> </h5>
+            </div>
+
+            <div class="card">
+                <div class="card-body" *ngIf="!mois">
+
+                    <h3 class="mb-3  text-center"> Choisissez le mois </h3>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <select class="form-control" (change)='onOptionsSelected()' [(ngModel)]="mois">
+                              <option value="">Choisissez le mois pour le payroll</option>
+                              <option [ngValue]="item" *ngFor="let item of payroll">{{item.code}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="separator-breadcrumb border-top"></div>
+                <div class="card-body" *ngIf="mois && !mois.activated">
+                    <h3 class="mb-3  text-center"> Payroll mois : {{mois.code}} </h3>
+                    <h5 class="text-danger text-center"><a class="text-danger" (click)="mois=undefined">Changez de mois</a> </h5>
+                    <h4 class="mb-3  text-center text-danger"> Dé-activer </h4>
+                </div>
+                <div class="card-body" *ngIf="mois && mois.activated">
+                    <h3 class="mb-3  text-center"> Payroll mois : {{mois.code}} </h3>
+                    <h5 class="text-danger text-center"><a class="text-danger" (click)="mois=undefined">Changez de mois</a> </h5>
+                    <div class="col-md-12 mt-4" *ngFor="let role of roles; let i = index">
+                        <label class="alert alert-success" *ngIf="msg[i] && msg[i].etat && msg[i].active ">{{msg[i].msg}}</label>
+                        <label class="alert alert-danger" *ngIf="msg[i]  && !msg[i].etat && msg[i].active ">{{msg[i].msg}}</label>
+                        <h3 class="mb-3  text-center" *ngIf="role.users.length>0"> {{role?.name}} </h3>
+                        <table class="display my-table  table table-bordered" style="width:100%" *ngIf="role.users.length>0">
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Nom complet </th>
+                                    <th>Fonction</th>
+                                    <th>Salaire</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let o of role.users; let j = index">
+                                    <td>{{ o?.code}}</td>
+                                    <td>{{ o?.firstName }} {{ o?.lastName }} </td>
+                                    <td>{{ o?.fonction }} </td>
+                                    <td>
+                                        {{ o?.salairy }} G
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <select class="form-control" [(ngModel)]="tp">
+                                            <option value="" [selected]="true"></option>
+                                            <option [ngValue]="item" *ngFor="let item of tps">{{item}}</option>
+                                          </select>
+                                        </div>
+                                        <button *ngIf="o.enabled" (click)="pay(o,role,i,j,tp)" class="btn btn-success">Payer</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- end of col -->
+        </div>
+
+
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+    <!-- ============ Body content End ============= -->
+</div>
+<!--=============== End app-admin-wrap ================-->

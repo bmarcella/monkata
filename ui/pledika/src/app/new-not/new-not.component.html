@@ -1,0 +1,37 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!-- ============ Body content start ============= -->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+        <div class="col-md-6 mb-4" style="margin-left:24%;">
+            <div *ngIf="response.active" class="alert alert-{{response.state}} mt-2 mb-2">{{response.message}}</div>
+            <div class="card mb-4 ">
+                <div class="card-header">
+                    Notification
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{NOT?.titre}}</h5>
+                    <p class="card-text">{{NOT?.msg}}</p>
+                    <div class="mt-2 mb-2 text-right" *ngIf="NOT?.id_receiver==0">
+                        <a class="btn btn-primary text-light " (click)="takeNot()"> prendre</a> </div>
+                    <div class="mt-2" *ngIf="NOT?.btn && NOT?.id_receiver!=0" [innerHTML]="NOT?.btn"></div>
+                    <p class="text-right">{{NOT?.date_rec.split("T")[0]}}</p>
+                </div>
+            </div>
+            <!-- end of col-->
+        </div>
+        <!-- end of row-->
+
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+    <!-- ============ Body content End ============= -->
+</div>
+<!--=============== End app-admin-wrap ================-->
+
+<!-- ============ Search UI Start ============= -->
+<app-search></app-search>
+<!-- ============ Search UI End ============= -->

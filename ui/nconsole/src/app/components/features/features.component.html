@@ -1,0 +1,14 @@
+<div class="container py-5">
+  <h2 class="text-center mb-5">Key Features</h2>
+  <div class="row g-4">
+    <div class="col-md-4" *ngFor="let feature of features">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body text-center">
+          <i class="bi {{feature.icon}} fs-1 text-primary mb-3"></i>
+          <h5 class="card-title">{{feature.title}}</h5>
+          <p class="card-text">{{feature.description}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

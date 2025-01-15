@@ -1,6 +1,6 @@
 <div class="row">
   <div class="card">
-    <div class="card-header">
+    <div class="card-header" *ngIf="type_cv">
       <h4>Postulez maintenant</h4>
     </div>
     <div class="card-body">
@@ -33,6 +33,140 @@
         <div class="input-block col-md-6">
           <label for="Price" class="col-form-label">Téléphone</label>
           <input type="text" [(ngModel)]="uInfo.phone" class="form-control" />
+        </div>
+      </div>
+
+      <div class="row mb-2">
+        <div class="input-block col-md-6">
+          <label for="titre_job" class="col-form-label"
+            >Votre domaine d'emploi principal</label
+          >
+          <div class="input-block">
+            <mat-select
+              [(ngModel)]="uInfo.doamine_1"
+              [ngModelOptions]="{ standalone: true }"
+              class="form-control"
+              placeholder="Environnement"
+            >
+              <mat-option value=""> Autres </mat-option>
+              <mat-option *ngFor="let c of domaines" [value]="c">
+                {{ c }}
+              </mat-option>
+            </mat-select>
+          </div>
+        </div>
+
+        <div class="input-block col-lg-6 col-md-6">
+          <label for="Price" class="col-form-label"
+            >Nombre d'année d'experience ?</label
+          >
+          <br />
+          <input type="number" [(ngModel)]="uInfo.exp_1" class="form-control" />
+        </div>
+      </div>
+
+      <div class="row mb-2">
+        <div class="input-block col-md-6">
+          <label for="titre_job" class="col-form-label"
+            >Votre domaine d'emploi secondaire</label
+          >
+          <div class="input-block">
+            <mat-select
+              [(ngModel)]="uInfo.domaine_2"
+              [ngModelOptions]="{ standalone: true }"
+              class="form-control"
+              placeholder="Environnement"
+            >
+              <mat-option value=""> Autres </mat-option>
+              <mat-option *ngFor="let c of domaines" [value]="c">
+                {{ c }}
+              </mat-option>
+            </mat-select>
+          </div>
+        </div>
+
+        <div class="input-block col-lg-6 col-md-6">
+          <label for="Price" class="col-form-label"
+            >Nombre d'année d'experience ?</label
+          >
+          <br />
+          <input type="number" [(ngModel)]="uInfo.exp_2" class="form-control" />
+        </div>
+      </div>
+
+      <div class="row mb-2">
+        <div class="input-block col-md-6">
+          <label for="titre_job" class="col-form-label"
+            >Votre domaine d'emploi facultatif</label
+          >
+          <div class="input-block">
+            <mat-select
+              [(ngModel)]="uInfo.domaine_3"
+              [ngModelOptions]="{ standalone: true }"
+              class="form-control"
+              placeholder="Environnement"
+            >
+              <mat-option value=""> Autres </mat-option>
+              <mat-option *ngFor="let c of domaines" [value]="c">
+                {{ c }}
+              </mat-option>
+            </mat-select>
+          </div>
+        </div>
+
+        <div class="input-block col-lg-6 col-md-6">
+          <label for="Price" class="col-form-label"
+            >Nombre d'année d'experience ?</label
+          >
+          <br />
+          <input type="number" [(ngModel)]="uInfo.exp_3" class="form-control" />
+        </div>
+      </div>
+
+      <div class="row mb-2">
+        <div class="input-block col-md-6">
+          <label for="titre_job" class="col-form-label"
+            >Votre ville actuelle</label
+          >
+          <div class="input-block">
+            <mat-select
+              [(ngModel)]="uInfo.city"
+              [ngModelOptions]="{ standalone: true }"
+              class="form-control"
+              placeholder="Environnement"
+            >
+              <mat-option value=""> Autres </mat-option>
+              <mat-option *ngFor="let c of cities" [value]="c">
+                {{ c }}
+              </mat-option>
+            </mat-select>
+          </div>
+        </div>
+
+        <div class="input-block col-lg-6 col-md-6">
+          <label for="Price" class="col-form-label"
+            >Etes-vous pret a vous demenager pour un poste ?</label
+          >
+          <br />
+          <input type="checkbox" [(ngModel)]="uInfo.relocate" />
+        </div>
+      </div>
+
+      <div class="row mb-2">
+        <div class="input-block col-md-6">
+          <label for="titre_job" class="col-form-label"
+            >Voulez-vous faire du benevolat ?</label
+          >
+          <br />
+          <input type="checkbox" [(ngModel)]="uInfo.benevolat" />
+        </div>
+
+        <div class="input-block col-lg-6 col-md-6">
+          <label for="Price" class="col-form-label"
+            >Voulez-vous faire du stage ?</label
+          >
+          <br />
+          <input type="checkbox" [(ngModel)]="uInfo.stage" />
         </div>
       </div>
 
@@ -100,7 +234,7 @@
           [disabled]="!cv ||  !uInfo.lastName || !uInfo.firstName || !uInfo.email || !uInfo.phone"
           (click)="upload($event)"
         >
-          postuler
+          {{ type_cv ? 'postuler' : 'Deposer' }}
         </button>
       </div>
     </div>

@@ -1,0 +1,309 @@
+<div class="app-admin-wrap">
+
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!--============== Body content start ===============-->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+        <div class="ml-4 col-md-12 mb-2 text-center">
+            <h4 class="mb-3  text-center">{{ cpromo?.code}}-{{cpromo.id}}</h4>
+            <h5 class="text-warning text-center"> {{index}}/{{tpromo}} </h5>
+            <button class="btn btn-sm btn-danger" (click)="prev()" *ngIf="index>1">Précedent</button>
+            <a href="/app/asop/{{cpromo.id}}" *ngIf="cpromo" target="_blank" class="btn btn-sm btn-primary m-2">
+   Imprimer la liste des etudiants </a>
+            <a class="btn btn-primary m-2" target="_blank" routerLink="/app/statCoursGlobal/{{cpromo.id}}">Statistique Cours Global</a>
+            <a class="btn btn-sm btn-warning m-2 " *ngIf="cpromo" target="_blank" routerLink="/app/promoDetails/{{cpromo.id}}">Voir
+   cette
+   promotion</a>
+            <button class="m-2 btn-sm btn btn-primary" *ngIf="!PROMO?.setup_over" (click)="setup()"><i class="i-Refresh"></i></button>
+
+            <button class="btn btn-sm  btn-success" (click)="next()" *ngIf="index<tpromo">Suivant</button>
+        </div>
+
+        <div class="form-group col-md-8 p-2 card" style="margin-left:18%;" *ngIf="apromo?.length>0">
+            <label for="recipient-name-1" class="col-form-label">Selectionnez une Promotion</label>
+            <select [(ngModel)]="cindex" class="form-control" (change)="arrangeNew(cindex) ">
+                         <option [ngValue]="i" *ngFor="let a of apromo; let i = index"> {{a.code}}</option>
+                       </select>
+        </div>
+
+
+        <div *ngIf="response.active" class="alert alert-card alert-{{response.state}} text-center" role="alert">
+            {{response.message}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span> </button>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card m-1">
+                    <div class="card-body ">
+                        <h4 class="text-center">1- Moyennes de cette promotion</h4>
+                        <hr>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="recipient-name-1" class="col-form-label">Moyenne acceptée</label>
+                                <input type="number" class="form-control" [(ngModel)]="cpromo.moy_accept" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="recipient-name-1" class="col-form-label">Moyenne totale</label>
+                                <input type="email" class="form-control" [(ngModel)]="cpromo.moy_total" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="recipient-name-1" class="col-form-label">Moyenne reprise</label>
+                                <input type="number" class="form-control" [(ngModel)]="cpromo.moy_reprise" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="recipient-name-1" class="col-form-label">Moyenne d'excellence</label>
+                                <input type="number" class="form-control" [(ngModel)]="cpromo.moy_exc" />
+                            </div>
+                        </div>
+                        <div class="form-group col-md-2" style="padding-top:3%">
+                            <button (click)="editMoy()" class=" btn btn-primary">modifier</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card m-1">
+                    <div class="card-body">
+                        <h4 class="text-center">2- Max etudiant et max cours </h4>
+                        <hr>
+                        <div class="row">
+                            <div class="form-group  col-md-6 p-1">
+                                <label for="recipient-name-1" class="col-form-label">Modifier max etudiant</label>
+                                <input type="number" class="form-control" [(ngModel)]="cpromo.max_student" />
+                                <button (click)="editMax()" class=" btn btn-primary m-4">modifier</button>
+                            </div>
+                            <div class="form-group col-md-6 p-1">
+                                <label for="recipient-name-1" class="col-form-label">Modifier max cours</label>
+                                <input type="number" class="form-control" [(ngModel)]="cpromo.max_cours" />
+                                <button (click)="editMaxC()" class=" btn btn-primary m-4">modifier</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="card m-1">
+                <div class="card-body">
+                    <h4 class="text-center">3- Cours et titulaire </h4>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="row" *ngIf="cpromo.prog_id===null  ">
+                                <h4>Liste des programmes disponibles</h4>
+                                <div class="col-md-12 mb-2" style="display:inline-block;" *ngFor="let item of newCours; let i = index">
+                                    <div class="row">
+                                        <div class="col-md-10 pt-2">
+                                            <h4> {{ item.name }} </h4>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 p-2" style="float:right;">
+                                            <button class="btn btn-success " (click)="addNewCours(item.id)">synchroniser </button>
+                                            <a routerLink="/app/progDetails/{{item.id}}" class="btn btn-primary ml-2"> modifier ce programme</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row " *ngIf="cpromo.prog_id!=null ">
+                                <div class="col-md-12" *ngIf="cpromo.prog_id!=null ">
+                                    <button class="btn btn-success m-2" (click)="addNewCours(cpromo.prog_id)" *ngIf="!PROMO?.setup_over">synchroniser </button>
+                                    <a routerLink="/app/progDetails/{{cpromo.prog_id}}" class="btn btn-primary m-2"> modifier ce programme</a>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="form-group col-md-12">
+                                            <label for="recipient-name-1" class="col-form-label">Selectionnez le titulaire</label>
+                                            <select [(ngModel)]="cprof" class="form-control">
+                                            <option value=""></option>
+                                            <option  [value]="p.id"
+                                              *ngFor="let p of profs;let i = index">
+                                              {{p?.firstName}} {{p?.lastName}} ({{p?.id}}) </option>
+                                          </select>
+                                        </div>
+                                        <div class="col-md-12 ">
+                                            <button class="btn btn-primary mt-1" *ngIf="!PROMO?.setup_over" (click)="setTut(cprof)"> modifier </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8" *ngIf="PROMO?.promo_cours">
+                            <div class="row">
+                                <div class="col-md-3 " *ngFor="let item of PROMO?.promo_cours; let ci = index">
+                                    <div class="card m-1 p-1 text-center">
+                                        <button *ngIf="!PROMO.setup_over" type="button" style="float:right;" class="close text-right text-danger" (click)="delCours(item,ci)" aria-label="Close"><span aria-hidden="true">&times;</span>
+                                                     </button>
+                                        <p class="text-muted mb-1"> {{ item.code.split('-')[0] }} </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row" *ngIf="nfrags">
+            <div class="col-md-12">
+                <div class="card  m-1">
+                    <div class="card-body">
+                        <h4 class="text-center">4- Les periodes</h4>
+                        <hr>
+                        <div class="row col-md-12 mb-2 mt-2" *ngFor="let f of nfrags; let i = index">
+                            <div class="col-md-10">{{f.name}}</div>
+                            <div class="col-md-2">
+                                <button style="float:right;" *ngIf="!PROMO?.setup_over" class="btn btn-sm btn-primary" (click)="setFragment(f,i)">Synchroniser</button>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mb-4" *ngIf="PROMO?.promofrag">
+                            <ul class="nav nav-tabs" id="myIconTab" role="tablist">
+                                <li class="nav-item" *ngFor="let item of PROMO.promofrag; let ci = index">
+                                    <a class="nav-link {{(ci==0)? 'active' : ''}}" id="{{'tab-'+item.id}}-icon-tab" data-toggle="tab" href="{{'#tab-'+item.id}}" role="tab" aria-selected="true">
+{{ item.code.split('-')[3].split('(')[0] }}  - {{item.id}}</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="myIconTabContent">
+                                <div *ngFor="let item of PROMO.promofrag; let ci = index" class="tab-pane fade show {{(ci==0)? 'active' : ''}}" id="{{'tab-'+item.id}}" role="tabpanel" attr.aria-labelledby="{{'tab-'+item.id+'-icon-tab'}}">
+                                    <button class="btn btn-success" (click)="initResult(item.id)">Synchroniser les resultats {{ item.code.split('-')[3].split('(')[0] }} </button>
+                                    <a class="btn  btn-warning m-1 " target="_blank" routerLink="/app/fpalmares/{{item.id}}/{{ID}}">Palmares rempli</a>
+                                    <a class="btn  btn-warning m-1 " target="_blank" routerLink="/app/palmares/{{item.id}}/{{ID}}">Palmares vierge</a>
+                                    <a class="btn  btn-warning m-2 " target="_blank" routerLink="/app/bulletinFragAll/{{item.id}}/{{PROMO.id}}">Bulletin pour cette période </a>
+                                    <a class="btn  btn-warning m-2 " target="_blank" routerLink="/app/vbulletinFragAll/{{item.id}}/{{PROMO.id}}">Bulletin vierge pour cette période </a>
+                                    <a class="btn  btn-warning m-2 " target="_blank" routerLink="/app/noteForMat/{{item.id}}/{{PROMO.id}}">Note par matiere</a>
+
+                                    <a class="btn btn-primary m-2" target="_blank" routerLink="/app/statCours/{{item.id}}/{{PROMO.id}}">Statistique Cours</a>
+
+                                    <div class="row">
+                                        <div class="form-group  col-md-4 ">
+                                            <label for="recipient-name-1" class="col-form-label">Share code</label>
+                                            <select type="text" class="form-control" [(ngModel)]="item.share_code">
+                                                <option [ngValue]="f.name" *ngFor="let f of nfrags; let i = index">{{f.name}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-6 ">
+                                            <label for="recipient-name-1" class="col-form-label">code</label>
+                                            <input type="text" [disabled]="true" class="form-control" [(ngModel)]="item.code" />
+                                        </div>
+                                        <div class="form-group col-md-2 ">
+                                            <button (click)="editShareCode(item,ci)" class=" btn btn-primary m-4">modifier</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row ">
+            <div class="col-md-12">
+                <div class="card m-1">
+                    <div class="card-body">
+                        <h4 class="text-center">5- Iniatiliser cours et etudiants dans les periodes</h4>
+                        <hr>
+                        <div class="col-md-12 ">
+                            <button [disabled]='loading' class="m-2 btn btn-primary" *ngIf="!PROMO?.setup_over" (click)="initCours()">Iniatiliser les cours</button>
+                            <button [disabled]='loading' class="m-2 btn btn-primary" *ngIf="!PROMO?.setup_over" (click)="initCours()">Iniatiliser les etudiants</button>
+                            <button class="btn  btn-seconadry m-2" *ngIf="!see && PROMO?.parcours?.length" (click)="see=!see">Voir les etudiants</button>
+                            <button style="float:right;" *ngIf="see" class="btn btn-danger mr-4" (click)="see=!see"> fermer</button>
+                        </div>
+                        <div class="col-md-12 p-2" *ngIf="see">
+                            <div class="table-responsive">
+                                <table id="zero_configuration_table" class="display table table-striped table-bordered" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Code</th>
+                                            <th>Nom et prénom</th>
+                                            <th>Sexe</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let po of PROMO?.parcours; let i = index">
+                                            <td>{{po.code_student}}</td>
+                                            <td [className]="!po.actived ? ' text-danger ' : 'text-success'">{{po.nom}} {{po.pnom}}
+                                            </td>
+                                            <td>{{po.sexe}}</td>
+                                        </tr>
+
+
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Code</th>
+                                            <th>Nom et prénom</th>
+                                            <th>Sexe</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-12 mb-2 card p-2 ">
+            <div class="row col-md-12">
+                <div class="col-md-12">
+                    <h4 class="text-center">7- Configuration globale</h4>
+                    <hr>
+                </div>
+                <div class="pl-4 col-md-12 mb-4" *ngIf="PROMO">
+                    <a routerLink="/app/addStudentToPromo/{{ID}}" class="btn btn-primary  m-2">Gérer les etudiants </a>
+                    <button *ngIf="PROMO.setup_over && !PROMO?.completed" class="btn btn-success m-2" (click)="completedPromo(false)">
+     Année
+     Terminée </button>
+                    <a *ngIf="PROMO?.completed" routerLink="/app/upgrade/{{ID}}" class="btn btn-success m-2">upgrade etudiants </a>
+                    <button *ngIf="!PROMO.setup_over && PROMO.enabled " class="btn btn-success m-2" (click)="overSetupPromo(true)">
+     Terminer la configuration
+   </button>
+                    <button *ngIf="PROMO.enabled  && !PROMO.setup_over" class="btn btn-danger m-2" (click)="actPromo(false)">
+     Désactiver
+   </button>
+                    <button *ngIf="!PROMO.enabled && !PROMO.setup_over" class="btn btn-success m-2" (click)="actPromo(true)">
+     Activer
+   </button>
+
+                    <button *ngIf="PROMO.reprise" class="btn  m-2 btn-danger" (click)="toggleRDiv(PROMO,{reprise:false},false)">Desactiver reprise</button>
+                    <button *ngIf="!PROMO.reprise " class="btn m-2 btn-success" (click)="toggleRDiv(PROMO,{reprise:true},true)">Activée reprise</button>
+
+                    <button *ngIf="PROMO.setup_over && PROMO?.completed" class="btn btn-danger m-2" (click)="completedPromo(true)">redemarrer année
+   </button>
+
+
+                    <button *ngIf="PROMO.setup_over" class="btn btn-danger m-2" (click)="overSetupPromo(false)"> reconfigurer la promotion </button>
+
+
+                    <a routerLink="/app/delPromo/{{ID}}" *ngIf="!PROMO.setup_over" class="btn btn-danger m-2">Supprimer promotion </a>
+                    <a class="btn btn-warning m-2 " *ngIf="cpromo" target="_blank" routerLink="/app/bulletinGenAll/{{ID}}">Bulletin general</a>
+                    <button class="m-2 btn btn-primary" *ngIf="!PROMO?.setup_over" (click)="setup()"><i class="i-Refresh"></i></button>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-md-12 mt-2">
+            <button class="btn btn-danger" (click)="prev()" *ngIf="index>1" style="float:left;">Précedent</button>
+            <button class="btn btn-success" (click)="next()" *ngIf="index<tpromo" style="float:right;">Suivant</button>
+        </div>
+
+
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+    <!-- ============ Body content End ============= -->
+</div>

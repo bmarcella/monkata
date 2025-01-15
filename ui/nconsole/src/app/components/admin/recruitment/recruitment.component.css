@@ -1,0 +1,51 @@
+/* Add these styles to the existing CSS */
+
+.search-box {
+  position: relative;
+}
+
+.search-box i {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6c757d;
+}
+
+.search-box input {
+  padding-left: 35px;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #7366ff;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+}
+
+.skills-wrapper {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+}
+
+.form-select {
+  border-color: #dee2e6;
+  color: #495057;
+}
+
+.form-select:focus {
+  border-color: #7366ff;
+  box-shadow: 0 0 0 0.2rem rgba(115, 102, 255, 0.25);
+}

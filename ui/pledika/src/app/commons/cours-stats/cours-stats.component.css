@@ -1,0 +1,85 @@
+.reponse {
+    font-size: 13px;
+}
+
+.signature {
+    border-top: 1px black solid;
+}
+
+.prof {
+    width: 30%;
+    float: left;
+    text-align: center;
+}
+
+.parent {
+    position: relative;
+    right: 0%;
+    width: 30%;
+    float: right;
+    text-align: center;
+}
+
+.direct {
+    display: inline-block;
+    margin-left: 35%;
+    width: 30%;
+    margin-top: 5%;
+    text-align: center;
+}
+
+.mention {
+    width: 100%;
+    text-align: left;
+    display: inline-block;
+    font-size: 12px;
+    margin-top: 10%;
+}
+
+@import "../node_modules/angular-calendar/css/angular-calendar.css";
+a {
+    cursor: pointer;
+}
+
+.my-table {
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+tr.nospace>td {
+    padding: 0!important;
+    border-spacing: 0!important;
+    margin: 0!important;
+}
+
+@media print {
+    table {
+        border: solid #000 !important;
+        border-width: 1px 0 0 1px !important;
+    }
+    th,
+    td {
+        border: solid #000 !important;
+        border-width: 0 1px 1px 0 !important;
+    }
+}
+
+.box {
+    position: relative;
+    width: 23.5%;
+    display: inline;
+    float: left;
+    padding: 0.5%;
+    border: 0.5px solid gray!important;
+    margin-bottom: 1%;
+}
+
+.box-2 {
+    position: relative;
+    width: 48.5%;
+    display: inline;
+    float: left;
+    padding: 0.5%;
+    border: 0.5px solid gray!important;
+    margin-bottom: 1%;
+}

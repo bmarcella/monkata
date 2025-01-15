@@ -1,0 +1,89 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!-- ============ Body content start ============= -->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+        <div class="row mb-4">
+
+
+            <div class="col-md-6" style="margin-left:25%;">
+                <div class="card text-left" style="margin-bottom:2%;">
+                    <div class="card-body">
+                        <b class="card-title mb-3">Ajouter vacations</b>
+                    </div>
+                    <div class="row col-md-12">
+                        <div class="form-group col-md-5">
+                            <label for="recipient-name-1" class="col-form-label">Code</label>
+                            <input type="text" class="form-control">
+                        </div>
+
+                        <div class="form-group col-md-5">
+                            <label for="recipient-name-1" class="col-form-label">Vacation</label>
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="form-group col-md-2" style="margin-top:4%;">
+                            <button style="float:right; " [disabled]="loading" class="btn btn-primary  btn-rounded mt-3">
+                          <span  class="spinner-border spinner-border-sm mr-1"></span>
+                          Ajouter
+                        </button>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="card text-left">
+                    <div class="card-body">
+                        <h4 class="card-title mb-3">Vacations</h4>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Code</th>
+                                        <th scope="col">Nom</th>
+                                        <th scope="col">Date</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let vac of vacs">
+                                        <th scope="row">{{vac.code}}</th>
+                                        <td>{{ vac.name}}</td>
+                                        <td>
+                                            {{ vac.created_at.split('T')[0] }}
+                                        </td>
+                                        <td>
+                                            <a href="#" class="text-success mr-2">
+                                                <i class="nav-icon i-Pen-2 font-weight-bold"></i>
+                                            </a>
+                                            <a href="#" class="text-danger mr-2">
+                                                <i class="nav-icon i-Close-Window font-weight-bold"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <!-- end of col-->
+
+
+
+        </div>
+        <!-- end of row-->
+
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+    <!-- ============ Body content End ============= -->
+</div>
+<!--=============== End app-admin-wrap ================-->
+
+<!-- ============ Search UI Start ============= -->
+<app-search></app-search>
+<!-- ============ Search UI End ============= -->

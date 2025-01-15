@@ -1,0 +1,104 @@
+<div class="config-container">
+  <h2 class="mb-4">System Configurations</h2>
+
+  <ul class="nav nav-tabs mb-4">
+    <li class="nav-item" *ngFor="let section of configSections">
+      <a class="nav-link" 
+         [ngClass]="{'active': activeSection === section.id}"
+         (click)="setActiveSection(section.id)">
+        <i class="bi {{section.icon}} me-2"></i>
+        {{section.name}}
+      </a>
+    </li>
+  </ul>
+
+  <div class="tab-content">
+    <!-- User Roles Tab -->
+    <div *ngIf="activeSection === 'roles'" class="tab-pane fade show active">
+      <div class="card">
+        <div class="card-header bg-transparent">
+          <div class="d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">User Roles</h5>
+            <button class="btn btn-primary btn-sm">
+              <i class="bi bi-plus-lg me-2"></i>Add New Role
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Role Name</th>
+                  <th>Description</th>
+                  <th>Users</th>
+                  <th>Permissions</th>
+                  <th>Last Modified</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let role of roles">
+                  <td>
+                    <span class="fw-medium">{{role.name}}</span>
+                  </td>
+                  <td>{{role.description}}</td>
+                  <td>{{role.usersCount}}</td>
+                  <td>
+                    <div class="permissions-wrapper">
+                      <span *ngFor="let permission of role.permissions" 
+                            class="badge bg-light text-dark me-1">
+                        {{permission}}
+                      </span>
+                    </div>
+                  </td>
+                  <td>{{role.lastModified}}</td>
+                  <td>
+                    <div class="btn-group">
+                      <button class="btn btn-sm btn-outline-primary">
+                        <i class="bi bi-pencil"></i>
+                      </button>
+                      <button class="btn btn-sm btn-outline-danger">
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Security Settings Tab -->
+    <div *ngIf="activeSection === 'security'" class="tab-pane fade show active">
+      <div class="card">
+        <div class="card-body">
+          <h5>Security Settings</h5>
+          <p class="text-muted">Configure security and authentication settings.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notifications Tab -->
+    <div *ngIf="activeSection === 'notifications'" class="tab-pane fade show active">
+      <div class="card">
+        <div class="card-body">
+          <h5>Notification Preferences</h5>
+          <p class="text-muted">Manage email and system notification settings.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Integrations Tab -->
+    <div *ngIf="activeSection === 'integrations'" class="tab-pane fade show active">
+      <div class="card">
+        <div class="card-body">
+          <h5>System Integrations</h5>
+          <p class="text-muted">Connect and manage third-party services.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

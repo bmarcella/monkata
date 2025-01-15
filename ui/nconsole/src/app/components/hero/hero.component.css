@@ -1,0 +1,21 @@
+.display-4 {
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+}
+
+.lead {
+  color: var(--secondary-color);
+  font-size: 1.25rem;
+  line-height: 1.6;
+}
+
+.btn {
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}

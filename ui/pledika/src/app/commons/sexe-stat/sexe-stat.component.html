@@ -1,0 +1,39 @@
+<div class="page-print">
+    <button class="btn btn-primary" [useExistingCss]="true" printSectionId="print-section" ngxPrint>print</button>
+</div>
+<div class="page" id="print-section">
+    <div class="head">
+        <h1>{{etab?.name}}</h1>
+        <h3>{{etab?.adresse}}</h3>
+        <h3>{{etab?.phone_a}}</h3>
+    </div>
+    <h3 class="title ">Nombre etudiants par promotion </h3>
+    <div class="col-md-12 mt-4">
+        <table class="display my-table  table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Promotion</th>
+                    <th>F</th>
+                    <th>M</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let o of promos; let i = index">
+                    <td>{{ o.promotion}}</td>
+                    <td>{{ o.f }}</td>
+                    <td>
+                        {{ o.m }}
+                    </td>
+                    <td>
+                        {{ o.m + o.f }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div style="display: block" class="row" *ngIf="promos">
+        <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [plugins]="barChartPlugins" [legend]="barChartLegend" [chartType]="barChartType">
+   </canvas>
+    </div>
+</div>

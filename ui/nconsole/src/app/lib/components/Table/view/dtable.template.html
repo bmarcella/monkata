@@ -1,0 +1,38 @@
+<div *ngIf="DTable" [class]="DTable.config.container_class || '' ">
+  <table [class]="DTable.config.class || ''" [id]="DTable.config.id || ''">
+    <thead *ngIf="DTable?.headers?.length">
+      <tr>
+        <th *ngFor="let h of DTable?.headers" [id]="h?.id" [class]="h?.class">
+          {{ h?.label ? h?.label : h?.key }}
+        </th>
+      </tr>
+    </thead>
+    <tbody
+      [class]="DTable.config.body_class || '' "
+      *ngIf="DTable?.data?.length"
+    >
+      <tr *ngFor="let row of DTable?.data">
+        <td *ngFor="let h of DTable?.headers" [class]="h?.class">
+          <div *ngIf="!h.type">{{ getValue(row, h?.key || '') }}</div>
+          <div *ngIf="h.type && h.actions && h.actions.length>0">
+            <app-my-actions
+              [actions]="h.actions"
+              [data]="row"
+              (action)="onAction($event)"
+            >
+            </app-my-actions>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="col-md-12 mt-4">
+    <app-my-pagination
+      *ngIf="DTable.pagination"
+      [totalPages]="DTable.pagination.totalPages || 0"
+      [currentPage]="DTable.pagination?.currentPage || 0"
+      (pageChange)="onPageChange($event)"
+    >
+    </app-my-pagination>
+  </div>
+</div>

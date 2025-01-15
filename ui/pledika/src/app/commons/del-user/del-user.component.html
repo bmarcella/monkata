@@ -1,0 +1,82 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!-- ============ Body content start ============= -->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+        <div class="row col-md-12">
+            <div class="col-md-12 m-2">
+                <h3 class="text-center">La liste des entités</h3>
+            </div>
+
+            <div class="col-md-12 mb-4">
+                <div class="card text-left" *ngIf="users">
+                    <div class="card-body">
+                        <div class="col-md-6" style="float:left;">
+                            <div class="form-group ">
+                                <div class="col-md-12" style="float:left;">
+                                    <label for="recipient-name-1" class="col-form-label"> {{users.length}} entité(s) trouvée(s)</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6" style="float:right;">
+                            <div class="form-group  row">
+                                <div class="col-md-4" style="float:left;">
+                                    <label for="recipient-name-1" class="col-form-label">Rechercher</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <select class="form-control" [(ngModel)]="who" class="form-control" (change)="arrangeNew(who) ">
+                                      <option [ngValue]="1" selected> Etudiant</option>
+                                      <option [ngValue]="2">Autres</option>
+                                  </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" (keyup)="onKey($event)">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table id="zero_configuration_table" class="display table table-striped table-bordered" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Code</th>
+                                        <th>Nom</th>
+                                        <th>Prénom</th>
+                                        <th *ngIf="who==1">Classe</th>
+                                        <th>Sexe</th>
+                                        <th>Role</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let o of users; let i = index">
+                                        <td>{{o.code}}</td>
+                                        <td>{{o.lastName}}</td>
+                                        <td>{{o.firstName}}</td>
+                                        <td *ngIf="who==1">{{o.classe}}</td>
+                                        <td>{{o.sexe}}</td>
+                                        <td>{{o.role}}</td>
+                                        <td>
+                                            <button (click)="del(o.id,i)" class="m-2 btn btn-danger">
+                                          <i class="nav-icon i-Close"></i>
+                                        </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- end of col -->
+            </div>
+
+
+            <!-- fotter end -->
+        </div>
+        <app-footer></app-footer>
+        <!-- ============ Body content End ============= -->
+    </div>
+    <!--=============== End app-admin-wrap  ================-->

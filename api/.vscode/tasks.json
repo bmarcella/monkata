@@ -1,0 +1,103 @@
+{
+   "version": "2.0.0",
+   "tasks": [
+      {
+         "label": "Monkata-Eureka",
+         "type": "shell",
+         "hide": false,
+         "command": "mvn spring-boot:run",
+         "options": {
+            "cwd": "./eurekaserver"
+         },
+         "presentation": {
+            "reveal": "always",
+            "panel": "new"
+         }
+      },
+      {
+         "label": "Monkata-Gateway",
+         "type": "shell",
+         "hide": false,
+         "command": " npm run dev",
+         "options": {
+            "cwd": "./gw"
+         },
+         "presentation": {
+            "reveal": "always",
+            "panel": "new"
+         }
+      },
+      {
+         "label": "Monkata-Users",
+         "type": "shell",
+         "hide": false,
+         "command": "npm cache clean --force  && npm run dev",
+         "options": {
+            "cwd": "./users"
+         },
+         "presentation": {
+            "reveal": "always",
+            "panel": "new"
+         }
+      },
+      {
+         "label": "Monkata-Qnote",
+         "type": "shell",
+         "hide": false,
+         "command": "npm run dev",
+         "options": {
+            "cwd": "./qnote"
+         },
+         "presentation": {
+            "reveal": "always",
+            "panel": "new"
+         }
+      },
+      {
+         "label": "Monkata-Admin",
+         "type": "shell",
+         "hide": false,
+         "command": " npm run dev",
+         "options": {
+            "cwd": "./admin"
+         },
+         "presentation": {
+            "reveal": "always",
+            "panel": "new"
+         }
+      },
+      {
+         "label": "Monkata-Memploi",
+         "type": "shell",
+         "hide": false,
+         "command": " npm run dev",
+         "options": {
+            "cwd": "./emploi"
+         },
+         "presentation": {
+            "reveal": "always",
+            "panel": "new"
+         }
+      },
+      {
+         "label": "Monkata-API-SAAS",
+         "dependsOn": [
+            "Monkata-Gateway",
+            "Monkata-Users",
+            "Monkata-Memploi",
+            "Monkata-Admin",
+            "Monkata-Qnote"
+         ],
+         "presentation": {
+            "reveal": "always",
+            "revealProblems": "never",
+            "panel": "new"
+         },
+         "problemMatcher": [],
+         "group": {
+            "kind": "build",
+            "isDefault": true
+         }
+      }
+   ]
+}

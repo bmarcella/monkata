@@ -1,0 +1,41 @@
+.apps-container {
+  padding: 1.5rem;
+}
+
+.app-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background-color: #e9ecef;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.app-icon.active {
+  background-color: var(--bs-primary);
+}
+
+.app-icon i {
+  font-size: 1.5rem;
+  color: #6c757d;
+}
+
+.app-icon.active i {
+  color: white;
+}
+
+.card {
+  transition: all 0.3s ease;
+  border: 1px solid #dee2e6;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.border-primary {
+  border-width: 2px !important;
+}

@@ -1,0 +1,93 @@
+<div class="page-print p-1">
+    <div class="col-md-12 row p-2">
+        <button class="btn btn-primary m-1" (click)="edit=!edit"> <i *ngIf="edit"> Fermer note </i> <i *ngIf="!edit">
+        Ouvrir note </i> </button>
+        <button class="btn btn-success m-1" (click)="initResult()">Synchroniser les resultats des examens </button>
+        <button class="btn btn-primary m-1" [useExistingCss]="true" printSectionId="print-section" ngxPrint>print</button>
+        <div class="row col-md-12 mb-1">
+            <div class="form-group col-md-4 ">
+                <label for="recipient-name-1" class="col-form-label">Année academique</label>
+                <select [(ngModel)]="cyear" class="form-control" (change)="getYear(cyear)">
+                         <option [ngValue]="a" *ngFor="let a of afs">  {{a?.date_debut?.split("T")[0].split("-")[0]}} - {{a?.date_fin?.split("T")[0].split("-")[0]}}</option>
+                       </select>
+            </div>
+            <div class="form-group col-md-4" *ngIf="promos">
+                <label for="recipient-name-1" class="col-form-label">Promotion</label>
+                <select [(ngModel)]="cpromo" class="form-control" (change)="getCPromo(cpromo)">
+                         <option [ngValue]="a" *ngFor="let a of promos"> {{a.code}}</option>
+                       </select>
+            </div>
+            <div class="form-group col-md-4" *ngIf="pfrags">
+                <label for="recipient-name-1" class="col-form-label">Periode</label>
+                <select [(ngModel)]="cpfrag" class="form-control" (change)="getCFrag(cpfrag)">
+                         <option [ngValue]="a" *ngFor="let a of pfrags"> {{a.code.split("-")[3]}}</option>
+                       </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page" id="print-section">
+    <div class="mpage page-{{pos}}" [ngStyle]="{'margin-bottom': getMarge('page-',pos) }">
+        <app-entete [etab]="etab"></app-entete>
+        <div class="identity">
+            <p class="line-text"> <b class="reponse">Palmares </b> </p>
+            <p class="line-text-a"> <b class="reponse">Classe :</b><span class="reponse">{{promo?.code.split("-")[0]}}</span> </p>
+            <p class="line-text-b"> <b class="reponse"></b><span class="reponse"></span>{{promo?.code.split("-")[1]}} - {{promo?.code.split("-")[2]}}
+            </p>
+            <p class="line-text-left mt-2"> <b class="reponse">Periode :</b><span class="reponse">{{pf?.share_code}}</span> </p>
+        </div>
+        <div class="col-md-12 mt-4">
+            <table class="display my-table  table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <th class="mthead"></th>
+                        <th class="mthead"> </th>
+                        <th *ngFor="let c of cours; let ic= index" class="vertical-header" style="white-space: nowrap;">
+                            <span> {{c.name}}</span></th>
+                        <th>Total</th>
+                        <th>Moy</th>
+                    </tr>
+                    <tr>
+                        <th class="mthead">Code</th>
+                        <th class="mthead">Nom & Prénom </th>
+                        <th *ngFor="let c of cours; let ic= index" class="vertical-header" style="white-space: nowrap;">
+                            <span> {{c.coef * c.note_total}}</span>
+                        </th>
+                        <th>{{tCoef}}</th>
+                        <th>{{promo?.moy_total}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let o of p; let i= index">
+                        <td>{{ o.code}}</td>
+                        <td>{{ o.nom }} {{ o.pnom }} </td>
+                        <td *ngFor="let c of o.results; let ic= index">
+                            <span *ngIf="!edit" style="font-size:12px;">{{ c.note*c.coef }}</span>
+                            <span *ngIf="edit">
+   <label class="text-success m-2 row" *ngIf="msg[c.idr]">{{msg[c.idr]}}</label>
+   <label class="text-danger m-2 row" *ngIf="err[c.idr]">{{err[c.idr]}}</label>
+ <label class="text-warning m-2 row" *ngIf="focus[c.idr]">{{c.nom}}</label>
+       <input [title]="c.nom" class="note-input"  min="0" [max]="c.note_total"  [id]="c.idr" [(ngModel)]="c.note"  class="form-control"
+         (blur)="editResults(c)" (focus)="focus[c.idr]=true"/>
+ </span>
+                        </td>
+                        <td>{{o.total.toFixed(2)}}</td>
+                        <td>{{((o.total/tCoef)*promo?.moy_total).toFixed(2)}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-12 mt-4" style="margin-top:6%;">
+            <div class="mention mt-4">
+                <div class="mt-2 signature prof mr-4">
+                    Date
+                </div>
+                <div class="mt-2 signature parent mr-4">
+                    Signature du titulaire
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

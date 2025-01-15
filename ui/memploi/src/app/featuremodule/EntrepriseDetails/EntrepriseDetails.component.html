@@ -1,0 +1,73 @@
+<!--Details Description  Section-->
+<section class="details-description" style="margin-top: 85px">
+  <div class="container">
+    <div class="about-details">
+      <div class="about-headings">
+        <div class="author-img" *ngIf="logo">
+          <img [src]="logo" alt="authorimg" />
+        </div>
+        <div class="authordetails">
+          <h5>{{ ent?.name }}</h5>
+          <p>{{ ent?.slogan }}</p>
+          <p *ngIf="ent?.email_contact" class="text-secondary">
+            {{ ent?.email_contact }}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="descriptionlinks">
+      <div class="row">
+        <div class="col-lg-9">
+          <ul>
+            <li *ngIf="ent?.website">
+              <a [href]="ent?.website" target="_blank"
+                ><img src="assets/img/website.svg" alt="website" />{{
+                  ent?.website
+                }}</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--/Details Description  Section-->
+
+<!--Details Main  Section-->
+<div class="details-main-wrapper">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header">
+            <span class="bar-icon">
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+            <h4>Jobs</h4>
+          </div>
+          <div class="card-body">
+            <div class="row" *ngIf="jobs.length > 0">
+              <app-home-job-item
+                class="col-lg-4 col-md-6 col-sm-6"
+                *ngFor="let job of jobs"
+                [job]="job"
+                [showApply]="true"
+              >
+              </app-home-job-item>
+            </div>
+          </div>
+        </div>
+      </div>
+      <app-my-pagination
+          [totalPages]="totalPages"
+          [currentPage]="paginations?.currentPage"
+          (pageChange)="onPageChange($event)"
+        >
+        </app-my-pagination>
+    </div>
+  </div>
+</div>
+<!-- /Details Main Section -->

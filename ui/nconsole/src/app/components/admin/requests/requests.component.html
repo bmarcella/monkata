@@ -1,0 +1,148 @@
+<div class="requests-container">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="mb-1">Request Management</h2>
+      <p class="text-muted mb-0">Handle employee requests and approvals</p>
+    </div>
+    <button class="btn btn-primary">
+      <i class="bi bi-plus-lg me-2"></i>New Request
+    </button>
+  </div>
+
+  <div class="row g-4 mb-4">
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="stats-icon bg-primary">
+              <i class="bi bi-inbox"></i>
+            </div>
+            <div class="ms-3">
+              <p class="mb-1 text-muted">Total Requests</p>
+              <h4 class="mb-0">24</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="stats-icon bg-warning">
+              <i class="bi bi-clock"></i>
+            </div>
+            <div class="ms-3">
+              <p class="mb-1 text-muted">Pending</p>
+              <h4 class="mb-0">8</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="stats-icon bg-success">
+              <i class="bi bi-check-circle"></i>
+            </div>
+            <div class="ms-3">
+              <p class="mb-1 text-muted">Approved</p>
+              <h4 class="mb-0">12</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="stats-icon bg-danger">
+              <i class="bi bi-x-circle"></i>
+            </div>
+            <div class="ms-3">
+              <p class="mb-1 text-muted">Rejected</p>
+              <h4 class="mb-0">4</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ul class="nav nav-tabs mb-4">
+    <li class="nav-item" *ngFor="let tab of tabs">
+      <a class="nav-link" 
+         [ngClass]="{'active': activeTab === tab.id}"
+         (click)="setActiveTab(tab.id)">
+        <i class="bi {{tab.icon}} me-2"></i>
+        {{tab.name}}
+      </a>
+    </li>
+  </ul>
+
+  <div class="tab-content">
+    <div class="card">
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Employee</th>
+                <th>Type</th>
+                <th>Department</th>
+                <th>Submitted</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let request of getFilteredRequests()">
+                <td>{{request.employeeName}}</td>
+                <td>{{request.type}}</td>
+                <td>{{request.department}}</td>
+                <td>{{request.submittedDate}}</td>
+                <td>
+                  <span class="badge" 
+                        [ngClass]="{
+                          'bg-success': request.priority === 'low',
+                          'bg-warning': request.priority === 'medium',
+                          'bg-danger': request.priority === 'high'
+                        }">
+                    {{request.priority}}
+                  </span>
+                </td>
+                <td>
+                  <span class="badge" 
+                        [ngClass]="{
+                          'bg-warning': request.status === 'pending',
+                          'bg-success': request.status === 'approved',
+                          'bg-danger': request.status === 'rejected'
+                        }">
+                    {{request.status}}
+                  </span>
+                </td>
+                <td>
+                  <div class="btn-group">
+                    <button class="btn btn-sm btn-outline-success">
+                      <i class="bi bi-check"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger">
+                      <i class="bi bi-x"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-primary">
+                      <i class="bi bi-eye"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

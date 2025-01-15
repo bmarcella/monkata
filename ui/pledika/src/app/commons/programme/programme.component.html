@@ -1,0 +1,119 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!-- ============ Body content start ============= -->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+        <div class="col-md-12 text-center text-light m-2 p-2">
+            <a (click)="page=0" [className]="page==0 || page==undefined || page==null ? 'btn btn-secondary m-2' : 'btn btn-primary m-2'">
+    Gestion de programme</a>
+            <a (click)="page=1" [className]="page==1 ? 'btn btn-secondary m-2' : 'btn btn-primary m-2'"> Gestion de categorie de matiere</a>
+            <a (click)="page=3" [className]="page==3 ? 'btn btn-secondary m-2' : 'btn btn-primary m-2'"> Gestion de matiere</a>
+            <a (click)="page=2" [className]="page==2 ? 'btn btn-secondary m-2' : 'btn btn-primary m-2'"> Gestion de cours</a>
+            <a routerLink="/app/configCours" class="btn btn-warning m-2"> Configuration cours</a>
+        </div>
+        <div class="col-md-12">
+
+            <div *ngIf="page==0 || page==undefined || page==null">
+                <!-- end of row-->
+                <!-- end of row-->
+                <div class="col-md-6 card pt-2 mt-2" style="margin-left:25%;" *ngIf="!option">
+                    <div class="col-md-12 ">
+                        <h4 class="mb-2  text-center"> Ajouter nouveau programme</h4>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <label for="recipient-name-1">Choisissez un niveau </label>
+                            <option></option>
+                            <select id="niv" (change)='change()' class="form-control" [(ngModel)]="option">
+                                    <option [ngValue]="n" *ngFor="let n of options"> {{n.name}}
+                                    </option>
+                                </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12" *ngIf="option">
+                    <div *ngIf="response.active" class="alert alert-card alert-{{response.state}} text-center" role="alert">
+                        {{response.message}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+                    </div>
+                    <div class="card-body">
+                        <b class="card-title mb-3">{{option.name}} - Ajouter des programmes </b>
+                    </div>
+
+                    <div class="row col-md-12">
+                        <div class="form-group col-md-2">
+                            <label for="recipient-name-1" class="col-form-label">Code</label>
+                            <input type="text" class="form-control" [(ngModel)]="mat.code" />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="recipient-name-1" class="col-form-label">Programme</label>
+                            <input type="text" class="form-control" [(ngModel)]="mat.name" />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="recipient-name-1" class="col-form-label">Descriptions</label>
+                            <input type="text" class="form-control" [(ngModel)]="mat.desc" />
+                        </div>
+                        <div class="form-group col-md-2" style="margin-top:1.8%;">
+                            <button class="btn btn-block btn-primary  btn-rounded mt-3" style="float:right;" (click)="addProg()" [disabled]='loading '>
+          <span *ngIf='loading' class="spinner-border spinner-border-sm mr-1"></span>
+          Ajouter
+        </button>
+                        </div>
+                        <div class="row col-md-12">
+                            <a (click)="option=null" class="text-primary">Changer de classe</a>
+                        </div>
+
+                    </div>
+                </div>
+                <div *ngIf="!prog" class="text-center">
+                    <div class="spinner-bubble spinner-bubble-warning m-5"></div>
+                </div>
+
+                <!-- end of row-->
+                <div *ngIf="prog" class="col-md-12">
+                    <b class="card-title mb-3">La liste des programmes</b>
+                    <div class="col-md-12">
+                        <div class="col-md-2" *ngFor="let a of prog" style="display:inline-block;">
+
+                            <div class="card card-icon mb-4">
+                                <i class=""></i>
+                                <div class="card-body text-center">
+                                    <p class="text-muted mt-2 mb-2"> <b>{{a?.name}}</b> <br>
+                                        <a class="btn btn-link text-break" routerLink="/app/progDetails/{{a?.id}}">Voir</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- Footer Start -->
+
+            </div>
+            <div *ngIf="page==1">
+                <app-matiere></app-matiere>
+            </div>
+
+            <div *ngIf="page==2">
+                <app-cours></app-cours>
+            </div>
+            <div *ngIf="page==3">
+                <app-smat></app-smat>
+            </div>
+
+        </div>
+
+
+
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+    <!-- ============ Body content End ============= -->
+</div>
+<!--=============== End app-admin-wrap ================-->

@@ -1,0 +1,61 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!-- ============ Body content start ============= -->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+
+        <div class="col-md-12 row">
+
+
+            <div class="col-md-6" style="margin-left:25%;">
+                <div class="identity mb-2">
+                    <h3 class="text-center"> Résultats</h3>
+                    <h5 class="text-center mb2 " *ngIf="nuser?.role?.name=='PARENT'"> {{user?.lastName}} {{user?.firstName}} </h5>
+                    <h5 class="text-center"> {{pf?.code.split("(")[0]}} </h5>
+                    <h6 class="text-danger text-center">
+                        <a class="text-danger" *ngIf="nuser?.role?.name=='STUDENT'" routerLink="/app/home">Retourner</a>
+                        <a class="text-danger" *ngIf="nuser?.role?.name=='PARENT'" routerLink="/app/pEtudiants/{{ID}}">Retourner</a>
+                    </h6>
+                </div>
+                <table class="display my-table  table-bordered " style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Matieres</th>
+                            <th>Coéfficient</th>
+                            <th>Note</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let o of results; let i = index">
+                            <td>{{ o.frag_cours.name}} </td>
+                            <td>
+                                {{ o.note_total * o.coef }}
+                            </td>
+                            <td>{{ o.note*o.coef }}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Total</b></td>
+                            <td>{{ total?.coef }}</td>
+                            <td>{{ total?.note }}</td>
+                        </tr>
+                        <tr>
+                            <td>Moyenne de l'élève</td>
+                            <td>{{promo?.moy_total}}</td>
+                            <td> <b>{{((total.note/total.coef) * promo?.moy_total).toFixed(2)}} </b></td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+    <!-- ============ Body content End ============= -->
+</div>
+<!--=============== End app-admin-wrap ================-->

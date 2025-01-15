@@ -1,0 +1,310 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!-- ============ Body content start ============= -->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+
+        <div *ngIf="!users" class="text-center">
+            <div class="spinner-bubble spinner-bubble-warning m-5"></div>
+        </div>
+        <div *ngIf="Qsearch" class="text-center">
+            <div class="spinner-bubble spinner-bubble-warning m-5"></div>
+        </div>
+        <div class="col-md-12 " *ngIf="!classe">
+            <div class="col-md-12">
+                <button routerLink="/app/addEtudiant" class="btn btn-dark">Ajouter etudiant</button>
+            </div>
+            <div class="card m-2 p-2" *ngIf="!Qsearch">
+                <h4 class="mb-3 text-center">Rechercher un eleve par NOM ou CODE:</h4>
+                <div class="form-group col-md-12 row mb-2">
+                    <div class="col-md-10 "> <input class="form-control" [(ngModel)]="search" /></div>
+                    <div class="col-md-2 " (click)="setNivName(search)"> <button class="btn btn-block btn-primary"> <i
+                          class="i-Search-People"
+                        (click)="setNivName(search)"></i></button></div>
+                </div>
+            </div>
+
+            <h3 class="mb-3 text-center">Selectionnez la classe de l'eleve:</h3>
+            <div class="col-md-12">
+                <div (click)="setNiv(a)" class="col-md-2" *ngFor="let a of NIV; let i = index;" style="display:inline-block;">
+                    <div class="card card-icon mb-4">
+                        <i class=""></i>
+                        <div class="card-body text-center">
+                            <a class="text-muted mt-2 mb-2">{{a.name}} </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <div *ngIf="users && classe" class="row mb-4">
+            <div class="col-md-12 mb-4">
+                <h3 class=" mb-3 text-center" *ngIf="method==1">Classe : {{classe.name}}</h3>
+                <h3 class=" mb-3 text-center" *ngIf="method==2">Rechercher : {{classe}}</h3>
+                <h6 class="mb-3 text-center text-danger" (click)="init()">Nouvelle recherche</h6>
+                <div class="form-group col-md-12 row">
+                    <div class="col-md-12">
+                        <button routerLink="/app/addEtudiant" class="btn btn-dark">Ajouter etudiant</button>
+                        <a (click)="page=0" [className]="page==0 || page==undefined || page==null ? 'btn btn-secondary m-2' : 'btn btn-primary m-2 text-light'">
+                                etudiants activés ({{users.length}})</a>
+                        <a (click)="page=1" [className]="page==1 ? 'btn btn-secondary m-2' : 'btn btn-primary m-2 text-light'">
+                                etudiants non activés ({{nusers.length}})</a>
+                        <a (click)="page=2" [className]="page==2 ? 'btn btn-secondary m-2' : 'btn btn-primary m-2 text-light'">
+                                etudiants non affecté ({{cusers.length}})</a>
+                        <button (click)="syncEtudiants() " class=" m-2 btn btn-dark">Synchroniser les etudiants</button>
+                    </div>
+                    <div *ngIf="response.active" class="col-md-12 alert alert-card alert-{{response.state}} text-center mt-2 " role="alert">
+                        {{response.message}}
+                    </div>
+                </div>
+
+
+                <div class="card text-left" *ngIf="page==0">
+                    <div class="card-body">
+                        <h4 class="card-title mb-3">Etudiant activé ({{users.length}})
+                        </h4>
+                        <div class=" row" style="float:right;">
+                            <div class="form-group col-md-12 row">
+                                <div class="col-md-4" style="float:left;">
+                                    <label for="recipient-name-1" class="col-form-label">Rechercher</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" [(ngModel)]="query" class="form-control" (keyup)="onKey()">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" *ngIf="!iusers">
+                            <div class="col-md-12 text-center">
+                                <div class="loader-bubble loader-bubble-dark m-5"></div>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive" *ngIf="iusers">
+                            <table id="zero_configuration_table" class="display table table-striped table-bordered" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Code</th>
+                                        <th>Nom & prénom</th>
+                                        <th>Sexe</th>
+                                        <th>Date de Naissance</th>
+                                        <th>Email</th>
+                                        <th>Classe</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let o of users;let i = index">
+                                        <td>{{o.code}}</td>
+                                        <td>{{o.lastName}} {{o.firstName}}</td>
+                                        <td>{{o.sexe}}</td>
+                                        <td>{{o.date_de_naiss | formater }}</td>
+                                        <td>{{o.username}}</td>
+                                        <td>{{o.current_promo}}</td>
+                                        <td>
+                                            <button routerLink="/app/detailsEtudiant/{{o.id}}" class="btn btn-sm btn-primary m-1">
+                                             <i class="nav-icon i-Eye"></i>
+  </button>
+                                            <button routerLink="/app/cpass/{{o.id}}" class="m-1 mr-1 btn-sm btn btn-primary">
+   <i class="nav-icon i-Lock"></i>
+ </button>
+                                            <button routerLink="/app/editProf/{{o.id}}" class="m-1 btn btn-sm btn-primary">
+  <i class="nav-icon i-Edit"></i>
+</button>
+
+                                            <button (click)="declasser(o,i)" class="m-1 btn btn-sm btn-warning">
+  <i class="nav-icon i-Refresh"></i>
+</button>
+
+                                        </td>
+                                    </tr>
+
+
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Code</th>
+                                        <th>Nom & prénom</th>
+                                        <th>Sexe</th>
+                                        <th>Date de Naissance</th>
+                                        <th>Email</th>
+                                        <th>Classe</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card text-left" *ngIf="page==1">
+                    <div class="card-body">
+                        <h4 class="card-title mb-3">Etudiant non activé
+                        </h4>
+                        <div class=" row" style="float:right;">
+                            <div class="form-group col-md-12 row">
+                                <div class="col-md-4" style="float:left;">
+                                    <label for="recipient-name-1" class="col-form-label">Rechercher</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" [(ngModel)]="nquery" class="form-control" (keyup)="nonKey()">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" *ngIf="!iusers">
+                            <div class="col-md-12 text-center">
+
+                                <div class="loader-bubble loader-bubble-dark m-5"></div>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive" *ngIf="iusers">
+                            <table id="zero_configuration_table" class="display table table-striped table-bordered" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Code</th>
+                                        <th>Nom & prénom</th>
+                                        <th>Sexe</th>
+                                        <th>Date de Naissance</th>
+                                        <th>Email</th>
+                                        <th>Classe</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let o of nusers;let i = index">
+                                        <td>{{o.code}}</td>
+                                        <td>{{o.lastName}} {{o.firstName}}</td>
+                                        <td>{{o.sexe}}</td>
+                                        <td>{{o.date_de_naiss | formater }}</td>
+                                        <td>{{o.username}}</td>
+                                        <td>{{o.current_promo}}</td>
+                                        <td>
+                                            <button routerLink="/app/detailsEtudiant/{{o.id}}" class="btn btn-sm btn-primary mr-1">
+                 <i class="nav-icon i-Eye"></i>
+               </button>
+                                            <button routerLink="/app/cpass/{{o.id}}" class="ml-1 mr-1 btn btn-sm btn-primary">
+                 <i class="nav-icon i-Lock"></i>
+               </button>
+                                            <button routerLink="/app/editProf/{{o.id}}" class="ml-1 btn btn-sm btn-primary">
+                 <i class="nav-icon i-Edit"></i>
+               </button>
+                                            <button class="m-1 btn btn-sm btn-success" (click)="activer(o,true,o.id,i)">
+   Activé
+ </button>
+
+                                        </td>
+                                    </tr>
+
+
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Code</th>
+                                        <th>Nom & prénom</th>
+                                        <th>Sexe</th>
+                                        <th>Date de Naissance</th>
+                                        <th>Email</th>
+                                        <th>Classe</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card text-left" *ngIf="page==2">
+                    <div class="card-body">
+                        <h4 class="card-title mb-3">Etudiant non affecté
+                        </h4>
+                        <div class=" row" style="float:right;">
+                            <div class="form-group col-md-12 row">
+                                <div class="col-md-4" style="float:left;">
+                                    <label for="recipient-name-1" class="col-form-label">Rechercher</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" [(ngModel)]="cquery" class="form-control" (keyup)="cKey()">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" *ngIf="!iusers">
+                            <div class="col-md-12 text-center">
+
+                                <div class="loader-bubble loader-bubble-dark m-5"></div>
+
+
+                            </div>
+                        </div>
+
+                        <div class="table-responsive" *ngIf="iusers">
+                            <table id="zero_configuration_table" class="display table table-striped table-bordered" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Code</th>
+                                        <th>Nom & prénom</th>
+                                        <th>Sexe</th>
+                                        <th>Date de Naissance</th>
+                                        <th>Email</th>
+                                        <th>Classe</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let o of cusers;let i = index">
+                                        <td>{{o.code}}</td>
+                                        <td>{{o.lastName}} {{o.firstName}}</td>
+                                        <td>{{o.sexe}}</td>
+                                        <td>{{o.date_de_naiss | formater }}</td>
+                                        <td>{{o.username}}</td>
+                                        <td>{{o.current_promo}}</td>
+                                        <td>
+                                            <button routerLink="/app/detailsEtudiant/{{o.id}}" class="btn btn-sm btn-primary mr-1">
+                 <i class="nav-icon i-Eye"></i>
+               </button>
+                                            <button routerLink="/app/cpass/{{o.id}}" class="ml-1 mr-1 btn-sm btn btn-primary">
+                 <i class="nav-icon i-Lock"></i>
+               </button>
+                                            <button routerLink="/app/editProf/{{o.id}}" class="ml-1 btn btn-sm btn-primary">
+                 <i class="nav-icon i-Edit"></i>
+               </button>
+                                            <button class="m-1 btn btn-sm btn-success" *ngIf="!o.enabled" (click)="cactiver(o,true,o.id,i)">
+                 Activé
+               </button>
+
+
+                                        </td>
+                                    </tr>
+
+
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Code</th>
+                                        <th>Nom & prénom</th>
+                                        <th>Sexe</th>
+                                        <th>Date de Naissance</th>
+                                        <th>Email</th>
+                                        <th>Classe</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end of col -->
+        </div>
+
+        <!-- <li *lazyFor="let o of users;"> {{o.lastName}} </li> -->
+
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+    <!-- ============ Body content End ============= -->
+</div>
+<!--=============== End app-admin-wrap ================-->

@@ -1,0 +1,190 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!-- ============ Body content start ============= -->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+        <!-- end of row-->
+        <div class="col-md-12 mb-2">
+            <h4 class="mb-3  text-center"> Description année academique </h4>
+            <h4 class=" text-center mb-2">{{af?.date_debut?.split("T")[0].split("-")[0]}} - {{af?.date_fin?.split("T")[0].split("-")[0]}} </h4>
+            <h5 class="text-danger text-center"> <a class="text-danger" routerLink="/app/acad">Retourner</a> </h5>
+        </div>
+        <div class="col-md-12">
+            <div *ngIf="response.active" class="alert alert-card alert-{{response.state}} text-center" role="alert">
+                {{response.message}}
+            </div>
+            <div class="row mt-4">
+                <div class="col-md-12 row" *ngIf="af">
+                    <div class="form-group col-md-4">
+                        <label for="recipient-name-1" class="col-form-label">Date debut</label>
+                        <input type="date" class="form-control" [(ngModel)]="af.date_debut" />
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="recipient-name-1" class="col-form-label">Date fin</label>
+                        <input type="date" class="form-control" [(ngModel)]="af.date_fin" />
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="recipient-name-1" class="col-form-label">Année précédente</label>
+                        <select [(ngModel)]="af.prev_year" class="form-control">
+                         <option [ngValue]="a.id" *ngFor="let a of afs">  {{a?.date_debut?.split("T")[0].split("-")[0]}} - {{a?.date_fin?.split("T")[0].split("-")[0]}}</option>
+                       </select>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="recipient-name-1" class="col-form-label">Année Suivante</label>
+                        <select [(ngModel)]="af.next_year" class="form-control">
+      <option [ngValue]="a.id" *ngFor="let a of afs"> {{a?.date_debut?.split("T")[0].split("-")[0]}} -
+        {{a?.date_fin?.split("T")[0].split("-")[0]}}</option>
+    </select>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label for="recipient-name-1" class="col-form-label">Description</label>
+                        <input type="text" class="form-control" [(ngModel)]="af.description" />
+                    </div>
+                    <div class="row col-md-12">
+
+                        <div class="form-group col-md-4">
+                            <label for="recipient-name-1" class="col-form-label">Moyenne acceptée</label>
+                            <input type="number" class="form-control" [(ngModel)]="af.moy_accept" />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="recipient-name-1" class="col-form-label">Moyenne Totale</label>
+                            <input type="email" class="form-control" [(ngModel)]="af.moy_total" />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="recipient-name-1" class="col-form-label">Moyenne reprise</label>
+                            <input type="number" class="form-control" [(ngModel)]="af.moy_reprise" />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="recipient-name-1" class="col-form-label">Moyenne d'excellence</label>
+                            <input type="number" class="form-control" [(ngModel)]="af.moy_exc" />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="recipient-name-1" class="col-form-label">Heure du debut des cours</label>
+                            <input type="time" class="form-control" [(ngModel)]="af.start_time" />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="recipient-name-1" class="col-form-label">Heure de la fin des cours</label>
+                            <input type="time" class="form-control" [(ngModel)]="af.end_time" />
+                        </div>
+                    </div>
+                    <div class="row col-md-12">
+                        <div class="form-group col-md-4">
+                            <label for="recipient-name-1" class="col-form-label">Monnaie</label>
+                            <select class="form-control" [(ngModel)]="af.currency">
+        <option value="HTG">HTG</option>
+        <option value="USD">USD</option>
+        <option value="CAD">CAD</option>
+      </select>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="col-md-12">
+                                <div class="form-group col-md-12">
+                                    <label for="recipient-name-1" class="col-form-label">Prix admission</label>
+                                    <input type="number" class="form-control" [(ngModel)]="af.prix_admis" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="recipient-name-1" class="col-form-label">Mode de paiement</label>
+                            <select class="form-control" [(ngModel)]="af.mode_paiement">
+                                 <option value="1">Par Cycle</option>
+                                 <option value="2">Par Classe</option>
+                               </select>
+                        </div>
+                        <hr class="col-md-12 mt-2">
+
+                        <div class="col-md-12 mt-2">
+                            <div class="col-md-12">
+                                <h4 class="mb-3  text-left">Taxes</h4>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-2">
+                                    <label for="recipient-name-1" class="col-form-label">ONA</label>
+                                    <input type="text" class="form-control" [(ngModel)]="af.ona" />
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label for="recipient-name-1" class="col-form-label">IRI (1G-60,000G)</label>
+                                    <input type="number" class="form-control" [(ngModel)]="af.iri" />
+                                </div>
+
+                                <div class="form-group col-md-2">
+                                    <label for="recipient-name-1" class="col-form-label">IRI (60,001-240,000G)</label>
+                                    <input type="number" class="form-control" [(ngModel)]="af.iri_1" />
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label for="recipient-name-1" class="col-form-label">IRI (240,001-480,000G)</label>
+                                    <input type="number" class="form-control" [(ngModel)]="af.iri_2" />
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label for="recipient-name-1" class="col-form-label">IRI (480,001-1,000,000G)</label>
+                                    <input type="number" class="form-control" [(ngModel)]="af.iri_3" />
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label for="recipient-name-1" class="col-form-label">IRI (1,000,000G et plus)</label>
+                                    <input type="number" class="form-control" [(ngModel)]="af.iri_4" />
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label for="recipient-name-1" class="col-form-label">CFGDCT</label>
+                                    <input type="number" class="form-control" [(ngModel)]="af.cfgdct" />
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label for="recipient-name-1" class="col-form-label">Assurance</label>
+                                    <input type="number" class="form-control" [(ngModel)]="af.assure_mal" />
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label for="recipient-name-1" class="col-form-label">FDU </label>
+                                    <input type="number" class="form-control" [(ngModel)]="af.fdu" />
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label for="recipient-name-1" class="col-form-label">CAS</label>
+                                    <input type="number" class="form-control" [(ngModel)]="af.cas" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="recipient-name-1" class="col-form-label">Nbre de période basique</label>
+                            <input type="number" class="form-control" [(ngModel)]="af.nbre_ctrl" />
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="recipient-name-1" class="col-form-label">Nom des périodes basique</label>
+                            <input type="text" class="form-control" [(ngModel)]="af.frag_name" />
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="recipient-name-1" class="col-form-label">Reprise</label>
+                            <select class="form-control" [(ngModel)]="af.reprise">
+        <option value="1">Activé</option>
+        <option value="2"> De-activé</option>
+      </select>
+                        </div>
+                        <div class="form-group col-md-3" *ngIf="af.reprise==1">
+                            <label for="recipient-name-1" class="col-form-label">Type reprise</label>
+                            <select class="form-control" [(ngModel)]="af.type_reprise">
+                             <option value="1">Globale</option>
+        <option value="2">Partiele</option>
+      </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12 mt-1">
+                        <button class="btn btn-primary  btn-rounded mt-3" (click)="editAcad(af)" [disabled]='loading'>
+       <span *ngIf='loading' class="spinner-border spinner-border-sm mr-1"></span>
+       Modifier
+     </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- end of row-->
+        <!-- Footer Start -->
+
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+    <!-- ============ Body content End ============= -->
+</div>
+<!--=============== End app-admin-wrap ================-->

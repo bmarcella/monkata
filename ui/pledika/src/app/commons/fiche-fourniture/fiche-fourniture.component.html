@@ -1,0 +1,81 @@
+<div class="page-print">
+    <button class="btn btn-primary" [useExistingCss]="true" printSectionId="print-section" ngxPrint>print</button>
+</div>
+<div class="book" id="print-section">
+    <div class="m-page" *ngFor="let item of ff">
+        <div class="page" *ngFor="let obj of item.programme">
+            <div class="head">
+                <h1>{{etab?.name}}</h1>
+                <h3>{{etab?.adresse}}</h3>
+                <h3>{{etab?.phone_a}}</h3>
+            </div>
+            <h3 class="title">Fournitures scolaires {{item?.name}}</h3>
+            <div class="col-md-12 ">
+                <h3 class="stitle">La liste des materiels et livres necessaires</h3>
+                <div class="row">
+                    <div class="table-a">
+                        <table class="display my-table " style="width:100%">
+                            <thead>
+                                <tr class="ligne">
+                                    <th>Livres</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="ligne" *ngFor="let o of getData(obj.progfourniture,2); let i = index">
+                                    <td>{{ o.name}} <br *ngIf="o.sell_at" /><i *ngIf="o.sell_at"> en vente a l'ecole</i>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="table-a">
+                        <table class="display my-table " style="width:100%">
+                            <thead>
+                                <tr class="ligne">
+                                    <th>Materiels</th>
+                                    <th>Qt</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="ligne" *ngFor="let o of getData(obj.progfourniture,1); let i = index">
+                                    <td>{{ o.unity}} {{ o.name}} <br *ngIf="o.sell_at" /><i *ngIf="o.sell_at"> en vente
+                                        a l'ecole</i></td>
+                                    <td>{{ o.qt}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 ">
+                <h3 class="stitle">Les options de paiements</h3>
+                <div class="row">
+                    <div class="table-a" *ngFor="let obj of item.copaie">
+                        <table class="display my-table " style="width:100%">
+                            <thead>
+                                <tr class="ligne">
+                                    <th>{{obj.name.split(" ") [0]}} {{obj.name.split(" ") [1]}}</th>
+                                </tr>
+                                <tr class="ligne">
+                                    <th>Versement</th>
+                                    <th>Montant</th>
+                                    <th>Date limite</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="ligne" *ngFor="let o of obj.cversement.sort(); let i = index">
+                                    <td>{{o.name.split(" ") [0]}} {{o.name.split(" ") [1]}}</td>
+                                    <td>HTG{{ o.montant}}</td>
+                                    <td>{{ o.jour_limit}}/{{ o.mois_limit}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>

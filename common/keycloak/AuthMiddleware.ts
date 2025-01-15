@@ -125,16 +125,16 @@ export const protectEnt = (jwt: any, p: any, role?: string) => {
       next();
     } catch (err: any) {
       console.log(err);
-      // // Handle specific JWT errors
-      // if (err instanceof jwt.TokenExpiredError) {
-      //   return res.status(403).send('Access Denied: Token has expired.');
-      // } else if (err instanceof jwt.JsonWebTokenError) {
-      //   return res.status(401).send('Access Denied: Invalid token.');
-      // } else {
-      //   // Handle other possible errors (e.g., from your code or other libraries)
-      //   return res.status(401).send(`Access Denied: ${err.message}`);
-      // }
-      next();
+      // Handle specific JWT errors
+      if (err instanceof jwt.TokenExpiredError) {
+        return res.status(403).send('Access Denied: Token has expired.');
+      } else if (err instanceof jwt.JsonWebTokenError) {
+        return res.status(401).send('Access Denied: Invalid token.');
+      } else {
+        // Handle other possible errors (e.g., from your code or other libraries)
+        return res.status(401).send(`Access Denied: ${err.message}`);
+      }
+      //  next();
     }
   };
 };

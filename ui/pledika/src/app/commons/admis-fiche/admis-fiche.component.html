@@ -1,0 +1,40 @@
+<div class="page-print">
+    <button class="btn btn-primary" [useExistingCss]="true" printSectionId="print-section" ngxPrint>print</button>
+</div>
+<div class="page" id="print-section">
+    <div class="head">
+        <h1>{{etab?.name}}</h1>
+        <h3>{{etab?.adresse}}</h3>
+        <h3>{{etab?.phone_a}}</h3>
+    </div>
+    <h3 class="title">Fiche de paiement inscription </h3>
+    <div class="col-md-12 ">
+        <div class="row">
+            <div class="col-md-12 att text-left">
+                <h3 class="text-left  mt-1 mb-1"> <b class="">Nom et Prénom :</b><i class="reponse"> {{pay?.lastName}}
+            {{pay?.firstName}} </i></h3>
+            </div>
+            <div class="col-md-12 att text-left ">
+                <h3 class="text-left  mt-1 mb-1"> <b>Code:</b> <i class="reponse">{{pay?.code}}</i> </h3>
+            </div>
+            <div class="col-md-12 att text-left ">
+                <h3 class="text-left  mt-1 mb-1"> <b>Classe:</b> <i class="reponse">{{pay?.next_class.name}}</i> </h3>
+            </div>
+        </div>
+
+        <h3 class="title">Paiement Inscription </h3>
+        <h4 class="title">{{admis?.code }}</h4>
+        <div class="row">
+            <div class="col-md-12 att text-left  ">
+                <h3 class="text-left  mt-1 mb-1"> <b class="reponse"> Montant:</b><i class="reponse"> {{admis?.montant }}HTG </i> </h3>
+            </div>
+            <div class="col-md-12 att text-left ">
+                <h3 class="text-left  mt-1 mb-1"> <b class="reponse"> Date paiement:</b><i class="reponse">
+                      {{admis?.pay_date.split("T")[0]}} </i> </h3>
+            </div>
+        </div>
+    </div>
+    <div class="foot">
+
+    </div>
+</div>

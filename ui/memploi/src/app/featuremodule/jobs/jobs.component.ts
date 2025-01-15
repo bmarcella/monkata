@@ -7,6 +7,7 @@ import { CategorieService } from 'src/app/service/categorie.service';
 import { CrudService } from 'src/app/service/crud.service';
 import { Env_Work, Horaire_de_travail, Periode_salaire, Type_contrat } from 'src/app/shared/models/Jobs';
 import { getURL } from 'src/environments/environment.prod';
+import { DeployType } from '../../../../../../common/deploy';
 
 @Component({
   selector: 'app-jobs',
@@ -19,7 +20,7 @@ export class JobsComponent implements OnInit {
   job: any ;
   ent : any;
   deviceInfo;
-  paginations;
+  paginations: any;
   cats: any = [];
   filter : any = {
     query: '',
@@ -34,6 +35,10 @@ export class JobsComponent implements OnInit {
   horaireOptions = Object.values(Horaire_de_travail);
   salaireOptions = Object.values(Periode_salaire);
   isMobile;
+  itemsPerPage = DeployType.NPage;
+  get totalPages(): number {
+    return Math.ceil(this.paginations.numberJobs / this.itemsPerPage);
+  }
   constructor( private el: ElementRef, public router: Router, private crud: CrudService, private cat: CategorieService, private deviceService: DeviceDetectorService) {
 
   }
@@ -43,6 +48,8 @@ export class JobsComponent implements OnInit {
     this.getJobs();
     this.getCats();
   }
+
+  
 
   currency (num : any ) {
     return  formatNumber(Number(num), 'en-US', '1.0-0')
@@ -65,6 +72,7 @@ export class JobsComponent implements OnInit {
         this.view(this.job.id);
       }
       this.paginations = r.pagination;
+      console.log(this.paginations);
     }
 
     }).catch((e) => {
@@ -102,6 +110,12 @@ export class JobsComponent implements OnInit {
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
+  }
+
+  onPageChange(data): void {
+    console.log('Page changed to:', data.page);
+    this.changePage(data.page, data.e);
+    // Handle page change logic here
   }
 
   changePage(p, e) {
@@ -206,6 +220,8 @@ export class JobsComponent implements OnInit {
       console.log(msg);
     });
   }
+
+  
 
 
 }

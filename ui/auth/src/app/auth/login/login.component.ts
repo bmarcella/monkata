@@ -5,6 +5,7 @@ import { routes } from 'src/app/core/helpers/routes/routes';
 import { AlertService } from 'src/app/service/alert.service';
 import { CrudService } from 'src/app/service/crud.service';
 import {
+  auto_redirect,
   getRURL,
   gWURL,
   prod,
@@ -24,10 +25,11 @@ export class LoginComponent implements OnInit {
   public toggleData = false;
   public categories: ServiceApp[] = [];
   prod = prod;
+  auto_redirect = auto_redirect;
   name: any;
   creds: Login = {
-    username: (prod)? "": "bmarcella91@gmail.com",
-    password: (prod)? "": "lolo91"
+    username: (prod) ? "": "bmarcella91@gmail.com",
+    password: (prod) ? "": "lolo91"
   }
   ct: any;
   constructor(public router: Router, private kc: KeycloakService, private aUI:  AlertService,  private crud: CrudService) {
@@ -38,7 +40,7 @@ export class LoginComponent implements OnInit {
   }
   ngOnInit(): void {
     this.getApp();
-    if(!prod) this.login(this.creds);
+    if(!prod && auto_redirect ) this.login(this.creds);
   }
 
   public getApp() {

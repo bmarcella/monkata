@@ -1,0 +1,66 @@
+<nav aria-label="Page navigation">
+  <ul class="pagination justify-content-center">
+    <!-- First page -->
+    <li class="page-item" [class.disabled]="currentPage === 1">
+      <button
+        class="page-link"
+        [disabled]="currentPage === 1"
+        (click)="onPageChange(1, $event)"
+        aria-label="Go to first page"
+      >
+        «
+      </button>
+    </li>
+
+    <!-- Previous page -->
+    <li class="page-item" [class.disabled]="currentPage === 1">
+      <button
+        class="page-link"
+        [disabled]="currentPage === 1"
+        (click)="onPageChange(currentPage - 1, $event)"
+        aria-label="Go to previous page"
+      >
+        ‹
+      </button>
+    </li>
+
+    <!-- Page numbers -->
+    <li
+      *ngFor="let page of paginationRange.pages"
+      class="page-item"
+      [class.active]="page === currentPage"
+    >
+      <button
+        class="page-link"
+        (click)="onPageChange(page, $event)"
+        [attr.aria-current]="page === currentPage ? 'page' : null"
+      >
+        {{ page }}
+      </button>
+    </li>
+
+    <!-- Next page -->
+    <li class="page-item" [class.disabled]="currentPage === totalPages">
+      <button
+        class="page-link"
+        [disabled]="currentPage === totalPages"
+        (click)="onPageChange(currentPage + 1, $event)"
+        aria-label="Go to next page"
+      >
+        ›
+      </button>
+    </li>
+
+    <!-- Last page -->
+    <li class="page-item" [class.disabled]="currentPage === totalPages">
+      <button
+        class="page-link"
+        [disabled]="currentPage === totalPages"
+        (click)="onPageChange(totalPages, $event)"
+        aria-label="Go to last page"
+      >
+        »
+      </button>
+    </li>
+  </ul>
+</nav>

@@ -16,6 +16,8 @@ const getService = (): ServiceObj => {
 const services = getService();
 const live = false;
 export const prod = DeployType.prod;
+export const auto_redirect = DeployType.redirect;
+
 const url = {
   live : 'http://69.159.138.245:3000' ,
   dev:  "http://localhost:3000",
@@ -34,6 +36,7 @@ export const environment = {
 export const getURL = (service: string, endpoint: string) => {
   return `${environment.gateway}${environment.services[service].path}/${endpoint}`;
 }
+
 export const gWURL = (endpoint: string) => {
   return `${environment.gateway}/${endpoint}`;
 }

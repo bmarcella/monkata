@@ -1,0 +1,46 @@
+ @import "../node_modules/angular-calendar/css/angular-calendar.css";
+ a {
+     cursor: pointer;
+ }
+ 
+ .my-table {
+     border-spacing: 0;
+     border-collapse: collapse;
+ }
+ 
+ .vertical-header {
+     padding: 2%;
+ }
+ 
+ .vertical-header span {
+     writing-mode: vertical-rl;
+     transform: rotate(180deg);
+     text-align: left;
+     max-height: 150px;
+     white-space: nowrap;
+ }
+ 
+ angular-editor-toolbar button i {
+     font-family: FontAwesome !important;
+     color: #474d6d !important;
+ }
+ 
+ .box-center-6 {
+     position: relative;
+     width: 50%;
+     margin-left: 20%;
+ }
+ 
+ tr.nospace>td {
+     padding: 0!important;
+     border-spacing: 0!important;
+     margin: 0!important;
+ }
+ 
+ table {
+     border-collapse: collapse;
+ }
+ 
+ th {
+     word-break: break-word;
+ }

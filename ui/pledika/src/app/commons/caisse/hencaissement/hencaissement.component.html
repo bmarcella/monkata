@@ -1,0 +1,101 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!-- ============ Body content start ============= -->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+        <div class="col-md-12 mb-2">
+            <h3 class="mb-1  text-center"> Historique transaction </h3>
+            <a routerLink="/app/paiement" class="mb-3 text-danger text-center"> Retourner </a>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 mb-4">
+                <div class="card text-left">
+                    <div class="card-body">
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="home-basic-tab" data-toggle="tab" href="#homeBasic" role="tab" aria-controls="homeBasic" aria-selected="true">Vos transactions</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="profile-basic-tab" data-toggle="tab" href="#profileBasic" role="tab" aria-controls="profileBasic" aria-selected="false">Autres transactions</a>
+                            </li>
+
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="homeBasic" role="tabpanel" aria-labelledby="home-basic-tab">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Transaction</th>
+                                                <th scope="col">Montant</th>
+                                                <th scope="col">Date</th>
+                                                <th scope="col">Raison</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let vac of  maker">
+                                                <td>
+                                                    <p *ngIf="vac.type_cs==1">Encaissement</p>
+                                                    <p *ngIf="vac.type_cs==2">Decaissement</p>
+                                                </td>
+                                                <td>{{ vac.montant}} G </td>
+                                                <td>
+                                                    {{ vac.created_at.split("T")[0] }}
+                                                </td>
+                                                <td>
+                                                    {{ vac.raison }}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="profileBasic" role="tabpanel" aria-labelledby="profile-basic-tab">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Transaction</th>
+                                                <th scope="col">Montant</th>
+                                                <th scope="col">Date</th>
+                                                <th scope="col">Raison</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let vac of  caiss">
+                                                <td>
+                                                    <p *ngIf="vac.type_cs==1">Encaissement</p>
+                                                    <p *ngIf="vac.type_cs==2">Decaissement</p>
+                                                </td>
+                                                <td>{{ vac.montant}} G </td>
+                                                <td>
+                                                    {{ vac.created_at.split("T")[0] }}
+                                                </td>
+                                                <td>
+                                                    {{ vac.raison }}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- end of row-->
+        <!-- Footer Start -->
+
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+    <!-- ============ Body content End ============= -->
+</div>
+<!--=============== End app-admin-wrap ================-->

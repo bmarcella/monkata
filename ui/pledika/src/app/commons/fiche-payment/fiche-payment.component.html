@@ -1,0 +1,71 @@
+<div class="page-print">
+    <button class="btn btn-primary" [useExistingCss]="true" printSectionId="print-section" ngxPrint>print</button>
+</div>
+<div class="page" id="print-section">
+    <div class="head">
+        <h1>{{etab?.name}}</h1>
+        <h3>{{etab?.adresse}}</h3>
+        <h3>{{etab?.phone_a}}</h3>
+    </div>
+    <h3 class="title">Fiche de paiement <br/>{{pf?.promo_name}} </h3>
+    <div class="col-md-12 ">
+        <div class="row">
+            <div class="line-a">
+                <p class="la-a">Date paiement</p>
+                <p class="la-b"> {{pay?.created_at.split("T")[0]}} </p>
+            </div>
+            <div class="line-a">
+                <p class="la-a">Nom et Prénom</p>
+                <p class="la-b">
+                    {{pf?.nom}} {{pf?.pnom}} </p>
+            </div>
+            <div class="line-a">
+                <p class="la-a">Code</p>
+                <p class="la-b">{{pf?.code_student}}</p>
+            </div>
+        </div>
+
+        <h3 class="title">Dernier versement </h3>
+        <div class="row">
+            <div class="col-md-12 att text-left  ">
+                <h3 class="text-left  mt-1 mb-1"> <b class="reponse"> Montant versé:</b><i class="reponse">
+               {{pay?.pay_money}} G </i> </h3>
+            </div>
+            <div class="col-md-12 att text-left ">
+                <h3 class="text-left  mt-1 mb-1"> <b class="reponse"> Montant accepté:</b><i class="reponse">
+                   {{pay?.montant}}G </i> </h3>
+            </div>
+            <div class="col-md-12 att text-left ">
+                <h3 class="text-left  mt-1 mb-1"> <b class="reponse"> Rémise:</b><i class="reponse">
+                {{pay?.remain}}G </i> </h3>
+            </div>
+
+        </div>
+        <h3 class="title">Versement general </h3>
+        <table class="display my-table " style="width:100%">
+            <thead>
+                <tr class="ligne">
+                    <th>Paiments</th>
+                    <th>Montant</th>
+                    <th>Payé</th>
+                    <th>Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="ligne" *ngFor="let o of pf?.pversement.reverse(); let i = index">
+                    <td>{{ o.name.substring(0,12)}}</td>
+                    <td>{{ o.montant_to_pay }}G</td>
+                    <td>
+                        {{ o.montant_pay }}G
+                    </td>
+                    <td>
+                        {{ o.montant_to_pay -o.montant_pay }}G
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="foot">
+
+    </div>
+</div>

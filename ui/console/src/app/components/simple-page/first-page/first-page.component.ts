@@ -30,6 +30,7 @@ export class FirstPageComponent implements OnInit{
   aEnt: any;
   @ViewChild('content', { static: true }) content: TemplateRef<any>;
   modalReference;
+
   constructor(config: NgbModalConfig, private modalService: NgbModal, public dApp$: DefaultAppService, private crud: CrudService,  private auth: KeycloakService) {
     this.app = this.dApp$.getApp();
     this.getApp();
@@ -41,7 +42,6 @@ export class FirstPageComponent implements OnInit{
   ngOnInit(): void {
     this.auth.getLoginEnt().then ((t)=>{
       this.entToken =  t;
-     // console.log(this.entToken);
       if(!t) this.modalReference = this.modalService.open(this.content, { centered: true });
       if (t) {
          this.getEnt();

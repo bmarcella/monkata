@@ -1,0 +1,112 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!--============== Body content start ===============-->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+        <div class="ml-4 col-md-12 mb-2">
+            <h5 class="mb-3  text-center">Configuration des cours</h5>
+            <h6 class="text-warning text-center"> {{tcours}} cours </h6>
+            <h6 class="text-danger text-center">
+                <a class="text-danger" routerLink="/app/programme/">Retournez a la liste des cours</a> </h6>
+            <h6 class="text-warning text-center">
+                <a class="text-warning" (click)="setupCours()">initialiser cours</a> </h6>
+        </div>
+        <div class=" row mt-2 mb-2">
+            <div class="form-group col-md-12 row" style="float:right;">
+                <div class="col-md-4" style="float:right;">
+                    <label for="recipient-name-1" class="col-form-label">Rechercher</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" (keyup)="onKey($event)">
+                </div>
+            </div>
+        </div>
+        <div class="row col-ma-12" *ngFor="let emat of courses; let i = index;">
+            <div class="col-md-12">
+                <hr style="margin-bottom: -1%;">
+                <div *ngIf="response[emat.id]?.active" class="alert alert-card alert-{{response[emat.id]?.state}} text-center" role="alert">
+                    {{response[emat.id]?.message}}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                      </button>
+                </div>
+                <div class="card-body">
+                    <b class="card-title mb-3"> Modifier {{ emat?.name}}</b>
+                </div>
+
+            </div>
+            <div class="row col-md-12">
+                <div class="form-group col-md-3">
+                    <label for="recipient-name-1" class="col-form-label">Enseignants </label>
+                    <select (ngModelChange)="onEditChangeProf(i, $event)" id="mat" [(ngModel)]="emat.mprof_id" class="form-control">
+                  <option value=""> </option>
+                  <option value="{{s.id}}" *ngFor="let s of profs" [selected]="s.id==emat.mprof_id"> {{s.firstName}} {{s.lastName}}
+                    ({{s.id}})</option>
+                  </select>
+                </div>
+
+
+
+                <div class="form-group col-md-3">
+                    <label for="recipient-name-1" class="col-form-label">Matieres  </label>
+
+                    <select (ngModelChange)="onEditChange(i,$event)" id="mat" [(ngModel)]="emat.matiere_id" class="form-control">
+                          <option value=""> </option>
+                          <option value="{{s.id}}" *ngFor="let s of smat" [selected]="s.id==emat.matiere_id"> {{s.name}}</option>
+                      </select>
+                </div>
+
+
+
+                <div class="form-group col-md-3">
+                    <label for="recipient-name-2" class="col-form-label">Code</label>
+                    <input type="text" class="form-control" [(ngModel)]="emat.code" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="recipient-name-2" class="col-form-label">Nom generique</label>
+                    <input type="text" class="form-control" [(ngModel)]="emat.name" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="recipient-name-2" class="col-form-label">Livre</label>
+                    <input type="text" class="form-control" [(ngModel)]="emat.book_name" />
+                </div>
+
+                <div class="form-group col-md-2">
+                    <label for="recipient-name-2" class="col-form-label">Coef</label>
+                    <input type="number" class="form-control" [(ngModel)]="emat.coef" />
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="recipient-name-1" class="col-form-label">Note</label>
+                    <input type="text" class="form-control" [(ngModel)]="emat.note_total" />
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="recipient-name-1" class="col-form-label">Moy. acc.</label>
+                    <input type="text" class="form-control" [(ngModel)]="emat.note_pass" />
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="recipient-name-1" class="col-form-label">Moy. rep.</label>
+                    <input type="text" class="form-control" [(ngModel)]="emat.note_rep" />
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="recipient-name-1" class="col-form-label">Moy. exc.</label>
+                    <input type="text" class="form-control" [(ngModel)]="emat.note_excel" />
+                </div>
+
+                <div class="form-group col-md-2" style="margin-top:2%;">
+                    <button class="btn btn-block btn-primary  btn-rounded mt-3" style="float:right;" (click)="editCourse(i,emat)" [disabled]='loading[i] || !emat.name || !emat.coef || !emat.note_total '>
+                       <span *ngIf='loading[i]' class="spinner-border spinner-border-sm mr-1"></span>
+                           Modifier
+                        </button>
+                </div>
+
+            </div>
+        </div>
+        <app-footer></app-footer>
+        <!-- fotter end -->
+        <!-- ============ Body content End ============= -->
+    </div>
+    <!--=============== End app-admin-wrap ================-->
+</div>

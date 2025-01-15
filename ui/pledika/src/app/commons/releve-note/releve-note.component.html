@@ -1,0 +1,107 @@
+<div class="page-user">
+    <div class=" row">
+        <div class="form-group col-md-12 row  ">
+            <div class="col-md-4" style="float:left;">
+                <label for="recipient-name-1" class="col-form-label">Rechercher</label>
+            </div>
+            <div class="col-md-8">
+                <input type="text" class="form-control" autocomplete="off" (keyup)="onKey($event)">
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table id="zero_configuration_table" class="display table table-striped table-bordered">
+            <thead>
+                <tr>
+
+                    <th>Nom et prénom</th>
+                    <th>Impressions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr (click)="changePage(o.id,IDF,i)" *ngFor="let o of STUDS; let i = index" [style.background-color]="setBG(o.id)">
+                    <td [style.color]="setTC(o)">{{o.nom}} {{o.pnom}} ({{o.code_student}})</td>
+                    <td>{{o?.print}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="page-print">
+    <div class="row col-md-12">
+        <div class="form-group col-md-12 ">
+            <label for="recipient-name-1" class="col-form-label">Année academique</label>
+            <select [(ngModel)]="cyear" class="form-control" (change)="getYear(cyear)">
+                         <option [ngValue]="a" *ngFor="let a of afs">  {{a?.date_debut?.split("T")[0].split("-")[0]}} - {{a?.date_fin?.split("T")[0].split("-")[0]}}</option>
+                       </select>
+        </div>
+        <div class="form-group col-md-12" *ngIf="promos">
+            <label for="recipient-name-1" class="col-form-label">Promotion</label>
+            <select [(ngModel)]="cpromo" class="form-control" (change)="getCPromo(cpromo)">
+                         <option [ngValue]="a" *ngFor="let a of promos"> {{a.code}}</option>
+                       </select>
+        </div>
+        <div class="form-group col-md-12" *ngIf="pfrags">
+            <label for="recipient-name-1" class="col-form-label">Periode</label>
+            <select [(ngModel)]="cpfrag" class="form-control" (change)="getCFrag(cpfrag)">
+                         <option [ngValue]="a" *ngFor="let a of pfrags"> {{a.code.split("-")[3]}}</option>
+                       </select>
+        </div>
+    </div>
+    <div class="form-group col-md-12">
+        <button class="btn btn-primary" [useExistingCss]="true" printSectionId="print-section" ngxPrint>print</button>
+    </div>
+
+</div>
+<div class="page" id="print-section">
+    <app-entete [etab]="etab"></app-entete>
+    <div class="col-md-12 ">
+        <div class="identity">
+            <p class="line-text"> <b class="reponse">Relevée de note  </b></p>
+            <p class="line-text-a "> <b class="reponse">Nom et Prénom :</b><span class="reponse">
+               {{results[0]?.parcours_frag?.nom}} {{results[0]?.parcours_frag?.pnom}}</span> </p>
+
+            <p class="line-text-b"> <b class="reponse">{{results[0]?.code_student}}</b> </p>
+            <p class="line-text-a "> <b class="reponse">Classe :</b><span class="reponse">{{pf?.code.split("(")[0].split("-")[0]}}</span> </p>
+            <p class="line-text-b"> <b class="reponse">{{pf?.code.split("(")[0].split("-")[1]}}-{{pf?.code.split("(")[0].split("-")[2]}}</b>
+            </p>
+            <p class="line-text-a "> <b class="reponse">Période:</b><span class="reponse">
+               {{pf?.code.split("(")[0].split("-")[3]}}</span> </p>
+        </div>
+        <table class="display my-table table-bordered " style="width:100%">
+            <thead>
+                <tr>
+                    <th>Matieres</th>
+                    <th>Coéfficient</th>
+                    <th>Note</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let o of results; let i = index">
+                    <td>{{ o.frag_cours.name}} </td>
+                    <td>
+                        {{ o.note_total * o.coef }}
+                    </td>
+                    <td>{{ o.note*o.coef }}</td>
+                </tr>
+                <tr>
+                    <td><b>Total</b></td>
+                    <td>{{ total?.coef }}</td>
+                    <td>{{ total?.note }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <div class="col-md-12" class="style:100px;">
+        <div class="mention">
+            <div class="ml-1 mt-2 signature  prof">
+                Date
+            </div>
+            <div class="mt-2 signature parent mr-4">
+                Signature du responsable
+            </div>
+        </div>
+    </div>
+</div>

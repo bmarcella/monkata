@@ -1,0 +1,109 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!--============== Body content start ===============-->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+        <div class="ml-4 col-md-12 mb-2 text-center">
+            <h4 class="mb-3  text-center">Gestion des finissants</h4>
+            <a class="text-danger text-center m-2 " target="_blank" routerLink="/app/management">retourner</a>
+        </div>
+
+
+        <div class="col-md-12">
+
+            <div *ngIf="response.active" class="alert alert-card alert-{{response.state}} text-center" role="alert">
+                {{response.message}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+            </div>
+
+            <div class="col-md-12  pt-2 mt-2">
+
+
+                <div class="col-md-12 pt-2 mt-2">
+                    <div class="col-md-12 text-center">
+                        <div class="card p-4 ">
+                            <h4 class="m-1 text-center">La liste des etudiants finissants</h4>
+                            <div class="card-body">
+
+                                <div class="col-md-12 mt-4">
+                                    <div class="col-md-12">
+                                        <div class="row mb-2">
+                                            <div class="col-md-2 ">
+                                                <button class="btn btn-success text-left" [disabled]='mloading' (click)="setMoyGen()"> Valider Resultats</button>
+                                            </div>
+                                            <div class="col-md-2 text-left ">
+                                                <button class="btn btn-danger" [disabled]='mloading' (click)="push(true)"> terminer</button>
+                                            </div>
+                                            <div class="col-md-2 text-left ">
+                                                <button class="btn btn-success" [disabled]='mloading' (click)="push(false)"> re-integrer</button>
+                                            </div>
+                                            <div class="col-md-2 text-right">
+                                                <label for="recipient-name-1" class="col-form-label">Rechercher</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <input type="text" class="form-control" autocomplete="off" (keyup)="onKeyUp($event)">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="table-responsive">
+                                    <table id="zero_configuration_table" class="display table table-striped table-bordered" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th><input type="checkbox" [(ngModel)]="all" id="all" (change)="onCheckboxChangeAll($event)" class="checkbox"> </th>
+                                                <th>Code</th>
+                                                <th>Nom et prénom</th>
+                                                <th>Moyenne Génerale</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let o of STUDS; let i = index">
+                                                <td> <input id="{{ i }}" [value]="o.id" [(ngModel)]="o.isSelected" (change)="onCheckboxChange($event,i)" type="checkbox" class="checkbox">
+                                                </td>
+                                                <td>{{o.code}}</td>
+                                                <td>{{o.nom}} {{o.pnom}}</td>
+                                                <td [className]="((o.note/o.total)*o.moy_total).toFixed(2)>=o.moy_accept ? ' text-success ' : 'text-danger'">
+                                                    {{((o.note/o.total)*o.moy_total).toFixed(2)}}</td>
+                                                <td>
+                                                    <button *ngIf="!o.lover" [disabled]='loading[i]' (click)="addLO(o.id,o.idp,i,true)" class="btn btn-danger m-2"> Terminer </button>
+                                                    <button *ngIf="o.lover" [disabled]='loading[i]' (click)="addLO(o.id,o.idp,i,false)" class="btn btn-success m-2"> Re-integrer </button>
+                                                    <button class="btn btn-danger m-2" *ngIf="o.actived" [disabled]='mloading' (click)="closeOne(o.idp,i,false)">Fermer </button>
+                                                    <button class="btn btn-success m-2" *ngIf="!o.actived" [disabled]='mloading' (click)="closeOne(o.idp,i,true)">Ouvrir</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th><input type="checkbox" [(ngModel)]="all" id="all" (change)="onCheckboxChangeAll($event)" class="checkbox"></th>
+                                                <th>Code</th>
+                                                <th>Nom et prénom</th>
+                                                <th>Moyenne Génerale</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+
+            <app-footer></app-footer>
+            <!-- fotter end -->
+        </div>
+        <!-- ============ Body content End ============= -->
+    </div>
+    <!-- ============ Body content End ============= -->
+</div>

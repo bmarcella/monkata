@@ -10,6 +10,7 @@ import {
 import * as jwt from 'jsonwebtoken';
 import { v4 as uuidv4 } from 'uuid';
 
+import FormData from 'form-data';
 import { ILike } from 'typeorm';
 import { servicesApp } from '../../../../common/index/Frontend';
 import { Http, SERV_EP } from '../../../../common/index/Http';
@@ -20,6 +21,7 @@ import {
   JwtPayload,
   VerifyRefreshToken,
 } from '../../../../common/keycloak/AuthMiddleware';
+import { MailData, SendMail } from '../../../../common/mail/MailData';
 import MailService from '../../../../common/mail/MailService';
 import { random } from '../../../emploi/src/utils/Helper';
 import { Admin } from '../entity/admin/Admin';
@@ -31,7 +33,6 @@ import { Entreprise } from '../entity/Entreprise';
 import { KcUser } from '../entity/KC_User';
 import { Logo } from '../entity/Logo';
 import { User } from '../entity/User';
-
 
 export class KCToken {
   access_token: string;
@@ -87,9 +88,11 @@ const services = {
     });
     if (user) return res.status(409).send({ message: "Email Existe deja !" });
     const u = new User();
+    const code = random(123123, 999999).toString();
     u.email = req.body.email;
     u.firstName = req.body.firstname;
     u.lastName = req.body.lastname;
+    u.approved_code = Number(code);
     try {
       const state = await services.createUser(u, req);
       if (state) {
@@ -101,7 +104,20 @@ const services = {
         const profil = await userRepository.save(u);
           
       const ct = await services.setCToken(token, req, kcToken, profil.keycloakId || "");
-      
+      try {
+        const { MAIL_EP } = process.env;
+        const message =  MailService.newUser( { app: ct ? ct.name : "Monkata", code  , firstName: u.firstName });
+        const data: MailData = {
+          receiver: email,
+          subject:` MONKATA-Bienvenue sur notre plateforme` ,
+          body: message ? message : "Bienvenue sur notre plateforme.",
+          replyTo: "neRepondezPas@monkata.com",
+          fullName: u.firstName + " " + u.lastName ? u.lastName : "",
+        };
+        SendMail(FormData, axios, MAIL_EP+"",  data);
+      } catch (error) {
+        console.log(error);
+      }
         return res.send({
           error: false,
           kcToken,
@@ -236,7 +252,7 @@ const services = {
     return false;
   },
 
-  login: async (req: Request, res: Response) => {
+ login: async (req: Request, res: Response) => {
 
     const token = req.params.token;
     const username = req.body.username;
@@ -390,6 +406,26 @@ const services = {
       console.error(error);
       res.status(500).send(error);
     }
+  },
+  approveUser: async (req: Request, res: Response) => {
+    try {
+      const userRepository = req.DB.getRepository(User);
+      const code = req.params.code;
+      const keycloakId = req.payload?.sub;
+      const profil: User = await userRepository.findOne({
+        where: { keycloakId }
+      });
+    if (profil.approved_code == Number(code)){
+        profil.approuved = true;
+        await userRepository.save(profil);
+        return res.send({ error : false });
+       } else {
+        return res.send({ error : true });
+     }
+    } catch (error) {
+      console.error(error);
+      res.status(500).send(error);
+    }
   }
   ,
   editPassword: async (req: Request, res: Response) => {
@@ -486,8 +522,17 @@ const services = {
       userToUpdate.reset_code = code;
       userToUpdate = await userRepository.save(userToUpdate);
       console.log("USER : ", userToUpdate);
+      const { MAIL_EP } = process.env;
       try {
-         MailService.reset_password(req, { code, email: email, firstName: userToUpdate.firstName });
+        const message =  MailService.reset_password(req, { code, email: email, firstName: userToUpdate.firstName });
+        const data: MailData = {
+          receiver: email,
+          subject:` MONKATA-Réinitialisez votre mot de passe`,
+          body: message ? message : " Votre code de reinitialisation est : " + code,
+          replyTo: "neRepondezPas@monkata.com",
+          fullName: userToUpdate.firstName + " " + userToUpdate.lastName ? userToUpdate.lastName : "",
+        };
+        SendMail(FormData, axios, MAIL_EP+"",  data);
       } catch (error) {
         console.log(error);
       }

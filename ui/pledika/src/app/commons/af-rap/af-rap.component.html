@@ -1,0 +1,76 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!--============== Body content start ===============-->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+        <div *ngIf="!cuser" class="text-center">
+            <div class="spinner-bubble spinner-bubble-warning m-5"></div>
+        </div>
+        <div class="col-md-12" *ngIf="cuser">
+            <div class="ml-4 col-md-12 mb-2 text-center">
+                <h3 class="mb-3  text-center">Affectation <br>{{ cuser?.firstName}} {{ cuser?.lastName}}-({{cuser?.code}})</h3>
+                <h4 class="mb-3  text-center" *ngIf="cuser?.current_class.name">{{ cuser?.current_class.name}} </h4>
+                <h5 class="text-warning text-center"> {{index}}/{{users?.length-1}} </h5>
+                <a class="text-danger" routerLink="/app/affectation">Retourner a la liste des promotions</a>
+            </div>
+
+            <div class="col-md-6" style="margin-left:24%;">
+                <div *ngIf="response.active" class="alert alert-card alert-{{response.state}} text-center" role="alert">
+                    {{response.message}}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+                </div>
+                <div class="col-md-12  pt-2 mt-2">
+                    <div class="col-md-8 card pt-2 mt-2" style="margin-left:20%;">
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <label for="recipient-name-1">Choisissez une promotion </label>
+                                <option></option>
+                                <select id="niv" (change)='change()' class="form-control" [(ngModel)]="promo">
+            <option [ngValue]="f" *ngFor="let f of promos">{{f?.share_code || f?.code.split("(")[0] }}</option>
+          </select>
+                            </div>
+                            <div class="form-group col-md-8" *ngIf="promo && OP">
+                                <select id="OP" [(ngModel)]="option" class="form-control">
+            <option [selected]="false" [ngValue]="s.id" *ngFor="let s of OP; let iop = index">
+              {{s.name}}
+            </option>
+          </select>
+                            </div>
+                            <div class=" form-group col-md-4">
+                                <button [disabled]='loading || !option  ' (click)="addSTP()" class="btn btn-primary">
+            <span *ngIf='loading' class="spinner-border spinner-border-sm mr-1"></span>
+            <i class="nav-icon i-Add"></i>
+          </button>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="col-md-12 p-2 m-2">
+                <input class="form-control" [(ngModel)]="index" (change)='changeRange($event)' type="range" min="0" [max]="users?.length-1">
+            </div>
+
+            <div class="col-md-12 p-2">
+                <button class="btn btn-danger" (click)="prev()" *ngIf="index>1" style="float:left;">Précedent</button>
+
+                <button class="btn btn-success" (click)="next()" *ngIf="index<users?.length" style="float:right;">Suivant</button>
+            </div>
+
+
+        </div>
+
+
+
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+    <!-- ============ Body content End ============= -->
+</div>

@@ -3,8 +3,9 @@ import express from 'express';
 import * as jwt from 'jsonwebtoken';
 
 import { ReCaptcha } from '../../../../common/index/ReCaptcha';
-import { free, protect, protectEnt } from '../../../../common/keycloak/AuthMiddleware';
+import { free, protect } from '../../../../common/keycloak/AuthMiddleware';
 import services from '../services/JobService';
+import { PROTECT_ENTANDUSER } from './Protect';
 
 export const jobRoute = express.Router();
 const ctrl = services
@@ -43,6 +44,6 @@ jobRoute.get('/getStats', protect(jwt,process.env.PUBLIC_KEY+""),  ctrl.getStats
 jobRoute.get('/viewJob/:id',free(jwt,process.env.PUBLIC_KEY+""),  ctrl.viewJob);
 jobRoute.get('/getViewJob/:id',protect(jwt,process.env.PUBLIC_KEY+""),  ctrl.getViewJob);
 
-jobRoute.get('/countEnt', [protect(jwt,process.env.PUBLIC_KEY+""), protectEnt(jwt,process.env.PUBLIC_KEY+"")],  ctrl.countEnt);
+jobRoute.get('/countEnt',  PROTECT_ENTANDUSER ,  ctrl.countEnt);
 
-jobRoute.post('/getJobsForAdminEnt/:page', [protect(jwt,process.env.PUBLIC_KEY+""), protectEnt(jwt,process.env.PUBLIC_KEY+"")],  ctrl.getJobsFilterSearchForAdminEnt);
+jobRoute.post('/getJobsForAdminEnt/:page', PROTECT_ENTANDUSER ,  ctrl.getJobsFilterSearchForAdminEnt);

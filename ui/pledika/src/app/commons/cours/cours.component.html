@@ -1,0 +1,190 @@
+<div class="col-md-8 card" style="margin-left:16%;" *ngIf="!option">
+    <div class="col-md-12 mt-2 mb-2">
+        <h4 class="mb-3  text-center"> Ajouter nouveau cours</h4>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-12">
+            <label for="recipient-name-1">Choisissez un  cycle</label>
+            <option></option>
+            <select id="niv" (change)='change()' class="form-control" [(ngModel)]="option">
+                     <option [ngValue]="n" *ngFor="let n of options"> {{n.name}}
+                  </option>
+             </select>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12" *ngIf="option">
+    <div *ngIf="response.active" class="alert alert-card alert-{{response.state}} text-center" role="alert">
+        {{response.message}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+       <span aria-hidden="true">&times;</span>
+     </button>
+    </div>
+    <div class="card-body">
+        <b class="card-title mb-3">{{option.name}} - Ajouter cours </b>
+    </div>
+
+    <div class="row col-md-12" *ngIf="emat.name==''">
+        <div class="form-group col-md-3">
+            <label for="recipient-name-1" class="col-form-label">Matieres</label>
+            <select (ngModelChange)="onChange($event)" id="mat" [(ngModel)]="mat.mat" class="form-control">
+                     <option value="">  </option>
+                    <option [ngValue]="s" *ngFor="let s of smat"> {{s.code}}</option>
+             </select>
+        </div>
+        <div class="form-group col-md-3">
+            <label for="recipient-name-1" class="col-form-label">Enseignants</label>
+            <select id="prof" [(ngModel)]="mat.prof" class="form-control">
+                    <option [ngValue]="s" *ngFor="let s of profs"> {{s.firstName}} {{s.lastName}} ({{s.id}})
+                    </option>
+                  </select>
+        </div>
+
+        <div class="form-group col-md-3">
+            <label for="recipient-name-2" class="col-form-label">Nom generique</label>
+            <input type="text" class="form-control" [(ngModel)]="mat.name" />
+        </div>
+        <div class="form-group col-md-3">
+            <label for="recipient-name-2" class="col-form-label">Livre </label>
+            <input type="text" class="form-control" [(ngModel)]="mat.book_name" />
+        </div>
+
+        <div class="form-group col-md-2">
+            <label for="recipient-name-2" class="col-form-label">Coef</label>
+            <input type="number" class="form-control" [(ngModel)]="mat.coef" />
+        </div>
+        <div class="form-group col-md-2">
+            <label for="recipient-name-1" class="col-form-label">Note</label>
+            <input type="text" class="form-control" [(ngModel)]="mat.note_total" />
+        </div>
+        <div class="form-group col-md-2">
+            <label for="recipient-name-1" class="col-form-label">Moy. acc.</label>
+            <input type="text" class="form-control" [(ngModel)]="mat.note_pass" />
+        </div>
+        <div class="form-group col-md-2">
+            <label for="recipient-name-1" class="col-form-label">Moy. rep.</label>
+            <input type="text" class="form-control" [(ngModel)]="mat.note_rep" />
+        </div>
+        <div class="form-group col-md-2">
+            <label for="recipient-name-1" class="col-form-label">Moy. exc.</label>
+            <input type="text" class="form-control" [(ngModel)]="mat.note_excel" />
+        </div>
+        <div class="form-group col-md-2" style="margin-top:2%;">
+            <button class="btn btn-block btn-primary  btn-rounded mt-3" style="float:right;" (click)="addCourse()" [disabled]='loading || !mat.name || !mat.coef || !mat.note_total '>
+         <span *ngIf='loading' class="spinner-border spinner-border-sm mr-1"></span>
+         Ajouter
+       </button>
+        </div>
+        <div class="row col-md-12 m-2 p-2">
+            <a (click)="option=null" class="btn btn-link m-2">Changer de cycle</a>
+        </div>
+
+    </div>
+
+
+
+    <div class="row col-md-12" *ngIf="emat.name!=''">
+
+        <div class="col-md-12  row mb-4 ">
+            <i class="i-Close  close text-danger text-right" (click)="closeEdit()"></i>
+        </div>
+
+        <div class="form-group col-md-3" *ngIf="esmat">
+
+            <label for="recipient-name-1" class="col-form-label">Matieres  <i class="i-Close close pull-right text-right text-danger " (click)="closesMat()"></i>
+              </label>
+
+            <select (ngModelChange)="onEditChange($event)" id="mat" [(ngModel)]="cemat" class="form-control">
+          <option value=""> </option>
+          <option [ngValue]="s" *ngFor="let s of smat" [selected]="s.id===cemat?.id"> {{s.name}}</option>
+        </select>
+
+        </div>
+        <div class="form-group col-md-3" *ngIf="!esmat">
+            <h3>{{cemat?.name}} <i class="i-Pen-2 close text-primary text-right" (click)="editsMat()"></i></h3>
+        </div>
+        <div class="form-group col-md-3">
+            <label for="recipient-name-2" class="col-form-label">Code</label>
+            <input type="text" class="form-control" [(ngModel)]="emat.code" />
+        </div>
+        <div class="form-group col-md-3">
+            <label for="recipient-name-2" class="col-form-label">Nom generique</label>
+            <input type="text" class="form-control" [(ngModel)]="emat.name" />
+        </div>
+        <div class="form-group col-md-3">
+            <label for="recipient-name-2" class="col-form-label">Livre</label>
+            <input type="text" class="form-control" [(ngModel)]="emat.book_name" />
+        </div>
+
+        <div class="form-group col-md-2">
+            <label for="recipient-name-2" class="col-form-label">Coef</label>
+            <input type="number" class="form-control" [(ngModel)]="emat.coef" />
+        </div>
+        <div class="form-group col-md-2">
+            <label for="recipient-name-1" class="col-form-label">Note</label>
+            <input type="text" class="form-control" [(ngModel)]="emat.note_total" />
+        </div>
+        <div class="form-group col-md-2">
+            <label for="recipient-name-1" class="col-form-label">Moy. acc.</label>
+            <input type="text" class="form-control" [(ngModel)]="emat.note_pass" />
+        </div>
+        <div class="form-group col-md-2">
+            <label for="recipient-name-1" class="col-form-label">Moy. rep.</label>
+            <input type="text" class="form-control" [(ngModel)]="emat.note_rep" />
+        </div>
+        <div class="form-group col-md-2">
+            <label for="recipient-name-1" class="col-form-label">Moy. exc.</label>
+            <input type="text" class="form-control" [(ngModel)]="emat.note_excel" />
+        </div>
+        <div class="form-group col-md-2" style="margin-top:2%;">
+            <button class="btn btn-block btn-primary  btn-rounded mt-3" style="float:right;" (click)="editCourse()" [disabled]='loading || !emat.name || !emat.coef || !emat.note_total '>
+          <span *ngIf='loading' class="spinner-border spinner-border-sm mr-1"></span>
+         Modifier
+        </button>
+        </div>
+        <div class="row col-md-12 m-2 p-2">
+            <a (click)="option=null" class="btn btn-link m-2">Changer de cycle</a>
+        </div>
+
+    </div>
+</div>
+
+<!-- end of row-->
+
+
+<div class="col-md-12" *ngIf="option">
+
+    <h3 class="card-title mb-3">La liste des Cours</h3>
+    <div class=" row mt-2 mb-2">
+        <div class="form-group col-md-12 row" style="float:right;">
+            <div class="col-md-4" style="float:right;">
+                <label for="recipient-name-1" class="col-form-label">Rechercher</label>
+            </div>
+            <div class="col-md-8">
+                <input type="text" class="form-control" (keyup)="onKey($event)">
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 row">
+        <div class="col-md-2" *ngFor="let a of cours; let i = index" style="display:inline-block;">
+            <div class="card card-icon mb-4 p-2">
+                <div class="col-md-12  ml-1 text-center">
+                    <i class="i-Close text-danger " (click)="del(a,i)"></i>
+                </div>
+                <div class="card-body text-center">
+                    <i class="i-Book"></i>
+                    <p class="text-muted mt-2 mb-2"> <b>{{a?.code.split("-")[0]}}</b></p>
+                    <span class="badge badge-warning mr-1">{{a?.option}}</span>
+                    <span class="badge badge-primary mr-1">{{a?.code.split("-")[2]}}</span>
+                    <span class="badge badge-success mr-1">{{a?.note_total*a?.coef}}</span>
+                </div>
+                <div class="col-md-12  ml-1  text-center">
+                    <i class="i-Pen-2 text-primary" (click)="edit(a,i)"></i>
+                    <a routerLink="/app/detailsCours/{{a.id}}"><i class="i-Eye text-primary ml-1"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

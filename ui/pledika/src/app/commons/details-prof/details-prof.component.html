@@ -1,0 +1,131 @@
+<div class="app-admin-wrap">
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!-- ============ Body content start ============= -->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+
+
+        <div class="row">
+            <div class="col-md-12 ">
+                <div class="card">
+                    <div class="row p-4">
+                        <div class="col-md-4 ">
+                            <div class="col-md-12 p-2 m-2 card">
+                                <div class="col-md-12 mb-4">
+                                    <img *ngIf="logo" class="card" style="width: 80%; margin-left:10%;" [src]="logo" alt="">
+                                    <img *ngIf="!logo" class="card" style="width: 80%; margin-left:10%;" [src]="getLocalImg('default.png')" alt="">
+                                </div>
+                                <div class="col-md-12">
+                                    <h4 class="text-center mt-4">{{ USER?.lastName+' '+USER?.firstName }}</h4>
+                                    <h5 class="text-center mt-1">{{ USER?.code }}</h5>
+                                </div>
+                            </div>
+                            <div class="col-md-12 card">
+
+                                <button routerLink="/app/fichePers/{{ID}}" class="btn  btn-primary  btn-block">Impression Dossier</button>
+                                <button routerLink="/app/editProf/{{ID}}" class="btn  btn-primary  btn-block">Modifier profil</button>
+
+                            </div>
+                        </div>
+                        <div class="row col-md-8">
+                            <div class="row p-2 text-center" style="text-align: center;">
+                                <h3 class="text-center">Informations sur {{USER?.lastName}} {{USER?.firstName}}</h3>
+                            </div>
+                            <div class="row mb-4">
+                                <div class=" row col-md-12 ">
+                                    <div class=" col-md-4 mb-4 ">
+                                        <p class="text-primary mb-1"><i class="i-Calendar text-16 mr-1"></i> Date de naissance
+                                        </p>
+                                        <span *ngIf="USER?.date_de_naiss">{{USER?.date_de_naiss.split("T")[0]}}</span>
+                                    </div>
+                                    <div class="col-md-4  mb-4 ">
+                                        <p class="text-primary mb-1"><i class="i-Edit-Map text-16 mr-1"></i> lieu de naissance
+                                        </p>
+                                        <span *ngIf="USER?.lieu_de_naiss">{{USER?.lieu_de_naiss?.name}}</span>
+                                    </div>
+                                    <div class="col-md-4  mb-4 ">
+                                        <p class="text-primary mb-1"><i class="i-MaleFemale text-16 mr-1"></i> Sexe</p>
+                                        <span>{{USER?.sexe}}</span>
+                                    </div>
+                                    <div class=" col-md-4 mb-4 ">
+                                        <p class="text-primary mb-1"><i class="i-Mail text-16 mr-1"></i> Email</p>
+                                        <span>{{USER?.username}}</span>
+                                    </div>
+                                    <div class=" col-md-4 mb-4 ">
+                                        <p class="text-primary mb-1"><i class="text-16 mr-1"></i> Etat Civil</p>
+                                        <span>{{USER?.etat_civil}}</span>
+                                    </div>
+                                    <div class=" col-md-4 mb-4 ">
+                                        <p class="text-primary mb-1"><i class="i-Phone text-16 mr-1"></i>Téléphone</p>
+                                        <span>{{USER?.phone}}</span>
+                                    </div>
+                                    <div class=" col-md-4 mb-4 ">
+                                        <p class="text-primary mb-1"><i class="i-Globe text-16 mr-1"></i>Adresse</p>
+                                        <span>{{USER?.adresse}}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="accordion" id="accordionExample" style="width:100%;">
+                                <div class="card">
+                                    <div class="card-header" id="headingThree" style="width:100%;">
+                                        <h5 class="mb-0">
+                                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                       Autres
+                                     </button>
+                                        </h5>
+                                    </div>
+                                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                                        <div class="card-body">
+                                            <!-- end of row-->
+                                            <div class="col-md-12">
+                                                <div class="col-md-12" *ngIf="USER?.promotion">
+                                                    <h3 class="card-title mb-3">La liste des promotions</h3>
+                                                    <div class="col-md-4" *ngFor="let a of USER?.promotion" style="display:inline-block;">
+                                                        <div class="card card-icon mb-4 background-primary">
+                                                            <div class="card-body text-center">
+                                                                <p class="text-muted mt-2 mb-2"> <b>{{a?.code}}</b> <br>
+                                                                    <a class="btn btn-link text-break" routerLink="/app/detailsPromo/{{a?.id}}">Voir</a>
+                                                                </p>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12" *ngIf="USER?.courses">
+                                                    <h3 class="card-title mb-3">La liste des cours</h3>
+                                                    <div class="col-md-4" *ngFor="let a of USER?.courses" style="display:inline-block;">
+                                                        <div class="card card-icon mb-4 background-primary">
+                                                            <div class="card-body text-center">
+
+                                                                <p class="text-muted mt-2 mb-2"> <b>{{a?.code}}</b> <br>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <!-- Footer Start -->
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+    <!-- ============ Body content End ============= -->
+
+</div>

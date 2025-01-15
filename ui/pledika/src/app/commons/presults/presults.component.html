@@ -1,0 +1,86 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!-- ============ Body content start ============= -->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+        <div class="col-md-12 mb-2">
+            <h4 class="mb-3  text-center"> Resultats des examens <br/>{{ fcours?.code }}</h4>
+            <h5 class="text-danger text-center">
+                <a class="text-danger" routerLink="/app/prof_cours/{{IDC}}">Retoturnez a la liste de vos cours</a> </h5>
+        </div>
+        <!-- end of row-->
+        <div class="col-md-12">
+            <a style="margin-right:1%;" class="btn btn-sm btn-success" *ngIf="!fcours?.examen" (click)="closeExamen(true)">Activer examen
+                </a>
+            <button [disabled]='loading' class="btn btn-sm btn-primary" (click)="initResults()">Rafraichir Resultat</button>
+        </div>
+        <div class="row mb-4 mt-4">
+            <div class="col-md-12">
+
+                <div class="card text-left">
+                    <div class="card-body">
+                        <h4 class="card-title mb-3 text-center">Les élèves \ etudiants de cette promotion</h4>
+                        <div class=" row" style="float:right;">
+                            <div class="form-group col-md-12 row">
+                                <div class="col-md-4" style="float:left;">
+                                    <label for="recipient-name-1" class="col-form-label">Rechercher</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" autocomplete="off" (keyup)="onKey($event)">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table id="zero_configuration_table" class="display table table-striped table-bordered" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Code</th>
+                                        <th>Nom et prénom </th>
+                                        <th>Note</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let o of results ;  let i = index ">
+                                        <td>{{o.code_student}}</td>
+                                        <td>{{o.nom}} {{o.pnom}}</td>
+                                        <td>
+                                            <label class="alert alert-danger" *ngIf="msg[i]">{{msg[i]}}</label>
+                                            <label class="alert alert-success" *ngIf="note[i]">{{note[i]}}</label>
+                                            <input type="text" [(ngModel)]="o.note" class="form-control" />
+                                        </td>
+                                        <td> <button (click)="setResults(o,i)" class=" m-2 btn btn-sm btn-success">
+<i class="nav-icon i-File-Edit "></i></button>
+
+                                            <button [disabled]='iloading' (click)="del(o.id,i)" class=" m-2  btn btn-sm btn-danger">
+<i class="nav-icon i-Close "></i> </button></td>
+                                    </tr>
+
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Code</th>
+                                        <th>Nom et prénom </th>
+                                        <th>Note</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end of row-->
+        <!-- Footer Start -->
+
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+    <!-- ============ Body content End ============= -->
+</div>
+<!--=============== End app-admin-wrap ================-->

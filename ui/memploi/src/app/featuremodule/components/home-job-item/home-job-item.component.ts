@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-home-job-item',
@@ -6,6 +6,7 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./home-job-item.component.scss']
 })
 export class HomeJobItemComponent {
+  
   @Input()
   job: any;
 
@@ -15,5 +16,7 @@ export class HomeJobItemComponent {
 
   @Input()
   cjob: any | undefined;
+
+
 
 }

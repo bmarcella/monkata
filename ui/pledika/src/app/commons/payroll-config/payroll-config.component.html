@@ -1,0 +1,69 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!-- ============ Body content start ============= -->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+        <div class="col-md-8 mb-4" style="margin-left:12%;">
+            <div class="col-md-12 mb-2">
+                <h3 class="mb-3  text-center"> Configuration payroll
+                </h3>
+                <h5 class="text-danger text-center">
+                    <a class="text-danger" routerLink="/app/payroll">Retournez</a> </h5>
+            </div>
+            <div class="separator-breadcrumb border-top"></div>
+
+            <div class="card text-left">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="zero_configuration_table" class="display table table-striped table-bordered" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Mois</th>
+                                    <th>Jour</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let o of payroll; let i = index">
+                                    <td>{{o.code}}</td>
+                                    <td>
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                <input type="number" [(ngModel)]="o.jour" class="form-control">
+                                            </div>
+                                            <div class="col-md-2">
+                                                <button class="btn btn-primary" (click)="edit(i,o)"><i
+                                                    class="i-Edit"></i>
+   </button>
+                                            </div>
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <button title="cliquez ici pour deactivé ce mois" class="btn btn-danger" *ngIf="o.activated" (click)="toggle(o,i,false)">
+                                         Deactivé
+                                        </button>
+                                        <button title="cliquez ici pour activé ce mois" class="btn btn-success" *ngIf="!o.activated" (click)="toggle(o,i,true)">
+                                         Activé
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- end of col -->
+        </div>
+
+
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+    <!-- ============ Body content End ============= -->
+</div>
+<!--=============== End app-admin-wrap ================-->

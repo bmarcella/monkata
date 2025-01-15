@@ -1,0 +1,115 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!--============== Body content start ===============-->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+        <div class="ml-4 col-md-12 mb-2">
+            <h4 class="mb-3  text-center">{{ emat?.name}}</h4>
+            <h5 class="text-danger text-center">
+                <a class="text-danger" routerLink="/app/programme/">Retournez a la liste des cours</a> </h5>
+        </div>
+        <div class="col-md-12">
+            <div *ngIf="response.active" class="alert alert-card alert-{{response.state}} text-center" role="alert">
+                {{response.message}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+            </div>
+            <div class="card-body">
+                <b class="card-title mb-3"> Modifier ce cours </b>
+            </div>
+
+        </div>
+        <div class="row col-md-12">
+
+            <div class="form-group col-md-3" *ngIf="esprof">
+
+                <label for="recipient-name-1" class="col-form-label">Enseignants <i
+       class="i-Close close pull-right text-right text-danger " (click)="esprof=false"></i>
+   </label>
+
+                <select (ngModelChange)="onEditChangeProf($event)" id="mat" [(ngModel)]="ceprof" class="form-control">
+     <option value=""> </option>
+     <option [ngValue]="s" *ngFor="let s of profs" [selected]="s.id===ceprof?.id"> {{s.firstName}} {{s.lastName}}
+       ({{s.id}})</option>
+   </select>
+
+            </div>
+            <div class="form-group col-md-3" *ngIf="!esprof">
+
+                <label for="recipient-name-2" class="col-form-label"> Enseignant<i class="i-Pen-2 close text-primary text-right"
+             (click)="esprof=true;"></i></label>
+                <input type="text" class="form-control" value=" {{cp?.firstName}} {{cp?.lastName}}
+       ({{cp?.id}})" [disabled]="true" />
+            </div>
+
+
+            <div class="form-group col-md-3" *ngIf="esmat">
+
+                <label for="recipient-name-1" class="col-form-label">Matieres <i
+       class="i-Close close pull-right text-right text-danger " (click)="closesMat()"></i>
+   </label>
+
+                <select (ngModelChange)="onEditChange($event)" id="mat" [(ngModel)]="cemat" class="form-control">
+     <option value=""> </option>
+     <option [ngValue]="s" *ngFor="let s of smat" [selected]="s.id===cemat?.id"> {{s.name}}</option>
+   </select>
+
+            </div>
+            <div class="form-group col-md-3" *ngIf="!esmat">
+
+                <label for="recipient-name-2" class="col-form-label">Matiere <i
+                    class="i-Pen-2 close text-primary text-right" (click)="editsMat()"></i></label>
+                <input type="text" class="form-control" [(ngModel)]="emat.name" [disabled]="true" />
+            </div>
+            <div class="form-group col-md-3">
+                <label for="recipient-name-2" class="col-form-label">Code</label>
+                <input type="text" class="form-control" [(ngModel)]="emat.code" />
+            </div>
+            <div class="form-group col-md-3">
+                <label for="recipient-name-2" class="col-form-label">Nom generique</label>
+                <input type="text" class="form-control" [(ngModel)]="emat.name" />
+            </div>
+            <div class="form-group col-md-3">
+                <label for="recipient-name-2" class="col-form-label">Livre</label>
+                <input type="text" class="form-control" [(ngModel)]="emat.book_name" />
+            </div>
+
+            <div class="form-group col-md-2">
+                <label for="recipient-name-2" class="col-form-label">Coef</label>
+                <input type="number" class="form-control" [(ngModel)]="emat.coef" />
+            </div>
+            <div class="form-group col-md-2">
+                <label for="recipient-name-1" class="col-form-label">Note</label>
+                <input type="text" class="form-control" [(ngModel)]="emat.note_total" />
+            </div>
+            <div class="form-group col-md-2">
+                <label for="recipient-name-1" class="col-form-label">Moy. acc.</label>
+                <input type="text" class="form-control" [(ngModel)]="emat.note_pass" />
+            </div>
+            <div class="form-group col-md-2">
+                <label for="recipient-name-1" class="col-form-label">Moy. rep.</label>
+                <input type="text" class="form-control" [(ngModel)]="emat.note_rep" />
+            </div>
+            <div class="form-group col-md-2">
+                <label for="recipient-name-1" class="col-form-label">Moy. exc.</label>
+                <input type="text" class="form-control" [(ngModel)]="emat.note_excel" />
+            </div>
+            <div class="form-group col-md-2" style="margin-top:2%;">
+                <button class="btn btn-block btn-primary  btn-rounded mt-3" style="float:right;" (click)="editCourse()" [disabled]='loading || !emat.name || !emat.coef || !emat.note_total '>
+      <span *ngIf='loading' class="spinner-border spinner-border-sm mr-1"></span>
+      Modifier
+    </button>
+            </div>
+
+        </div>
+
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+    <!-- ============ Body content End ============= -->
+</div>
+<!--=============== End app-admin-wrap ================-->

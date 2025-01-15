@@ -1,0 +1,97 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!-- ============ Body content start ============= -->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+        <div class="col-md-12 mb-2">
+            <h3 class="mb-3  text-center"> Confidentialité </h3>
+        </div>
+
+        <div class="row">
+            <!-- end of row-->
+            <div class="col-md-6 ">
+                <div class="col-md-12 mb-2">
+                    <h4 class="mb-3  text-center"> Modifier votre mot de passe </h4>
+                </div>
+                <div class="card card-profile-1 mb-4">
+                    <div class="card-body">
+                        <div *ngIf="response.active" class="alert alert-card alert-{{response.state}} text-center" role="alert">
+                            {{response.message}}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+           <span aria-hidden="true">&times;</span>
+         </button>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <label for="recipient-name-1" class="col-form-label">Ancien mot de passe</label>
+                                <input type="password" [(ngModel)]="pass.pass_0" id="pass1" class="form-control">
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label for="recipient-name-1" class="col-form-label">Nouveau mot de passe</label>
+                                <input type="password" [(ngModel)]="pass.pass_1" id="nom" class="form-control">
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label for="recipient-name-1" class="col-form-label">Ré-entrer nouveau mot de passe</label>
+                                <input type="password" [(ngModel)]="pass.pass_2" id="nom" class="form-control">
+                            </div>
+                            <div class="form-group col-md-12">
+                                <button (click)="editPass()" style="float:right;" type="submit" id="btn" [disabled]="loading" class="btn btn-primary  btn-rounded mt-3">
+             <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+             Modifier
+           </button>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- end of row-->
+            <div class="col-md-6">
+                <div class="col-md-12 mb-2">
+                    <h4 class="mb-3  text-center"> Modifier votre Pin</h4>
+                </div>
+                <div class="card card-profile-1 mb-4">
+                    <div class="card-body">
+                        <div *ngIf="response2.active" class="alert alert-card alert-{{response2.state}} text-center" role="alert">
+                            {{response2.message}}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+           <span aria-hidden="true">&times;</span>
+         </button>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <label for="recipient-name-1" class="col-form-label">Votre PIN</label>
+                                <input type="password" [(ngModel)]="pin" id="pin1" class="form-control">
+                            </div>
+                            <div class="form-group col-md-12">
+                                <button (click)="editPin()" style="float:right;" type="submit" id="btn" [disabled]="loading" class="btn btn-primary  btn-rounded mt-3">
+             <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+             Modifier
+           </button>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+        <!-- end of row-->
+        <!-- Footer Start -->
+
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+    <!-- ============ Body content End ============= -->
+</div>
+<!--=============== End app-admin-wrap ================-->

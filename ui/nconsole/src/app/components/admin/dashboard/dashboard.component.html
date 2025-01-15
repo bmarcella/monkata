@@ -1,0 +1,14 @@
+<div class="dashboard-container">
+  <h1 class="page-title">{{ aEnt?.name || 'Console Monkata' }}</h1>
+  <div class="row g-4">
+    <div class="col-md-3" *ngFor="let stat of stats">
+      <div class="stats-card">
+        <div class="stats-icon bg-purple">
+          <i class="bi {{ stat.icon }}"></i>
+        </div>
+        <h3 class="stats-value">{{ stat.value }}</h3>
+        <p class="stats-label">{{ stat.title }}</p>
+      </div>
+    </div>
+  </div>
+</div>

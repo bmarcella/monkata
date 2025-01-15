@@ -1,0 +1,107 @@
+<div class="page-print">
+    <button class="btn btn-primary" [useExistingCss]="true" printSectionId="print-section" ngxPrint>print</button>
+</div>
+<div class="page" id="print-section">
+    <app-entete [etab]="etab"></app-entete>
+    <h3 class="title">Fiche d'incription</h3>
+
+    <div class="col-md-12">
+        <div class="block-a">
+            <div class="row">
+                <div class="col-md-6" *ngIf="USER?.paiement_admission?.code">
+                    <h4 class="text-left  mt-2 mb-2"> <b>No-reçu: </b><i>{{USER?.paiement_admission?.code}}</i> </h4>
+                </div>
+                <div class="col-md-6">
+                    <h4 class="text-right mt-2 mb-2"> <b>Date inscription: </b><i>{{USER?.created_at.split("T")[0]}}</i> </h4>
+                </div>
+            </div>
+            <h5><b>Informations apropros de l'enfant</b></h5>
+            <hr class="m-1 mb-2">
+            <div class="avatar">
+                <img *ngIf="logo" [src]="logo" id="userDropdown" alt="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img *ngIf="!logo" [src]="getLocalImg('default.png')" id="userDropdown" alt="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            </div>
+            <div class="b-8">
+                <p class="att">
+                    <b>Nom : </b> <i> {{USER?.lastName}} </i>
+                </p>
+
+                <p class="att">
+                    <b>prénom : </b> <i> {{USER?.firstName}} </i>
+                </p>
+                <p class="att">
+                    <b>Sexe: </b> <i> {{USER?.sexe}} </i>
+                </p>
+
+                <p class="att">
+                    <b>Code: </b> <i> {{USER?.code}} </i>
+                </p>
+
+                <p class="att-8">
+                    <b>Derniere Etablissement : </b> <i> {{USER?.last_etab}} </i>
+                </p>
+            </div>
+        </div>
+        <div class="block-a">
+            <p class="att">
+                <b>Date de Naiss. : </b> <i> {{USER?.date_de_naiss?.split("T")[0]}} </i>
+            </p>
+            <p class="att">
+                <b>Lieu de Naiss. : </b> <i> {{USER?.lieu_de_naiss?.name}} </i>
+            </p>
+
+            <p class="att">
+                <b>Classe : </b> <i> {{USER?.current_class?.name}} </i>
+            </p>
+
+            <p class="att">
+                <b>Date de Inscription. : </b> <i> {{USER?.date_de_naiss?.split("T")[0]}} </i>
+            </p>
+
+            <p class="att">
+                <b>Nom du père : </b> <i> {{USER?.nom_pere}} </i>
+            </p>
+            <p class="att">
+                <b>Nom de la mère: </b> <i> {{USER?.nom_mere}} </i>
+            </p>
+        </div>
+
+        <div class="block-a" *ngFor="let p of USER?.parent">
+            <div class="col-md-12" *ngIf="p.resp">
+                <h5><b>Personne responsable</b></h5>
+                <hr class="m-1">
+                <p class="att">
+                    <b>Nom Complet : </b> <i> {{p?.nom}} </i>
+                </p>
+                <p class="att">
+                    <b>Profession: </b> <i> {{p?.prof}} </i>
+                </p>
+
+                <p class="att">
+                    <b>relation : </b> <i> {{p?.who_is}} </i>
+                </p>
+                <p class="att">
+                    <b>Téléphone: </b> <i> {{p?.phone}} </i>
+                </p>
+
+                <p class="att">
+                    <b>Adresse: </b> <i> {{p?.adresse}} </i>
+                </p>
+            </div>
+        </div>
+        <div class="block-a">
+            <h5><b>Remarques:</b></h5>
+            <ul style="list-style-type:square;">
+                <li>Pour retirer une inscription, un droit d'annulation et de recherche de 250 gourdes est obligatiore. </li>
+                <li>La graduation pour les classes de fin cycle d'etudes est obligatiore</li>
+                <li>La direction decline toute responsabilité aus eleves qui auraient été remerciés par des règlements du code disciplinaire.</li>
+            </ul>
+        </div>
+    </div>
+
+
+    <div class="foot">
+
+    </div>
+
+</div>

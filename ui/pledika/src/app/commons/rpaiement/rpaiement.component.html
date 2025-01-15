@@ -1,0 +1,121 @@
+<div class="app-admin-wrap">
+
+    <app-navbar></app-navbar>
+    <app-side></app-side>
+    <!--=============== Left side End ================-->
+    <!-- ============ Body content start ============= -->
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <app-breadcrumb></app-breadcrumb>
+        <div class="col-md-10 mb-4" style="margin-left:6%;">
+            <div class="col-md-12 mb-2">
+                <h3 class="mb-3  text-center"> Rapport de caissement </h3>
+                <h5 class="text-danger text-center">
+                    <a class="text-danger" routerLink="/app/payroll">Retournez</a> </h5>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="mb-3  text-center"> Statistique </h3>
+                    <div class="col-md-12 mt-4">
+
+                        <div class="separator-breadcrumb border-top"></div>
+
+                        <div class="row">
+
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="card card-icon-bg card-icon-bg-primary o-hidden mb-4">
+                                    <div class="card-body text-center">
+                                        <i class="i-Money-2"></i>
+                                        <div class="content">
+                                            <p class="text-muted mt-2 mb-0">Gain Prévu</p>
+                                            <p class="text-primary text-20 line-height-1 mb-2">{{rapp?.max_gain?.toFixed(2) | currency: 'HTG'}}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="card card-icon-bg card-icon-bg-primary o-hidden mb-4">
+                                    <div class="card-body text-center">
+                                        <i class="i-Money-2"></i>
+                                        <div class="content">
+                                            <p class="text-muted mt-2 mb-0">En Caisse</p>
+                                            <p class="text-primary text-20 line-height-1 mb-2">{{rapp?.gain?.toFixed(2) | currency: 'HTG'}}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="card card-icon-bg card-icon-bg-primary o-hidden mb-4">
+                                    <div class="card-body text-center">
+                                        <i class="i-Money-2"></i>
+                                        <div class="content">
+                                            <p class="text-muted mt-2 mb-0">A Gagné</p>
+                                            <p class="text-primary text-20 line-height-1 mb-2">
+                                                {{ rapp?.to_gain?.toFixed(2) | currency: 'HTG' }} </p>
+                                            <label class="text-warning text-10">Bourse-caisse</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="card card-icon-bg card-icon-bg-primary o-hidden mb-4">
+                                    <div class="card-body text-center">
+                                        <i class="i-Money-2"></i>
+                                        <div class="content">
+                                            <p class="text-muted mt-2 mb-0">Bourse</p>
+                                            <p class="text-primary text-20 line-height-1 mb-2 ">
+                                                {{ rapp?.bgain?.toFixed(2) | currency: 'HTG' }} </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="card card-icon-bg card-icon-bg-primary o-hidden mb-4">
+                                    <div class="card-body text-center">
+                                        <i class="i-Money-2"></i>
+                                        <div class="content">
+                                            <p class="text-muted mt-2 mb-0">Gain General</p>
+                                            <p class="text-primary text-20 line-height-1 mb-2">{{(rapp?.max_gain + rapp?.bgain).toFixed(2) | currency: 'HTG'}}
+                                            </p>
+                                            <label class="text-warning text-10">Bourse+Gain prevu</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6" *ngIf="rapp?.max_gain">
+                                <div class="card mb-4">
+                                    <div class="card-body">
+                                        <h6 class="mb-2 text-muted">Caisse %</h6>
+                                        <p class="mb-1 text-22 font-weight-light">{{((rapp?.gain/rapp?.max_gain)*100).toFixed(2)+'%'}}</p>
+                                        <div class="progress mb-1" style="height: 4px">
+                                            <div class="progress-bar bg-success" attr.style="width: {{((rapp?.gain/rapp?.max_gain)*100).toFixed(2)+'%'}} " role="progressbar" attr.aria-valuenow="{{rapp?.gain}}" aria-valuemin="0" attr.aria-valuemax="{{rapp?.max_gain}}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- end of col -->
+        </div>
+
+
+        <app-footer></app-footer>
+        <!-- fotter end -->
+    </div>
+    <!-- ============ Body content End ============= -->
+</div>
+<!--=============== End app-admin-wrap ================-->
