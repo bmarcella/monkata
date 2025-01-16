@@ -1,18 +1,18 @@
 name: Deploy-Manifest
 
 on:
-  pull_request:
+  push:
     branches:
-      - main
+      - dev
     paths:
-      - 'cicd/k8s/**'
+      - 'cicd/k8s/services/**'
 
 jobs:
   build:
     runs-on: ubuntu-latest
     environment: Monkata
     env:
-      CLUSTER: 0a6946a5-edc3-414b-afff-1f19885c54ec
+      CLUSTER: ${{ vars.CLUSTER }}
 
     steps:
       - name: Checkout code
@@ -26,4 +26,4 @@ jobs:
       - name: Configure kubectl
         run: |
           doctl kubernetes cluster kubeconfig save $CLUSTER
-          kubectl apply -f cicd/k8s
+          kubectl apply -f cicd/k8s/services

@@ -22,12 +22,17 @@ import {
   Run,
 } from '../../../common/eureka/Eureka';
 import { Mail } from '../../../common/mail';
+import { Admin } from './entity/admin/Admin';
+import { UserRole } from './entity/admin/UserRole';
 import { Adresse } from './entity/Adresse';
 import { Application } from './entity/Application';
 import { Avatar } from './entity/Avatar';
 import { Categorie } from './entity/Categorie';
 import { CrossToken } from './entity/CrossToken';
+import { EntApp } from './entity/EntApp';
+import { EntAppToken } from './entity/EntAppToken';
 import { Entreprise } from './entity/Entreprise';
+import { KcUser } from './entity/KC_User';
 import { Logo } from './entity/Logo';
 import { ServiceEnt } from './entity/ServiceEnt';
 import { User } from './entity/User';
@@ -39,15 +44,26 @@ declare global {
     interface Request {
       EurekaClient?: any,
       payload?: JwtPayload,
+      payloadEnt?: any,
       token?: string
+      tokenEnt?: string,
+      idEnt: number,
       DB: any,
       mail: Mail,
+      PUBLI_KEY: string,
     }
   }
 }
 dotenv.config();
 
-const entities = [User,Adresse, Entreprise, Categorie, ServiceEnt, Application, Avatar, CrossToken, Logo];
+const entities = 
+   [User, Adresse,
+   Entreprise, Categorie, 
+   ServiceEnt, Application,
+   Avatar,CrossToken,
+   Logo, KcUser,
+   Admin,UserRole,
+   EntApp, EntAppToken ];
 
 AppDataSource<DataSource, Array<any>>(DataSource, process.env, entities).then((DB: DataSource) => {
 
@@ -64,13 +80,15 @@ AppDataSource<DataSource, Array<any>>(DataSource, process.env, entities).then((D
   app.use((req: Request, res: Response, next: NextFunction) => {
     req.EurekaClient = ET.EurekaClient
     req.DB = DB;
-    req.mail = new Mail(nodemailer, "admin", "Mab@0828@2024;");
+    req.PUBLI_KEY = process.env.PUBLIC_KEY+"";
+    req.mail = new Mail(nodemailer, "admin", "Mab@0828@2023;");
     next();
   })
   // body-parser
   app.use(bodyParser.json({ limit: '50mb', type: 'application/json' }));
   app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
-  app.use('/users', routes);
+  const BP = (process.env.BASE_PATH) ? process.env.BASE_PATH + "" : '/';
+  app.use(BP, routes);
   Run(process.env, ET, app);
 
 })

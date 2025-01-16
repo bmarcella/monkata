@@ -1,22 +1,31 @@
+import 'reflect-metadata';
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import bodyParser from 'body-parser';
-import cors from "cors";
-import dotenv from "dotenv";
-import { Eureka } from "eureka-js-client";
-import express, { Express, NextFunction, Request, Response } from "express";
+import cors from 'cors';
+import dotenv from 'dotenv';
+import { Eureka } from 'eureka-js-client';
+import express, {
+  Express,
+  NextFunction,
+  Request,
+  Response,
+} from 'express';
 import session from 'express-session';
-import { EurekaTools, Run } from '../../common/eureka/Eureka';
+import nodemailer from 'nodemailer';
+import { DataSource } from 'typeorm';
+
+import { corsOptions } from '../../../common/cors/index';
+import { AppDataSource } from '../../common/db/data-source';
+import {
+  EurekaTools,
+  Run,
+} from '../../common/eureka/Eureka';
 import { JwtPayload } from '../../common/keycloak/AuthMiddleware';
+import { Mail } from '../../common/mail/index';
+import { Test } from './entity/Test';
 import { routes } from './routes';
 
-import { DataSource } from "typeorm";
-import { AppDataSource } from '../../common/db/data-source';
-
-import nodemailer from 'nodemailer';
-
-import "reflect-metadata";
-import { Mail } from '../../common/mail/index';
-import { Test } from "./entity/Test";
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Express {
@@ -35,7 +44,7 @@ dotenv.config();
 const entities = [Test];
 AppDataSource<DataSource, Array<any>>(DataSource, process.env, entities).then((DB: DataSource) => {
   const app: Express = express();
-  app.use(cors());
+  app.use(cors(corsOptions));
 
   app.use(session({
     secret: (process.env.SESSION_SECRET + "")?.trim(),
@@ -61,12 +70,13 @@ AppDataSource<DataSource, Array<any>>(DataSource, process.env, entities).then((D
   // body-parser
   app.use(bodyParser.json({ limit: '50mb', type: 'application/json' }));
   app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
-  app.use('/jobs', routes);
+  const BP = (process.env.BASE_PATH) ? process.env.BASE_PATH + '' : '/';
+  app.use(BP, routes);
 
   Run(process.env, ET, app);
 
 })
-  .catch((error) => console.log(error));
+  .catch((error: any) => console.log(error));
 
 
 

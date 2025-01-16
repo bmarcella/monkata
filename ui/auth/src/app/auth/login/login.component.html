@@ -1,18 +1,6 @@
-<!-- Breadscrumb Section -->
-<div class="breadcrumb-bar">
-  <div class="container">
-    <div class="row align-items-center text-center">
-      <div class="col-md-12 col-12">
-        <h2 class="breadcrumb-title">Ouvrir username session Monkata</h2>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- /Breadscrumb Section -->
-
 <!-- Login Section -->
 <div class="login-content">
-  <div class="container">
+  <div class="container" style="margin-top: 8%">
     <div class="row">
       <div class="col-md-6 col-lg-5 mx-auto">
         <div class="login-wrap">
@@ -85,8 +73,40 @@
             </p>
           </div>
         </div>
+        <div class="alert alert-warning mb-2 mt-2">
+          Nous avons rencontré un problème technique qui a pu affecter les
+          inscriptions récentes. Si vous avez créé votre compte au cours des
+          dernières 48 heures et rencontrez des difficultés pour vous connecter,
+          nous vous prions de bien vouloir recréer votre compte. Nous vous
+          invitons également à postuler à nouveau pour les postes auxquels vous
+          aviez postulé au cours des dernières 48 heures. Nous vous remercions
+          de votre compréhension et nous excusons pour tout désagrément
+          occasionné.
+        </div>
       </div>
     </div>
   </div>
 </div>
 <!-- /Login Section -->
+
+<!-- Category Section -->
+<section class="category-section" style="margin-top: -8%">
+  <div class="container">
+    <div class="category-details">
+      <div class="row" style="justify-content: center">
+        <div class="col-lg-2 col-md-3 col-sm-6" *ngFor="let list of categories">
+          <a
+            target="_blank"
+            [href]="!prod ? list.frontend_dev : list.frontend_prod"
+            class="category-links"
+          >
+            <h5>{{ list.titre }}</h5>
+            <span>{{ list.description }}</span>
+            <img [src]="list.img" alt="icons" width="64" />
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- /Category Section -->

@@ -22,6 +22,8 @@ import {
 } from '../../../common/eureka/Eureka';
 import { JwtPayload } from '../../../common/keycloak/AuthMiddleware';
 import { Mail } from '../../../common/mail/index';
+import { ApplicantAno } from './entity/Anonimous/ApplicantAno';
+import { UserAno } from './entity/Anonimous/UserAno';
 import { Avatar } from './entity/Avatar';
 import { Contact } from './entity/Contact';
 import { Documents } from './entity/Documents';
@@ -33,6 +35,7 @@ import { Postulants } from './entity/Postulants';
 import { References } from './entity/References';
 import { Skills } from './entity/Skills';
 import { User_Cv } from './entity/User_Cv';
+import { ViewJob } from './entity/ViewJob';
 import { Works_exp } from './entity/Works_exp';
 import { routes } from './routes';
 
@@ -41,6 +44,8 @@ declare global {
   namespace Express {
     interface Request {
       EurekaClient?: any,
+      payloadEnt?: any,
+      tokenEnt:any,
       payload?: JwtPayload,
       token?: string
       DB: any,
@@ -51,7 +56,7 @@ declare global {
 
 dotenv.config();
 
-const entities = [Contact, User_Cv, Jobs, Postulants, Works_exp, Etudes, Avatar, Logo, Skills, Documents, References, LanguageSkills];
+const entities = [Contact, User_Cv, Jobs, Postulants, Works_exp, Etudes, Avatar, Logo, Skills, Documents, References, LanguageSkills, ViewJob, UserAno, ApplicantAno];
 AppDataSource<DataSource, Array<any>>(DataSource, process.env, entities).then( (DB: DataSource)=> {
 const app: Express = express();
   app.use(cors());
@@ -67,20 +72,21 @@ const app: Express = express();
 
   // app.use(keycloak.middleware());
 
-
+  
   const ET = EurekaTools<Eureka> (Eureka, process.env);
   
   app.use((req: Request, res: Response, next: NextFunction) => {
     req.EurekaClient = ET.EurekaClient
     req.DB =  DB;
-    req.mail = new Mail(nodemailer,"memploi", "Mab@0828@2024;");
+    req.mail = new Mail(nodemailer,"memploi", "Mab@0828@2023;");
     // req.keycloak = keycloak
     next();
   })
   // body-parser
   app.use(bodyParser.json({ limit: '50mb', type: 'application/json' }));
   app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
-  app.use('/jobs', routes);
+  const BP = (process.env.BASE_PATH) ? process.env.BASE_PATH + '' : '/';
+  app.use(BP, routes);
  
   Run(process.env, ET, app);
 

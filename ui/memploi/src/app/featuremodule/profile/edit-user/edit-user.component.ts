@@ -72,7 +72,10 @@ export class EditUserComponent implements OnInit {
      country : this.cv.country,
      telephone_a : this.cv.telephone_a,
      telephone_b: this.cv.telephone_b,
-     relocate :this.cv.relocate
+     relocate :this.cv.relocate,
+     nif : this.cv.nif,
+     nin: this.cv.nin,
+     passport: this.cv.passport
     };
 
     this.crud.post(URL, user, e).then((r) => {
@@ -143,10 +146,13 @@ export class EditUserComponent implements OnInit {
 
     const URL = getURL("memploi","cv/changePassword");
     this.crud.post(URL,this.pass, e).then((r) => {
-    console.log(r);
-
+      console.log(r);
       this.aUI.show({ active : true, message: r.message , type:r.type, pos: 'top-right' });
-
+      this.pass = {
+        newPassword: "",
+        newPassword2: "",
+        oldPassword: ""
+      }
     }).catch((e) => {
       console.log(e);
     });

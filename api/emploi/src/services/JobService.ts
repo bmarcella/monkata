@@ -5,17 +5,20 @@ import {
   Request,
   Response,
 } from 'express';
-import { Like } from 'typeorm/find-options/operator/Like';
+import * as jwt from 'jsonwebtoken';
 
+import { ILike } from 'typeorm';
 import {
   Http,
   SERV_EP,
 } from '../../../../common/index/Http';
 import { getService } from '../../../../common/index/services';
 import MailService from '../../../../common/mail/MailService';
+import { Contact } from '../entity/Contact';
 import { Jobs } from '../entity/Jobs';
 import { Postulants } from '../entity/Postulants';
 import { User_Cv } from '../entity/User_Cv';
+import { ViewJob } from '../entity/ViewJob';
 
 export const NPage = 5;
 const services = {
@@ -24,8 +27,9 @@ const services = {
       const jobsRepository = req.DB.getRepository(Jobs);
       const objs: Jobs [] = await jobsRepository.find({
         order: { created_at : "DESC" },
-        select: ['id','titre_job', 'categorie', 'ville','type_contrat', 'entreprise_id'], // Specify the fields you want to select
-        take: 6 // Limit the result to 6 rows
+        select: ['id','titre_job', 'categorie', 'ville','type_contrat', 'entreprise_id'],
+        where : { publish : true}, // Specify the fields you want to select
+        take: 18
     });
 
     let  ents: any [] = [];
@@ -126,7 +130,7 @@ getJobById : async (req: Request, res: Response) => {
       obj.country = cadd.country;
       obj.etat = cadd.etat;
       obj.ville = cadd.ville;
-      obj.publish = false;
+      obj.publish = job.publish;
       obj = await jobsRepository.save(obj);
       res.send(obj);
     } catch (error) {
@@ -182,16 +186,16 @@ getJobById : async (req: Request, res: Response) => {
       const jobsRepository = req.DB.getRepository(Jobs);
       const queryBuilder = jobsRepository.createQueryBuilder('job');
       if (query ) {
-        queryBuilder.orWhere( {titre_job: Like(`%${query}%`)  });
-        queryBuilder.orWhere( {description : Like(`%${query}%`) });
+        queryBuilder.orWhere( {titre_job: ILike(`%${query}%`)  });
+        queryBuilder.orWhere( {description : ILike(`%${query}%`) });
        }   
   
        if (location ) {
-        queryBuilder.orWhere({ville :Like(`%${location}%`) });
-        queryBuilder.orWhere( {etat: Like(`%${location}%`) });
+        queryBuilder.orWhere({ville : ILike(`%${location}%`) });
+        queryBuilder.orWhere( {etat: ILike(`%${location}%`) });
        }   
        if(categorie){
-           queryBuilder.andWhere({categorie: Like(`%${categorie}%`) });
+           queryBuilder.andWhere({categorie: ILike(`%${categorie}%`) });
        }
        if(type_contrat){
           queryBuilder.andWhere({type_contrat: type_contrat });
@@ -237,17 +241,17 @@ getJobById : async (req: Request, res: Response) => {
       const jobsRepository = req.DB.getRepository(Jobs);
       const queryBuilder = jobsRepository.createQueryBuilder('job');
       if (query ) {
-        queryBuilder.orWhere( {titre_job: Like(`%${query}%`)  });
-        queryBuilder.orWhere( {description : Like(`%${query}%`) });
+        queryBuilder.orWhere( { titre_job: ILike(`%${query}%`)  });
+        queryBuilder.orWhere( { description : ILike(`%${query}%`) });
        }   
   
        if (location ) {
-        queryBuilder.orWhere({ville :Like(`%${location}%`) });
-        queryBuilder.orWhere( {etat: Like(`%${location}%`) });
+        queryBuilder.orWhere({ville :ILike(`%${location}%`) });
+        queryBuilder.orWhere( {etat: ILike(`%${location}%`) });
        }   
   
         if(categorie){
-           queryBuilder.andWhere({categorie: Like(`%${categorie}%`) });
+           queryBuilder.andWhere({categorie: ILike(`%${categorie}%`) });
         }
   
         if(type_contrat){
@@ -519,6 +523,240 @@ getJobById : async (req: Request, res: Response) => {
   mail : async (req: any, res: Response) => {
      const data = MailService.test(req);
      return res.status(200).send({ data });
+  },
+
+  report : async (req: any, res: Response) => {
+    try {
+      const id = req.params.id;
+      const keycloakId = req.payload?.sub;
+
+      const contRepository = req.DB.getRepository(Contact);
+      const cont: Contact = await contRepository.findOne({
+        where: { id_job: id, keycloakId  }
+      });
+
+      if (cont) return res.status(409).send({ error: true, message : "Vous avez déjà signalé ce poste." });
+
+      const jobsRepository = req.DB.getRepository(Jobs);
+      const job: Jobs = await jobsRepository.findOne({
+        where: { id: id }
+      });
+
+      if (!job) return res.status(404).send({ error: true, message : "Job non trouvé" });
+
+      const userRepository = req.DB.getRepository(User_Cv);
+      const user: User_Cv = await userRepository.findOne({
+        where: { keycloakId }
+      });
+
+      if (!user) return res.status(404).send({ error: true, message : "Utilisateur non trouvé" });
+
+     
+      const pay = { id, keycloakId,  timestamp: new Date().getTime() };
+      const token = services.generateToken(pay, "REPORT_KEY");
+      let c: Contact = new Contact();
+      c.full_name = user.firstName +" "+ user.lastName;
+      c.email = user.email_contact;
+      c.id_job = id;
+      c.keycloakId = keycloakId;
+      c.token = token;
+      c.subject = "Job Report";
+      c.message = "Quelqu'un a signalé ce poste : " +job.titre_job+". ";
+      c = await contRepository.save(c);
+      return res.send(c);
+    } catch (error) {
+      console.log(error)
+      return res.status(500).send(error);
+    }
+ },
+ generateToken: (data: any , key: any) => {
+    const token = jwt.sign(data, key);
+    return token;
+  },
+  verifyToken: (token: any, key: any) => {
+    try {
+      const decoded = jwt.verify(token, key);
+      return { error: false, decoded};
+    } catch (error: any) {
+      console.error('Token verification failed:', error.message);
+      return { error: true};
+    }
+  },
+  getJobsFilterSearchForAdmin : async (req: Request, res: Response) => {
+    const NPage = 10;
+    const page = Number(req.params.page);
+    const skip = (page - 1) * NPage;
+    try {
+      const {
+          query ,
+      } = req.body;
+      const jobsRepository = req.DB.getRepository(Jobs);
+      const queryBuilder = jobsRepository.createQueryBuilder('job');
+      if (query ) {
+        queryBuilder.orWhere( { titre_job: ILike(`%${query}%`)  });
+        queryBuilder.orWhere({ categorie: ILike(`%${query}%`) });
+        queryBuilder.orWhere({ ville :ILike(`%${query}%`) });
+        queryBuilder.orWhere( { etat: ILike(`%${query}%`) });
+       }   
+    const objs2 = await queryBuilder.getCount();
+    
+    const objs: Jobs [] = await queryBuilder
+    .select(['job.created_at','job.id','job.titre_job', 'job.categorie', 'job.ville','job.type_contrat', 'job.entreprise_id','job.date_echeance','job.publish', 'job.block_by_admin'])
+    .orderBy("job.created_at", "DESC")
+    .skip(skip)
+    .take(NPage)
+    .getMany();
+    let  ents: any [] = [];
+    if(objs.length>0) {
+      const { GATEWAY_URL } = process.env;
+      const http = new Http(axios, req.token || '');
+      const path = getService("users").path;
+      const URL = GATEWAY_URL+path+SERV_EP.getListEntById;
+      const ids = objs.map(jobs => jobs.entreprise_id);
+      console.log(ids);
+      ents = await http.post(URL, { ids : ids } ,false);
+    }
+
+    const totalPage =  Math.ceil(objs2/NPage);
+    const pages = [];
+    for(let i = 1; i<= totalPage; i++) {
+      pages.push(i);
+    }
+    const pagination = { numberJobs : objs2,totalPage, pages,currentPage: page };
+    res.send({ objs, ents, pagination});
+    } catch (error) {
+      const pagination = { numberJobs : 0 ,totalPage: 0, pages: [], currentPage: page };
+      res.send({ objs : [], ents : [], pagination});
+    }
+  },
+  getJobsFilterSearchForAdminEnt : async (req: Request, res: Response) => {
+
+    console.log(req.payloadEnt);
+    let id : any = false
+    try {
+       id = Number(req.payloadEnt.obj.entId);
+    } catch (error) {
+      console.log(error,"NEW:",req.payloadEnt.obj.entId );
+    }
+
+    const NPage = 10;
+    const page = Number(req.params.page);
+    const skip = (page - 1) * NPage;
+    try {
+      const {
+          query ,
+      } = req.body;
+      const jobsRepository = req.DB.getRepository(Jobs);
+      const queryBuilder = jobsRepository.createQueryBuilder('job');
+
+      if(id) queryBuilder.where( { entreprise_id: id });
+      if (query ) {
+        queryBuilder.orWhere( { titre_job: ILike(`%${query}%`)  });
+        queryBuilder.orWhere({ categorie: ILike(`%${query}%`) });
+        queryBuilder.orWhere({ ville :ILike(`%${query}%`) });
+        queryBuilder.orWhere( { etat: ILike(`%${query}%`) });
+       }   
+    const objs2 = await queryBuilder.getCount();
+    
+    const objs: Jobs [] = await queryBuilder
+    .select(['job.created_at','job.id','job.titre_job', 'job.categorie', 'job.ville','job.type_contrat', 'job.entreprise_id','job.date_echeance','job.publish', 'job.block_by_admin'])
+    .orderBy("job.created_at", "DESC")
+    .skip(skip)
+    .take(NPage)
+    .getMany();
+    let  ents: any [] = [];
+    if(objs.length>0) {
+      const { GATEWAY_URL } = process.env;
+      const http = new Http(axios, req.token || '');
+      const path = getService("users").path;
+      const URL = GATEWAY_URL+path+SERV_EP.getListEntById;
+      const ids = objs.map(jobs => jobs.entreprise_id);
+      console.log(ids);
+      ents = await http.post(URL, { ids : ids } ,false);
+    }
+
+    const totalPage =  Math.ceil(objs2/NPage);
+    const pages = [];
+    for(let i = 1; i<= totalPage; i++) {
+      pages.push(i);
+    }
+    const pagination = { numberJobs : objs2,totalPage, pages,currentPage: page };
+    res.send({ objs, ents, pagination});
+    } catch (error) {
+      const pagination = { numberJobs : 0 ,totalPage: 0, pages: [], currentPage: page };
+      res.send({ objs : [], ents : [], pagination});
+    }
+  },
+  getStats: async (req: Request, res: Response) => {
+
+    const objRepository = req.DB.getRepository(Jobs);
+    const queryBuilder2 = objRepository.createQueryBuilder('jobs');
+    const objs = await queryBuilder2.getCount();
+
+    const objRepository2 = req.DB.getRepository(Postulants);
+    const queryBuilder = objRepository2.createQueryBuilder('Postulants');
+    const objs2 = await queryBuilder.getCount();
+    return res.send({ total_jobs: objs, total_postulant: objs2 });
+
+  },
+  viewJob: async (req: Request, res: Response) => {
+    const id = req.params.id;
+    const jobsRepository = req.DB.getRepository(Jobs);
+    const obj: Jobs = await jobsRepository.findOne({
+      where: { id }
+    });
+    if(!obj) { 
+      return res.status(404).send({ message: "Han an elam pranw lan..."});
+    } else {
+    const objRepository = req.DB.getRepository(ViewJob);
+     const vj :  ViewJob = new ViewJob();
+     vj.keycloakId = req.payload?.sub;
+     vj.id_job = Number(id);
+     const  ip: any = req.headers['x-forwarded-for'] || req.socket.remoteAddress || '';
+     vj.ip = ip;
+     const obj2 = await objRepository.save(vj);
+     return res.send(obj2);
+    }
+  },
+  getViewJob: async (req: Request, res: Response) => {
+    const id = req.params.id;
+    const jobsRepository = req.DB.getRepository(Jobs);
+    const obj: Jobs = await jobsRepository.findOne({
+      where: { id }
+    });
+    if(!obj) { 
+      return res.status(404).send({ message: ""});
+    } else {
+    const objRepository = req.DB.getRepository(ViewJob);
+    const objs = await objRepository.count({
+      where: { id_job: id }
+    });
+     return res.status(200).send({ view: objs});
+   }
+  },
+  countEnt : async (req: any, res: Response) => {
+    const id = Number(req.payloadEnt.obj.entId);
+    const jobsRepository = req.DB.getRepository(Jobs);
+    const job: Jobs = await jobsRepository.count({
+      select: ["entreprise_id"],
+      where: { entreprise_id: id }
+    });
+   // get postulant view 
+    const wh = "t1.id_job = t2.id AND t2.entreprise_id ='"+id+"'"; 
+    const post = await req.DB.getRepository(Postulants)
+    .createQueryBuilder("t1")
+    .from(Jobs, "t2") // Jointure cartésienne
+    .where(wh) // Clause WHERE basée sur une colonne commune
+    .getCount();
+    // get count view 
+    const wht = "t1.id_job = t2.id AND t2.entreprise_id ='"+id+"'"; 
+    const view = await req.DB.getRepository(ViewJob)
+    .createQueryBuilder("t1")
+    .from(Jobs, "t2") // Jointure cartésienne
+    .where(wht) // Clause WHERE basée sur une colonne commune
+    .getCount();
+
+    return res.status(200).send({ job, post, view });
   },
 };
 export default services;

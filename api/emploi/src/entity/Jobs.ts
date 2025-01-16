@@ -1,6 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
-import { Currency } from './Currency';
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { BaseEntity } from "./BaseEntity";
+import { Currency } from './Currency';
 
 export enum Horaire_de_travail {
   temps_plein = "Temps plein",
@@ -156,6 +156,9 @@ is_certificat_require?: boolean;
 
 @Column({ default: false })
 closed?: boolean;
+
+@Column({ default: false })
+block_by_admin?: boolean;
 
 }
 

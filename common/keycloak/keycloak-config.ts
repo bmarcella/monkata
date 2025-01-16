@@ -2,7 +2,7 @@
 
 export const ConfigKeycloak = (p: any) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { KEYCLOAK_PUBLIC_KEY, KEYCLOAK_SECRET, KEYCLOAK_RESOURCE, KEYCLOAK_CONFIDENTIAL_PORT, KEYCLOAK_REALM, KEYCLOAK_AUTH_SERVER_URL, KEYCLOAK_SSL_REQUIRED } = p;
+  const { PUBLIC_KEY, KEYCLOAK_SECRET, KEYCLOAK_RESOURCE, KEYCLOAK_CONFIDENTIAL_PORT, KEYCLOAK_REALM, KEYCLOAK_AUTH_SERVER_URL, KEYCLOAK_SSL_REQUIRED } = p;
   const keycloakConfig = {
         'confidential-port': Number(KEYCLOAK_CONFIDENTIAL_PORT) || 0,
         'bearer-only': true,
@@ -11,7 +11,7 @@ export const ConfigKeycloak = (p: any) => {
         'ssl-required':KEYCLOAK_SSL_REQUIRED+"",
         resource:KEYCLOAK_RESOURCE+"",
         "secret": KEYCLOAK_SECRET+"",
-        realmPublicKey: KEYCLOAK_PUBLIC_KEY+"",
+        realmPublicKey: PUBLIC_KEY+"",
   } ;
   // as KeycloakConnect.KeycloakConfig ;
   return keycloakConfig;

@@ -10,8 +10,8 @@
           <h5>{{ job?.titre_job }}</h5>
           <p>{{ ent?.name }}</p>
           <p>
-            <span *ngIf="job?.ville">{{ job?.ville }},</span>
-            <span *ngIf="job?.etat">{{ job?.etat }},</span>
+            <span *ngIf="job?.ville">{{ job?.ville }}, </span>
+            <span *ngIf="job?.etat">{{ job?.etat }}, </span>
             <span *ngIf="job?.country">{{ job?.country }}</span>
           </p>
         </div>
@@ -20,6 +20,7 @@
         <h2 *ngIf="job?.salaire">
           {{ currency(job?.salaire) }} {{ job?.currency }}
         </h2>
+        <p *ngIf="!job?.salaire" class="text-secondary">Type paiement</p>
         <p>{{ job?.periode_salaire }}</p>
       </div>
     </div>
@@ -34,15 +35,53 @@
             </li>
 
             <li>
-              <a href="javascript:void(0);"
-                ><i class="feather-flag"></i> report</a
+              <a (click)="report($event)" class="link"
+                ><i class="feather-flag"></i> Signaler ce poste</a
               >
             </li>
           </ul>
         </div>
         <div class="col-lg-3">
-          <div class="callnow" *ngIf="ent">
+          <div
+            class="callnow"
+            *ngIf="ent && job?.app_Reception == 'Memploi.com'"
+          >
             <a (click)="post($event)" style="color: black"> POSTULER</a>
+          </div>
+          <div *ngIf="ent && job?.app_Reception != 'Memploi.com'">
+            <p *ngIf="job.app_Reception == 'Email'">
+              Postuler a ce poste maintenant :
+            </p>
+            <p></p>
+            <p *ngIf="job.app_Reception == 'Whatsapp'">
+              Numero téléphone pour postuler a ce poste :
+            </p>
+            <p>
+              <a
+                class="btn btn-primary"
+                (click)="anchor('form-poste')"
+                *ngIf="job.app_Reception == 'Email'"
+              >
+               Postuler</a
+              >
+
+              <a
+                href="mailto:{{ job.phone_to_apply }}"
+                *ngIf="job.app_Reception == 'Whatsapp'"
+                style="color: black"
+              >
+                {{ job.phone_to_apply }}</a
+              >
+            </p>
+
+            <div class="callnow" *ngIf="job.app_Reception == 'Lien'">
+              <a
+                href="{{ job.lien_to_apply }}"
+                target="_blank"
+                style="color: black"
+                >POSTULER</a
+              >
+            </div>
           </div>
           <div class="callnow" *ngIf="!ent">
             <span class="text-danger"> Poste non disponible</span>
@@ -70,6 +109,11 @@
           </div>
           <div class="card-body" [innerHTML]="job?.description"></div>
         </div>
+        <app-form-ano
+          id="form-poste"
+          *ngIf="job && job.app_Reception == 'Email'"
+          [job]="job"
+        ></app-form-ano>
       </div>
       <div class="col-lg-3 theiaStickySidebar">
         <div class="stickybar">
@@ -93,11 +137,9 @@
                   Date Echeance
                   <span>{{ job?.date_echeance.split("T")[0] }}</span>
                 </li>
-                <li *ngIf="job?.email_to_apply">
-                  Email : <span>{{ job?.email_to_apply }}</span>
-                </li>
+
                 <li *ngIf="job?.phone_to_apply">
-                  Telephone<span>{{ job?.phone_to_apply }}</span>
+                  Téléphone<span>{{ job?.phone_to_apply }}</span>
                 </li>
               </ul>
             </div>

@@ -7,9 +7,11 @@ import {
   ActivatedRoute,
   Router,
 } from '@angular/router';
+import { ViewportScroller } from '@angular/common';
 
 import { Lightbox } from 'ngx-lightbox';
 import { routes } from 'src/app/core/helpers/routes/routes';
+import { AlertService } from 'src/app/service/alert.service';
 import { getURL } from 'src/environments/environment.prod';
 
 import { CrudService } from '../../service/crud.service';
@@ -30,8 +32,11 @@ export class DetailsJobComponent implements OnInit {
   id: any | undefined;
   logo: any;
   user: any;
-  constructor(private auth: KeycloakService, private _lightbox: Lightbox, public router: Router, public act: ActivatedRoute, private crud: CrudService ) {
+  constructor(private viewportScroller: ViewportScroller, private aUI:  AlertService, private auth: KeycloakService, private _lightbox: Lightbox, public router: Router, public act: ActivatedRoute, private crud: CrudService ) {
 
+  }
+  public anchor(elementId: string): void {
+    this.viewportScroller.scrollToAnchor(elementId);
   }
 
 
@@ -39,6 +44,18 @@ export class DetailsJobComponent implements OnInit {
     this.act.paramMap.subscribe(params => {
       this.id = params.get('id');
       this.getJob(this.id);
+      this.view(this.id);
+    });
+  }
+
+  public view(id: any) {
+    const URL = getURL("memploi","viewJob/"+id);
+    console.log(URL);
+    this.crud.get(URL).then((r) => {
+     // console.log(r);
+    }).catch((e) => {
+      const msg = e.error.error.message;
+      console.log(e);
     });
   }
 
@@ -47,6 +64,9 @@ export class DetailsJobComponent implements OnInit {
     this.crud.get(URL).then((r) => {
      console.log(r);
      this.job = r.job;
+      //
+      // this.job.description = toHTML(this.job.description);
+      //
      this.ent = r.entreprise;
      this.logo = this.auth.getLogo(this.ent.id);
     }).catch((e) => {
@@ -72,7 +92,6 @@ export class DetailsJobComponent implements OnInit {
   currency (num : any ){
     return  formatNumber(Number(num), 'en-US', '1.0-0')
   }
-
   post(e){
     this.user = this.auth.profil();
     if (this.user) {
@@ -81,7 +100,24 @@ export class DetailsJobComponent implements OnInit {
       const url =  "/job/apply/"+this.job.id;
       this.crud.loginWithReturn(url,e);
     }
+  }
 
+  report(e) {
+    this.user = this.auth.profil();
+    if (this.user) {
+      const URL = getURL("memploi","report/"+this.job.id);
+      this.crud.get(URL,e).then((r) => {
+        this.aUI.show({ active : true, message: "Vous avez signalé ce poste avec succès" , type: "success", pos: 'top-right' });
+        // console.log(r);
+      }).catch((e) => {
+        const msg = e.error.message;
+        this.aUI.show({ active : true, message: msg , type: "danger", pos: 'top-right' });
+        console.log(e);
+      });
+    } else {
+      const url =  "/job/apply/"+this.job.id;
+      this.crud.loginWithReturn(url,e);
+    }
   }
 
 }

@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { BaseEntity } from "./BaseEntity";
 @Entity()
 export class CrossToken extends BaseEntity {
@@ -9,12 +9,17 @@ export class CrossToken extends BaseEntity {
     @Column()
     token?: string;
 
-
     @Column({ nullable : true })
     returnUrl?: string;
 
+    @Column({ nullable : true })
+    origin?: string;
+
     @Column()
     appName: string;
+
+    @Column({ nullable : true })
+    defaultApp: string;
 
     @Column({ nullable: true })
     kCToken?: string;

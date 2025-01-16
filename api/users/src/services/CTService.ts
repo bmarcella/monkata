@@ -5,18 +5,19 @@ import {
   Response,
 } from 'express';
 import jwt from 'jsonwebtoken';
-
+import { v4 as uuidv4 } from 'uuid';
 import { servicesApp } from '../../../../common/index/Frontend';
+import { GenToken, secretKeyCommon } from '../../../../common/keycloak/AuthMiddleware';
 import { CrossToken } from '../entity/CrossToken';
+import { KcUser } from '../entity/KC_User';
 import { User } from '../entity/User';
 import { KCToken } from './UserService';
-
 export const monkata_auth_url = "auth";
-const secretKey = '08V5J1vven';
+export const secretKey = secretKeyCommon;
 const services = {
   addCT: async (req: Request, res: Response) => {
     try {
-     const path = req.body?.path;
+      const path = req.body?.path;
       const rep = req.DB.getRepository(CrossToken);
       const app = servicesApp[req.params.key];
       if (!app) return res.status(404).send({ message: "Key not found!" });
@@ -71,7 +72,7 @@ const services = {
 
   },
   setCToken: async (ck:CrossToken , token: any, req: Request, kcToken: KCToken, tp: number = 1) => {
-    if (token){
+    if (token) {
       const rep = req.DB.getRepository(CrossToken);
       if (ck) {
         ck.kCToken = JSON.stringify(kcToken);
@@ -132,5 +133,55 @@ const services = {
     }
 
   },
+  getKCToken: async (user: KcUser )  => {
+    const  PUBLIC_KEY  = process.env.PUBLIC_KEY;
+    const payload = {
+      sub: user.sub,
+      given_name: user.given_name,
+      family_name: user.family_name,
+      email: user.email,
+    };
+    const at = GenToken(jwt, payload, PUBLIC_KEY + "", "24h");
+    const rt = GenToken(jwt, payload, PUBLIC_KEY + "", "18h");
+    return  {
+      access_token: at,
+      expires_in: 86000,
+      "not-before-policy": 0,
+      refresh_expires_in: 64800,
+      refresh_token: rt,
+      scope: "profile email",
+      session_state: uuidv4(),
+      token_type: "Bearer",
+    } as KCToken;
+  },
+  directLoginCT : async(req: Request, res: Response) => {
+    const keycloakId = req.payload?.sub;
+    const dApp = req.params?.app;
+    try {
+      const userRepository = req.DB.getRepository(KcUser);
+      const user: KcUser = await userRepository.findOne({
+        where: { sub: keycloakId }
+      });
+      if (!user) throw { message: "keycloakId non trouvé" };
+        const token = await services.getKCToken(user);
+        const rep = req.DB.getRepository(CrossToken);
+        const ck : CrossToken = new CrossToken();
+        ck.userId = user.sub || "";
+        ck.kCToken = JSON.stringify(token);
+        ck.type_login = 1;
+        const ctoken = services.generateToken();
+      if (!token) return res.status(500).send({ message: "Token empty" });
+      ck.token = ctoken;
+      ck.appName = "console";
+      ck.returnUrl = "";
+      ck.defaultApp = dApp;
+      const cross_token = await rep.save(ck);
+      const app = servicesApp[ck.appName];
+      return res.send( { cross_token , app} );
+    } catch (error: any) {
+      console.error('Auth Error but account have been created', error);
+      throw error;
+    }
+  }
 };
 export default services;

@@ -1,0 +1,137 @@
+<app-breadcrumb
+  [title]="aEnt ? aEnt.name : ''"
+  [items]="[entToken ? entToken.appEnt.appName : '']"
+  [active_item]="aEnt ? aEnt.name : ''"
+></app-breadcrumb>
+<div class="container-fluid">
+  <div class="row dashboard-info">
+    <div class="col-md-3">
+      <div class="card dash-cards p-2">
+        <div class="card-body text-center">
+          <div class="dash-top-content">
+            <div class="dashcard-img">
+              <img
+                width="64"
+                src="assets/img/category-icon.svg"
+                class="img-fluid"
+                alt=""
+              />
+            </div>
+          </div>
+          <div class="dash-widget-info">
+            <h6>Emplois</h6>
+            <h3 class="counter">{{ rep?.job }}</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card dash-cards p-2">
+        <div class="card-body text-center">
+          <div class="dash-top-content">
+            <div class="dashcard-img">
+              <img
+                width="64"
+                src="assets/img/icons/wed-icon-03.svg"
+                class="img-fluid"
+                alt=""
+              />
+            </div>
+          </div>
+          <div class="dash-widget-info">
+            <h6>Bureaux</h6>
+            <h3 class="counter">{{ rep?.ad }}</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3" routerLink="/compagny/recruitement">
+      <div class="card dash-cards p-2">
+        <div class="card-body text-center">
+          <div class="dash-top-content">
+            <div class="dashcard-img">
+              <img
+                width="64"
+                src="assets/img/icons/service-3.svg"
+                class="img-fluid"
+                alt=""
+              />
+            </div>
+          </div>
+          <div class="dash-widget-info">
+            <h6>Postulants</h6>
+            <h3 class="counter">{{ rep?.post }}</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3" routerLink="/compagny/recruitement">
+      <div class="card dash-cards p-2">
+        <div class="card-body text-center">
+          <div class="dash-top-content">
+            <div class="dashcard-img">
+              <img
+                width="64"
+                src="assets/img/icons/service-3.svg"
+                class="img-fluid"
+                alt=""
+              />
+            </div>
+          </div>
+          <div class="dash-widget-info">
+            <h6>View</h6>
+            <h3 class="counter">{{ rep?.view }}</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Choisissez entreprise et Application</h4>
+  </div>
+  <div class="modal-body">
+    <div class="col-md-12 mt-2">
+      <div class="d-inline btn-showcase" ngbDropdown placement="bottom">
+        <button class="btn btn-outline-primary me-2" ngbDropdownToggle>
+          {{ cEnt ? cEnt.name : 'entreprises' }}
+        </button>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <button
+            class="dropdown-item me-2"
+            *ngFor="let obj of ents"
+            (click)="setEnt(obj)"
+          >
+            {{ obj.name }}
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12 mt-2">
+      <div class="d-inline btn-showcase" ngbDropdown placement="bottom">
+        <button class="btn btn-outline-primary me-2" ngbDropdownToggle>
+          {{ cApp ? cApp.name : 'Application' }}
+        </button>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
+          <button
+            class="dropdown-item me-2"
+            *ngFor="let obj of categories"
+            (click)="setApp(obj)"
+          >
+            {{ obj.name }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="butto" class="btn btn-light" (click)="Launch($event)">
+      Lancer Application
+    </button>
+  </div>
+</ng-template>

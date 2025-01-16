@@ -3,12 +3,13 @@ import {
   OnInit,
 } from '@angular/core';
 import { Router } from '@angular/router';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 import { CrudService } from 'src/app/service/crud.service';
 import { KeycloakService } from 'src/app/service/keycloak.service';
 import { SidebarService } from 'src/app/service/sidebar.service';
 import { header } from 'src/app/shared/models/header.model';
-import { getURL } from 'src/environments/environment.prod';
+import { getRURL, getURL } from 'src/environments/environment.prod';
 
 @Component({
   selector: 'app-header',
@@ -25,21 +26,28 @@ export class HeaderComponent implements OnInit {
   login = false;
   header: header[] = [];
   user: any;
+  cv: any;
   avatar = '';
   path: any ;
   ent: any;
+  isMobile: any;
+  deviceInfo: any;
   constructor(
     private router: Router,
     private auth: KeycloakService,
     private sidebarService: SidebarService,
     private crud: CrudService,
+    private deviceService: DeviceDetectorService
   ) {
+    this.deviceInfo = this.deviceService.getDeviceInfo();
+    this.isMobile = this.deviceService.isMobile();
     this.user = this.auth.profil();
-    console.log(this.user);
+    this.cv = this.auth.cv();
     if(this.user) {
       this.login = true;
-      this.avatar = this.auth.getAvatar(this.user.id);
-      this.getEntreprises();
+      if(this.cv)
+         this.avatar = this.auth.getAvatar(this.cv.id);
+         this.getEntreprises();
     }
   }
 
@@ -54,6 +62,7 @@ export class HeaderComponent implements OnInit {
   public toggleSidebar(): void {
     this.sidebarService.openSidebar();
   }
+
   public hideSidebar(): void {
     this.sidebarService.closeSidebar();
   }
@@ -75,6 +84,16 @@ export class HeaderComponent implements OnInit {
 
   public loginNow() {
    this.crud.login();
+  }
+
+  crossToken(){
+    const URL = getURL("users","cross-token/directLoginCT/memploi");
+    this.crud.get(URL).then((r) => {
+    const URL = getRURL(r.cross_token,r.app);
+    console.log(r, URL);
+    //window.location.href = URL;
+    window.open(URL, '_blank');
+    }).catch((e) => console.log(e));
   }
 
 

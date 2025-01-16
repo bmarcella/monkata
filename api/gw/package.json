@@ -1,6 +1,6 @@
 {
   "name": "gateway",
-  "version": "1.0.0",
+  "version": "1.0.100",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -33,6 +33,7 @@
     "express": "^4.19.2",
     "express-session": "^1.18.0",
     "formidable": "^3.5.1",
+    "gateway": "file:",
     "http-proxy-middleware": "^3.0.0",
     "jsonwebtoken": "^9.0.2",
     "keycloak-connect": "^23.0.6",

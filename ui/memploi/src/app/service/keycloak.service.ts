@@ -45,6 +45,12 @@ export class KeycloakService {
     return _user;
   }
 
+  cv() {
+    const _user = this.store.getJson("_cv");
+    return _user;
+  }
+
+
   isTokenExpired(): boolean {
     const expiration = localStorage.getItem('token_expiration');
     const now = new Date().getTime(); // Get current time in milliseconds
@@ -68,7 +74,6 @@ export class KeycloakService {
   }
 
   refreshNewToken(data: any) {
-
     this.isLog = true;
     const now = new Date();
     const expirationDate = new Date(now.getTime() + (data.expires_in * 1000)); // Convert seconds to milliseconds

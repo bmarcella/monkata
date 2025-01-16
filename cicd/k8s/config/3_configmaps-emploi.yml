@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata: 
+  name: monkata-configmap-emploi
+data :
+  NODE_ENV  :  development
+  PORT  :  "3003"
+  SERVICE_NAME : memploi
+  HOST  :  emploi-service
+  IP  :  127.0.0.1

@@ -1,0 +1,30 @@
+<!-- Profile Content -->
+<div class="dashboard-content" style="margin-top: 85px">
+  <div class="container">
+    <div class="">
+      <ul class="dashborad-menus">
+        <li [ngClass]="[path === 'home' ? 'active' : '']">
+          <a (click)="switcher('home')">
+            <i class="feather-grid"></i> <span>Dashboard</span>
+          </a>
+        </li>
+        <li [ngClass]="[path === 'entreprise' ? 'active' : '']" *ngIf="ent > 0">
+          <a (click)="switcher('entreprise')">
+            <i class="fa-solid fa-building"></i> <span>Entreprises</span>
+          </a>
+        </li>
+
+        <li
+          [ngClass]="[path === 'recruitement' ? 'active' : '']"
+          *ngIf="ent > 0"
+        >
+          <a (click)="switcher('recruitement')">
+            <i class="fa-solid fa-users"></i> <span>Recruitement</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <router-outlet> </router-outlet>
+  </div>
+</div>
+<!-- /Profile Content -->

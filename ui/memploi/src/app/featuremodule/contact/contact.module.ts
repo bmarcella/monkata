@@ -1,8 +1,9 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 
-import { ContactRoutingModule } from './contact-routing.module';
 import { FormsModule } from '@angular/forms';
+import { NgxEditorModule } from 'ngx-editor';
+import { ContactRoutingModule } from './contact-routing.module';
 
 
 @NgModule({
@@ -10,7 +11,8 @@ import { FormsModule } from '@angular/forms';
   ],
   imports: [
     CommonModule,
-    ContactRoutingModule
+    ContactRoutingModule,
+    NgxEditorModule,
   ],
   exports: [ FormsModule]
 })

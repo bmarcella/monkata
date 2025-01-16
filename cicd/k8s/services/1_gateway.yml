@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway-deployment
+  labels:
+    app: gateway
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      app:  gateway
+  template:
+   metadata:
+     labels:
+       app:  gateway
+   spec:
+     containers:
+     - name:  gateway
+       image: pledika/mkt-gateway
+       ports:
+        - containerPort: 3000
+       envFrom:
+        - configMapRef:
+            name: monkata-configmap
+       env:
+       - name: NODE_ENV
+         valueFrom: 
+           configMapKeyRef:
+             name: monkata-configmap-gw
+             key: NODE_ENV
+       - name: PORT
+         valueFrom: 
+           configMapKeyRef:
+             name: monkata-configmap-gw
+             key: PORT
+       - name: SERVICE_NAME
+         valueFrom: 
+           configMapKeyRef:
+             name: monkata-configmap-gw
+             key: SERVICE_NAME
+       - name: HOST
+         valueFrom: 
+           configMapKeyRef:
+             name: monkata-configmap-gw
+             key: HOST
+       - name: IP
+         valueFrom: 
+           configMapKeyRef:
+             name: monkata-configmap-gw
+             key: IP
+           
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: gateway-service
+  annotations:
+    #kubernetes.digitalocean.com/load-balancer-id: "bab30249-32c1-42c8-8834-cb3bcb9cab39"
+    #service.beta.kubernetes.io/do-loadbalancer-http-idle-timeout-seconds: "65"
+    #service.beta.kubernetes.io/do-loadbalancer-protocol: "https"
+    #service.beta.kubernetes.io/do-loadbalancer-tls-ports: "80"
+    service.beta.kubernetes.io/do-loadbalancer-certificate-name: "gateway"
+    service.beta.kubernetes.io/do-loadbalancer-certificate-id: "ae431d89-e7fc-4769-8834-7cf9860f4c5f"
+
+spec:
+  type: LoadBalancer
+  selector:
+    app: gateway
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 3000
+    - name: https
+      protocol: TCP
+      port: 443
+      targetPort: 3000

@@ -1,0 +1,88 @@
+.note-maker {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    margin-top: 1%;
+}
+
+.tnote-maker {
+    position: relative;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.tnote-maker th {
+    font-size: 12px;
+}
+
+.tnote-maker .vertical-header {
+    font-size: 12px;
+    text-align: center;
+    white-space: nowrap;
+    /* transform: rotate(90deg);
+    padding: auto;
+    height: 100px; */
+    writing-mode: vertical-rl;
+    text-orientation: sideways-right;
+}
+
+.signature {
+    border-top: 1px black solid;
+}
+
+.block {
+    padding: 0.5%;
+    margin: auto;
+    border: 1px solid black;
+}
+
+.parent {
+    position: relative;
+    right: 0%;
+    width: 30%;
+    float: right;
+    text-align: center;
+}
+
+.block-class {
+    position: relative;
+}
+
+.annee {
+    position: relative;
+    margin-right: 0%;
+    width: 100%;
+}
+
+.annee {
+    text-align: right;
+}
+
+.palmares {
+    text-align: center;
+    font-size: 17px;
+}
+
+table tr th {
+    border: 1px solid black;
+}
+
+table tr td {
+    border: 1px solid black;
+}
+
+table {
+    border: 1px solid black;
+}
+
+table td {
+    border: 1px solid black;
+    /* Style just to show the table cell boundaries */
+}
+
+table.no-spacing {
+    border-spacing: 0;
+    /* Removes the cell spacing via CSS */
+    border-collapse: collapse;
+    /* Optional - if you don't want to have double border where cells touch */
+}

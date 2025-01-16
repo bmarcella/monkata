@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ui-memploi-deployment
+  labels:
+    app: ui-memploi
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      app:  ui-memploi
+  template:
+   metadata:
+     labels:
+       app:  ui-memploi
+   spec:
+     containers:
+     - name:  ui-memploi
+       image: pledika/ui-memploi
+       ports:
+        - containerPort: 80
+       env:
+       - name: NODE_ENV
+         valueFrom: 
+           configMapKeyRef:
+             name: monkata-configmap-ui-memploi
+             key: NODE_ENV
+       - name: PORT
+         valueFrom: 
+           configMapKeyRef:
+             name: monkata-configmap-ui-memploi
+             key: PORT
+       - name: SERVICE_NAME
+         valueFrom: 
+           configMapKeyRef:
+             name: monkata-configmap-ui-memploi
+             key: SERVICE_NAME
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name:  ui-memploi-service
+  annotations:
+    #kubernetes.digitalocean.com/load-balancer-id: "224bc867-12d6-4f63-b856-7f82b5777d94"
+    #service.beta.kubernetes.io/do-loadbalancer-http-idle-timeout-seconds: "65"
+    #service.beta.kubernetes.io/do-loadbalancer-protocol: "https"
+    #service.beta.kubernetes.io/do-loadbalancer-tls-ports: "80"
+    service.beta.kubernetes.io/do-loadbalancer-certificate-name: "memploi"
+    service.beta.kubernetes.io/do-loadbalancer-certificate-id: "a4aee7ab-2abf-49f3-abf1-d9661a28e8a8"
+spec:
+  type: LoadBalancer
+  selector:
+    app: ui-memploi
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 80
+    - name: https
+      protocol: TCP
+      port: 443
+      targetPort: 80

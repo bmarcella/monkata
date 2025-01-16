@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AngularEditorConfig } from '@kolkov/angular-editor';
+import { Editor, Toolbar } from 'ngx-editor';
 // import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { Type_Categorie } from 'src/app/admin/categorie/categorie.component';
 import { routes } from 'src/app/core/helpers/routes/routes';
@@ -10,13 +10,12 @@ import { CrudService } from 'src/app/service/crud.service';
 import { Currency } from 'src/app/shared/models/Currency';
 import { App_Reception, Env_Work, Horaire_de_travail, Jobs, Periode_salaire, Type_contrat } from 'src/app/shared/models/Jobs';
 import { getURL } from 'src/environments/environment.prod';
-
 @Component({
   selector: 'app-edit-listing',
   templateUrl: './edit-listing.component.html',
   styleUrls: ['./edit-listing.component.css'],
 })
-export class EditJobComponent implements OnInit {
+export class EditJobComponent implements OnInit, OnDestroy  {
   public routes = routes;
 
   job: Jobs = new Jobs();
@@ -31,31 +30,32 @@ export class EditJobComponent implements OnInit {
   cats: any = [];
   selectedEnt: any;
   selectedAd: any;
-  editorConfig: AngularEditorConfig = {
-    editable: true,
-    spellcheck: true,
-    minHeight: '400px',  // Set your desired default height here
-    maxHeight: 'auto',
-    width: 'auto',
-    minWidth: '0',
-    translate: 'yes',
-    enableToolbar: true,
-    showToolbar: true,
-    placeholder: 'Ajouter du poste ici...',
-    defaultParagraphSeparator: '',
-    defaultFontName: '',
-    defaultFontSize: '',
-    // other config options...
-  };
+
+  editor: Editor;
+  toolbar: Toolbar = [
+    ['bold', 'italic'],
+    ['underline', 'strike'],
+    ['code', 'blockquote'],
+    ['ordered_list', 'bullet_list'],
+    [{ heading: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] }],
+    ['link', 'image'],
+    ['text_color', 'background_color'],
+    ['align_left', 'align_center', 'align_right', 'align_justify'],
+  ];
   constructor( public act: ActivatedRoute, public router: Router, private crud: CrudService, private aUI:  AlertService, private cat: CategorieService) {
   }
+
+  ngOnDestroy(): void {
+    this.editor.destroy();
+  }
+
   ngOnInit(): void {
     this.act.paramMap.subscribe(params => {
       this.id = params.get('id');
       this.getJob(this.id);
       this.getCats();
     });
-
+    this.editor = new Editor();
   }
 
 
@@ -77,9 +77,11 @@ export class EditJobComponent implements OnInit {
     this.job.phone_to_apply ="";
   }
 
-  public addJob(e: any) {
+  public addJob(e: any, b) {
     const URL = getURL("memploi","edit/"+this.job.id);
-    console.log(this.job);
+    this.job.publish = b;
+    const desc = this.job.description as any;
+    // this.job.description = toHTML(desc);
     this.crud.post(URL, this.job , e).then((r) => {
      console.log(r);
      this.aUI.show({ active : true, message: 'Success' , type: "success", pos: 'top-right' });
@@ -99,6 +101,7 @@ export class EditJobComponent implements OnInit {
      const job = r;
      if(job.date_echeance)
      job.date_echeance = r.date_echeance.split("T")[0];
+     // job.description = toDOC(job.description);
      this.job = job;
      console.log(this.job);
     }).catch((e) => {

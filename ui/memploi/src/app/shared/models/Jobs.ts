@@ -33,9 +33,9 @@ export enum App_Reception {
   whatsapp = "Whatsapp",
 }
 
-export class Jobs  {
+export class Jobs {
 
-  id?: number
+  id: number
   titre_job?: string;
 
   categorie?: string;
@@ -55,36 +55,36 @@ export class Jobs  {
   lien_to_apply?: string;
 
 
- email_to_apply?: string;
+  email_to_apply?: string;
 
- phone_to_apply?: string;
+  phone_to_apply?: string;
 
- benefits?: string;
+  benefits?: string;
 
- publish?: boolean;
+  publish?: boolean;
 
- periode_salaire?: Periode_salaire;
-
-
- salaire?: number;
-
- currency?: Currency;
-
-job_permanent?: boolean;
+  periode_salaire?: Periode_salaire;
 
 
+  salaire?: number;
 
-date_echeance?: Date;
+  currency?: Currency;
 
-adresse_job?: string;
+  job_permanent?: boolean;
 
-entreprise_id?: number;
 
-create_by?: number;
 
-is_lm_require?: boolean;
-is_cv_require?: boolean;
-is_diplome_require?: boolean;
-is_certificat_require?: boolean;
+  date_echeance?: Date;
+
+  adresse_job?: string;
+
+  entreprise_id?: number;
+
+  create_by?: number;
+
+  is_lm_require?: boolean;
+  is_cv_require?: boolean;
+  is_diplome_require?: boolean;
+  is_certificat_require?: boolean;
 
 }

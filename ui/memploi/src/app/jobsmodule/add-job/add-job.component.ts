@@ -1,10 +1,14 @@
 import {
   Component,
+  OnDestroy,
   OnInit,
+  ViewEncapsulation,
 } from '@angular/core';
 import { Router } from '@angular/router';
 
 // import { AngularEditorConfig } from '@kolkov/angular-editor';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
+import { Editor, toHTML, Toolbar } from 'ngx-editor';
 import { Type_Categorie } from 'src/app/admin/categorie/categorie.component';
 import { routes } from 'src/app/core/helpers/routes/routes';
 import {
@@ -26,14 +30,15 @@ import {
 } from 'src/app/shared/models/Jobs';
 import { getURL } from 'src/environments/environment.prod';
 
-import { AngularEditorConfig } from '@kolkov/angular-editor';
+
 
 @Component({
   selector: 'app-add-listing',
   templateUrl: './add-listing.component.html',
   styleUrls: ['./add-listing.component.css'],
+  encapsulation: ViewEncapsulation.None,
 })
-export class AddJobComponent implements OnInit {
+export class AddJobComponent implements OnInit, OnDestroy {
   public routes = routes;
 
   job: Jobs = new Jobs();
@@ -48,23 +53,19 @@ export class AddJobComponent implements OnInit {
   cats: any = [];
   selectedEnt: any;
   selectedAd: any;
-  editorConfig: AngularEditorConfig = {
-    editable: true,
-    spellcheck: true,
-    minHeight: '400px',  // Set your desired default height here
-    maxHeight: 'auto',
-    width: 'auto',
-    minWidth: '0',
-    translate: 'yes',
-    enableToolbar: true,
-    showToolbar: true,
-    placeholder: 'Ajouter du poste ici...',
-    defaultParagraphSeparator: '',
-    defaultFontName: '',
-    defaultFontSize: '',
-    // other config options...
-  };
+  editorConfig: AngularEditorConfig;
   refresh = 3;
+  editor: Editor;
+  toolbar: Toolbar = [
+    ['bold', 'italic'],
+    ['underline', 'strike'],
+    ['code', 'blockquote'],
+    ['ordered_list', 'bullet_list'],
+    [{ heading: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] }],
+    ['link', 'image'],
+    ['text_color', 'background_color'],
+    ['align_left', 'align_center', 'align_right', 'align_justify'],
+  ];
   constructor( public router: Router, private crud: CrudService, private aUI:  AlertService, private cat: CategorieService) {
     this.job.app_reception = this.rec.memploi;
     this.job.is_certificat_require = false;
@@ -75,7 +76,13 @@ export class AddJobComponent implements OnInit {
   ngOnInit(): void {
     this.getEntreprises();
     this.getCats();
+    this.editor = new Editor();
   }
+
+  ngOnDestroy(): void {
+    this.editor.destroy();
+  }
+
   see = false;
   public async  getEntreprises() {
     await this.crud.refresh();
@@ -110,7 +117,6 @@ export class AddJobComponent implements OnInit {
   }
 
   changeEnt(e){
-    console.log(e);
     this.job.email_to_apply ="";
     this.job.phone_to_apply ="";
     this.selectedAd = undefined;
@@ -132,9 +138,9 @@ export class AddJobComponent implements OnInit {
     },
     {
       name : "description",
-      mlength : 5000,
+      mlength : 10000,
       message: "Description* ne doit pas etre vide.",
-      mlmessage : "La Description* ne doit pas depasser 5000 characteres."
+      mlmessage : "La description* ne doit pas depasser 10000 characteres."
      },
     {
       name : "type_contrat",
@@ -165,7 +171,7 @@ export class AddJobComponent implements OnInit {
 
 
 
-  public async  addJob(e: any) {
+  public async  addJob(e: any, b: boolean) {
 
     const rep: any = await checkValidator (this.job, this.val, e);
     if (rep.error) {
@@ -174,6 +180,9 @@ export class AddJobComponent implements OnInit {
        return;
     }
     const URL = getURL("memploi","add");
+    this.job.publish = b;
+    const desc = this.job.description as any
+    this.job.description = toHTML(desc);
     this.crud.postRC(URL, { job: this.job, ent: this.selectedEnt, ad: this.selectedAd }, e).then((r) => {
      this.aUI.show({ active : true, message: 'Success' , type: "success", pos: 'top-right' });
      this.router.navigate(['/details-job/'+r.id]);

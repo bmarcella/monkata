@@ -1,0 +1,9 @@
+{
+    "server": "QNote",
+    "prod": true,
+    "port": 8080,
+    "qnEndpoint": "http://localhost:82/qnote/",
+    "qn": "./qnote/",
+    "token": "fasfyyAh129999sdg7fsafeGSGgjajhha127SHHwetyHwihd828yudbzbBbdavh378bsdbfjfhdf8834rbbdfmsdfn78",
+    "api_key": "a0gtfzuX99GqHrmBoCPK3EOil"
+}

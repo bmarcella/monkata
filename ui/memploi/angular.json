@@ -17,7 +17,8 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/listee-angular",
+
+            "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -132,3 +133,5 @@
     "analytics": "10ea5ebb-8ff0-45b0-aeda-6a8ab38f5a4f"
   }
 }
+
+

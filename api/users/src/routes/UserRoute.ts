@@ -15,14 +15,19 @@ userRoute.post('/login', ctrl.login);
 userRoute.post('/login/:token', ctrl.login);
 userRoute.post('/register', ReCaptcha(axios), ctrl.register);
 userRoute.post('/register/:token', ReCaptcha(axios), ctrl.register);
-userRoute.get('/logout/:token', protect(jwt, process.env.KEYCLOAK_PUBLIC_KEY + ""), ctrl.logout);
-userRoute.get('/test/:data', protect(jwt, process.env.KEYCLOAK_PUBLIC_KEY + ""), ctrl.test);
+userRoute.get('/logout/:token', protect(jwt, process.env.PUBLIC_KEY + ""), ctrl.logout);
 userRoute.get('/refreshtoken/:token', ctrl.refreshtoken);
 userRoute.get('/avatar/:id', ctrl.avatar);
-userRoute.get('/userProfil', protect(jwt, process.env.KEYCLOAK_PUBLIC_KEY + ""), ctrl.userProfil);
-
-userRoute.post('/editPassword', protect(jwt, process.env.KEYCLOAK_PUBLIC_KEY + ""), serv.editPassword);
-
-
+userRoute.get('/userProfil', protect(jwt, process.env.PUBLIC_KEY + ""), ctrl.userProfil);
+userRoute.post('/editPassword', protect(jwt, process.env.PUBLIC_KEY + ""), serv.editPassword);
 userRoute.post('/resetPassword', serv.resetPassword);
 userRoute.post('/resetNowPassword', serv.resetNowPassword);
+userRoute.get('/getCrossToken/:token', serv.getCrossTokenForAdmin);
+userRoute.get('/getCrossFreeToken/:token', serv.getCrossToken);
+
+
+// PAGINATION
+
+userRoute.post('/getUserByPage/:page',protect(jwt, process.env.PUBLIC_KEY + ""), serv.getUserByPage);
+
+userRoute.get('/getStats',protect(jwt, process.env.PUBLIC_KEY + ""), serv.getStats);

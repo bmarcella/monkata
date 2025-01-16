@@ -5,6 +5,7 @@ import {
   Request,
   Response,
 } from 'express';
+import * as jwt from 'jsonwebtoken';
 
 import {
   Http,
@@ -632,7 +633,7 @@ const services = {
       filler.email = true;
     }
 
-    if (user.telephone_a && user.telephone_b ) {
+    if (user.telephone_a || user.telephone_b ) {
       note +=10;
       filler.phone = true;
     }
@@ -663,7 +664,7 @@ const services = {
     }
 
     if (user.skills && user.skills.length>0) {
-        note +=10; 
+        note +=10;
         filler.skills = true;
     }
     res.status(200).send({ note, filler, total: 100 });
@@ -696,9 +697,23 @@ const services = {
     c.email = req.body.email;
     c.subject = req.body.subject;
     c.message= req.body.message;
+    const pay = { timestamp: new Date().getTime() }
     c = await dao.save(c);
     res.status(200).send(c);
-  }
+  },
+  generateToken: (data: any , key: any) => {
+    const token = jwt.sign(data, key);
+    return token;
+  },
+  verifyToken: (token: any, key: any) => {
+    try {
+      const decoded = jwt.verify(token, key);
+      return { error: false, decoded};
+    } catch (error: any) {
+      console.error('Token verification failed:', error.message);
+      return { error: true};
+    }
+  },
 
 };
 export default services;

@@ -6,14 +6,22 @@
 /api/tuto
 /ui/*/node_modules
 /ui/*/.angular
-/ui/*/dist
+#/ui/*/dist
 /ui/template
+/ui/cuba
+/ui/cuda
+/ui/admin/dist/
+/ui/console/dist/
+/ui/console/mail/
 /ui/gw
 /ui/memploi/.angular/cache/
 /ui/auth/.angular/cache/
 /ui/qnote/.angular/cache/
 /ui/admin/.angular/cache/
+/ui/console/.angular/cache/
 /cicd/hold/
+node_modules
 # Ignore operating system files
 .DS_Store
 aws.txt
+/.metadata/

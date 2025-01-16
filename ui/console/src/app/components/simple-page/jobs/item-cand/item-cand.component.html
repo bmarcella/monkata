@@ -1,0 +1,43 @@
+<div class="card" [ngClass]="[cand.id == ccand?.id ? 'box-active' : '']">
+  <div class="card-header">
+    <h5>
+      <a> {{ cand.firstname }} {{ cand.lastname }} </a>
+    </h5>
+  </div>
+  <div class="card-body">
+    <div class="popular-box">
+      <div class="popular-top">
+        <span class="badge badge-primary pull-right">{{
+          cand.etat_demande
+        }}</span>
+        <br />
+        <span class="text-primary pull-left">
+          <i class="fa fa-calendar"></i>
+          {{ cand.date_created.split('T')[0] }}</span
+        >
+      </div>
+      <div class="popular-footer">
+        <div class="time">
+          <div class="form-group mt-4" style="width: 100%">
+            <label style="width: 100%">Changer l'etat</label>
+            <select
+              [(ngModel)]="cand.etat_demande"
+              (change)="selectState($event)"
+              class="form-control"
+              name="currenry"
+              placeholder="Etat de la demande"
+            >
+              <option value="false">Tout</option>
+              <option
+                *ngFor="let j of etatDemandeOptions; let i = index"
+                [value]="j"
+              >
+                {{ j }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

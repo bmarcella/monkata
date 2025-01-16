@@ -20,7 +20,7 @@ export default class UserController extends BaseController {
   }
 
   public home(req: Request, res: Response) {
-    return UserService.home(req, res);
+     return UserService.home(req, res);
   }
 
   public profil(req: Request, res: Response) {
@@ -38,10 +38,7 @@ export default class UserController extends BaseController {
   public register(req: Request, res: Response) {
     return UserService.register(req, res);
   }
-
-  public test(req: Request, res: Response) {
-    return UserService.test(req, res);
-  }
+  
   public refreshtoken(req: Request, res: Response) {
     return UserService.refreshtoken(req, res);
   }

@@ -10,6 +10,7 @@ import {
 import { AlertService } from 'src/app/service/alert.service';
 import { CategorieService } from 'src/app/service/categorie.service';
 import { CrudService } from 'src/app/service/crud.service';
+import { KeycloakService } from 'src/app/service/keycloak.service';
 import { getURL } from 'src/environments/environment.prod';
 
 export  type Entreprise = {
@@ -28,6 +29,7 @@ export  type Entreprise = {
     street: string,
   }
   categorie : string,
+  appName : string,
 };
 
 @Component({
@@ -51,7 +53,8 @@ export class AddEntComponent {
         city :  '',
         street: '',
     },
-    categorie:''
+    categorie:'',
+    appName:'Memploi'
   };
 
   type_ent  = [
@@ -75,7 +78,8 @@ export class AddEntComponent {
           city :  '',
           street: '',
       },
-      categorie:''
+      categorie:'',
+      appName:'Memploi'
     };
   }
 
@@ -87,11 +91,24 @@ export class AddEntComponent {
 
   ents: any;
   cats: any = [];
-  constructor( public router: Router, private crud: CrudService, private aUI:  AlertService, private cat: CategorieService) {}
+  user: any;
+  ready = false;
+  constructor( public router: Router,private auth: KeycloakService, private crud: CrudService, private aUI:  AlertService, private cat: CategorieService) {}
 
   ngOnInit(): void {
     this.getEntreprises();
     this.getCats();
+    // this.post(undefined);
+  }
+
+  post(e){
+    this.user = this.auth.profil();
+    if (!this.user) {
+      const url =  "/jobs/add-ent";
+      this.crud.loginWithReturn(url,e);
+    } else {
+      this.ready = true;
+    }
   }
   public getEntreprises() {
     const URL = getURL("users","entreprise/getAll");

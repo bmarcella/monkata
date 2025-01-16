@@ -12,7 +12,7 @@ import { KeycloakService } from 'src/app/service/keycloak.service';
 })
 export class ForgotPasswordComponent {
   public routes = routes;
-  email = "bmarcella91@gmail.com" ;
+  email = "" ;
   user: any;
   isOver = false;
   data = {

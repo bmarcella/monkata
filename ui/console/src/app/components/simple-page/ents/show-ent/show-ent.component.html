@@ -1,0 +1,518 @@
+<app-breadcrumb
+  [title]="'Entreprise'"
+  [items]="['Monkata']"
+  [active_item]="'Entreprise'"
+></app-breadcrumb>
+
+<!-- Container-fluid starts -->
+<div class="container-fluid">
+  <div class="row">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="pull-left">Configuration entreprise</h5>
+      </div>
+      <div class="card-body">
+        <div class="tabbed-card" *ngIf="cEnt">
+          <ul
+            ngbNav
+            #nav2="ngbNav"
+            [activeId]="1"
+            class="pull-right nav nav-pills nav-primary"
+          >
+            <li [ngbNavItem]="1">
+              <a ngbNavLink
+                ><i class="icofont icofont-ui-home"></i> Generales</a
+              >
+              <ng-template ngbNavContent>
+                <div class="card-body">
+                  <div class="progress my-3 col-md-6" *ngIf="progress > 0">
+                    <div
+                      class="progress-bar progress-bar-info progress-bar-striped"
+                      role="progressbar"
+                      attr.aria-valuenow="{{ progress }}"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                      [ngStyle]="{ width: progress + '%' }"
+                    >
+                      {{ progress }}%
+                    </div>
+                  </div>
+                  <div class="row mb-2">
+                    <div class="col-auto">
+                      <img
+                        class="img-70 rounded-circle"
+                        alt=""
+                        [src]="avatar"
+                      />
+                    </div>
+                    <div class="col">
+                      <h3 class="mb-1">{{ cEnt?.name }}</h3>
+                      <p class="mb-4 text-success" *ngIf="cEnt.approved">
+                        Approuvé <i class="fa fa-check"></i>
+                      </p>
+                      <p class="mb-4 text-danger" *ngIf="!cEnt.approved">
+                        Non approuvé <i class="fa fa-check"></i>
+                      </p>
+
+                      <div
+                        class="btn btn-outline-primary"
+                        (click)="fileUpload.click()"
+                      >
+                        <app-feather-icons [icon]="'upload'">
+                        </app-feather-icons
+                        >Upload
+                      </div>
+                    </div>
+                  </div>
+                  <div class="profile-photo">
+                    <div class="profile-img">
+                      <div class="settings-upload-btn">
+                        <input
+                          (change)="onFileSelected($event)"
+                          type="file"
+                          accept="image/*"
+                          name="image"
+                          class="hide-input image-upload"
+                          id="file"
+                          style="display: none"
+                          #fileUpload
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row mb-4">
+                  <div class="col-md-4">
+                    <div class="input-block formlast-input">
+                      <label for="fa-google-plus-g" class="col-form-label"
+                        >Nombre d'employé</label
+                      >
+                      <div class="pass-group group-img">
+                        <span class="lock-icon"
+                          ><i class="fa fa-users"></i
+                        ></span>
+                        <input
+                          type="number"
+                          [(ngModel)]="cEnt.compagnie_size"
+                          class="form-control"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="input-block formlast-input">
+                      <label for="instagram" class="col-form-label"
+                        >Website</label
+                      >
+                      <div class="pass-group group-img">
+                        <span class="lock-icon"
+                          ><i class="fa fa-globe"></i
+                        ></span>
+                        <input
+                          type="phone"
+                          class="form-control"
+                          [(ngModel)]="cEnt.website"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4">
+                    <div class="input-block formlast-input">
+                      <label for="instagram" class="col-form-label"
+                        >Année de création</label
+                      >
+                      <div class="pass-group group-img">
+                        <span class="lock-icon"
+                          ><i class="fa fa-calendar"></i
+                        ></span>
+                        <input
+                          type="phone"
+                          class="form-control"
+                          [(ngModel)]="cEnt.year_founded"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row mb-4">
+                  <div class="col-md-4">
+                    <div class="input-block formlast-input">
+                      <label for="fa-google-plus-g" class="col-form-label"
+                        >Email</label
+                      >
+                      <div class="pass-group group-img">
+                        <span class="lock-icon"
+                          ><i class="fa fa-mail"></i
+                        ></span>
+                        <input
+                          type="email"
+                          [(ngModel)]="cEnt.email_contact"
+                          class="form-control"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="input-block formlast-input">
+                      <label for="instagram" class="col-form-label"
+                        >Téléphone 1</label
+                      >
+                      <div class="pass-group group-img">
+                        <span class="lock-icon"
+                          ><i class="fa fa-phone"></i
+                        ></span>
+                        <input
+                          type="phone"
+                          class="form-control"
+                          [(ngModel)]="cEnt.telephone_a"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="input-block formlast-input">
+                      <label for="instagram" class="col-form-label"
+                        >Téléphone 2</label
+                      >
+                      <div class="pass-group group-img">
+                        <span class="lock-icon"
+                          ><i class="fa fa-phone"></i
+                        ></span>
+                        <input
+                          type="phone"
+                          class="form-control"
+                          [(ngModel)]="cEnt.telephone_b"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="input-block mb-4">
+                  <button
+                    class="btn btn-primary"
+                    (click)="editEnt($event)"
+                    style="margin-left: 1%"
+                  >
+                    Modifier
+                  </button>
+                </div>
+              </ng-template>
+            </li>
+            <li [ngbNavItem]="2">
+              <a ngbNavLink><i class="fa fa-file"></i>Description</a>
+              <ng-template ngbNavContent>
+                <div class="card-body">
+                  <div class="input-block mb-4">
+                    <label class="col-form-label">Slogan</label>
+                    <input [(ngModel)]="cEnt.slogan" class="form-control" />
+                  </div>
+                  <div class="input-block mb-4">
+                    <label class="col-form-label">Description</label>
+                    <div class="col-md-12">
+                      <textarea
+                        class="form-control"
+                        [(ngModel)]="cEnt.description"
+                        style="height: 200px; width: 100%"
+                      ></textarea>
+                    </div>
+                  </div>
+
+                  <div class="input-block mb-4">
+                    <label class="col-form-label">Objectif</label>
+                    <div class="col-md-12">
+                      <textarea
+                        class="form-control"
+                        [(ngModel)]="cEnt.objectif"
+                        style="height: 200px; width: 100%"
+                      ></textarea>
+                    </div>
+                  </div>
+                  <div class="input-block mb-4">
+                    <label class="col-form-label">Mission</label>
+                    <div class="col-md-12">
+                      <textarea
+                        class="form-control"
+                        [(ngModel)]="cEnt.mission"
+                        style="height: 200px; width: 100%"
+                      ></textarea>
+                    </div>
+                  </div>
+                  <div class="input-block mb-4">
+                    <label class="col-form-label">Vision</label>
+                    <div class="col-md-12">
+                      <textarea
+                        class="form-control"
+                        [(ngModel)]="cEnt.vision"
+                        style="height: 200px; width: 100%"
+                      >
+                      </textarea>
+                    </div>
+                  </div>
+
+                  <div class="input-block mb-4">
+                    <button
+                      class="btn btn-primary"
+                      style="margin-left: 1%"
+                      (click)="editEnt($event)"
+                    >
+                      Modifier
+                    </button>
+                  </div>
+                </div>
+              </ng-template>
+            </li>
+            <li [ngbNavItem]="3">
+              <a ngbNavLink><i class="icofont icofont-contacts"></i>Bureaux</a>
+              <ng-template ngbNavContent>
+                <div class="row">
+                  <div class="col-md-6">
+                    <h5>Ajouter nouveau bureau</h5>
+                    <div>
+                      <div class="row mb-4">
+                        <div class="col-md-12">
+                          <div class="input-block formlast-input">
+                            <label for="fa-google-plus-g" class="col-form-label"
+                              >Nom</label
+                            >
+                            <div class="pass-group group-img">
+                              <input
+                                type="text"
+                                [(ngModel)]="w.name"
+                                class="form-control"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row mb-4">
+                        <div class="col-md-4">
+                          <div class="input-block formlast-input">
+                            <label for="fa-google-plus-g" class="col-form-label"
+                              >Pays</label
+                            >
+                            <div class="pass-group group-img">
+                              <span class="lock-icon">
+                                <i class="fa fa-globe"></i>
+                              </span>
+                              <input
+                                type="test"
+                                [(ngModel)]="w.country"
+                                class="form-control"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="input-block formlast-input">
+                            <label for="fa-google-plus-g" class="col-form-label"
+                              >Departement</label
+                            >
+                            <div class="pass-group group-img">
+                              <span class="lock-icon">
+                                <i class="fa fa-location-arrow"></i>
+                              </span>
+                              <input
+                                type="test"
+                                [(ngModel)]="w.etat"
+                                class="form-control"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="input-block formlast-input">
+                            <label for="instagram" class="col-form-label"
+                              >Ville
+                            </label>
+                            <div class="pass-group group-img">
+                              <span class="lock-icon">
+                                <i class="fa fa-location-arrow"></i>
+                              </span>
+                              <input
+                                type="text"
+                                class="form-control"
+                                [(ngModel)]="w.ville"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-12">
+                          <div class="input-block formlast-input">
+                            <label for="fa-google-plus-g" class="col-form-label"
+                              >Rue</label
+                            >
+                            <div class="pass-group group-img">
+                              <input
+                                type="text"
+                                [(ngModel)]="w.rue"
+                                class="form-control"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <button
+                        class="btn btn-primary"
+                        style="margin-left: 1%"
+                        (click)="addAdresse(w, $event)"
+                      >
+                        <i class="fa fa-solid fa-plus"></i>
+                      </button>
+
+                      <hr />
+                    </div>
+                  </div>
+                  <div class="col-md-6" style="border-left: 1px solid #929191">
+                    <h5 class="heading">Vos bureaux</h5>
+                    <hr class="mb-4" />
+                    <div
+                      id="adresses-{{ w.id }}"
+                      *ngFor="let w of cEnt.adresses; let i = index"
+                    >
+                      <div clas="row" *ngIf="add[i]">
+                        <div class="row mb-4">
+                          <div class="col-md-12">
+                            <div class="input-block formlast-input">
+                              <label
+                                for="fa-google-plus-g"
+                                class="col-form-label"
+                                >Nom</label
+                              >
+                              <div class="pass-group group-img">
+                                <input
+                                  type="text"
+                                  [(ngModel)]="w.name"
+                                  class="form-control"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="row mb-4">
+                          <div class="col-md-4">
+                            <div class="input-block formlast-input">
+                              <label
+                                for="fa-google-plus-g"
+                                class="col-form-label"
+                                >Pays</label
+                              >
+                              <div class="pass-group group-img">
+                                <span class="lock-icon">
+                                  <i class="fa fa-globe"></i>
+                                </span>
+                                <input
+                                  type="test"
+                                  [(ngModel)]="w.country"
+                                  class="form-control"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="input-block formlast-input">
+                              <label
+                                for="fa-google-plus-g"
+                                class="col-form-label"
+                                >Departement</label
+                              >
+                              <div class="pass-group group-img">
+                                <span class="lock-icon">
+                                  <i class="fa fa-location-arrow"></i>
+                                </span>
+                                <input
+                                  type="test"
+                                  [(ngModel)]="w.etat"
+                                  class="form-control"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="input-block formlast-input">
+                              <label for="instagram" class="col-form-label"
+                                >Ville
+                              </label>
+                              <div class="pass-group group-img">
+                                <span class="lock-icon">
+                                  <i class="fa fa-location-arrow"></i>
+                                </span>
+                                <input
+                                  type="text"
+                                  class="form-control"
+                                  [(ngModel)]="w.ville"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-12">
+                            <div class="input-block formlast-input">
+                              <label
+                                for="fa-google-plus-g"
+                                class="col-form-label"
+                                >Rue</label
+                              >
+                              <div class="pass-group group-img">
+                                <input
+                                  type="text"
+                                  [(ngModel)]="w.rue"
+                                  class="form-control"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <button
+                          class="btn btn-primary"
+                          style="margin-left: 1%"
+                          (click)="editAdresse(w, i, $event)"
+                        >
+                          <i class="fa fa-solid fa-pencil"></i>
+                        </button>
+                      </div>
+                      <div clas="row" *ngIf="!add[i]">
+                        <div class="popular-box">
+                          <div class="popular-inner">
+                            <div
+                              class="popular-content"
+                              style="margin-top: -3%"
+                            >
+                              <h4 style="margin-top: -3%">
+                                <a>
+                                  {{ w.name }}
+                                </a>
+                              </h4>
+                              <p>
+                                <span *ngIf="w?.rue">{{ w?.rue }}, </span>
+                                <span *ngIf="w?.ville">{{ w?.ville }}, </span>
+                                <span *ngIf="w?.etat">{{ w?.etat }}, </span>
+                                <span *ngIf="w?.country">{{ w?.country }}</span>
+                              </p>
+                            </div>
+                            <button
+                              class="btn btn-primary"
+                              (click)="add[i] = true"
+                              style="margin-left: 1%; float: right"
+                            >
+                              <i class="fa fa-solid fa-pencil"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+
+                      <hr class="mb-4" />
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </li>
+          </ul>
+          <div [ngbNavOutlet]="nav2" class="mt-2"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Container-fluid Ends -->

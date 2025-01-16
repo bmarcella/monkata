@@ -5,7 +5,7 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="row">
-            <div class="input-block col-md-5">
+            <div class="input-block col-md-5 mb-1">
               <input
                 type="text"
                 [(ngModel)]="filter.query"
@@ -13,7 +13,7 @@
                 placeholder="Rechercher"
               />
             </div>
-            <div class="input-block col-md-5">
+            <div class="input-block col-md-5 mb-1">
               <input
                 type="text"
                 [(ngModel)]="filter.location"
@@ -21,7 +21,7 @@
                 placeholder="Location"
               />
             </div>
-            <div class="col-md-2">
+            <div class="col-md-2 mb-1">
               <a
                 (click)="search($event)"
                 class="form-control btn btn-primary mbtn"
@@ -106,9 +106,10 @@
 <div class="details-main-wrapper">
   <div class="container">
     <div class="row">
-      <div class="col-lg-4">
+      <div class="{{ isMobile ? 'col-md-12' : 'col-md-4' }}">
         <app-home-job-item
-          class="row"
+          [id]="'job-' + j.job.id"
+          class="col-md-12"
           *ngFor="let j of jobs"
           [job]="j"
           [showApply]="false"
@@ -117,55 +118,64 @@
         >
         </app-home-job-item>
       </div>
-      <div class="col-lg-8" *ngIf="job && ent">
-        <div class="card">
-          <div class="card-body">
-            <div class="about-details">
-              <div class="about-headings">
-                <div class="authordetails">
-                  <h5>{{ job?.titre_job }}</h5>
-                  <p>{{ ent?.name }}</p>
-                  <p>
-                    <span *ngIf="job?.ville"
-                      >{{ job?.ville
-                      }}<i *ngIf="job?.etat || job?.country">, </i>
-                    </span>
-                    <span *ngIf="job?.etat"
-                      >{{ job?.etat }}<i *ngIf="job?.country">, </i>
-                    </span>
-                    <span *ngIf="job?.country">{{ job?.country }}</span>
-                  </p>
+      <div class="{{ isMobile ? 'job-popup' : 'col-md-8' }}" *ngIf="job && ent">
+        <div class="row mb-2" *ngIf="isMobile">
+          <a id="menu_close" class="menu-close">
+            <i class="fas fa-times" style="float: right" (click)="close()"></i
+          ></a>
+        </div>
+        <div class="row">
+          <div class="card">
+            <div class="card-body">
+              <div class="about-details">
+                <div class="about-headings">
+                  <div class="authordetails">
+                    <h5>{{ job?.titre_job }}</h5>
+                    <p>{{ ent?.name }}</p>
+                    <p>
+                      <span *ngIf="job?.ville"
+                        >{{ job?.ville
+                        }}<i *ngIf="job?.etat || job?.country">, </i>
+                      </span>
+                      <span *ngIf="job?.etat"
+                        >{{ job?.etat }}<i *ngIf="job?.country">, </i>
+                      </span>
+                      <span *ngIf="job?.country">{{ job?.country }}</span>
+                    </p>
+                  </div>
+                </div>
+                <div class="rate-details">
+                  <h3 *ngIf="job?.salaire">
+                    {{ currency(job?.salaire) }} {{ job?.currency }}
+                  </h3>
+                  <p>{{ job?.periode_salaire }}</p>
                 </div>
               </div>
-              <div class="rate-details">
-                <h3 *ngIf="job?.salaire">
-                  {{ currency(job?.salaire) }} {{ job?.currency }}
-                </h3>
-                <p>{{ job?.periode_salaire }}</p>
-              </div>
-            </div>
-            <div class="descriptionlinks">
-              <div class="row">
-                <div class="col-lg-6"></div>
-                <div class="col-lg-6">
-                  <div class="callnow">
-                    <a routerLink="/details-job/{{ job?.id }}"> Voir Poste </a>
+              <div class="descriptionlinks">
+                <div class="row">
+                  <div class="col-lg-6"></div>
+                  <div class="col-lg-6">
+                    <div class="callnow">
+                      <a routerLink="/details-job/{{ job?.id }}">
+                        Voir Poste
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="card">
-          <div class="card-header">
-            <span class="bar-icon">
-              <span></span>
-              <span></span>
-              <span></span>
-            </span>
-            <h4>Description</h4>
+          <div class="card">
+            <div class="card-header">
+              <span class="bar-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+              </span>
+              <h4>Description</h4>
+            </div>
+            <div class="card-body" [innerHTML]="job?.description"></div>
           </div>
-          <div class="card-body" [innerHTML]="job?.description"></div>
         </div>
       </div>
     </div>

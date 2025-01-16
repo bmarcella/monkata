@@ -1,14 +1,42 @@
-name: deploy-gateway
+name: Gateway Build
 on:
   push:
-     branches:
-        - master
-     paths: 
-        - 'api/gw/**'
-
+    branches:
+      - dev
+    paths:
+      - 'api/gw/**'
 jobs:
   build:
-     runs-on: unbuntu-laster
-     steps:
-        - uses: actions/chekout@v2
-        - run: cd api/gw && docker build -t pledika/mkt-gateway .
+    runs-on: ubuntu-latest
+    environment: Monkata
+    env:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      OC_TOKEN: ${{ secrets.OC_TOKEN }}
+      GATEWAY_IMAGE_NAME: ${{ vars.GATEWAY_IMAGE }}
+      CLUSTER: ${{ vars.CLUSTER }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build  Gateway
+        working-directory: api/gw # Change this to your pom.xml directory
+        run: npm install && npm run build
+
+      - name: Log in to Docker Hub # Docker Login
+        run: echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+
+      - name: Build the docker image for #Eureka
+        working-directory: api/gw # Change this to your pom.xml directory
+        run: docker build -t $GATEWAY_IMAGE_NAME .
+
+      - name: Push Docker image
+        run: docker push $GATEWAY_IMAGE_NAME
+
+      - name: Digital Ocean
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.OC_TOKEN }}
+          run: |
+            doctl kubernetes cluster kubeconfig save 2d0fa4f8-06e7-4cc3-acfa-1b3f6e3dba2d
+            kubectl rollout restart deployment gateway-deployment

@@ -1,6 +1,7 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 
+import { SharedModule } from 'src/app/shared/shared/shared.module';
 import { DetailsJobRoutingModule } from './details-job-routing.module';
 import { DetailsJobComponent } from './details-job.component';
 
@@ -11,7 +12,8 @@ import { DetailsJobComponent } from './details-job.component';
   ],
   imports: [
     CommonModule,
-    DetailsJobRoutingModule
+    DetailsJobRoutingModule,
+    SharedModule
   ]
 })
 export class DetailsJobModule { }

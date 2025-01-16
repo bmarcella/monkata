@@ -1,9 +1,9 @@
 
-import { Works_exp } from "./Works_exp";
 import { Etudes } from "./Etudes";
-import { Skills } from "./Skills";
-import { References } from "./References";
 import { LanguageSkills } from "./LanguageSkills";
+import { References } from "./References";
+import { Skills } from "./Skills";
+import { Works_exp } from "./Works_exp";
 
 export enum Dispo {
   Consultant ,
@@ -29,17 +29,13 @@ export interface User_Cv {
 
   profile?: string;
   annee_debut?: number;
-
-  telephone_a?: string;
-
-  telephone_b?: string;
-  email_contact?: string;
+//////////////////////////////////////////////
   country?: string;
+////////////////////////////
 
+  city?: string;////////////////////
 
-  city?: string;
-
-
+//////////////////////////////////////////////////////////////////////////
   linkedin?: string;
 
 
@@ -60,7 +56,9 @@ export interface User_Cv {
 
   disponibilte? : Dispo;
   relocate ?: boolean;
-
+  public_cv?: boolean;
+  telephone_a : string,
+  telephone_b: string,
 }
 
 

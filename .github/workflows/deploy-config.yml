@@ -1,0 +1,29 @@
+name: Deploy-Manifest
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - 'cicd/k8s/config/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: Monkata
+    env:
+      CLUSTER: ${{ vars.CLUSTER }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Digital Ocean
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.OC_TOKEN }}
+
+      - name: Configure kubectl
+        run: |
+          doctl kubernetes cluster kubeconfig save $CLUSTER
+          kubectl apply -f cicd/k8s/config

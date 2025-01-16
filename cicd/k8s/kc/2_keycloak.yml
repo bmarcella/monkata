@@ -1,0 +1,135 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak-deployment
+  labels:
+    app: keycloak
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      app: keycloak
+  template:
+   metadata:
+     labels:
+       app: keycloak
+   spec:
+      containers:
+      - name: keycloak
+        image: quay.io/keycloak/keycloak:23.0.1
+        args: ["start"]
+        ports:
+          - containerPort: 8080
+       # GOOD   
+        env:
+        - name: KC_DB
+          value: "postgres"
+
+        - name: KC_DB_URL
+          valueFrom: 
+            configMapKeyRef:
+              name: monkata-configmap
+              key: KC_DB_URL
+
+        - name: KC_DB_URL_HOST
+          valueFrom: 
+            configMapKeyRef:
+              name: monkata-configmap
+              key: DB_HOST
+
+        - name: KC_DB_URL_PORT
+          valueFrom: 
+            configMapKeyRef:
+              name: monkata-configmap
+              key: DB_PORT
+
+        - name: POSTGRES_DB
+          valueFrom: 
+            configMapKeyRef:
+              name: monkata-configmap
+              key: DB_KC_NAME
+
+        - name: KC_DB_URL_DATABASE
+          valueFrom: 
+            configMapKeyRef:
+              name: monkata-configmap
+              key: DB_KC_NAME
+             
+        # GOOD
+        - name: KC_DB_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              name: monkata-configmap
+              key: DB_USER
+
+        - name: KC_DB_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: monkata-configmap
+              key: DB_PASSWORD
+
+        - name: JAVA_OPTS
+          value: -Dkeycloak.profile.feature.account_api=enabled
+          #START
+        - name: KC_HOSTNAME_STRICT
+          value: "false"
+        - name: KC_HOSTNAME_STRICT_HTTPS
+          value: "false"
+
+        - name: KEYCLOAK_ENABLE_HTTPS
+          value: "true"
+        - name: KEYCLOAK_PRODUCTION
+          value: "true"
+        - name: KC_HTTP_ENABLED
+          value: "true" 
+        - name: KEYCLOAK_PROXY
+          value: edge
+        - name: PORT
+          value: "443"
+        - name : PROXY_ADDRESS_FORWARDING
+          value : "true "
+        - name: KC_HOSTNAME
+          value: "keycloak.memploi.com"
+          # END  
+
+        - name: KC_HEALTH_ENABLED
+          value: "true"
+       
+        - name: KC_METRICS_ENABLED
+          value: "true"
+
+        - name: KC_LOG_LEVEL
+          value: INFO  
+
+
+        - name: KEYCLOAK_ADMIN
+          valueFrom: 
+            configMapKeyRef:
+              name: monkata-configmap
+              key: KEYCLOAK_ADMIN 
+        - name: KEYCLOAK_ADMIN_PASSWORD
+          valueFrom: 
+            configMapKeyRef:
+              name: monkata-configmap
+              key: KEYCLOAK_ADMIN_PASSWORD
+---       
+apiVersion: v1      
+kind: Service
+
+metadata:
+  name: keycloak-service
+  annotations:
+    kubernetes.digitalocean.com/load-balancer-id: "16cccbd2-76ee-4ba4-82e6-7311539d7f4b "
+    service.beta.kubernetes.io/do-loadbalancer-http-idle-timeout-seconds: "65"
+    service.beta.kubernetes.io/do-loadbalancer-protocol: "http"
+    service.beta.kubernetes.io/do-loadbalancer-tls-ports: "443"
+    service.beta.kubernetes.io/do-loadbalancer-certificate-id: "94594d48-f7cf-4338-bf34-4033cac563a8"
+spec:
+  type: LoadBalancer
+  selector:
+    app: keycloak
+  ports:
+    - name: https
+      protocol: TCP
+      port: 443
+      targetPort: 8080

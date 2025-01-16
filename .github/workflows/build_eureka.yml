@@ -1,9 +1,9 @@
-name: Build Spring Boot Eureka App
+name: Spring Boot Eureka App Build
 
 on:
   push:
     branches:
-      - main
+      - dev
     paths:
       - 'api/eureka/**'
 jobs:
@@ -54,8 +54,8 @@ jobs:
         run: docker push $EUREKA_IMAGE_NAME
 
       - name: Digital Ocean
-        uses: digitalocean/action-doctl@v3
+        uses: digitalocean/action-doctl@v2
         with:
           token: ${{ secrets.OC_TOKEN }}
-          run: doctl kubernetes cluster kubeconfig save 0a6946a5-edc3-414b-afff-1f19885c54ec
-          -run: kubectl rollout restart deployment eureka-deploy
+          run: doctl kubernetes cluster kubeconfig save 2d0fa4f8-06e7-4cc3-acfa-1b3f6e3dba2d
+          -run: kubectl rollout restart deployment eureka-deployment

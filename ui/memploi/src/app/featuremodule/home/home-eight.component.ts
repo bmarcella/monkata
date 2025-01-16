@@ -1,11 +1,17 @@
 /* eslint-disable @angular-eslint/no-empty-lifecycle-method */
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+} from '@angular/core';
 import { Router } from '@angular/router';
+
+import * as AOS from 'aos';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 import { routes } from 'src/app/core/helpers/routes/routes';
 import { CrudService } from 'src/app/service/crud.service';
+import { KeycloakService } from 'src/app/service/keycloak.service';
 import { getURL } from 'src/environments/environment.prod';
-import * as AOS from 'aos';
+
 @Component({
   selector: 'app-home-eight',
   templateUrl: './home-eight.component.html',
@@ -13,7 +19,7 @@ import * as AOS from 'aos';
 
 })
 export class HomeEightComponent implements OnInit {
-  jobs: any =[];
+  jobs: any = [];
 
   filter = {
     query : "",
@@ -24,7 +30,7 @@ export class HomeEightComponent implements OnInit {
     horaire: ''
   }
 
-  constructor( public router: Router, private crud: CrudService) {
+  constructor( public router: Router, private crud: CrudService, private auth: KeycloakService) {
 
   }
 
@@ -156,6 +162,27 @@ export class HomeEightComponent implements OnInit {
       const msg = e.error.error.message;
       console.log(msg);
     });
+  }
+  user: any;
+
+  addJob(e){
+    this.user = this.auth.profil();
+    if (this.user) {
+       this.router.navigate(['jobs', "add-job"]);
+    } else {
+      const url =  "/jobs/add-job";
+      this.crud.loginWithReturn(url,e);
+    }
+  }
+
+  createCV(e){
+    this.user = this.auth.profil();
+    if (this.user) {
+       this.router.navigate(['profile', "cv"]);
+    } else {
+      const url =  "/profile/cv";
+      this.crud.loginWithReturn(url,e);
+    }
   }
 
 

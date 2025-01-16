@@ -1,20 +1,19 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared/shared.module';
-import { EditJobComponent } from './edit-job.component';
 import { EditJobRoutingModule } from './edit-job-routing.module';
+import { EditJobComponent } from './edit-job.component';
 
 
 
 @NgModule({
   declarations: [
-   EditJobComponent
+    EditJobComponent
   ],
   imports: [
     CommonModule,
     EditJobRoutingModule,
-    SharedModule,
-
+    SharedModule
   ]
 })
 export class EditJobModule { }

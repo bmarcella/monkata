@@ -9,7 +9,7 @@ export class FormaterPipe implements PipeTransform {
   if (value != null) {
     return value.split('T')[0];
   }
-  return 'non mentioné';
+  return 'Non Mentioné';
   }
 
 }
