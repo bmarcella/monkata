@@ -84,13 +84,26 @@ export class AdminComponent implements OnInit {
      
     ngOnInit(): void {
      this.init();
+
       this.event.$on(AppEvent.CHANGE_ENT, (data: any) => {
-        this.show = true;
-        this.cdRef.detectChanges();
-        this.cEnt = data;
-        this.auth.logoutEnt();
-        this.event.$emit( new EventData(AppEvent.SHOW_MODAL_APP, { ent: this.cEnt, app: null }));
+        this.showModal( { ent: data, app: undefined });
       });
+
+      this.event.$on(AppEvent.CHANGE_APP, (data: any) => {
+        console.log(data);
+        this.showModal( { ent: undefined, app: data });
+      });
+
+
+    }
+
+    showModal(data: { ent: any, app: any }){
+      this.show = true;
+      this.cdRef.detectChanges();
+      this.cEnt = data.ent;
+      this.cApp = data.app;
+      this.auth.logoutEnt();
+      this.event.$emit( new EventData(AppEvent.SHOW_MODAL_APP, data ));
     }
 
     init(){
@@ -105,7 +118,6 @@ export class AdminComponent implements OnInit {
              this.show = false;
           }
       }).catch((e) => {
-        // const msg = e.error.error.message;
         console.log(e);
       });
     }
@@ -113,7 +125,6 @@ export class AdminComponent implements OnInit {
     confirm(e: any){
        this.cEnt = e.state.selectedBusiness;
        this.cApp = e.state.selectedApplication;
-       console.log(this.cEnt, this.cApp);
        this.Launch(e.event)
     }
   
@@ -121,9 +132,7 @@ export class AdminComponent implements OnInit {
   
     public getApp() {
       this.crud.get(gWURL("applications")).then((r) => {
-        console.log(r);
         let i = 0;
-  
         Object.entries(r).forEach(([key, value]) => {
           if ((value as ServiceApp).show){
             if (i==0){
@@ -155,7 +164,6 @@ export class AdminComponent implements OnInit {
     public getEnts() {
       const URL = getURL("memploi","cv/entreprises");
       this.crud.get(URL).then((r: any) => {
-        console.log(r);
        if (r.length!=0) {
         this.stats[1].value = r.length;
         Object.entries(r).forEach(([key, value]) => {
@@ -187,14 +195,14 @@ export class AdminComponent implements OnInit {
       this.cApp = cApp;
     }
    
-    Launch(e: any) {
+     Launch(e: any) {
       const URL = getURL("users","entreprise/loginEnt/"+this.cEnt.id+"/"+this.cApp.name);
       this.crud.get(URL,e).then((r: any) => {
-        console.log("DATA: ",r);
         this.entToken = this.auth.LoginEnt(r);
         this.show = false;
-        this.$modalListener.next(false);
+        // this.$modalListener.next(false);
         this.event.$emit( new EventData(AppEvent.CHANGE_ENT_COMPLETE, this.cEnt));
+        this.event.$emit( new EventData(AppEvent.CHANGE_APP_COMPLETE, this.cApp));
        }).catch((e) => {
         console.log(e);
       });

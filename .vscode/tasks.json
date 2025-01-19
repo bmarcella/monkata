@@ -1,6 +1,7 @@
 {
    "version": "2.0.0",
    "tasks": [
+      // MONKATA-UI
       {
          "label": "Monkata-UI-NConsole",
          "type": "shell",
@@ -45,7 +46,7 @@
          "label": "Monkata-Users",
          "type": "shell",
          "hide": false,
-         "command": "npm cache clean --force  && npm run dev",
+         "command": "npm cache clean --force; npm run dev",
          "options": {
             "cwd": "./api/users"
          },
@@ -385,7 +386,6 @@
             "panel": "new"
          }
       },
-
       {
          "label": "Monkata-Push",
          "dependsOn": [

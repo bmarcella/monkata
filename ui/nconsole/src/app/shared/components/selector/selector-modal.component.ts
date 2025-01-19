@@ -126,14 +126,11 @@ export class SelectorModalComponent implements OnDestroy, OnInit {
   $timer: any;
   ngOnInit(): void {
      this.event.$on(AppEvent.SHOW_MODAL_APP, (data: any) => {
-     
      this.display = "none";
      this.class = "hide";
      console.log(data);
-
      this.cEnt = data.ent;
      this.cApp= data.app;
-
      this.$timer = setTimeout(()=>{
           this.display = "block";
           this.class = "show";

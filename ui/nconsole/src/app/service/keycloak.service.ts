@@ -43,7 +43,6 @@ export class KeycloakService {
     const now = new Date().getTime(); // Get current time in milliseconds
     if (expiration) {
       const isExpired = now >= parseInt(expiration, 10); // Parse string to integer and compare
-      console.log('Token expired:', isExpired);
       return isExpired;
     }
     return true; // Assume expired if no expiration is set

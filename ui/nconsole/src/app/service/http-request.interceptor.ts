@@ -25,21 +25,17 @@ export class HttpRequestInterceptor implements HttpInterceptor {
 
     const token = this.storageService.get("_token") || false;
     const tokenEnt = this.storageService.getJson("entToken") || false;
-   
-    console.log(isExp, this.authService.isLoggedIn());
+  
 
     if (isExp && this.authService.isLoggedIn()) {
-      console.log("TOKEN EXP AND LOGIN");
       const isExpR = !this.authService.isRefreshTokenExpired();
       if (isExpR) {
         console.log("REFRESH TOKEN NOT EXP");
         this.preGetNewToken().then((_tk) => {
-
         }).catch((_error) => {
-
+          console.log(_error);
         });
       } else {
-        console.log("REFRESH TOKEN EXP FORCE LOGOUT");
         this.authService.forceLogout();
         this.crud.login();
       }
@@ -67,7 +63,6 @@ export class HttpRequestInterceptor implements HttpInterceptor {
           Authorization: bearer,
         });
       }
-      console.log(headers);
       req = req.clone({ headers });
     }
     return req;
@@ -78,7 +73,6 @@ export class HttpRequestInterceptor implements HttpInterceptor {
 
   private catchError(req: HttpRequest<any>, next: HttpHandler, error: any, tEnt: any) {
     if (error instanceof HttpErrorResponse && !req.url.includes('auth/login') && error.status === 401) {
-      console.log("UNAUTH");
       return this.handle401Error(req, next, tEnt);
     }
     // to work on later
@@ -91,7 +85,6 @@ export class HttpRequestInterceptor implements HttpInterceptor {
 
   private handle401Error(request: HttpRequest<any>, next: HttpHandler, tEnt: any) {
     if (this.authService.isLoggedIn()) {
-      console.log("Get NEW token");
       return this.getNewToken(request, next, tEnt);
     }
     return next.handle(request);
@@ -102,17 +95,15 @@ export class HttpRequestInterceptor implements HttpInterceptor {
 
     return this.authService.refreshToken().pipe(
       switchMap((data: any) => {
-        console.log("REFRESH TOKEN NOW ", data);
         this.authService.refreshNewToken(data);
         request = this.setToken(request, data.access_token,tEnt);
         return next.handle(request);
       }),
       catchError((error) => {
         if (error.status == '403') {
-          console.log("SUPPOSED TO LOGOUT");
           this.authService.forceLogout();
         } else {
-          console.log("OTHER ERROR");
+          console.log(error);
         }
         return throwError(() => error);
       })
@@ -123,16 +114,14 @@ export class HttpRequestInterceptor implements HttpInterceptor {
     return new Promise((r, e) => {
       this.authService.refreshToken().pipe().subscribe({
         next: (data: any) => {
-          console.log("REFRESH TOKEN NOW ", data);
           this.authService.refreshNewToken(data);
           r(data.access_token);
         },
         error: (error) => {
           if (error.status == '403') {
-            console.log("SUPPOSED TO LOGOUT");
             this.authService.forceLogout();
           } else {
-            console.log("OTHER ERROR");
+            console.log(error);
           }
           e(error);
         }

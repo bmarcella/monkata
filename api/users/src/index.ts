@@ -37,6 +37,8 @@ import { Logo } from './entity/Logo';
 import { ServiceEnt } from './entity/ServiceEnt';
 import { User } from './entity/User';
 import { routes } from './routes';
+import { Permission, Userroleapp} from './entity/Urole';
+import { Rolepermission } from './entity/Rperm';
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -57,13 +59,18 @@ declare global {
 dotenv.config();
 
 const entities = 
-   [User, Adresse,
+   [
+    Rolepermission, 
+    Permission,
+    Userroleapp,
+    User, Adresse,
    Entreprise, Categorie, 
    ServiceEnt, Application,
    Avatar,CrossToken,
    Logo, KcUser,
    Admin,UserRole,
-   EntApp, EntAppToken ];
+   EntApp, EntAppToken,
+     ];
 
 AppDataSource<DataSource, Array<any>>(DataSource, process.env, entities).then((DB: DataSource) => {
 

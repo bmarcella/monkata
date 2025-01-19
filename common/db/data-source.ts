@@ -9,6 +9,7 @@ export const AppDataSource = <DataSource, Entity> (DT: new (...args: any[]) => a
       username: p.DB_USER+'',
       password: p.DB_PASSWORD+'',
       database: p.DB_NAME+'',
+      autoLoadEntities: true,
       synchronize: true,
       logging: true,
       entities,
