@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
       <div class="container">
         <a class="navbar-brand" href="#">
           <i class="bi bi-boxes me-2"></i>
-          Modern Angular
+         Monkata
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
           <span class="navbar-toggler-icon"></span>

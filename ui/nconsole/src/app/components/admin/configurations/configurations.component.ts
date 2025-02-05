@@ -1,6 +1,11 @@
-import { Component } from '@angular/core';
-import { NgFor, NgClass, NgIf } from '@angular/common';
-import { Role, ConfigSection } from '../../../interfaces/role.interface';
+import { NgClass, NgFor, NgIf } from '@angular/common';
+import { ChangeDetectorRef, Component } from '@angular/core';
+import { getURL } from '../../../../environments/environment.prod';
+import { ConfigSection } from '../../../interfaces/role.interface';
+import { CrudService } from '../../../service/crud.service';
+import { DefaultAppService } from '../../../service/default-app.service';
+import { EventBusService } from '../../../service/event-bus.service';
+import { KeycloakService } from '../../../service/keycloak.service';
 
 @Component({
   selector: 'app-configurations',
@@ -10,12 +15,18 @@ import { Role, ConfigSection } from '../../../interfaces/role.interface';
   styleUrls: ['./configurations.component.css']
 })
 export class ConfigurationsComponent {
-  activeSection: string = 'roles';
-
+  activeSection: string = 'users';
+  page = 1;
   configSections: ConfigSection[] = [
     {
+      id: 'users',
+      name: 'User',
+      icon: 'bi-user',
+      description: 'Manage user '
+    },
+    {
       id: 'roles',
-      name: 'User Roles',
+      name: 'Roles',
       icon: 'bi-shield-lock',
       description: 'Manage user roles and permissions'
     },
@@ -39,34 +50,47 @@ export class ConfigurationsComponent {
     }
   ];
 
-  roles: Role[] = [
-    {
-      id: 1,
-      name: 'Administrator',
-      description: 'Full system access and control',
-      permissions: ['create', 'read', 'update', 'delete', 'manage_users', 'manage_roles'],
-      usersCount: 5,
-      lastModified: '2024-01-15'
-    },
-    {
-      id: 2,
-      name: 'Manager',
-      description: 'Department management and reporting',
-      permissions: ['create', 'read', 'update', 'manage_users'],
-      usersCount: 12,
-      lastModified: '2024-01-14'
-    },
-    {
-      id: 3,
-      name: 'Employee',
-      description: 'Basic access to company resources',
-      permissions: ['read', 'update'],
-      usersCount: 45,
-      lastModified: '2024-01-10'
-    }
-  ];
+  roles: any [] = [];
+  app: any;
+   constructor( public dApp$: DefaultAppService, private crud: CrudService,  private auth: KeycloakService, private event: EventBusService, private cdRef: ChangeDetectorRef ) {
+        this.app = this.dApp$.getApp();
+        this.getData();
+  }
 
   setActiveSection(sectionId: string) {
     this.activeSection = sectionId;
+    this.getData();
   }
+
+  getData() {
+    switch (this.activeSection) {
+      case "users":
+        this.getUser();
+      break; 
+      case "roles":
+        this.getRole();
+      break; 
+    }
+  }
+
+  getRole(){
+      const URL = getURL( "users","role/getRoles");
+          this.crud.get(URL).then((r: any) => {
+             this.roles = r;
+            }).catch((e) => {
+            console.log(e);
+          });
+  }
+
+  getUser(){
+    const URL = getURL( "users","role/getUserRole/"+this.page);
+        this.crud.get(URL).then((r: any) => {
+           console.log(r);
+          }).catch((e) => {
+          console.log(e);
+        });
+}
+
+
+
 }

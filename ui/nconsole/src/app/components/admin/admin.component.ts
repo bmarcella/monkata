@@ -112,7 +112,6 @@ export class AdminComponent implements OnInit {
           if(!t) {
             this.show = true; 
             this.class = "show";
-            //this.$modalListener.next(this.show);
           } else {
              this.class="hide";
              this.show = false;
@@ -177,10 +176,7 @@ export class AdminComponent implements OnInit {
             );
           
         });
-  
        }
-  
-       
       }).catch((e) => {
         const msg = e.error.error.message;
         console.log(e, msg);

@@ -36,7 +36,8 @@
     margin-top: 10%;
 }
 
-@import "../node_modules/angular-calendar/css/angular-calendar.css";
+@import "../../../../node_modules/angular-calendar/css/angular-calendar.css";
+
 a {
     cursor: pointer;
 }

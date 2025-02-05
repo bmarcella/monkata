@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { environment } from 'src/environments/environment.prod';
-import { first } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
+import { first } from 'rxjs/operators';
 import { AppService } from 'src/app/_Services/app.service';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
   selector: "app-prog-details",
@@ -81,6 +81,7 @@ export class ProgDetailsComponent implements OnInit {
       .subscribe(
         (data) => {
           this.cours = data.data;
+          
           this.hcours = this.cours;
         },
         (error) => {}
@@ -95,7 +96,7 @@ export class ProgDetailsComponent implements OnInit {
         (data) => {
           this.pcours = data._embedded.courses;
           this.hpcours = this.pcours;
-          console.log(this.pcours);
+          console.log("COURS", this.pcours);
         },
         (error) => {
           console.log(error);

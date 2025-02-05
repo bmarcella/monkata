@@ -8,7 +8,7 @@ export const menuConfig = {
         { "name": "Companies", "route": "/monkata/companies" },
         { "name": "Apps", "route": "/monkata/apps" },
         { "name": "Plans", "route": "/monkata/plans" },
-        { "name": "Configurations", "route": "/monkata/configurations" }
+        { "name": "Configurations", "route": "/monkata/configurations" },
       ]
     },
     

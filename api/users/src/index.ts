@@ -34,11 +34,11 @@ import { EntAppToken } from './entity/EntAppToken';
 import { Entreprise } from './entity/Entreprise';
 import { KcUser } from './entity/KC_User';
 import { Logo } from './entity/Logo';
+import { Rolepermission } from './entity/Rperm';
 import { ServiceEnt } from './entity/ServiceEnt';
+import { Permission, Userroleapp } from './entity/Urole';
 import { User } from './entity/User';
 import { routes } from './routes';
-import { Permission, Userroleapp} from './entity/Urole';
-import { Rolepermission } from './entity/Rperm';
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -64,12 +64,12 @@ const entities =
     Permission,
     Userroleapp,
     User, Adresse,
-   Entreprise, Categorie, 
-   ServiceEnt, Application,
-   Avatar,CrossToken,
-   Logo, KcUser,
-   Admin,UserRole,
-   EntApp, EntAppToken,
+    Entreprise, Categorie, 
+    ServiceEnt, Application,
+    Avatar,CrossToken,
+    Logo, KcUser,
+    Admin,UserRole,
+    EntApp, EntAppToken,
      ];
 
 AppDataSource<DataSource, Array<any>>(DataSource, process.env, entities).then((DB: DataSource) => {

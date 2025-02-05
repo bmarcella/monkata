@@ -1,13 +1,15 @@
-import { Injectable } from '@angular/core';
 import {
-  HttpRequest,
-  HttpHandler,
   HttpEvent,
+  HttpHandler,
+  HttpHeaders,
   HttpInterceptor,
-  HttpHeaders
+  HttpRequest
 } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthenticationService } from '../_Services/Authentification.service';
+import { environment } from 'src/environments/environment.prod';
+
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
   constructor(private authenticationService: AuthenticationService ) {}
@@ -27,6 +29,11 @@ export class JwtInterceptor implements HttpInterceptor {
         });
         request = request.clone({ headers });
     }
+     if (environment.production){
+       request = request.clone({
+        url: request.url.replace('http://', 'https://')
+      });
+  }
 
     return next.handle(request);
   }

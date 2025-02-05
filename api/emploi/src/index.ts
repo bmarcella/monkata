@@ -47,7 +47,7 @@ declare global {
       payloadEnt?: any,
       tokenEnt:any,
       payload?: JwtPayload,
-      token?: string
+      token?: string,
       DB: any,
       mail: Mail,
     }

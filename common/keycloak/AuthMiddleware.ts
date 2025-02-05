@@ -119,9 +119,11 @@ export const protectEnt = (jwt: any, p: any, role?: string) => {
       }
       req.tokenEnt = token;
       req.payloadEnt = getPayload(jwt, token, secretKeyCommon);
-      if (role && (!req.payload.roles || !req.payload.roles.includes(role))) {
-        return res.status(403).send('Access Denied: Insufficient permissions.');
-      }
+
+      // if (role && (!req.payload.roles || !req.payload.roles.includes(role))) {
+      //   return res.status(403).send('Access Denied: Insufficient permissions.');
+      // }
+
       next();
     } catch (err: any) {
       console.log(err);

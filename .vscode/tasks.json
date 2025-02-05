@@ -46,7 +46,7 @@
          "label": "Monkata-Users",
          "type": "shell",
          "hide": false,
-         "command": "npm cache clean --force; npm run dev",
+         "command": "npm run dev",
          "options": {
             "cwd": "./api/users"
          },

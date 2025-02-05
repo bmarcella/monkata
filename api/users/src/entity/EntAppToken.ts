@@ -15,6 +15,9 @@ export class EntAppToken extends BaseEntity {
     @Column({ nullable: true })
     id_user: string;
 
+    @Column({ nullable: true })
+    idRole: number ;
+
 
     // this token is for the login
     @Column({ nullable: true })

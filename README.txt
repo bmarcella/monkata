@@ -86,3 +86,5 @@ doctl kubernetes cluster kubeconfig save 2d0fa4f8-06e7-4cc3-acfa-1b3f6e3dba2d
 
 
 kubectl exec -it eureka-deployment-6794bff74c-9n7rb  -c eureka -- printenv
+
+kubectl exec -it emploi-deployment-6b56bf8d69-k6xm4  -c emploi -- printenv

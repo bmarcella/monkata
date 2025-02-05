@@ -1,14 +1,17 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from "express";
 import * as jwt from 'jsonwebtoken';
 import { ILike, In } from "typeorm";
+import Crud from "../../../../common/mvc/CrudService";
 import { Adresse } from "../entity/Adresse";
 import { EntApp } from "../entity/EntApp";
 import { EntAppToken } from "../entity/EntAppToken";
 import { Entreprise } from "../entity/Entreprise";
+import { Rolepermission } from "../entity/Rperm";
+import { Permission, Userroleapp } from "../entity/Urole";
 import { secretKey } from "./CTService";
-
 export const monkata_auth_url = "auth";
 const services = {
   changeLogo: async (req: Request, res: Response) => {
@@ -398,51 +401,120 @@ const services = {
     const id: any = req.params.idEnt;
     const keycloakId = req.payload?.sub;
     const app: any = req.params.appName;
-    console.log(keycloakId);
-    if(!keycloakId)  return res.status(404).send({ message: "Unauthorized Access",keycloakId });
+
+    if(!keycloakId) return res.status(401).send({ message: "Unauthorized Access", keycloakId });
+
     const eRepository = req.DB.getRepository(Entreprise);
+
     const ent: Entreprise = await eRepository.findOne({
       where: { id : id }
     });
+
     if (!ent) return  res.status(404).send({ message: "Entreprise non trouvé"});
 
-    if (ent.userId != keycloakId) return res.status(404).send({ message: "Unauthorized Access"});
-    
     const jobsRepository = req.DB.getRepository(EntApp);
   
-    let obj:EntApp  = await jobsRepository.findOne({
+    let obj: EntApp  = await jobsRepository.findOne({
       where: {
          entId : id,
          appName : app
-        }
-    });  
-    if (!obj){
-      try {
-        const ae = new EntApp();
-        ae.appName = app;
-        ae.entId = ent.id;
-        ae.tokenEA = services.generateToken ({ appName:req.body.appName, entId : ent.id });
-        const eRepository = req.DB.getRepository(EntApp);
-        obj = await eRepository.save(ae);
-      } catch(e) {
-        return  res.status(500).send({ message: "Erreur serveur "});
-      }
+       }
+    });
+    let role: any = undefined;
+    if (!obj) {
+      const rep = await services.saveNewAppEnt(req, app, ent.id);
+       obj =  rep[0];
+       role = rep[1];
     }
 
-    if (!obj.id)  res.status(500).send({ message: "Erreur serveur "});
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    try {
-      const aetRepository = req.DB.getRepository(EntAppToken);
-      let aet: EntAppToken = new EntAppToken ();
-      aet.id_user = keycloakId;
-      aet.EntAppId = obj.id;
+    if (!obj) return res.status(500).send({ message: "error server "});
+
+    const ormEat = Crud.init<EntAppToken>(req.DB, EntAppToken);
+
+    const total = await ormEat.count({
+      where : {
+        EntAppId :  obj.id
+      }
+    });
+
+    if (await total == 0 && ent.userId != keycloakId) {
+        return res.status(404).send({ message: "Unauthorized Access"});
+    } else if (await total == 0 && ent.userId == keycloakId) {
+      try {
+        const aetRepository = req.DB.getRepository(EntAppToken);
+        let aet: EntAppToken = new EntAppToken ();
+        aet.id_user = keycloakId;
+        aet.EntAppId = obj.id;
+        aet.token = services.generateToken ({ obj });
+        let id = undefined;
+        if (role) {
+           id = role.id; 
+        } else {
+          const orm = Crud.init<Userroleapp>(req.DB, Userroleapp);
+          const urole =  await orm.get(false, {
+            where: {
+             name: "ADMIN",
+             idAppEnt: obj.id
+            }
+          }) as Userroleapp;
+          if (!urole) return res.status(500).send({ message: "error server "});
+          id = urole.id;
+        }
+        aet.idRole = id;
+        aet = await aetRepository.save(aet);
+        res.status(200).send({appEnt: obj , token: aet });
+       } catch (error) {
+        res.status(500).send(error);
+      }
+    } else {
+      const orm = Crud.init<EntAppToken>(req.DB, EntAppToken);
+      let aet : EntAppToken  = await orm.get(false, {
+        where: {
+          EntAppId : obj.id,
+          id_user : keycloakId
+       }
+      }) as EntAppToken;
+      if (!aet)  return res.status(404).send({ message: "Unauthorized Access"});
       aet.token = services.generateToken ({ obj });
-      aet = await aetRepository.save(aet);
+      aet = await orm.save(aet);
       res.status(200).send({appEnt: obj , token: aet });
-    } catch (error) {
-      res.status(500).send(error);
     }
-  
+  },
+  saveNewAppEnt : async (req: Request, app: string , id: number) : Promise<[EntApp, Userroleapp ]> => {
+      let  ae = new EntApp();
+      ae.appName = app;
+      ae.entId = id;
+      ae.tokenEA = services.generateToken ({ appName: req.body.appName, entId : id });
+      const eRepository = req.DB.getRepository(EntApp);
+      ae = await eRepository.save(ae);
+      const role = await services.setRoleForAdmin(req.DB, ae.id, app);
+      return [ae, role];
+  },
+  setRoleForAdmin: async (DB: any, idAe : number, app: string ) : Promise<Userroleapp> => {
+    const orm = Crud.init<Userroleapp>(DB, Userroleapp);
+    let role = new Userroleapp ();
+    role.name = "ADMIN";
+    role.idAppEnt = idAe;
+    role = await orm.save(role);
+    services.savePermission(DB, app, role);
+    return role;
+  },
+  savePermission : async (DB: any , app: string, role: Userroleapp)=>{
+    const orm = Crud.init<Permission>(DB, Permission);
+    const p = {
+      where: {
+        appName : app,
+     }
+    };
+    const perms  = await orm.get(true, p ) as Permission [];
+    const ru : Rolepermission []= [];
+    const orm2 = Crud.init<Rolepermission>(DB, Rolepermission);
+    for (let i = 0 ; i< perms.length; i++) {
+        const rp = new Rolepermission();
+          rp.userroleapp = role;
+          rp.permission = perms [i];
+          orm2.save(rp);
+    }
   },
   countEnt: async (req: Request, res: Response) => {
     try {

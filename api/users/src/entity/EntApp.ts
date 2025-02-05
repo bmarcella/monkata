@@ -6,7 +6,7 @@ import { BaseEntity } from "./BaseEntity";
 export class EntApp extends BaseEntity {
 
     @PrimaryGeneratedColumn()
-    id?: number
+    id: number
     // this is for the app name like Memploi
     @Column({ nullable: true })
     appName: string;
