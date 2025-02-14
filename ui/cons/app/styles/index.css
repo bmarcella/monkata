@@ -1,0 +1,16 @@
+/* @import "tailwindcss";   */
+@tailwind base; 
+
+@import "./base.css"; 
+@import "./layouts.css";
+@import "./variants.css";
+
+@tailwind components; 
+@import "./app/index.css";
+
+@tailwind utilities; 
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+
+

@@ -1,0 +1,31 @@
+// Import Dependencies
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
+import LanguageDetector from "i18next-browser-languagedetector";
+// Local Imports
+import { defaultTheme } from "../configs/theme.config";
+
+// ----------------------------------------------------------------------
+i18n
+  .use(LanguageDetector)
+  .use(initReactI18next)
+  .init({
+    detection: {
+      order: ["localStorage", "navigator"],
+      lookupLocalStorage: 'i18nextLng',
+      lookupSessionStorage: 'i18nextLng',
+    },
+    fallbackLng: defaultTheme.fallbackLang,
+   // lng: initialLang || defaultTheme.defaultLang,
+    lng:  defaultTheme.defaultLang,
+    supportedLngs: ["en", "fr", "ht"],
+    ns: ["translations"],
+    defaultNS: "translations",
+    interpolation: {
+      escapeValue: false,
+    },
+    lowerCaseLng: true,
+    debug: false,
+  }).languages = ["en", "fr", "ht"];
+
+export default i18n
