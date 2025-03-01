@@ -1,7 +1,7 @@
 <div class="row">
   <div class="card">
-    <div class="card-header" *ngIf="type_cv">
-      <h4>Postulez maintenant</h4>
+    <div class="card-header" *ngIf="type_cv" >
+      <h4 >Postulez maintenant</h4>
     </div>
     <div class="card-body">
       <!-- Job Title  -->
@@ -24,7 +24,6 @@
           />
         </div>
       </div>
-
       <div class="row mb-2">
         <div class="input-block col-md-6">
           <label for="titre_job" class="col-form-label">Email</label>
@@ -35,6 +34,8 @@
           <input type="text" [(ngModel)]="uInfo.phone" class="form-control" />
         </div>
       </div>
+<div *ngIf="!type_cv">
+
 
       <div class="row mb-2">
         <div class="input-block col-md-6">
@@ -43,7 +44,7 @@
           >
           <div class="input-block">
             <mat-select
-              [(ngModel)]="uInfo.doamine_1"
+              [(ngModel)]="uInfo.domaine_1"
               [ngModelOptions]="{ standalone: true }"
               class="form-control"
               placeholder="Environnement"
@@ -126,6 +127,84 @@
       <div class="row mb-2">
         <div class="input-block col-md-6">
           <label for="titre_job" class="col-form-label"
+            >Niveau d'education</label
+          >
+          <div class="input-block">
+            <mat-select
+              [(ngModel)]="uInfo.niv_academique"
+              [ngModelOptions]="{ standalone: true }"
+              class="form-control"
+              placeholder="Niveau d'education"
+            >
+              <mat-option value=""> Autres </mat-option>
+              <mat-option *ngFor="let c of educs" [value]="c">
+                {{ c }}
+              </mat-option>
+            </mat-select>
+          </div>
+        </div>
+
+        <div class="input-block col-md-6">
+          <label for="titre_job" class="col-form-label"
+            >Type d'emploi recherché</label
+          >
+          <div class="input-block">
+            <mat-select
+              [(ngModel)]="uInfo.type_emp"
+              [ngModelOptions]="{ standalone: true }"
+              class="form-control"
+              placeholder="Type d'emploi recherché"
+            >
+              <mat-option *ngFor="let c of type_emp" [value]="c">
+                {{ c }}
+              </mat-option>
+            </mat-select>
+          </div>
+        </div>
+
+
+      </div>
+
+
+      <div class="row mb-2 mt-4">
+        <h6>Fourchette salariale attendu </h6>
+      </div>
+      <div class="row mb-4">
+        <div class="input-block col-md-6">
+          <label for="Price" class="col-form-label"
+            >Minimum</label
+          >
+          <br />
+          <input type="number" [(ngModel)]="uInfo.salary_min" class="form-control" />
+        </div>
+        <div class="input-block col-md-6">
+          <label for="Price" class="col-form-label"
+            >Maximum</label
+          >
+          <br />
+          <input type="number" [(ngModel)]="uInfo.salary_max" class="form-control" />
+        </div>
+      </div>
+
+      <div class="row mb-2">
+          <div class="input-block col-md-6">
+            <label for="Price" class="col-form-label">Pays</label>
+            <mat-select
+              [(ngModel)]="uInfo.country"
+              [ngModelOptions]="{ standalone: true }"
+              class="form-control"
+              name="type_ent"
+              placeholder="Pays"
+            >
+              <mat-option *ngFor="let o of countries" [value]="o.value">
+                {{ o.label }} ({{ o.code }})
+              </mat-option>
+            </mat-select>
+          </div>
+
+
+        <div class="input-block col-md-6">
+          <label for="titre_job" class="col-form-label"
             >Votre ville actuelle</label
           >
           <div class="input-block">
@@ -143,17 +222,18 @@
           </div>
         </div>
 
-        <div class="input-block col-lg-6 col-md-6">
+
+      </div>
+
+      <div class="row mb-4 mt-4">
+        <div class="input-block  col-md-4">
           <label for="Price" class="col-form-label"
             >Etes-vous pret a vous demenager pour un poste ?</label
           >
           <br />
           <input type="checkbox" [(ngModel)]="uInfo.relocate" />
         </div>
-      </div>
-
-      <div class="row mb-2">
-        <div class="input-block col-md-6">
+        <div class="input-block col-md-4">
           <label for="titre_job" class="col-form-label"
             >Voulez-vous faire du benevolat ?</label
           >
@@ -161,7 +241,7 @@
           <input type="checkbox" [(ngModel)]="uInfo.benevolat" />
         </div>
 
-        <div class="input-block col-lg-6 col-md-6">
+        <div class="input-block col-md-4">
           <label for="Price" class="col-form-label"
             >Voulez-vous faire du stage ?</label
           >
@@ -169,6 +249,8 @@
           <input type="checkbox" [(ngModel)]="uInfo.stage" />
         </div>
       </div>
+</div>
+
 
       <div class="col-md-12 mb-2 mt-4">
         <hr />
@@ -206,7 +288,7 @@
             </div>
           </div>
         </div>
-        <div class="profile-photo mb-2 col-md-12">
+        <div class="profile-photo mb-2 col-md-12" *ngIf="type_cv">
           <div class="profile-img">
             <div class="settings-upload-btn">
               <input
@@ -217,12 +299,33 @@
                 id="file"
               />
               <label for="file" class="btn btn-secondary">
-                <i class="fa fa-upload"></i> Télécharger Lettre motivation
+                <i class="fa fa-upload"></i>  Lettre motivation
               </label>
             </div>
             <div class="settings-upload-btn" *ngIf="lm">
               <label for="file" class="btn btn-secondary">
                 <i class="fa fa-file"></i> {{ lm.name}}
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="profile-photo mb-2 col-md-12" *ngIf="!type_cv">
+          <div class="profile-img">
+            <div class="settings-upload-btn">
+              <input
+                (change)="onFileSelectedDC($event)"
+                type="file"
+                accept="pdf/*"
+                class="hide-input image-upload"
+                id="file"
+              />
+              <label for="file" class="btn btn-secondary">
+                <i class="fa fa-upload"></i>  Diplome & Certificat
+              </label>
+            </div>
+            <div class="settings-upload-btn" *ngIf="dc">
+              <label for="file" class="btn btn-secondary">
+                <i class="fa fa-file"></i> {{ dc.name}}
               </label>
             </div>
           </div>
@@ -234,7 +337,7 @@
           [disabled]="!cv ||  !uInfo.lastName || !uInfo.firstName || !uInfo.email || !uInfo.phone"
           (click)="upload($event)"
         >
-          {{ type_cv ? 'postuler' : 'Deposer' }}
+          {{ type_cv ? 'postulez' : 'Deposez votre CV' }}
         </button>
       </div>
     </div>

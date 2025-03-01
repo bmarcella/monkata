@@ -1,5 +1,5 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
-import { User_Cv } from "./User_Cv";
+import { Employee } from "./Emp";
 
 
 @Entity()
@@ -25,8 +25,8 @@ export class References {
   @Column({ nullable: true})
   email?: string;
   // In Etudes entity
-  @ManyToOne(() => User_Cv, userCv => userCv.etudes)
-  userCv?: User_Cv;
+  @ManyToOne(() => Employee, employee => employee.etudes)
+  employee?: Employee;
 
 }
 

@@ -11,6 +11,10 @@ const services  = {
          const URL = gWURL("applications");
          return  httpGetX(URL); 
      },
+     getAllAdress: () => {
+        const URL = getURL(Services.USERS, "entreprise/getAllAdress" );
+         return  httpGetX(URL); 
+    },
     
 }
 

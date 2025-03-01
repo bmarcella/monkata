@@ -1,14 +1,18 @@
 import { LogOut } from "lucide-react";
 import { useNavigate } from "react-router";
-import { useAuthEnt } from "~/routes/AuthEntProvider";
-import { useAuth } from "~/routes/AuthProvider";
+import { useAuthEnt } from "~/providers/AuthEntProvider";
+import { useAuth } from "~/providers/AuthProvider";
 
 interface User {
   name?: string;
   avatar?: string;
 }
 
-const NavBavMenu: React.FC = () => {
+interface Props {
+  onToggle: () => void;
+}
+
+const NavBavMenu: React.FC<Props> = ( { onToggle } : Props) => {
   const { logoutEnt, app,  } = useAuthEnt() as any;
   const { avatarUrl , user } = useAuth() as any;
   const navigate = useNavigate();
@@ -19,9 +23,13 @@ const NavBavMenu: React.FC = () => {
   };
 
   return (
-    <header className={'bg-gray-900 text-white flex justify-between items-center p-4 shadow-md'}>
+    <header className={'bg-gray-800 text-white flex justify-between items-center p-4'}>
       {/* App Name */}
-      <h1 className={'text-xl font-bold'}> MONKATA { (app) ? '-'+ (app as String).toUpperCase() : '' }</h1> 
+      {/* <h1 className={'text-xl font-bold'}> MONKATA { (app) ? '-'+ (app as String).toUpperCase() : '' } </h1>  */}
+      <div className="flex items-center space-x-4">
+          <button className="text-2xl" onClick={ ()=> { onToggle() } }>☰</button> {/* Sidebar toggle button */}
+          <h1 className="font-semibold text-lg">MONKATA { (app) ? '-'+ (app as String).toUpperCase() : '' } </h1>
+        </div>
 
       {/* User Info & Logout */}
       <div className={'flex items-center gap-4'}>

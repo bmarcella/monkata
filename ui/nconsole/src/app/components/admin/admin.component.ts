@@ -149,8 +149,6 @@ export class AdminComponent implements OnInit {
             );
           }
         });
-  
-  
       }).catch((e) => console.log(e));
     }
   

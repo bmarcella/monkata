@@ -13,9 +13,8 @@ import type { Route } from "./+types/root";
 import "simplebar-react/dist/simplebar.min.css";
 import "./styles/app.css";
 
-import { AuthProvider } from "./routes/AuthProvider";
-import { AuthEntProvider } from "./routes/AuthEntProvider";
-import { ThemeProvider } from "./contexts/theme/Provider";
+import { AuthProvider } from "./providers/AuthProvider";
+import { AuthEntProvider } from "./providers/AuthEntProvider";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -29,6 +28,20 @@ export const links: Route.LinksFunction = () => [
     href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
   },
 ];
+
+import React from "react";
+import { AlertProvider } from "./providers/AlertProvider";
+import { TabsProvider } from "./providers/TabsProvider";
+
+export function  HydrateFallback () {
+  return (
+    <div className="flex h-screen items-center justify-center">
+      <p className="text-lg font-semibold">Loading...</p>
+    </div>
+  );
+};
+
+
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -51,10 +64,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
 export default function App() {
   return (<AuthProvider>
             <AuthEntProvider>
-            <ThemeProvider>
-          
-              <Outlet /> 
-              </ThemeProvider>
+            <TabsProvider>
+                <AlertProvider>
+                    <Outlet /> 
+                </AlertProvider>
+              </TabsProvider>
             </AuthEntProvider>
          </AuthProvider> );
 }

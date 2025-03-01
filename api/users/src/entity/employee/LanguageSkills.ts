@@ -1,5 +1,5 @@
 import {  Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { User_Cv } from "./User_Cv";
+import { Employee } from "./Emp";
 
 export enum Language {
   Creole_Haitien = "Créole Haitien",
@@ -51,8 +51,8 @@ export class LanguageSkills {
   proficiency? : Proficiency;
 
 
- @ManyToOne(() => User_Cv, userCv => userCv.worksExp)
- userCv?: User_Cv;
+ @ManyToOne(() => Employee, employee => employee.worksExp)
+ employee?: Employee;
 
 
 }

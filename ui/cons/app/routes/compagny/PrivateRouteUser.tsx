@@ -1,22 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import { useAuth } from '../AuthProvider';
-import { useAuthEnt } from '../AuthEntProvider';
+import { useAuth } from '../../providers/AuthProvider';
+import { useAuthEnt } from '../../providers/AuthEntProvider';
 
-const PrivateRouteUser: React.FC = () => {
+
+const PrivateRouteUser: React.FC = ( { children } : { children: React.ReactNode}) => {
 
     const { isAuthenticated } = useAuth();
     const { isAuthenticatedEnt } = useAuthEnt();
 
-
      if (!isAuthenticated ) {
-       return  <Navigate to="/auth"  />
-     }
-     if (isAuthenticatedEnt) {
-       return  <Navigate to="/dashboard" />
+      return  <Navigate to="/auth"  />
      }
 
-    return  <Outlet />  ;
+     if (isAuthenticated && isAuthenticatedEnt) {
+        return  <Navigate to="/dashboard" />
+     }
+     
+       
+     return   { }  ;
+     
 };
 
 export default PrivateRouteUser;

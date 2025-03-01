@@ -8,6 +8,8 @@
 /ui/*/node_modules
 /ui/*/.angular
 #/ui/*/dist
+/ui/*/dist
+/ui/react
 /ui/template
 /ui/cuba
 /ui/cuda

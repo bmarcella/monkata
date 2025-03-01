@@ -67,6 +67,7 @@ export class KeycloakService {
       return {};
     }
   }
+  
   async getLoginEnt() : Promise<any> {
     return  await this.store.getJson("entToken");
   }

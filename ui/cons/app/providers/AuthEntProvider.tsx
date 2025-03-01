@@ -1,8 +1,7 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { StorageService as store } from '../services/storage';
-import { menuConfig } from "~/components/shared/menu";
+import { menuConfig } from "~/configs/menu";
 import { getMenu } from "~/services/Http";
-import { Log } from "~/utils/auth";
 
 const AuthContext = createContext(null);
 
@@ -17,9 +16,8 @@ interface Props {
   const [isAuthenticatedEnt, setIsAuthenticatedEnt] = useState(false);
 
   useEffect(  () => {
-     const  resetToken = async () => {
+     const  initToken = async () => {
       const _token = await store.getJson("entToken") as any ;  
-      console.log(_token);
       if(_token) { 
         setEnt(_token.appEnt.entId);
         setApp(_token.appEnt.appName);
@@ -31,9 +29,8 @@ interface Props {
         setIsAuthenticatedEnt(true);
         setTokenEnt(_token);
       }
-
      }
-    resetToken();
+    initToken();
   }, []); 
   
   const isApp = (name: string) => {
@@ -70,8 +67,8 @@ interface Props {
   }
 
   const logoutEnt = async () => { 
-    setEnt(null); 
-    setApp(null); 
+    setEnt(undefined); 
+    setApp(""); 
     setIsAuthenticatedEnt(false);
     await store.remove("entToken");
   }

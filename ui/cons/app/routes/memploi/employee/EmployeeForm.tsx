@@ -3,13 +3,20 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { User, Phone, Mail, MapPin, FileText, Calendar, Building2 } from 'lucide-react';
 import { HaitiState } from '../../../../../../common/index/HaitiCities';
+import { useGetEntAdress } from '~/services/httpHook/EntrepriseHook';
+import { useGetPostes } from '~/services/httpHook/UnityHook';
+import { EmpService } from '~/services/Employee';
+import { usePostHttp } from '~/services/httpHook/HttpHook';
 const employeeSchema = z.object({
   firstName: z.string().min(2, 'First name must be at least 2 characters'),
   lastName: z.string().min(2, 'Last name must be at least 2 characters'),
-  title_prof: z.string().optional(),
-  sexe: z.string().optional(),
+  sexe: z.enum(['M', 'F']).optional(),
   profile: z.string().optional(),
-  annee_debut: z.number().min(1900).max(new Date().getFullYear()).optional(),
+  poste: z.number().min(0),
+  initial_salary: z.number().min(0),
+  date_debut: z.date().max(new Date()).optional(),
+  date_fin: z.date().max(new Date()).optional(),
+  dob: z.date().max(new Date()).optional(),
   telephone_a: z.string().regex(/^\+?[0-9\s-()]{8,}$/, 'Invalid phone number').optional(),
   telephone_b: z.string().regex(/^\+?[0-9\s-()]{8,}$/, 'Invalid phone number').optional(),
   email_contact: z.string().email('Invalid email address').optional(),
@@ -27,17 +34,24 @@ const employeeSchema = z.object({
 type EmployeeFormData = z.infer<typeof employeeSchema>;
 
 export default function EmployeeForm() {
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<EmployeeFormData>({
+    } = useForm<EmployeeFormData>({
     resolver: zodResolver(employeeSchema),
   });
 
+  const { run, setAlert, alert }  =   usePostHttp(EmpService.add);
+
+  const [ addresses ] = useGetEntAdress([]);
+  const [ postes ] = useGetPostes([]);
+
+  console.log(postes);
+
   const onSubmit = (data: EmployeeFormData) => {
     console.log(data);
-    // Handle form submission
   };
 
   return (
@@ -81,24 +95,25 @@ export default function EmployeeForm() {
 
             <div>
               <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-1">
-                <Building2 className="w-4 h-4" />
-                Professional Title
+                Sexe
               </label>
-              <input
-                {...register('title_prof')}
+              <select
+                {...register('disponibilte')}
                 className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Enter professional title"
-              />
+              >
+                <option value="M">Masculin</option>
+                <option value="F">Féminin</option>
+              </select>
             </div>
 
             <div>
               <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-1">
                 <Calendar className="w-4 h-4" />
-                Start Year
+                Date de Naissance
               </label>
               <input
-                type="number"
-                {...register('annee_debut', { valueAsNumber: true })}
+                type="date"
+                {...register('dob', { valueAsDate: true })}
                 className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Enter start year"
               />
@@ -181,7 +196,7 @@ export default function EmployeeForm() {
                 className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 >
                 {  HaitiState.map((state)=>{
-                 return <option value={state}>{state}</option> 
+                 return <option value={state} key={state}>{state}</option> 
                 })  } 
               </select>
             </div>
@@ -260,7 +275,7 @@ export default function EmployeeForm() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-1">
-                Availability
+                Type de poste
               </label>
               <select
                 {...register('disponibilte')}
@@ -271,6 +286,72 @@ export default function EmployeeForm() {
                 <option value="Temps_plein">Temps Plein</option>
               </select>
             </div>
+            <div>
+              <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-1">
+                Burreau Affectaté
+              </label>
+              <select
+                {...register('disponibilte')}
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              >
+               {  addresses.map((state: any)=>{
+                 return <option value={state.id} key={state.id}>{state.name}</option> 
+                })  } 
+              </select>
+            </div>
+
+            <div>
+              <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-1">
+                Poste
+              </label>
+              <select
+                {...register('poste')}
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              >
+               {  postes.map((state: any)=>{
+                 return <option value={state.id} key={state.id}>{state.name}</option> 
+                })  } 
+              </select>
+            </div>
+
+            <div>
+              <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-1">
+                <Calendar className="w-4 h-4" />
+                Date debut contrat
+              </label>
+              <input
+                type="date"
+                {...register('date_debut', { valueAsDate: true })}
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Enter start year"
+              />
+            </div> 
+
+            <div>
+              <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-1">
+                <Calendar className="w-4 h-4" />
+                Date fin contrat
+              </label>
+              <input
+                type="date"
+                {...register('date_fin', { valueAsDate: true })}
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Enter start year"
+              />
+            </div> 
+
+            <div>
+              <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-1">
+                <Calendar className="w-4 h-4" />
+                Salaire initial
+              </label>
+              <input
+                type="number"
+                {...register('initial_salary', { valueAsNumber: true })}
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Enter start year"
+              />
+            </div> 
 
           </div>
         </div>

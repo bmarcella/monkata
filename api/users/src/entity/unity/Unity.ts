@@ -15,11 +15,13 @@ export class Unity  extends BaseEntity {
     @PrimaryGeneratedColumn()
     id?: number
 
+
+    @Column({ nullable: false})
+    id_entApp?: number;
+
     @Column()
     name?: string;
 
-    @Column({ nullable: true})
-    isPoste?: boolean;
 
     @Column({
         type: "enum",

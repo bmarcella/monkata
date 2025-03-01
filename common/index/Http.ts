@@ -131,6 +131,7 @@ export class Http {
 
 export const  SERV_EP = {
   getEntById : "/entreprise/getById/",
+  getEntByIdWithAdress : "/entreprise/getEntByIdWithAdress/",
   getListEntById : "/entreprise/getListById",
   getCrossToken: "/cross-token/getFullCT/",
   getAllWithAdressPage : "/entreprise/getAllWithAdressPage/",

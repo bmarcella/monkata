@@ -12,6 +12,11 @@ api.interceptors.request.use(
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
+      const _tokenEnt =  store.getJson("entToken") as any ;
+      const tEnt = (_tokenEnt && _tokenEnt.appEntToken.token) ? _tokenEnt.appEntToken.token : false;
+      if (tEnt) {
+        config.headers.entToken = tEnt;
+      }
       return config;
     },
     (error) => {

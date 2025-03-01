@@ -1,3 +1,4 @@
+import { environment } from "~/services/environments/environment.prod";
 
 export function requireAuth(navigate: any) {
     const isAuthenticated = Boolean(localStorage.getItem("authToken"));
@@ -14,5 +15,6 @@ export function notRequireAuth(navigate: any) {
 }
 
 export const Log = (log: any) => {
+    if (environment.production) return;
     console.log(log);
 }

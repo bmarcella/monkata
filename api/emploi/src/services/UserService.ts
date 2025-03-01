@@ -348,9 +348,22 @@ const services = {
   },
   avatar: async (req: Request, res: Response) => {
     try {
+      // select the user_cv
+      // return res.status(200).send({ message: "avatar" });
+      let id = Number(req.params.id);
+      if( id == 0) {
+          const userRepository = req.DB.getRepository(User_Cv);
+          const keycloakId = req.payload?.sub;
+          const user = await userRepository.findOne({
+          select: ['id'] ,
+          where: { keycloakId }
+          });
+          if (!user) res.status(401).send({ message : " You are not authorized " });
+          id = user.id;
+      }
       const avatarRepository = req.DB.getRepository(Avatar);
       const avatar: Avatar = await avatarRepository.findOne({
-        where: { id_user: req.params.id }
+        where: { id_user: id }
       });
       let buffer = null;
       let mime : any = 'image/png';

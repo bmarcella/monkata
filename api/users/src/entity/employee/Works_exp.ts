@@ -1,10 +1,14 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Horaire_de_travail } from "./Jobs";
-import { User_Cv } from "./User_Cv";
-import { BaseEntity } from "./BaseEntity";
+import { Employee } from "./Emp";
+import { BaseEntity } from "../BaseEntity";
 
 export enum Type_contrat {
   Permanent = "Permanent"
+}
+
+export enum Horaire_de_travail {
+  temps_plein = "Temps plein",
+  temps_partiel = "Temps partiel",
 }
 
 @Entity()
@@ -54,8 +58,8 @@ country?: string;
 @Column({  nullable: true })
 city?: string;
 
-@ManyToOne(() => User_Cv, userCv => userCv.worksExp)
-userCv?: User_Cv;
+@ManyToOne(() => Employee, employee => employee.worksExp)
+employee?: Employee;
 
 }
 

@@ -628,6 +628,7 @@ const services = {
     }
   },
   getCrossTokenForAdmin: async (req: Request, res: Response) => {
+    try {
     const token = req.params.token;
     const { GATEWAY_URL } = process.env;
     const http = new Http(axios, req.token || '');
@@ -665,6 +666,10 @@ const services = {
         resp.role = role;
         return res.status(200).send(resp);
       }
+    }
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send(error);
     }
 
   },

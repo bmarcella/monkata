@@ -38,6 +38,7 @@ import { User_Cv } from './entity/User_Cv';
 import { ViewJob } from './entity/ViewJob';
 import { Works_exp } from './entity/Works_exp';
 import { routes } from './routes';
+import { UserAnoFree } from './entity/Anonimous/UserAnoFree';
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -50,13 +51,15 @@ declare global {
       token?: string,
       DB: any,
       mail: Mail,
+      idEnt: number,
     }
   }
 }
 
 dotenv.config();
 
-const entities = [Contact, User_Cv, Jobs, Postulants, Works_exp, Etudes, Avatar, Logo, Skills, Documents, References, LanguageSkills, ViewJob, UserAno, ApplicantAno];
+const entities = [Contact, User_Cv, Jobs, Postulants, Works_exp, Etudes, Avatar, Logo, Skills, Documents, References, LanguageSkills,
+   ViewJob, UserAno, ApplicantAno, UserAnoFree];
 AppDataSource<DataSource, Array<any>>(DataSource, process.env, entities).then( (DB: DataSource)=> {
 const app: Express = express();
   app.use(cors());

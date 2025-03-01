@@ -5,6 +5,11 @@ const Crud = {
      const repo = DB.getRepository(ENT);
      return new ORM<T>(repo);
   },
+
+  initTree :  <T> (DB: any, ENT: new (...args: any[]) => any) => {
+    const repo = DB.getTreeRepository(ENT);
+    return new ORMTREE<T>(repo);
+ },
 };
 
 class ORM <T> {
@@ -22,7 +27,6 @@ class ORM <T> {
     return await (all) ? this.repository.find(pred) : this.repository.findOne(pred) ;
   }
 
-
   async del  (pred?: any)  {
     return await  this.repository.delete(pred) ;
   }
@@ -33,4 +37,44 @@ class ORM <T> {
   }
 
 }
+
+class ORMTREE <T> {
+  constructor(private repository: any) {}
+
+
+  async get ( pred?: any) : Promise< T[] | Awaited<T>>  {
+    return await  this.repository.findTrees(pred) ;
+  }
+
+  async save (data: T)  : Promise<Awaited<T>>  {
+    return await this.repository.save(data);
+  }
+
+
+}
 export default Crud;
+
+export  const  DSave = <T> (DB: any,ENT: new (...args: any[]) => any, data: T ) : T => {
+   const crud = Crud.init(DB, ENT);
+    return  crud.save(data) as T;
+};
+
+export  const  DSaveTree = <T> (DB: any,ENT: new (...args: any[]) => any, data: T ) : T => {
+  const crud = Crud.initTree(DB, ENT);
+    return  crud.save(data) as T;
+};
+
+export  const  DGetTree = <T> (DB: any,ENT: new (...args: any[]) => any, preds?: any ) : T => {
+    const crud = Crud.initTree(DB, ENT);
+    return  crud.get(preds) as T;
+};
+
+export  const  DGetOne = <T> (DB: any,ENT: new (...args: any[]) => any, preds?: any ) : T => {
+  const crud = Crud.init(DB, ENT);
+  return  (preds) ?  crud.get(false,preds) as T : crud.get(false) as T;
+};
+
+export  const  DGetAll = <T> (DB: any,ENT: new (...args: any[]) => any, preds?: any ) : T => {
+  const crud = Crud.init(DB, ENT);
+  return  (preds) ?  crud.get(true, preds) as T : crud.get(true) as T;
+};

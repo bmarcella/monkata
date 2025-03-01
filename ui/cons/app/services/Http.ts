@@ -2,7 +2,7 @@
 import { Log } from '~/utils/auth';
 import axios from './api-client';
 import { getURL } from './environments/environment.prod';
-import { RHManaMenu } from '~/components/shared/menu';
+import { RHManaMenu } from '~/configs/menu';
 
 export  enum  Services{
   USERS = 'users',
@@ -43,6 +43,23 @@ const getAbort =  <T> (endpoint: string, signal: any, button?: any, ) => {
     });
 }
 
+const postAbort =  <T> (endpoint: string, signal: any, payload,  button?: any, ) => {
+  
+  return new  Promise ((resolve, reject)=> {
+     return  axios.post<T>(endpoint, payload, {
+          signal, 
+        })
+        .then(json => {
+            if (button) button.disabled = false;
+            resolve({ data: json.data } )
+        })
+        .catch(error => {
+            if (button) button.disabled = false;
+            reject(error);
+        });
+    });
+}
+
 const httpGet = (endpoint: string, event?: any ) => {
    const button =  getButton(event);
    return get(endpoint, button)
@@ -53,6 +70,13 @@ const httpGetX = (endpoint: string, event?: any ) => {
   const controller = new AbortController(); // Create AbortController
   const signal = controller.signal;
   return  { http: getAbort(endpoint, signal, button), ctrl: controller };
+}
+
+const httpPostX = <T>(endpoint: string, payload: T, event?: any ) => {
+  const button =  getButton(event);
+  const controller = new AbortController(); // Create AbortController
+  const signal = controller.signal;
+  return  { http: postAbort<T>(endpoint, signal, payload, button), ctrl: controller };
 }
 
 const Launch = (data: { ent: string, app: string }) => {
@@ -91,4 +115,4 @@ const getMenu = (name:string) => {
   }
 }
 
-export { httpGet, httpGetX, getMenu, Launch};
+export { httpGet, httpGetX, getMenu, Launch, httpPostX};

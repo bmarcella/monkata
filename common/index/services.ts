@@ -28,7 +28,7 @@ export const services: Service[] = [
   {
     name: "console",
     path: "/users",
-    frontend_dev: "https://localhost:4207",
+    frontend_dev: "https://localhost:5173",
     frontend_prod: 'https://console.monkata.com'
   },
 ];

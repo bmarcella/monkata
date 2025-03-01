@@ -39,6 +39,9 @@ import { ServiceEnt } from './entity/ServiceEnt';
 import { Permission, Userroleapp } from './entity/Urole';
 import { User } from './entity/User';
 import { routes } from './routes';
+import { Unity } from './entity/unity/Unity';
+import { Bank } from './entity/Bank';
+import { EmpRel } from './entity/employee';
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -70,7 +73,10 @@ const entities =
     Logo, KcUser,
     Admin,UserRole,
     EntApp, EntAppToken,
-     ];
+    Unity,
+    Bank, 
+    ...EmpRel
+  ];
 
 AppDataSource<DataSource, Array<any>>(DataSource, process.env, entities).then((DB: DataSource) => {
 

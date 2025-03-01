@@ -144,6 +144,56 @@ const services = {
       return res.status(500).send(error);
     }
   },
+  addFC : async (req: Request, res: Response) => {
+    try {
+      const idEnt = Number(req.payloadEnt.obj.entId);
+   
+      const { GATEWAY_URL } = process.env;
+      const http = new Http(axios, req.token || '');
+      const path = getService("users").path;
+      const URL = GATEWAY_URL+path+SERV_EP.getEntByIdWithAdress+idEnt;
+      const ent = await http.get(URL, false);
+      if(!ent) return res.status(500).send({ message: "Entreprise non trouvé." });
+      console.log(ent);
+      const keycloakId = req.payload?.sub;
+      const jobsRepository = req.DB.getRepository(Jobs);
+      const job = req.body;
+      const ad = job.ad;
+      let obj = new Jobs();
+      obj.app_Reception = job.app_reception;
+      obj.titre_job = job.titre_job;
+      obj.categorie = job.categorie;
+      obj.date_echeance = job.date_echeance;
+      obj.job_permanent = (job.date_echeance) ? false : true;
+      obj.type_contrat = job.type_contrat;
+      obj.env_de_travail = job.env_de_travail;
+      obj.horaire_de_travail = job.horaire_de_travail;
+      obj.periode_salaire = job.periode_salaire;
+      obj.currency = job.currency;
+      obj.salaire = job.salaire;
+      obj.description = job.description;
+      obj.lien_to_apply = job.lien_to_apply;
+      obj.email_to_apply = job.email_to_apply;
+      obj.phone_to_apply = job.phone_to_apply;
+      obj.entreprise_id = ent.id;
+      obj.create_by = keycloakId;
+      obj.is_certificat_require = job.is_certificat_require;
+      obj.is_cv_require = job.is_cv_require;
+      obj.is_diplome_require = job.is_diplome_require;
+      obj.is_lm_require = job.is_lm_require;
+
+      const cadd = ent.adresses.find( (item: { id: any; }) => { return item.id == ad } );
+      obj.country = cadd.country;
+      obj.etat = cadd.etat;
+      obj.ville = cadd.ville;
+      obj.publish = job.publish;
+      obj = await jobsRepository.save(obj);
+      res.send(obj);
+    } catch (error) {
+      console.log(error)
+      return res.status(500).send(error);
+    }
+  },
   getJobs : async (req: Request, res: Response) => {
     try {
       const currentDate = new Date();
@@ -353,6 +403,37 @@ const services = {
       pages.push(i);
     }
     const pagination = { numberJobs : objs2,totalPage, pages, currentPage: page };
+      res.send({ jobs, pagination });
+    } catch (error) {
+      console.log(error)
+      return res.status(500).send(error);
+    }
+  },
+   getJobByIdEntFC : async (req: Request, res: Response) => {
+    try {
+      const jobsRepository = req.DB.getRepository(Jobs);
+      const idEnt = Number(req.payloadEnt.obj.entId);
+      const id = idEnt
+      const page = Number(req.params.page);
+      const NPage = Number(req.params.np);
+      const skip = (page - 1) * NPage;
+      const jobs : Jobs = await jobsRepository.find({
+        order: { created_at : "DESC" },
+        skip : skip,
+        take: NPage,
+        where: { entreprise_id: id }
+      });
+
+    const objs2 = await jobsRepository.count({
+      where: { entreprise_id: id }
+    });
+    const totalPages =  Math.ceil(objs2/NPage);
+    const pages = [];
+    for(let i = 1; i<= totalPages; i++) {
+       pages.push(i);
+    }
+    const pagination = { totalItem : objs2, totalPages, pages, currentPage: page };
+
       res.send({ jobs, pagination });
     } catch (error) {
       console.log(error)

@@ -1,5 +1,5 @@
 
-import { useAppForAuth, useEntForAuth } from "~/hooks/EntrepriseHook"
+import { useAppForAuth, useEntForAuth } from "~/services/httpHook/EntrepriseHook"
 import Title from "./Title";
 
 import { useForm } from 'react-hook-form'
@@ -7,27 +7,24 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Log } from "~/utils/auth";
 import { Launch } from "~/services/Http";
-import { useAuthEnt } from "../AuthEntProvider";
-import { useNavigate } from "react-router-dom";
+import { useAuthEnt } from "../../providers/AuthEntProvider";
+import {  useNavigate } from "react-router-dom";
 import Submit from "~/components/shared/Submit";
 import Select from "~/components/form/select";
+import { useAuth } from "../../providers/AuthProvider";
 const schema =  z.object({
   app: z.string({  invalid_type_error: "Vous devez selectionnez une application" }).min(1, { message: "Vous devez selectionnez une application"  } ),
   ent: z.string({  invalid_type_error: "Vous devez selectionnez une entreprise" }).min(1, { message: "Vous devez selectionnez une entreprise"  }),
-  // people: z.number({ invalid_type_error: "Population is required" }).min(1000, {
-  //   message: "Population must not be less than 1000"
-  // }),
-  // category : z.enum(["developed", "developing", "underdeveloped"], {
-  //   errorMap : () => ( { message: "Invalid category" })
-  // })
 })
 type  FormData = z.infer<typeof schema>
 
 function index() {
-  const { ents , setEnts } = useEntForAuth([]);
-  const { apps , setApps } = useAppForAuth([]);
-  const { register , handleSubmit, setValue , reset,   formState: { errors, isValid } } = useForm<FormData>({ resolver: zodResolver(schema) });
-  const { setLoginEnt} = useAuthEnt();
+  const { ents } = useEntForAuth([]);
+  const { apps } = useAppForAuth([]);
+  const { register , handleSubmit,  reset,   formState: { errors, isValid } } = useForm<FormData>({ resolver: zodResolver(schema) });
+  const { setLoginEnt} = useAuthEnt() as any;
+  const { logout } = useAuth() as any;
+
   const navigate = useNavigate();
   const submit = async (data: any)=> {
       Launch(data).then(async (r: any) => {
@@ -50,6 +47,11 @@ function index() {
           </Submit>
           </div>
         </form>
+        <button onClick={async ()=> { 
+        console.log("logout");
+         logout();
+         navigate ("/auth") }
+        }>Logout</button>
     </div>
   )
 }

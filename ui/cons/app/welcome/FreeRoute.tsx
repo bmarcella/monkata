@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import { useAuth } from '../routes/AuthProvider';
-import { useAuthEnt } from '~/routes/AuthEntProvider';
+import { useAuth } from '../providers/AuthProvider';
+import { useAuthEnt } from '~/providers/AuthEntProvider';
 
 
 const FreeRoute: React.FC = () => {
@@ -14,7 +14,7 @@ const FreeRoute: React.FC = () => {
      if (isAuthenticated)  
            return <Navigate to="/compagny"  /> 
        
-        return (   <><Outlet /></> ) ;
+        return (<><Outlet /></>) ;
 
 };
 

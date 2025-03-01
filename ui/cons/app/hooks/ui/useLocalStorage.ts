@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 
-import { useEventCallback, useEventListener } from './'
+import { useEventCallback, useEventListener } from '..'
 
 const IS_SERVER = typeof window === 'undefined'
 

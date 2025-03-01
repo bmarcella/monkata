@@ -1,5 +1,5 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
-import { User_Cv } from "./User_Cv";
+import { Employee } from "./Emp";
 
 export enum Type_etudes {
   universitaire = 'universitaire',
@@ -41,8 +41,8 @@ date_fin!: string;
 type_etudes?: Type_etudes;
 
 // In Etudes entity
-@ManyToOne(() => User_Cv, userCv => userCv.etudes)
-userCv?: User_Cv;
+@ManyToOne(() => Employee, employee => employee.etudes)
+employee?: Employee;
 
 @Column({  nullable: true })
 country?: string;

@@ -3,13 +3,21 @@ import express from 'express';
 import * as jwt from 'jsonwebtoken';
 
 import { ReCaptcha } from '../../../../common/index/ReCaptcha';
-import { free, protect } from '../../../../common/keycloak/AuthMiddleware';
+import { free, protect, protectEnt } from '../../../../common/keycloak/AuthMiddleware';
 import services from '../services/JobService';
 import { PROTECT_ENTANDUSER } from './Protect';
 
 export const jobRoute = express.Router();
-const ctrl = services
+const ctrl = services;
+//
+
+jobRoute.get('/getJobByIdEntFC/:np/:page', 
+       [ protect(jwt,process.env.PUBLIC_KEY+""),
+         protectEnt(jwt, process.env.PUBLIC_KEY + "") ] ,
+          ctrl.getJobByIdEntFC);
+//
 jobRoute.post('/add',  [ protect(jwt,process.env.PUBLIC_KEY+""),  ReCaptcha(axios) ],  ctrl.add);
+jobRoute.post('/addFC',  [ protect(jwt,process.env.PUBLIC_KEY+""), protectEnt(jwt, process.env.PUBLIC_KEY + "") ],  ctrl.addFC);
 jobRoute.post('/edit/:id',  protect(jwt,process.env.PUBLIC_KEY+""),  ctrl.edit);
 jobRoute.get('/getJobById/:id',  ctrl.getJobById);
 jobRoute.get('/getAll',  ctrl.getAll);

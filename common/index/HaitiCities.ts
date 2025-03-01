@@ -56,6 +56,23 @@ export const HaitiCities: string[] = [
   "Île de la Tortue"
 ];
 
+
+export const HaitiState: string[] = [
+  "Artibonite",
+  "Centre",
+  "Grand'Anse",
+  "Nippes",
+  "Nord",
+  "Nord-Est",
+  "Nord-Ouest",
+  "Ouest",
+  "Sud",
+  "Sud-Est"
+];
+
+
+
+
 export const EmploymentDomains: string[] = [
   "Administration",
   "Agriculture",

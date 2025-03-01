@@ -1,27 +1,30 @@
 import { useState } from 'react';
 import { X, Menu, ChevronDown, ChevronRight } from 'lucide-react';
-import { useAuthEnt } from '~/routes/AuthEntProvider';
+import { useAuthEnt } from '~/providers/AuthEntProvider';
 import React from 'react';
-import { NavLink } from 'react-router-dom';
-
-function Sidebar() {
-    const [isOpen, setIsOpen] = useState(true);
+import {  useNavigate } from 'react-router-dom';
+import { useTabs } from '~/providers/TabsProvider';
+interface Props {
+    isOpen: boolean;
+}
+function Sidebar( { isOpen }: Props) {
+   
     const [openMenus, setOpenMenus] = useState<any>({});
-    const { menuItems } = useAuthEnt();
-    console.log(menuItems);
+    const { menuItems } = useAuthEnt()  as any;
+    const { setTabs } = useTabs() as any;
+    const navigate = useNavigate();
     const toggleSubMenu = (index: number) => {
         setOpenMenus((prev: any) => ({ ...prev, [index]: !prev[index] }));
     };
+    const goTo = (url : string, tabs) =>{
+        setTabs(tabs);
+        navigate(url);
+    }
     return (
-        <div className={`bg-gray-900 text-white ${isOpen ? "w-64" : "w-16"} h-screen transition-all duration-300 p-4`}>
-            <button
-                className={'mb-6 p-2 rounded bg-gray-700 hover:bg-gray-600'}
-                onClick={() => setIsOpen(!isOpen)}
-            >
-                {isOpen ? <X /> : <Menu />}
-            </button>
+        <nav >
+        
             <ul>
-                {menuItems.map(({ name, icon, submenu }, index) => (
+                {menuItems.map(({ name, icon, prefix, submenu }, index) => (
                     <li key={index}>
                         <div
                             className={`flex ${isOpen ? 'items-center justify-between gap-4 p-3' : ''} hover:bg-gray-800 rounded cursor-pointer`}
@@ -43,11 +46,11 @@ function Sidebar() {
                                 {submenu.map((sub, subIndex) => (
                                     <li
                                         key={subIndex}
-                                        className={'p-2 hover:bg-gray-700 rounded cursor-pointer flex justify-between'}
+                                        className={'p-2 hover:bg-gray-700 rounded cursor-pointer flex justify-between transition-all duration-300 ease-in-out transform'}
                                     >
-                                        <NavLink to={sub.url} className={({ isActive }) => (isActive ? 'active' : '')}>
+                                        <div onClick={ () => { goTo(prefix+sub.url, sub.tabs ) } }>
                                             <span>{sub.name}</span>
-                                        </NavLink>
+                                        </div>
                                         {sub.icon &&
                                             React.createElement(sub.icon, { className: 'w-4 h-4' })}
                                     </li>
@@ -57,7 +60,7 @@ function Sidebar() {
                     </li>
                 ))}
             </ul>
-        </div>
+        </nav>
     );
 }
 

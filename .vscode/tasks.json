@@ -1,6 +1,19 @@
 {
    "version": "2.0.0",
    "tasks": [
+      {
+         "label": "Monkata-UI-NConsole-2",
+         "type": "shell",
+         "hide": false,
+         "command": " npm run dev",
+         "options": {
+            "cwd": "./ui/cons"
+         },
+         "presentation": {
+            "reveal": "always",
+            "panel": "new"
+         }
+      },
       // MONKATA-UI
       {
          "label": "Monkata-UI-NConsole",
@@ -146,7 +159,6 @@
             "panel": "new"
          }
       },
-     
       {
          "label": "Monkata-UI-Qnote",
          "type": "shell",
@@ -303,8 +315,6 @@
             "isDefault": false
          }
       },
-
-
       /*DOCKER PUSH*/
       {
          "label": "Monkata-PDocker-Eureka",

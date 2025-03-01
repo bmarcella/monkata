@@ -1,8 +1,8 @@
-@import "tailwindcss";  
+@import "tailwindcss";
 
 /* @import "./base.css";  */
-@import "./layouts.css";
-@import "./variants.css";
+/* @import "./layouts.css";
+@import "./variants.css"; */
 
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
@@ -11,7 +11,7 @@
 
 @tailwind base;
 @tailwind components;
-@import "./app/index.css";
+/* @import "./app/index.css"; */
 @tailwind utilities;
 
 html,
@@ -25,5 +25,10 @@ body {
 
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 
-
-/* BASE */
+.ProseMirror {
+  min-height: 200px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+}

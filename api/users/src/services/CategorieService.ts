@@ -12,7 +12,6 @@ categorie.icon = req.body.icon;
 categorie.description = req.body.description;
 categorie.type_categorie = req.body.type;
 categorie.type_ent = req.body.type_ent;
-console.log(req.body);
 if(req.body.parent && req.body.parent!=""){
   const c = await categorieRepository.findOneBy({ id: req.body.parent });
   if (c) {

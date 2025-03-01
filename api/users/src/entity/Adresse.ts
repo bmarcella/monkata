@@ -13,7 +13,8 @@ export class Adresse {
   @Column({ nullable: true})
   name: string;
    
-
+  @Column({ nullable: true})
+  description: string;
 
   @Column()
   country: string;

@@ -1,6 +1,4 @@
-// import Button from "~/components/shared/Button";
-
-import { Button } from "~/components/ui";
+import Button from "~/components/shared/Button";
 import { getURL, getRURL } from "~/services/environments/environment.prod";
 import { httpGet, Services } from "~/services/Http";
 
@@ -19,15 +17,10 @@ const AuthlLogin = (event?: any) => {
   return (
     <>  
 
-    {/* <Button  onBtnClick={(event) => { AuthlLogin(event) }}>
+    <Button  onBtnClick={(event) => { AuthlLogin(event) }}>
             Login to your account
-    </Button> */}
-    <div className="flex flex-col items-center justify-center">
-      <Button onClick={(event) => { AuthlLogin(event) }}>
-            Login to your account
-      </Button>
-    </div>
-    <Button color="error">Error</Button> 
+    </Button>
+
    
     </>
          

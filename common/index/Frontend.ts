@@ -44,7 +44,7 @@ export const servicesApp: ServiceObjApp = {
     titre: "Console",
     description: "Monkata-Console administrer votre entreprise",
     path: "/console",
-    frontend_dev: "http://localhost:4207",
+    frontend_dev: "http://localhost:5173",
     frontend_prod: "https://console.monkata.com",
     login: "/auth/login-cross-token",
     show: false,

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { useAuthEnt } from "../AuthEntProvider";
+import { useAuthEnt } from "../../providers/AuthEntProvider";
 
 const PrivateRouteEnt: React.FC = () => {
     const { isAuthenticatedEnt } = useAuthEnt();

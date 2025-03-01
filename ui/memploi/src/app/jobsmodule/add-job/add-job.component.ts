@@ -48,7 +48,7 @@ export class AddJobComponent implements OnInit, OnDestroy {
   salaireOptions = Object.values(Periode_salaire);
   devOptions = Object.values(Currency);
   repOptions = Object.values(App_Reception);
-  rec = App_Reception;
+  rec : any = App_Reception;
   ents: any = [];
   cats: any = [];
   selectedEnt: any;

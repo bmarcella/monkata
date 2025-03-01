@@ -4,6 +4,29 @@ import { useState, useEffect } from "react";
 
 import { EntService } from "~/services/Entreprise";
 
+
+export const useGetEntAdress =  (data: []) => {
+  const [adresses, setAdresses] = useState(data);
+  useEffect(() => {
+    const data = EntService.getAllAdress();
+    const fetchData = async () => {
+    data.http.then(async (res: any) => {
+           const adresses = res.data;
+           // Log( adresses);
+           setAdresses(adresses); 
+       }).catch((e: any) => {
+            if (e instanceof CanceledError && e.name === "CanceledError") {
+              return;
+            } 
+            console.log("Request was canceled:", e);
+       });
+      } 
+      fetchData();
+      return () => { data.ctrl.abort() };
+  }, []);
+  return [ adresses ];
+};
+
 export const useAppForAuth =  (data: []) => {
     const [apps, setApps] = useState(data);
     useEffect(() => {

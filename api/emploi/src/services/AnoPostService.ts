@@ -12,11 +12,69 @@ import { ApplicantAno } from '../entity/Anonimous/ApplicantAno';
 import { UserAno } from '../entity/Anonimous/UserAno';
 import { Jobs } from '../entity/Jobs';
 import { MessageMailJob } from './JobMail';
+import { UserAnoFree } from '../entity/Anonimous/UserAnoFree';
 
 export const NPage = 5;
 
 
 const services = {
+  addFree : async  (req: Request, res: Response) => {
+
+    const files = req.files as  {[fieldname: string]: Express.Multer.File[]};
+    // const files = req.files as  {[fieldname: string]: any[]};
+    
+    if (files['cv'][0] == undefined) {
+      return res.status(400).send({ message: "Vous devez envoyer au moins votre cv." });
+    }
+    const cv = files['cv'][0];
+    const email = req.body.email;
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
+    const phone = req.body.phone;
+
+    const dao = req.DB.getRepository(UserAnoFree);
+    // check user /
+    const obj_2: UserAnoFree = await dao.findOne({
+      where: { email }
+    });
+
+    if (obj_2) return res.status(200).send({ message: "Vous avez déjà enregistré votre dossier." });
+
+    if (!obj_2) { 
+    const  obj  = new UserAnoFree();
+      obj.email = email;
+      obj.firstName = firstName;
+      obj.lastName = lastName;
+      obj.telephone = phone;
+      //
+      obj.country = req.body.country;
+      obj.city = req.body.city;
+      obj.domaine_1 = req.body.domaine_1;
+      obj.exp_1 = req.body.exp_1;
+      obj.domaine_2 = req.body.domaine_2;
+      obj.exp_2 = req.body.exp_2;
+      obj.domaine_3 = req.body.domaine_3;
+      obj.exp_3 = req.body.exp_3;
+      obj.stage = req.body.stage;
+      obj.benevolat = req.body.benevolat;
+      obj.relocate = req.body.relocate;
+      obj.salary_min = req.body.salary_min;
+      obj.salary_max = req.body.salary_max;
+      obj.niv_academique = req.body.niv_academique;
+      obj.type_emp = req.body.type_emp;
+  
+      obj.cv_user =  cv.buffer;
+
+      if (files['dc'] && files['dc'][0] != undefined) {
+          const dc = files['dc'][0];
+          obj.dc_user =  dc.buffer;
+      }
+     
+      dao.save(obj);
+      return res.status(200).send({ message: "Succès." });
+    } 
+ 
+  },
   add : async  (req: Request, res: Response) => {
     const id_job = req.body.id_job;
     const jobsRepository = req.DB.getRepository(Jobs);
@@ -24,7 +82,7 @@ const services = {
     const job: Jobs = await jobsRepository.findOne({
       where: { id }
     });
-
+    let lm = undefined;
     if (job == undefined) {
       return res.status(400).send({ message: "Cet emploi n'existe pas!" });
     }
@@ -35,7 +93,7 @@ const services = {
       return res.status(400).send({ message: "Vous devez envoyer au moins votre cv." });
     }
     const cv = files['cv'][0];
-    const lm = files['lm'][0];
+   
 
     const email = req.body.email;
     const firstName = req.body.firstName;
@@ -68,7 +126,12 @@ const services = {
     aa.id_job = id_job;
     aa.email_job = email_job;
     aa.cv_user =  cv.buffer;
-    aa.lm_user =  lm.buffer;
+    if (files['lm'] && files['lm'][0] != undefined ) {
+      lm = files['lm'][0];
+      if(lm.buffer){
+        aa.lm_user =  lm.buffer;
+      } 
+    }
     dao2.save(aa);
     services.sendMailWithFile(obj,aa,job, { cv, lm } );
     return res.status(200).send({ message: "Votre dossier de candidature a été transmis avec succès." });
@@ -89,7 +152,9 @@ const services = {
       const cv = files.cv;
       const lm = files.lm;
       formData.append("cv", cv.buffer, cv.originalname);
-      formData.append("lm", lm.buffer, lm.originalname);
+      if(lm && lm.buffer!= undefined){
+         formData.append("lm", lm.buffer, lm.originalname);
+      }
       formData.append('receiver',data.receiver);
       formData.append('replyTo',data.replyTo);
       formData.append('postulant',user.lastName+" "+user.firstName);

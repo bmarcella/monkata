@@ -115,11 +115,11 @@ export const protectEnt = (jwt: any, p: any, role?: string) => {
       let token = req?.headers.Enttoken;
       if (!token) {
         token = req?.headers.enttoken;
-        if (!token) return res.status().send('Access Denied: No token provided.');
+        if (!token) return res.status(401).send('Access Denied: No token provided.');
       }
       req.tokenEnt = token;
       req.payloadEnt = getPayload(jwt, token, secretKeyCommon);
-
+      req.entId = Number(req.payloadEnt.obj.entId);
       // if (role && (!req.payload.roles || !req.payload.roles.includes(role))) {
       //   return res.status(403).send('Access Denied: Insufficient permissions.');
       // }

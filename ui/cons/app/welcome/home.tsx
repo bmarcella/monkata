@@ -1,5 +1,5 @@
 import { Navigate } from "react-router";
-import { useAuth } from "~/routes/AuthProvider";
+import { useAuth } from "~/providers/AuthProvider";
 import type { Route } from "./+types/home";
 
 

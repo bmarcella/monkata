@@ -12,6 +12,7 @@ entRoute.get('/getAll', protect(jwt, process.env.PUBLIC_KEY + ""), serv.getAll);
 entRoute.post('/add', [protect(jwt, process.env.PUBLIC_KEY + ""),  ReCaptcha(axios) ], serv.add);
 entRoute.get('/getAllWithAdress', protect(jwt, process.env.PUBLIC_KEY + ""), serv.getAllWithAdress);
 entRoute.get('/getById/:id',serv.getById);
+entRoute.get('/getEntByIdWithAdress/:id',serv.getEntByIdWithAdress);
 entRoute.post('/getListById',serv.getListById);
 entRoute.get('/getAllWithAdressPage', protect(jwt, process.env.PUBLIC_KEY + ""), serv.getAllWithAdressPage);
 
@@ -21,6 +22,7 @@ entRoute.delete('/del/:id',serv.delete);
 // ADRESSE
 entRoute.post('/addAdresse/:id',serv.addAdresse);
 entRoute.post('/editAdresse/:id',serv.editAdresse);
+entRoute.get('/getAllAdress', [ protect(jwt, process.env.PUBLIC_KEY + ""), protectEnt(jwt, process.env.PUBLIC_KEY + "")], serv.getAllAdress);
 
 // ENT
 entRoute.post('/edit/:id', protect(jwt, process.env.PUBLIC_KEY + ""), serv.edit);

@@ -2,8 +2,8 @@
 import { useState } from 'react'
 
 // Local Imports
-import { isServer } from '../utils/isServer';
-import { useIsomorphicEffect } from './';
+import { isServer } from '../../utils/isServer';
+import { useIsomorphicEffect } from '..';
 
 // ----------------------------------------------------------------------
 

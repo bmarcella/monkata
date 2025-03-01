@@ -4,7 +4,7 @@
 import { Request, Response } from "express";
 import * as jwt from 'jsonwebtoken';
 import { ILike, In } from "typeorm";
-import Crud from "../../../../common/mvc/CrudService";
+import Crud, { DGetAll } from "../../../../common/mvc/CrudService";
 import { Adresse } from "../entity/Adresse";
 import { EntApp } from "../entity/EntApp";
 import { EntAppToken } from "../entity/EntAppToken";
@@ -190,6 +190,20 @@ const services = {
     }
 
   },
+  getEntByIdWithAdress: async (req: Request, res: Response) => {
+    try {
+      const id = req.params.id;
+      const entrepriseRepository = req.DB.getRepository(Entreprise);
+      const ent = await entrepriseRepository.findOne({
+        where: { id },
+        relations: ["adresses"]
+      });
+      res.send(ent);
+    } catch (error) {
+      return res.status(500).send(error);
+    }
+
+  },
   getByIdSec: async (req: Request, res: Response) => {
     try {
       const id = Number(req.payloadEnt.obj.entId);
@@ -218,6 +232,31 @@ const services = {
         }
     });
       res.send(ents);
+    } catch (error) {
+      console.log(error)
+      return res.status(500).send(error);
+    }
+
+  },
+  getAllAdress: async (req: Request, res: Response) => {
+    const keycloakId = req.payload?.sub;
+    const entrepriseId = req.idEnt;
+    try {
+     const data  = await DGetAll<Adresse>(req.DB, Adresse,{
+      select: {
+        id: true,
+        country: true,
+        default: true,
+        etat: true,
+        name: true,
+        rue: true,
+        ville: true,
+        description: true
+      },
+      where: { entreprise: { id: entrepriseId, userId: keycloakId  } },
+      }
+     );
+     res.send(data);
     } catch (error) {
       console.log(error)
       return res.status(500).send(error);

@@ -1,7 +1,7 @@
 docker-compose up --build
 netstat -ano | findstr 8070
 
-taskkill /F /pid {id}
+taskkill /F /pid 54944
 
 kubectl exec -it gateway-deployment-69cffc68cf-k4tds  -c gateway -- printenv
 kubectl exec -it eureka-deployment-65f9f67474-lg6q4  -c gateway -- printenv
@@ -88,3 +88,10 @@ doctl kubernetes cluster kubeconfig save 2d0fa4f8-06e7-4cc3-acfa-1b3f6e3dba2d
 kubectl exec -it eureka-deployment-6794bff74c-9n7rb  -c eureka -- printenv
 
 kubectl exec -it emploi-deployment-6b56bf8d69-k6xm4  -c emploi -- printenv
+
+  // people: z.number({ invalid_type_error: "Population is required" }).min(1000, {
+  //   message: "Population must not be less than 1000"
+  // }),
+  // category : z.enum(["developed", "developing", "underdeveloped"], {
+  //   errorMap : () => ( { message: "Invalid category" })
+  // })
