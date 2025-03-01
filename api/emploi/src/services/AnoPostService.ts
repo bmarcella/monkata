@@ -21,7 +21,6 @@ const services = {
   addFree : async  (req: Request, res: Response) => {
 
     const files = req.files as  {[fieldname: string]: Express.Multer.File[]};
-    // const files = req.files as  {[fieldname: string]: any[]};
     
     if (files['cv'][0] == undefined) {
       return res.status(400).send({ message: "Vous devez envoyer au moins votre cv." });

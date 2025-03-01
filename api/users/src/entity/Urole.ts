@@ -10,19 +10,19 @@ import { Rolepermission } from "./Rperm";
 export class Userroleapp extends BaseEntity {
 
     @PrimaryGeneratedColumn()
-    id: number;
+    id?: number;
 
     @Column( { nullable: false }) 
     idAppEnt?: number;
 
     @Column( { nullable: false }) 
-    name?: string;
+    name!: string ;
 
     @Column({ nullable: true })
     description?: string;
     
     @Column( { nullable: false, default : false })
-    canChange: boolean;
+    canChange?: boolean;
    
     @OneToMany(() => Rolepermission, rolepermission => rolepermission.userroleapp,  { nullable: true})
     rolepermissions?: Rolepermission[];
