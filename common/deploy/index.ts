@@ -1,5 +1,5 @@
  export const DeployType = {
-  prod: false,
+  prod: true,
   version : 2,
   redirect: false,
   gateway: "https://gateway.memploi.com",
