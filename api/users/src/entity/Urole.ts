@@ -1,6 +1,6 @@
 
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { BaseEntity } from "../../../emploi/src/entity/BaseEntity";
+import { BaseEntity } from "./BaseEntity";
 import { Rolepermission } from "./Rperm";
 
 
