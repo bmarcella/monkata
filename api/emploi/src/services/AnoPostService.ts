@@ -133,7 +133,7 @@ const services = {
       } 
     }
     dao2.save(aa);
-    services.sendMailWithFile(obj,aa,job, { cv, lm } );
+    services.sendMailWithFile(obj,aa, job, { cv, lm } );
     return res.status(200).send({ message: "Votre dossier de candidature a été transmis avec succès." });
   },
   sendMailWithFile: async (user: UserAno , app:ApplicantAno, job: Jobs, files: any)  => {
