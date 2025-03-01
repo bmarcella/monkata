@@ -3,7 +3,7 @@ export enum UnityType {
     departement = 'departement',
     service = "service",
     poste = "poste"
-  }
+}
   
   export interface Unity {
     id?: number;
