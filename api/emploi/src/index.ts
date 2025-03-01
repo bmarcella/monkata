@@ -24,6 +24,7 @@ import { JwtPayload } from '../../../common/keycloak/AuthMiddleware';
 import { Mail } from '../../../common/mail/index';
 import { ApplicantAno } from './entity/Anonimous/ApplicantAno';
 import { UserAno } from './entity/Anonimous/UserAno';
+import { UserAnoFree } from './entity/Anonimous/UserAnoFree';
 import { Avatar } from './entity/Avatar';
 import { Contact } from './entity/Contact';
 import { Documents } from './entity/Documents';
@@ -38,7 +39,6 @@ import { User_Cv } from './entity/User_Cv';
 import { ViewJob } from './entity/ViewJob';
 import { Works_exp } from './entity/Works_exp';
 import { routes } from './routes';
-import { UserAnoFree } from './entity/Anonimous/UserAnoFree';
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -71,11 +71,6 @@ const app: Express = express();
     cookie: { secure: false } // Mettez à `true` dans un environnement de production avec HTTPS
   }));
 
- //  const keycloak = KeycloakApp.getInstance<Keycloak>(KeycloakConnect, process.env, session).getKC();
-
-  // app.use(keycloak.middleware());
-
-  
   const ET = EurekaTools<Eureka> (Eureka, process.env);
   
   app.use((req: Request, res: Response, next: NextFunction) => {
