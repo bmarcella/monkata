@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   OnInit,
 } from '@angular/core';
@@ -16,7 +17,7 @@ import { getRURL, getURL } from 'src/environments/environment.prod';
   templateUrl: './header-eight.component.html',
   styleUrls: ['./header-eight.component.scss'],
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, AfterViewInit  {
   base = '';
   page = '';
   last = '';
@@ -51,6 +52,11 @@ export class HeaderComponent implements OnInit {
     }
   }
 
+  ngAfterViewInit(): void {
+    this.path = this.router.url;
+    console.log(this.path);
+  }
+
   public getEntreprises() {
     const URL = getURL("memploi","countEntAndJob");
     this.crud.get(URL).then((r) => {
@@ -69,10 +75,15 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.auth.isLoggedIn();
-    this.path = this.router.url;
+
     window.addEventListener('scroll', () => {
       this.scrollPosition = window.scrollY;
     });
+
+    this.router.events.subscribe((val) => {
+      console.log(val);
+      this.path = this.router.url;
+    })
   }
 
   public logout() {

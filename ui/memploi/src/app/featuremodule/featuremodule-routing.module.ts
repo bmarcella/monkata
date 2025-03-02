@@ -71,19 +71,24 @@ const routes: Routes = [
         loadChildren: () =>
           import('./terms-condition/terms-condition.module').then((m) => m.TermsConditionModule),
       },
-      { 
-        path: 'entreprise', 
+      {
+        path: 'entreprise',
         loadChildren: () =>
           import('./EntrepriseDetails/EntrepriseDetails.module').then((m) => m.EntrepriseDetailsModule)
-       }
-     
+      },
+      {
+        path: 'depot-cv',
+        loadChildren: () =>
+          import('./depot-cv/depot-cv.module').then((m) => m.DepotCvModule)
+      }
+
     ],
   },
   {
     path: 'auth/login-cross-token/:token',
     component: CrosstokenComponent
   },
- 
+
 ];
 
 @NgModule({

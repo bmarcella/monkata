@@ -67,6 +67,11 @@
             <a routerLink="/jobs">Jobs</a>
           </li>
 
+          <li [ngClass]="[path == '/depot-cv' ? 'active' : '']">
+            <a routerLink="/depot-cv">DépôtCV
+            </a>
+          </li>
+
           <li [ngClass]="[path == '/contact' ? 'active' : '']">
             <a routerLink="/contact"> Contact</a>
           </li>
